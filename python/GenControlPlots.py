@@ -15,7 +15,7 @@ vars = ["Pt","Eta","Phi","M"]
 
 
 class GenControlPlots(BaseControlPlots):
-    """A class to create control plots for Hmet"""
+    """A class to create control plots for HH and tt -> bbWW"""
 
 
 
@@ -52,6 +52,7 @@ class GenControlPlots(BaseControlPlots):
         
         self.add2D("WWM","Wlnu vs. Wqq Mass gen",150,0,150,150,0,150)
         self.add2D("WWMt","Wlnu vs. Wqq Mt gen",150,0,150,150,0,150)
+        self.add2D("WWMt2","Wlnu vs. Wqq Mt gen",150,0,150,150,0,150)
         self.add2D("WjjWjjM","Wqq vs. Wqq Mass gen",150,0,150,150,0,150)
         self.add2D("WlnuWlnuM","Wlnu vs. Wlnu Mass gen",150,0,150,150,0,150)
 
@@ -108,10 +109,6 @@ class GenControlPlots(BaseControlPlots):
         result["WlnuPID"] = [ ]
         result["WDPID"] = [ ]
         result["tDPID"] = [ ]
-        result["WWM"] = [ ]
-        result["WWMt"] = [ ]
-        result["WjjWjjM"] = [ ]
-        result["WlnuWlnuM"] = [ ]
 
         p_Hbb = TLorentzVector(0,0,0,0)
         p_HWW = TLorentzVector(0,0,0,0)
@@ -211,7 +208,7 @@ class GenControlPlots(BaseControlPlots):
                         nWmunu += 1
                     elif 15 in [PID_D1, PID_D2]:
                         nWtaunu += 1
-                    if abs(80.4-particle.Mass) > 8: # check if W is virtual
+                    if abs(80.4-particle.Mass) > 10: # check if W is virtual
                         nVirtualWs += 1
                 elif PID_D1 in [1,2,3,4,5]: # d, u, s, c, b
                     result["WjjPt"].append( particle.PT )
@@ -224,7 +221,7 @@ class GenControlPlots(BaseControlPlots):
                         result["WbbPhi"].append( particle.Phi )
                         result["WbbM"].append( particle.Mass )
                     nWq+=2
-                    if abs(80.4-particle.Mass) > 8:
+                    if abs(80.4-particle.Mass) > 10:
                         nVirtualWs += 1
         
             # __Higgs__
@@ -289,23 +286,23 @@ class GenControlPlots(BaseControlPlots):
             result["HHbbWWEta"].append( q_HH.Eta() )
             result["HHbbWWPhi"].append( q_HH.Phi() )
             result["HHbbWWM"].append( q_HH.M() )
-            
+        
         if len( result["WlnuM"] ) == 1 and len( result["WjjM"] ) == 1: # monoleptonic
-            result["WWM"].append([ result["WlnuM"][0], result["WjjM"][0] ])
-            result["WWMt"].append([ sqrt(pow( result["WlnuM"][0], 2) + pow( result["WlnuPt"][0], 2)),\
-                                    sqrt(pow( result["WjjM"][0], 2)  + pow( result["WjjPt"][0], 2)) ])
+            result["WWM"] = [[ result["WlnuM"][0], result["WjjM"][0] ]]
+            result["WWMt"] = [[ sqrt(pow( result["WlnuM"][0], 2) + pow( result["WlnuPt"][0], 2)),\
+                                    sqrt(pow( result["WjjM"][0], 2)  + pow( result["WjjPt"][0], 2)) ]]
         
         elif len( result["WlnuM"] ) == 0 and len( result["WjjM"] ) == 2: # hadronic
-            result["WjjWjjM"].append([ result["WjjM"][0], result["WjjM"][1] ])
-            result["WWMt"].append([ sqrt(pow( result["WjjM"][0], 2) + pow( result["WjjPt"][0], 2)),\
-                                    sqrt(pow( result["WjjM"][1], 2) + pow( result["WjjPt"][1], 2)) ])
+            result["WjjWjjM"] = [[ result["WjjM"][0], result["WjjM"][1] ]]
+            result["WWMt"] = [[ sqrt(pow( result["WjjM"][0], 2) + pow( result["WjjPt"][0], 2)),\
+                                sqrt(pow( result["WjjM"][1], 2) + pow( result["WjjPt"][1], 2)) ]]
         
         elif len( result["WlnuM"] ) == 2 and len( result["WjjM"] ) == 0: # dileptonic
-            result["WlnuWlnuM"].append([ result["WlnuM"][0], result["WlnuM"][1] ])
-            result["WWMt"].append([ sqrt(pow( result["WlnuM"][0], 2) + pow( result["WlnuPt"][0], 2)),\
-                                    sqrt(pow( result["WlnuM"][1], 2) + pow( result["WlnuPt"][1], 2)) ])
+            result["WlnuWlnuM"] = [[ result["WlnuM"][0], result["WlnuM"][1] ]]
+            result["WWMt"] = [[ sqrt(pow( result["WlnuM"][0], 2) + pow( result["WlnuPt"][0], 2)),\
+                                sqrt(pow( result["WlnuM"][1], 2) + pow( result["WlnuPt"][1], 2)) ]]
         
-        else: print "Danger! No WWM!"
+        else: print "Danger! No WW 2D-plot! See GenControlPlots.py"
             
 #        if len(WlnuM)>0 or len(WjjM)>0:
 #            if len(WlnuM) == 1 and len(WjjM) == 1: # monoleptonic

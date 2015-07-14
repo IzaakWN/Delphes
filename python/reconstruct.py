@@ -11,14 +11,14 @@ from math import sqrt, cos, sin
 from itertools import combinations # to make jets combinations
 from operator import itemgetter # to find index of minimum element
 
+MW = 80.4
+MH = 125.7
 
 
 # note: assumption W is on-shell
 def recoNeutrino(p, MET, METphi):
     """Reconstruction of neutrino from Wlnu with lepton and MET
        by imposing the W mass constrain. Helpfunction for recoWlnu1."""
-
-    M = 80.4 # GeV
     
     E = p.E()
     m = p.M()
@@ -29,7 +29,7 @@ def recoNeutrino(p, MET, METphi):
     kx = MET*cos(METphi)
     ky = MET*sin(METphi)
 
-    a = M*M - m*m + 2*px*kx + 2*py*ky
+    a = MW*MW - m*m + 2*px*kx + 2*py*ky
     A = 4*(E*E - pz*pz)
     B = (-4)*a*pz
     C = 4*E*E*(kx*kx + ky*ky) - a*a
@@ -142,7 +142,8 @@ def cut(jets0):
 
 
 def cutb(bjets,jets0,min_jets):
-    """Make PT > 30 GeV and bjet cuts on jets0. Helpfunction for the recoHWb's"""
+    """Make PT > 30 GeV and bjet cuts on jets0, but return at least
+       min_jets non-b-tagged jets. Helpfunction for the recoHWb's"""
 
     # make pT>30 GeV cut
     jets = [ ]
@@ -177,7 +178,7 @@ def recoHW_b1(bjets,jets0):
         return recoHW_b2(bjets,jets0)
 
     bjet = bjets[0]
-    jets = cutb(bjets,jets0,3) # make pT>30 GeV cut
+    jets = cutb(bjets, jets0, 3) # make pT>30 GeV cut
 
     # 1) Make TLorentzVectors for every jet.
     p_bjet = TLorentzVector()
@@ -205,7 +206,7 @@ def recoHW_b2(bjets,jets0):
 
     bjet1 = bjets[0]
     bjet2 = bjets[1]
-    jets = cutb(bjets,jets0,2) # make pT>30 GeV cut
+    jets = cutb(bjets, jets0, 2) # make pT>30 GeV cut
 
     # 1) Make TLorentzVectors for every jet.
     p_bjet1 = TLorentzVector()
@@ -234,20 +235,18 @@ def recoHW_c1(jets0):
 
     jets = cut(jets0) # make pT>30 GeV cut
     indices = range(len(jets))
-    p_jets = []
-    masses = []
-    DmassesH = []
-    DmassesW = []
-    MW = 80.4
-    MH = 125.7
+    p_jets = [ ]
+    masses = [ ]
+    DmassesH = [ ]
+    DmassesW = [ ]
     indexComb = list(combinations(indices,2))
         # e.g. for 4 jets, gibt es 6 combinations:
         # indexComb = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
 
     # 1) Make TLorentzVectors for every jet.
-    for i in indices:
+    for jet in jets:
         p_jets.append(TLorentzVector())
-        p_jets[-1].SetPtEtaPhiM(jets[i].PT, jets[i].Eta, jets[i].Phi, jets[i].Mass)
+        p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
 
     # 2) Calculate masses of all the jet combinations.
     for comb in indexComb:
@@ -281,20 +280,17 @@ def recoHW_c2(jets0):
     
     jets = cut(jets0) # make pT>30 GeV cut
     indices = range(len(jets))
-    p_jets = []
-    masses = []
-    DmassesH = []
-    DmassesW = []
-    MW = 80.4
-    MH = 125.7
+    p_jets = [ ]
+    masses = [ ]
+    DmassesH = [ ]
     indexComb = list(combinations(indices,2))
         # e.g. for 4 jets, gibt es 6 combinations:
         # indexComb = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
 
     # 1) Make TLorentzVectors for every jet.
-    for i in indices:
+    for jet in jets:
         p_jets.append(TLorentzVector())
-        p_jets[-1].SetPtEtaPhiM(jets[i].PT, jets[i].Eta, jets[i].Phi, jets[i].Mass)
+        p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
     
     # 2) Calculate masses of all the jet combinations.
     for comb in indexComb:
@@ -322,24 +318,96 @@ def recoHW_c2(jets0):
         # HWW algorithm #
         #################
 
-def recoHWW_d1(jets0):
-    """Reconstuction of Hbb, Wjj and Wlnu by using taking best
-       combination of one W on-shell and the other off-shell w.r.t. the Hbb reco."""
-    # WW 2D-mass-plots windows for HH - >bbWW,
-    # when one W off- and the other on-shell:
-    #   - all:          M_W >= M_Wlnu +  M_Wjj
-    #   - on-shell:     70.4 - 90.4 GeV         (80.4 +/- 10 GeV)
-    #   - off-shell:    12.0 - 48.0 GeV
+def recoHWW_d1(event):
+    """Reconstuction of Hbb, Wjj and Wlnu by using taking best combination
+       of one W on-shell and the other off-shell w.r.t. the Hbb reco.
+       
+       Used WW 2D-mass windows for HH -> bbWW,
+       when one W off- and the other on-shell (~90% of the cases):
+          - both:         M_W >= M_Wlnu + M_Wjj
+          - on-shell:     70.4 - 90.4 GeV         (80.4 +/-10 GeV)
+          - off-shell:    12.0 - 48.0 GeV         (38.0 +10 -26 GeV)
+        
+        WW 2D-mass windows for tt -> bbWW (~90% of the cases):
+           - both: 70.4 - 90.4 GeV """
+    
+    # IDEAS:
+    #   - rejection when best reco for both on-shell?
+    #       -> seperate test?
+    #   - Wlnu off-shell reconstruction:
+    #       -> MWlnu_min = min( 12.0 GeV, M_T of lepton + MET )
+    #       -> MWlnu_max = 48.0 GeV
+    #   - ...
+    #
+    
+    bjets = [ jet for jet in jets if jet.BTag ]
+    
+    if len(bjets) > 0:
+        jets = cutb(bjets, event.cleanedJets, 2) # make pT>30 GeV cut
+        bjet1 = bjets[0]
+        if bjets > 1:
+            bjet2 = bjets[1]
+        else:
+            bjet2 = jets[0]
+            jets = jets[]
+    elif len(bjets) == 0:
+        bjet1 = event.cleanedJets[0]
+        bjet2 = event.cleanedJets[1]
+        jets = cut(event.cleanedJets[2:]) # make pT>30 GeV cut
+    else:
+        print "Error with len(bjets) recoHWW_d1"
+
 
     # 1) Reco WW assuming Wjj on-shell, Wlnu off-shell.
-
+    # ---------------------------------------------------
+    
+    indices = range(len(jets))
+    p_jets = [ ]
+    masses = [ ]
+    DmassesW = [ ]
+    indexComb = list(combinations(indices,2))
+    for jet in jets: # make TLorentzVectors
+        p_jets.append(TLorentzVector())
+        p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
+    for comb in indexComb: # make all possible combinations
+        masses.append( (p_jets[comb[0]]+p_jets[comb[1]]).M() )
+    DmassesW = [abs(MW-m) for m in masses] # mass differences
+    indexW = min(enumerate(DmassesW), key=itemgetter(1))[0] # get index of min
+    q_Wjj1 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
+    
 
     # 2) Reco WW assuming Wlnu on-shell, Wjj off-shell.
+    # ---------------------------------------------------
+    
+    hasMuon = (event.muons.GetEntries()>0)
+    hasElectron = (event.electrons.GetEntries()>0)
+    recoMuon = False
+    if hasMuon:
+        if hasElectron: # muon
+            recoMuon = event.muons[0].PT > event.electrons[0].PT
+        else:
+            recoMuon = True
+    if recoMuon:
+        q_Wlnu2 = recoWlnu1(13,event.muons[0],event.met[0]) # reco on-shell Wmunu
+    elif hasElectron:
+        q_Wlnu2 = recoWlnu1(11,event.electrons[0],event.met[0]) # reco on-shell Wenu
+
 
 
     # 3) Best combination
+    # ---------------------
 
-    return jets0
+
+
+    q_Wlnu = 0
+    q_Wjj = 0
+    q_Hbb = 0
+    q_HWW = 0
+    q_HHbbWW = 0
+    return [ q_Wlnu, q_Wjj, q_Hbb, q_HWW, q_HHbbWW ]
+
+
+
 
 
     # DROPPED HIGHS MASS CONSTRAINT for single b-tagging !!!

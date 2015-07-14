@@ -24,7 +24,9 @@ class JetControlPlots(BaseControlPlots):
     def beginJob(self):
         
         self.add("Njets","jets multiplicity (Pt>30 GeV)",10,2,12)
+        self.add("NcleanedJets","cleaned jets multiplicity (Pt>30 GeV)",10,2,12)
         self.add("Nbjets","b-jets multiplicity (Pt>30 GeV)",8,0,8)
+        self.add("NcleanedbJets","cleaned b-jets multiplicity (Pt>30 GeV)",8,0,8)
         self.add("MET","MET",100,0,500)
         self.add("METPhi","MET Phi",64,-3.2,3.2)
         for type in types:
@@ -44,6 +46,7 @@ class JetControlPlots(BaseControlPlots):
                 for var in vars:
                     result[type+i+var] = [ ]
         result["Njets"]  = len([j for j in event.jets if j.PT>30])
+        result["NcleanedJets"]  = len([j for j in event.cleanedJets if j.PT>30])
         
         # MET
         result["MET"] = event.met[0].MET
@@ -72,10 +75,14 @@ class JetControlPlots(BaseControlPlots):
             result["jet4M"].append(event.jets[3].Mass)
 
         # b-jets
-        bjets=[]
+        bjets = [ ]
+        cleanedbJets = [ ]
         for jet in event.jets:
             if jet.BTag:
                 bjets+=[jet]
+        for jet in event.cleanedJets:
+            if jet.BTag:
+                cleanedbJets+=[jet]
     
         if len(bjets)>0:
             result["bjet1Pt"].append(bjets[0].PT)
@@ -98,6 +105,7 @@ class JetControlPlots(BaseControlPlots):
             result["bjet4Phi"].append(bjets[3].Phi)
             result["bjet4M"].append(bjets[3].Mass)
         result["Nbjets"] = len([bj for bj in bjets if bj.PT>30])
+        result["NcleanedbJets"]  = len([bj for bj in cleanedbJets if bj.PT>30])
         
         return result
 

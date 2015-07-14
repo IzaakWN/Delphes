@@ -110,10 +110,10 @@ class RecoControlPlots(BaseControlPlots):
         ljets = [ ]
         result["M_jetComb1"] = [ ]
         result["M_jetComb2"] = [ ]
-        if event.jets.GetEntries()>3:
+        if len(event.cleanedJets)>3:
         
 #            # Combination alg.
-#            [q_Hbb_c1, q_Wjj1_c1, M_jetComb] = recoHW_c1(event.jets)      # Combination alg.
+#            [q_Hbb_c1, q_Wjj1_c1, M_jetComb] = recoHW_c1(event.cleanedJets)      # Combination alg.
 #            result["Hbb_c1Pt"].append(q_Hbb_c1.Pt())
 #            result["Hbb_c1Eta"].append(q_Hbb_c1.Eta())
 #            result["Hbb_c1M"].append(q_Hbb_c1.M())
@@ -132,7 +132,7 @@ class RecoControlPlots(BaseControlPlots):
 #                result["HHbbWW_c1M"].append(q_HHbbWW_c1.M())
 #
 #            # Combination alg. 2
-#            [q_Hbb_c2, q_Wjj_c2, M_jetCom_b2] = recoHW_c2(event.jets)    # Combination alg. 2
+#            [q_Hbb_c2, q_Wjj_c2, M_jetCom_b2] = recoHW_c2(event.cleanedJets)    # Combination alg. 2
 #            result["Hbb_c2Pt"].append(q_Hbb_c2.Pt())
 #            result["Hbb_c2Eta"].append(q_Hbb_c2.Eta())
 #            result["Hbb_c2M"].append(q_Hbb_c2.M())
@@ -151,10 +151,9 @@ class RecoControlPlots(BaseControlPlots):
 #                result["HHbbWW_c2M"].append(q_HHbbWW_c2.M())
 
             # Single b-tagging
-            for jet in event.jets:
-                if jet.BTag: bjets+=[jet]
+            bjets = [ jet for jet in event.cleanedJets if jet.BTag ]
             if len(bjets)>0:
-                [q_Hbb_b1,q_Wjj_b1] = recoHW_b1(bjets,event.jets)       # Single b-tagging
+                [q_Hbb_b1,q_Wjj_b1] = recoHW_b1(bjets,event.cleanedJets)       # Single b-tagging
                 result["Hbb_b1Pt"].append(q_Hbb_b1.Pt())
                 result["Hbb_b1Eta"].append(q_Hbb_b1.Eta())
                 result["Hbb_b1M"].append(q_Hbb_b1.M())
@@ -175,7 +174,7 @@ class RecoControlPlots(BaseControlPlots):
                 
                 # Double b-tagging
                 if len(bjets)>1:
-                    [q_Hbb_b2,q_Wjj_b2] = recoHW_b2(bjets,event.jets) # Double b-tagging
+                    [q_Hbb_b2,q_Wjj_b2] = recoHW_b2(bjets,event.cleanedJets) # Double b-tagging
                     result["Hbb_b2Pt"].append(q_Hbb_b2.Pt())
                     result["Hbb_b2Eta"].append(q_Hbb_b2.Eta())
                     result["Hbb_b2M"].append(q_Hbb_b2.M())
