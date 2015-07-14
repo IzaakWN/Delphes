@@ -62,6 +62,11 @@ def eventCategory(event):
             if abs(event.particles[D1].PID) in [5]: # b-quark
                 nBquarks+=2
     categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
+    
+    # 4: al least two b-tags
+    bjets = [ jet for jet in event.cleanedJets if jet.BTag ]
+    categoryData.append( len(bjets)>2 )
+
 
     return categoryData
 

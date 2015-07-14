@@ -59,7 +59,7 @@ class ResControlPlots(BaseControlPlots):
         # good btag
         for particle in event.particles:
             D = particle.D1
-            if D>=0 and D<len(event.particles) and event.particles[particle.D1]:
+            if D>=0 and D<len(event.particles) and event.particles[D]:
                 D1 = event.particles[particle.D1]
                 # Higgs
                 if abs( particle.PID ) == 25:

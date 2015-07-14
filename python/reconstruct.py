@@ -17,8 +17,8 @@ MH = 125.7
 
 # note: assumption W is on-shell
 def recoNeutrino(p, MET, METphi):
-    """Reconstruction of neutrino from Wlnu with lepton and MET
-       by imposing the W mass constrain. Helpfunction for recoWlnu1."""
+    """ Reconstruction of neutrino from Wlnu with lepton and MET
+        by imposing the W mass constrain. Helpfunction for recoWlnu1. """
     
     E = p.E()
     m = p.M()
@@ -57,8 +57,8 @@ def recoNeutrino(p, MET, METphi):
 
 # e.g. lepton = event.muon[0], MET = event.MET
 def recoWlnu1(PID,lepton,MET):
-    """Reconstruction of Wlnu, assuming it is on-shell in order to
-       impose the W mass constrain."""
+    """ Reconstruction of Wlnu, assuming it is on-shell in order to
+        impose the W mass constrain. """
 
     if PID == 11: m = 0.000511 # GeV, electron
     elif PID == 13: m = 0.106 # GeV, muon
@@ -79,7 +79,7 @@ def recoWlnu1(PID,lepton,MET):
 
 # e.g. lepton = event.muon[0], MET = event.MET
 def recoWlnu2(PID,lepton,MET):
-    """Reconstruction of Wlnu, without assuming it is on-shell."""
+    """ Reconstruction of Wlnu, without assuming it is on-shell. """
 
     if PID == 11: m = 0.000511 # GeV, electron
     elif PID == 13: m = 0.106 # GeV, muon
@@ -119,7 +119,8 @@ def recoHjj(jet1,jet2):
 
 
 def cut(jets0):
-    """Make PT > 30 GeV cuts on jets0. Helpfunction for the recoHWc's."""
+    """ Make PT > 30 GeV cuts on jets0, but return at least
+        min_jets jets. Helpfunction for the recoHWc's. """
 
     # make pT>30 GeV cut
     jets = [ ]
@@ -142,18 +143,17 @@ def cut(jets0):
 
 
 def cutb(bjets,jets0,min_jets):
-    """Make PT > 30 GeV and bjet cuts on jets0, but return at least
-       min_jets non-b-tagged jets. Helpfunction for the recoHWb's"""
+    """ Take bjet out of jets0, but return at least
+        min_jets non-b-tagged jets. Helpfunction for the recoHWb's. """
 
-    # make pT>30 GeV cut
     jets = [ ]
     jets_cut = [ ]
     for jet in jets0:
-        if jet is not bjets:
-            if jet.PT > 30:
-                    jets.append(jet)
-            else:
-                jets_cut.append(jet)
+        if jet is not bjets: # don't include given b-jets
+#            if jet.PT > 30: # make pT>30 GeV cut
+            jets.append(jet)
+        else:
+            jets_cut.append(jet)
 
     if len(jets) < min_jets: # add jets, if not enough
         d = min_jets-len(jets)
@@ -168,23 +168,24 @@ def cutb(bjets,jets0,min_jets):
         ##############################
 
 def recoHW_b1(bjets,jets0):
-    """Reconstruction of Hbb and Wjj, by requiring at least one b-tag.
-       If there is only one b-tag, the next leading jet is taken to
-       combine with the bjet for Hbb, and the two remaining leading jets
-       are used for the Wjj-reconstruction.
-       If there are more than one, the recoHW1-method is used."""
+    """ Reconstruction of Hbb and Wjj, by requiring at least one b-tag.
+        If there is only one b-tag, the next leading jet is taken to
+        combine with the bjet for Hbb, and the two remaining leading jets
+        are used for the Wjj-reconstruction.
+        If there are more than one, the recoHW1-method is used. """
 
     if len(bjets) > 1:
         return recoHW_b2(bjets,jets0)
 
     bjet = bjets[0]
-    jets = cutb(bjets, jets0, 3) # make pT>30 GeV cut
+    jets = jets0[:]
+    jets.remove(bjet)
 
     # 1) Make TLorentzVectors for every jet.
     p_bjet = TLorentzVector()
     p_bjet.SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
     p_jets = [TLorentzVector(), TLorentzVector(), TLorentzVector()]
-    for i in range(3):
+    for i in [0,1,2]:
         p_jets[i].SetPtEtaPhiM(jets[i].PT, jets[i].Eta, jets[i].Phi, jets[i].Mass)
 
     # 2) Make Higgs and W four-vectors.
@@ -200,24 +201,23 @@ def recoHW_b1(bjets,jets0):
         ##############################
 
 def recoHW_b2(bjets,jets0):
-    """Reconstruction of Hbb and Wjj, by requiring at least two b-tags.
-       The two leading bjets are combined to reconstruct Hbb.
-       And the two leading jets of the remaining are used for Wjj."""
+    """ Reconstruction of Hbb and Wjj, by requiring at least two b-tags.
+        The two leading bjets are combined to reconstruct Hbb.
+        And the two leading jets of the remaining are used for Wjj. """
 
-    bjet1 = bjets[0]
-    bjet2 = bjets[1]
-    jets = cutb(bjets, jets0, 2) # make pT>30 GeV cut
+    jets = event.cleanedJets[:]
+    jets.remove(bjets[0])
+    jets.remove(bjets[1])
 
     # 1) Make TLorentzVectors for every jet.
-    p_bjet1 = TLorentzVector()
-    p_bjet2 = TLorentzVector()
-    p_bjet1.SetPtEtaPhiM(bjet1.PT, bjet1.Eta, bjet1.Phi, bjet1.Mass)
-    p_bjet2.SetPtEtaPhiM(bjet2.PT, bjet2.Eta, bjet2.Phi, bjet2.Mass)
-    p_jets = [TLorentzVector(), TLorentzVector()]
-    for i in range(2):
-        p_jets[i].SetPtEtaPhiM(jets[i].PT, jets[i].Eta, jets[i].Phi, jets[i].Mass)
+    p_bjets = [ TLorentzVector(), TLorentzVector() ]
+    p_bjets[0].SetPtEtaPhiM(bjets[0].PT, bjets[0].Eta, bjets[0].Phi, bjets[0].Mass)
+    p_bjets[1].SetPtEtaPhiM(bjets[1].PT, bjets[1].Eta, bjets[1].Phi, bjets[1].Mass)
+    p_jets = [ TLorentzVector(), TLorentzVector() ]
+    p_jets[0].SetPtEtaPhiM(jets[0].PT, jets[0].Eta, jets[0].Phi, jets[0].Mass)
+    p_jets[1].SetPtEtaPhiM(jets[1].PT, jets[1].Eta, jets[1].Phi, jets[1].Mass)
 
-    # 1) Make Higgs and W four-vectors.
+    # 2) Make Higgs and W four-vectors.
     qH = p_bjet1 + p_bjet2
     qW = p_jets[0] + p_jets[1]
 
@@ -230,8 +230,8 @@ def recoHW_b2(bjets,jets0):
         ###########################
 
 def recoHW_c1(jets0):
-    """Reconstruction of Hbb and Wjj, by taking the best combination
-       for both seperately, assuming they are on-shell"""
+    """ Reconstruction of Hbb and Wjj, by taking the best combination
+        for both seperately, assuming they are on-shell. """
 
     jets = cut(jets0) # make pT>30 GeV cut
     indices = range(len(jets))
@@ -274,9 +274,9 @@ def recoHW_c1(jets0):
 
 # without W mass constrain: only assume Higgs on-shell
 def recoHW_c2(jets0):
-    """Reconstruction of Hbb and Wjj, by taking the best combination
-       for H first, assuming it is on-shell, and taking the next two leading
-       jets of the remaining to make Wjj."""
+    """ Reconstruction of Hbb and Wjj, by taking the best combination
+        for H first, assuming it is on-shell, and taking the next two leading
+        jets of the remaining to make Wjj. """
     
     jets = cut(jets0) # make pT>30 GeV cut
     indices = range(len(jets))
@@ -319,17 +319,17 @@ def recoHW_c2(jets0):
         #################
 
 def recoHWW_d1(event):
-    """Reconstuction of Hbb, Wjj and Wlnu by using taking best combination
-       of one W on-shell and the other off-shell w.r.t. the Hbb reco.
-       
-       Used WW 2D-mass windows for HH -> bbWW,
-       when one W off- and the other on-shell (~90% of the cases):
-          - both:         M_W >= M_Wlnu + M_Wjj
-          - on-shell:     70.4 - 90.4 GeV         (80.4 +/-10 GeV)
-          - off-shell:    12.0 - 48.0 GeV         (38.0 +10 -26 GeV)
+    """ Reconstuction of Hbb, Wjj and Wlnu by using taking best combination
+        of one W on-shell and the other off-shell w.r.t. the Hbb reco.
+        
+        WW 2D-mass windows for HH -> bbWW,
+        when one W off- and the other on-shell (~90% of the cases):
+            - both:         M_W >= M_Wlnu + M_Wjj
+            - on-shell:     70.4 - 90.4 GeV         (80.4 +/-10 GeV)
+            - off-shell:    12.0 - 48.0 GeV         (38.0 +10 -26 GeV)
         
         WW 2D-mass windows for tt -> bbWW (~90% of the cases):
-           - both: 70.4 - 90.4 GeV """
+            - both: 70.4 - 90.4 GeV """
     
     # IDEAS:
     #   - rejection when best reco for both on-shell?
@@ -339,33 +339,38 @@ def recoHWW_d1(event):
     #       -> MWlnu_max = 48.0 GeV
     #   - ...
     #
+
+
+    # 0) Make H vector from b-tags.
+    # -------------------------------
     
-    bjets = [ jet for jet in jets if jet.BTag ]
+    bjets = [ jet for jet in event.cleanedJets if jet.BTag ]
+    jets = event.cleanedJets[:]
     
     if len(bjets) > 0:
-        jets = cutb(bjets, event.cleanedJets, 2) # make pT>30 GeV cut
         bjet1 = bjets[0]
-        if bjets > 1:
+        if bjets > 1: # two b-tags
             bjet2 = bjets[1]
-        else:
-            bjet2 = jets[0]
-            jets = jets[]
-    elif len(bjets) == 0:
+        else: # one b-tag
+            bjet2 =  jets[0]
+    elif len(bjets) == 0: # no b-tag
         bjet1 = event.cleanedJets[0]
         bjet2 = event.cleanedJets[1]
-        jets = cut(event.cleanedJets[2:]) # make pT>30 GeV cut
     else:
         print "Error with len(bjets) recoHWW_d1"
+    jets.remove(bjet1)
+    jets.remove(bjet2)
 
 
     # 1) Reco WW assuming Wjj on-shell, Wlnu off-shell.
     # ---------------------------------------------------
     
+    # 1a) Reco on-shell Wjj by best combination
     indices = range(len(jets))
     p_jets = [ ]
     masses = [ ]
     DmassesW = [ ]
-    indexComb = list(combinations(indices,2))
+    indexComb = list(combinations(indices,2)) # [ (0,1), (0,2), (1,2), ... ]
     for jet in jets: # make TLorentzVectors
         p_jets.append(TLorentzVector())
         p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
@@ -374,6 +379,11 @@ def recoHWW_d1(event):
     DmassesW = [abs(MW-m) for m in masses] # mass differences
     indexW = min(enumerate(DmassesW), key=itemgetter(1))[0] # get index of min
     q_Wjj1 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
+    
+    # 2b) Reco off-shell Wlnu
+    #       -> MWlnu in [ min( 12.0 GeV, M_T of lepton+MET ), 48.0 GeV ]
+
+
     
 
     # 2) Reco WW assuming Wlnu on-shell, Wjj off-shell.
