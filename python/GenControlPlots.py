@@ -199,8 +199,7 @@ class GenControlPlots(BaseControlPlots):
                 PID_D2 = abs( event.particles[D2].PID )
 #                if PID_D1 != 24:
                 result["WDPID"].extend( [PID_D1, PID_D2] ) # all W daughters
-                if PID_D1 in [12,14,16]: print "Warning: in GenControlPlots: PID_D1 of W is a neutrino!"
-                if PID_D1 in [11,13,15]: # e, mu, tau
+                elif PID_D1 in [11,13,15]: # e, mu, tau
                     result["WlnuPt"].append( particle.PT )
                     result["WlnuEta"].append( particle.Eta )
                     result["WlnuPhi"].append( particle.Phi )
@@ -231,6 +230,7 @@ class GenControlPlots(BaseControlPlots):
                     if abs(80.4-particle.Mass) > 10:
                         nVirtualWs += 1
                         nVirtualWjjs += 1
+                elif PID_D1 in [12,14,16]: print "Warning: in GenControlPlots: PID_D1 of W is a neutrino!"
         
 #            # __Higgs__
 #            elif PID == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # Higgs

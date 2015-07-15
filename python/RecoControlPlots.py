@@ -1,6 +1,7 @@
 from BaseControlPlots import BaseControlPlots
 from ROOT import TLorentzVector
 from reconstruct import *
+from math import sqrt, cos
 
 # Requirements:
 # event.muons
@@ -109,8 +110,7 @@ class RecoControlPlots(BaseControlPlots):
             for var in vars:
                 for alg in algs:
                     result[particle+alg+var] = []
-        bjets = [ ]
-        ljets = [ ]
+        bjets = event.bjets
         result["M_jetComb1"] = [ ]
         result["M_jetComb2"] = [ ]
         if len(event.cleanedJets)>3:
@@ -154,7 +154,6 @@ class RecoControlPlots(BaseControlPlots):
 #                result["HHbbWW_c2M"].append(q_HHbbWW_c2.M())
 
             # Single b-tagging
-            bjets = [ jet for jet in event.cleanedJets if jet.BTag ]
             if len(bjets)>0:
 #                [q_Hbb_b1,q_Wjj_b1] = recoHW_b1(bjets,event.cleanedJets)       # Single b-tagging
 #                result["Hbb_b1Pt"].append(q_Hbb_b1.Pt())

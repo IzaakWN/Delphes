@@ -27,27 +27,30 @@ def main():
 
     names = [ ]
 
-    for particle in ["b1","b2","q","nu","l","e","mu"]:
-        for var in ["Pt","Eta","M"]:
-            names.append("gen/"+particle+var)
+#    for particle in ["b1","b2","q","nu","l","e","mu"]:
+#        for var in ["Pt","Eta","M"]:
+#            names.append("gen/"+particle+var)
+#
+#    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
+#                     "NWlnu","NWq","WlnuPID","WDPID","tDPID"]:
+#        names.append("gen/"+particle)
+#
+#    for jet in ["jet","bjet"]:
+#        for var in ["Pt","Eta","M"]:
+#            for i in ["1","2","3","4"]:
+#                names.append("jets/"+jet+i+var)
+#
+#    for jet in ["Njets","Nbjets"]:
+#        names.append("jets/"+jet)
 
-    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
-                     "NWlnu","NWq","WlnuPID","WDPID","tDPID"]:
-        names.append("gen/"+particle)
-
-    for jet in ["jet","bjet"]:
-        for var in ["Pt","Eta","M"]:
-            for i in ["1","2","3","4"]:
-                names.append("jets/"+jet+i+var)
-
-    for jet in ["Njets","Nbjets"]:
-        names.append("jets/"+jet)
+    for particle in ["NMuons","NElectrons"]:
+        names.append("leptons/"+particle)
 
     for name in names:
 
         c = makeCanvas()
-        hist_S = file.Get("stage_1/"+name) # signal: HH -> bbWW
-        hist_tt = file_tt.Get("stage_1/"+name) # BG: tt -> bbWW
+        hist_S = file.Get("stage_0/"+name) # signal: HH -> bbWW
+        hist_tt = file_tt.Get("stage_0/"+name) # BG: tt -> bbWW
         
 #        if "N" == name[4] or "PID" in name:
         I = hist_S.Integral()
@@ -66,6 +69,7 @@ def main():
         setLineStyle(hist_S,hist_tt)
         
         name = name.replace("gen/","basic_tt/")
+        name = name.replace("leptons/","basic_tt/")
         name = name.replace("jets/","basic_tt/")
         c.SaveAs(name+".png")
         c.Close()
@@ -79,25 +83,25 @@ def main():
     
     names2 = [ ]
 
-    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
-                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
-                   ("gen/WlnuM", "reco/Wlnu1M"),
-                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
-
-#    names2.extend([("gen/lPt", "leptons/lPt")])
-
-    for process in ["Hbb", "Wjj", "HWW", "HHbbWW"]:
-        for alg in ["_b2"] #["_b1","_b2","_c1","_c2"]:
-            for var in ["Pt","Eta","M"]:
-                names2.append( ("gen/"+process+var,\
-                                "reco/"+process+alg+var))
+#    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
+#                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
+#                   ("gen/WlnuM", "reco/Wlnu1M"),
+#                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
+#
+##    names2.extend([("gen/lPt", "leptons/lPt")])
+#
+#    for process in ["Hbb", "Wjj", "HWW", "HHbbWW"]:
+#        for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
+#            for var in ["Pt","Eta","M"]:
+#                names2.append( ("gen/"+process+var,\
+#                                "reco/"+process+alg+var))
 
     for gen, reco in names2:
 
         c = makeCanvas()
-        hist_gen = file.Get("stage_1/"+gen) # "data"
-        hist_reco = file.Get("stage_1/"+reco) # "MC"
-        hist_reco_tt = file_tt.Get("stage_1/"+reco) ## "MC" from tt
+        hist_gen = file.Get("stage_0/"+gen) # "data"
+        hist_reco = file.Get("stage_0/"+reco) # "MC"
+        hist_reco_tt = file_tt.Get("stage_0/"+reco) ## "MC" from tt
         
 #        if "nu" in gen:
 #            hist_gen.Scale(1./hist_gen.Integral())
@@ -128,7 +132,7 @@ def main():
     ############
 
     c = makeCanvas(square=True)
-    hist = file_tt.Get("stage_1/gen/WWM")
+    hist = file_tt.Get("stage_0/gen/WWM")
     
     hist.Draw()
     makeAxes(hist)
@@ -148,8 +152,8 @@ def main():
     for var in ["M","Pt","Eta"]:
 
         c = makeCanvas()
-        hist_S = file.Get("stage_1/gen/HHbbWW"+var) # signal: HH -> bbWW
-        hist_tt = file_tt.Get("stage_1/gen/ttbbWW"+var) # BG: tt -> bbWW
+        hist_S = file.Get("stage_0/gen/HHbbWW"+var) # signal: HH -> bbWW
+        hist_tt = file_tt.Get("stage_0/gen/ttbbWW"+var) # BG: tt -> bbWW
         hist_S.Scale(1./hist_S.Integral())
         hist_tt.Scale(1./hist_tt.Integral())
         
@@ -176,8 +180,8 @@ def main():
 
     # __WlnuM vs Wjj__
     c = makeCanvas()
-    hist_Wlnu = file_tt.Get("stage_1/gen/WlnuM")
-    hist_Wjj = file_tt.Get("stage_1/gen/WjjM")
+    hist_Wlnu = file_tt.Get("stage_0/gen/WlnuM")
+    hist_Wjj = file_tt.Get("stage_0/gen/WjjM")
     hist_Wlnu.Draw()
     hist_Wjj.Draw("same")
     setLineStyle(hist_Wlnu,hist_Wjj)
