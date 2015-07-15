@@ -6,7 +6,7 @@ from ROOT import TLorentzVector
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Lepton4Jets" ]
+categoryNames = [ "Lepton4Jets" ] #[ "GenLevel", "Lepton4Jets" ]
 
 
 
@@ -49,19 +49,10 @@ def eventCategory(event):
         categoryData.append(event.cleanedJets[3].PT>30.)
     else:
         categoryData.append(False)
-
-#    # 3: generator level single lepton
-#    nLeptons=0
-#    nBquarks=0
-#    for particle in event.particles:
-#        D1 = particle.D1
-#        if abs(particle.PID) == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
-#            if abs(event.particles[D1].PID) in [11,13,15]: # e, mu, tau
-#                nLeptons+=1
-#        if abs(particle.PID) == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
-#            if abs(event.particles[D1].PID) in [5]: # b-quark
-#                nBquarks+=2
-#    categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
+    
+    # 3: al least two b-tags
+    bjets30 = [ jet for jet in event.cleanedJets if jet.BTag and jet.PT > 30 ]
+    categoryData.append( len(bjets30)>2 )
 
     return categoryData
 
@@ -70,9 +61,9 @@ def eventCategory(event):
 def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
-    if category==0:
-        return True #categoryData[3]
-    if category==1:
-        return (categoryData[0] or categoryData[1]) and categoryData[2] # for ttbar no categoryData[3]
+#    if category==0:
+#        return True #categoryData[3]
+    if category==0:#1:
+        return (categoryData[0] or categoryData[1]) and categoryData[2] #and categoryData[3]
     else:
         return False

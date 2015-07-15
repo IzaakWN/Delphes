@@ -14,11 +14,15 @@ from operator import itemgetter # to find index of minimum element
 MW = 80.4
 MH = 125.7
 
+min_offshell = 12
+max_offshell = 48
+MW_window = 10 # i.e. 80.4 +/- 10 GeV
+
 
 # note: assumption W is on-shell
-def recoNeutrino(p, MET, METphi):
+def recoNeutrino(p, MET, METphi, M=MW):
     """ Reconstruction of neutrino from Wlnu with lepton and MET
-        by imposing the W mass constrain. Helpfunction for recoWlnu1. """
+        by imposing the W mass constrain M. Helpfunction for recoWlnu1. """
     
     E = p.E()
     m = p.M()
@@ -29,7 +33,7 @@ def recoNeutrino(p, MET, METphi):
     kx = MET*cos(METphi)
     ky = MET*sin(METphi)
 
-    a = MW*MW - m*m + 2*px*kx + 2*py*ky
+    a = M*M - m*m + 2*px*kx + 2*py*ky
     A = 4*(E*E - pz*pz)
     B = (-4)*a*pz
     C = 4*E*E*(kx*kx + ky*ky) - a*a
@@ -176,14 +180,13 @@ def recoHW_b1(bjets,jets0):
 
     if len(bjets) > 1:
         return recoHW_b2(bjets,jets0)
-
-    bjet = bjets[0]
+    
     jets = jets0[:]
-    jets.remove(bjet)
+    jets.remove(bjets[0])
 
     # 1) Make TLorentzVectors for every jet.
     p_bjet = TLorentzVector()
-    p_bjet.SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
+    p_bjet.SetPtEtaPhiM(bjets[0].PT, bjets[0].Eta, bjets[0].Phi, bjets[0].Mass)
     p_jets = [TLorentzVector(), TLorentzVector(), TLorentzVector()]
     for i in [0,1,2]:
         p_jets[i].SetPtEtaPhiM(jets[i].PT, jets[i].Eta, jets[i].Phi, jets[i].Mass)
@@ -205,7 +208,7 @@ def recoHW_b2(bjets,jets0):
         The two leading bjets are combined to reconstruct Hbb.
         And the two leading jets of the remaining are used for Wjj. """
 
-    jets = event.cleanedJets[:]
+    jets = jets0[:]
     jets.remove(bjets[0])
     jets.remove(bjets[1])
 
@@ -218,7 +221,7 @@ def recoHW_b2(bjets,jets0):
     p_jets[1].SetPtEtaPhiM(jets[1].PT, jets[1].Eta, jets[1].Phi, jets[1].Mass)
 
     # 2) Make Higgs and W four-vectors.
-    qH = p_bjet1 + p_bjet2
+    qH = p_bjets[0] + p_bjets[1]
     qW = p_jets[0] + p_jets[1]
 
     return [qH, qW]
@@ -326,7 +329,7 @@ def recoHWW_d1(event):
         when one W off- and the other on-shell (~90% of the cases):
             - both:         M_W >= M_Wlnu + M_Wjj
             - on-shell:     70.4 - 90.4 GeV         (80.4 +/-10 GeV)
-            - off-shell:    12.0 - 48.0 GeV         (38.0 +10 -26 GeV)
+            - off-shell:    12.0 - 48.0 GeV         (32.0 -20 +16 GeV)
         
         WW 2D-mass windows for tt -> bbWW (~90% of the cases):
             - both: 70.4 - 90.4 GeV """
@@ -341,8 +344,8 @@ def recoHWW_d1(event):
     #
 
 
-    # 0) Make H vector from b-tags.
-    # -------------------------------
+    # 0) Make H vector from two leading b-tags and check for leptons
+    # ----------------------------------------------------------------
     
     bjets = [ jet for jet in event.cleanedJets if jet.BTag ]
     jets = event.cleanedJets[:]
@@ -360,10 +363,29 @@ def recoHWW_d1(event):
         print "Error with len(bjets) recoHWW_d1"
     jets.remove(bjet1)
     jets.remove(bjet2)
+    
+    hasMuon = (event.muons.GetEntries()>0)
+    hasElectron = (event.electrons.GetEntries()>0)
+    recoMuon = False
+    if hasMuon:
+        if hasElectron:
+            recoMuon = event.muons[0].PT > event.electrons[0].PT
+        else:
+            recoMuon = True
+    elif not hasElectron:
+        print "Warning in recoHHW_d1: no lepton for Wlnu reco!"
+        return 0
+    if recoMuon:
+        lepton = events.muons[0]
+        leptonPID = 13
+    else:
+        lepton = events.electron[0]
+        leptonPID = 11
 
 
     # 1) Reco WW assuming Wjj on-shell, Wlnu off-shell.
     # ---------------------------------------------------
+    WlnuNotOffShell = False
     
     # 1a) Reco on-shell Wjj by best combination
     indices = range(len(jets))
@@ -380,27 +402,27 @@ def recoHWW_d1(event):
     indexW = min(enumerate(DmassesW), key=itemgetter(1))[0] # get index of min
     q_Wjj1 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
     
-    # 2b) Reco off-shell Wlnu
+    # 1b) Reco off-shell Wlnu
     #       -> MWlnu in [ min( 12.0 GeV, M_T of lepton+MET ), 48.0 GeV ]
 
+    WlnuMt = sqrt(2*event.met[0].MET*lepton.PT*(1-cos( lepton.Phi-event.met[0].Phi) ));
+    if WlnuMT > max_offshell:
+        WlnuNotOffShell = True
+    elif WlnuMt < 10:
+        mean_M = 32
+    elif WlnuMt < 20:
+        mean_M = 32
+    elif WlnuMt < 30:
+        mean_M = 32
+    elif WlnuMt < 40:
+        mean_M = 32
 
-    
+    q_Wlnu2 = recoWlnu1(leptonPID,lepton,event.met[0],M=mean_M) # reco off-shell Wlnu, assuming M = 32 GeV
 
     # 2) Reco WW assuming Wlnu on-shell, Wjj off-shell.
     # ---------------------------------------------------
-    
-    hasMuon = (event.muons.GetEntries()>0)
-    hasElectron = (event.electrons.GetEntries()>0)
-    recoMuon = False
-    if hasMuon:
-        if hasElectron: # muon
-            recoMuon = event.muons[0].PT > event.electrons[0].PT
-        else:
-            recoMuon = True
-    if recoMuon:
-        q_Wlnu2 = recoWlnu1(13,event.muons[0],event.met[0]) # reco on-shell Wmunu
-    elif hasElectron:
-        q_Wlnu2 = recoWlnu1(11,event.electrons[0],event.met[0]) # reco on-shell Wenu
+
+    q_Wlnu2 = recoWlnu1(lepton.PID,lepton,event.met[0]) # reco on-shell Wlnu
 
 
 

@@ -87,7 +87,7 @@ def main():
 #    names2.extend([("gen/lPt", "leptons/lPt")])
 
     for process in ["Hbb", "Wjj", "HWW", "HHbbWW"]:
-        for alg in ["_b1","_b2"]: #,"_c1","_c2"]:
+        for alg in ["_b2"] #["_b1","_b2","_c1","_c2"]:
             for var in ["Pt","Eta","M"]:
                 names2.append( ("gen/"+process+var,\
                                 "reco/"+process+alg+var))

@@ -50,8 +50,9 @@ class RecoControlPlots(BaseControlPlots):
                 else:
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,300)
     
-        self.add("M_jetComb1","Invariant Mass of combined jets (combination alg.)",100,0,1000) # M_jetComb combination alg.
-        self.add("M_jetComb2","Invariant Mass of combined jets (combination alg.2)",100,0,1000) # M_jetComb combination alg. 2
+        self.add("M_jetComb1","combined jets Mass (combination alg.)",100,0,1000) # M_jetComb combination alg.
+        self.add("M_jetComb2","combined jets Mass (combination alg.2)",100,0,1000) # M_jetComb combination alg. 2
+        self.add("WlnuMt","Wlnu reco Mt",100,0,300)
 
 
 
@@ -78,7 +79,7 @@ class RecoControlPlots(BaseControlPlots):
         result["Wlnu2Pt"] = [ ]
         result["Wlnu2Eta"] = [ ]
         result["Wlnu2M"] = [ ]
-            
+        result["WlnuMt"] = [ ]
             
         if recoMuon:
             q_Wlnu1 = recoWlnu1(13,event.muons[0],event.met[0])
@@ -89,6 +90,7 @@ class RecoControlPlots(BaseControlPlots):
             result["Wlnu2Pt"].append(q_Wlnu2.Pt())
             result["Wlnu2Eta"].append(q_Wlnu2.Eta())
             result["Wlnu2M"].append(q_Wlnu2.M())
+            result["WlnuMt"].append(sqrt(2*event.met[0].MET*event.muons[0].PT*(1-cos( event.muons[0].Phi-event.met[0].Phi) )))
         elif hasElectron:
             q_Wlnu1 = recoWlnu1(11,event.electrons[0],event.met[0])
             result["Wlnu1Pt"].append(q_Wlnu1.Pt())
@@ -98,6 +100,7 @@ class RecoControlPlots(BaseControlPlots):
             result["Wlnu2Pt"].append(q_Wlnu2.Pt())
             result["Wlnu2Eta"].append(q_Wlnu2.Eta())
             result["Wlnu2M"].append(q_Wlnu2.M())
+            result["WlnuMt"].append(sqrt(2*event.met[0].MET*event.electrons[0].PT*(1-cos( event.electrons[0].Phi-event.met[0].Phi) )))
         
     
     
@@ -153,25 +156,25 @@ class RecoControlPlots(BaseControlPlots):
             # Single b-tagging
             bjets = [ jet for jet in event.cleanedJets if jet.BTag ]
             if len(bjets)>0:
-                [q_Hbb_b1,q_Wjj_b1] = recoHW_b1(bjets,event.cleanedJets)       # Single b-tagging
-                result["Hbb_b1Pt"].append(q_Hbb_b1.Pt())
-                result["Hbb_b1Eta"].append(q_Hbb_b1.Eta())
-                result["Hbb_b1M"].append(q_Hbb_b1.M())
-                result["Wjj_b1Pt"].append(q_Wjj_b1.Pt())
-                result["Wjj_b1Eta"].append(q_Wjj_b1.Eta())
-                result["Wjj_b1M"].append(q_Wjj_b1.M())
-#                if abs(q_Hbb.M()-125.6)>20: # check invariant mass within 16% error
-#                    print "Warning: Hbb reco: abs(q_Hbb.M()-125.6)>20"
-                if hasLepton: # HWW_b1
-                    q_HWW_b1 = q_Wjj_b1 + q_Wlnu1
-                    result["HWW_b1Pt"].append(q_HWW_b1.Pt())
-                    result["HWW_b1Eta"].append(q_HWW_b1.Eta())
-                    result["HWW_b1M"].append(q_HWW_b1.M())
-                    q_HHbbWW_b1 = q_Hbb_b1 + q_HWW_b1
-                    result["HHbbWW_b1Pt"].append(q_HHbbWW_b1.Pt())
-                    result["HHbbWW_b1Eta"].append(q_HHbbWW_b1.Eta())
-                    result["HHbbWW_b1M"].append(q_HHbbWW_b1.M())
-                
+#                [q_Hbb_b1,q_Wjj_b1] = recoHW_b1(bjets,event.cleanedJets)       # Single b-tagging
+#                result["Hbb_b1Pt"].append(q_Hbb_b1.Pt())
+#                result["Hbb_b1Eta"].append(q_Hbb_b1.Eta())
+#                result["Hbb_b1M"].append(q_Hbb_b1.M())
+#                result["Wjj_b1Pt"].append(q_Wjj_b1.Pt())
+#                result["Wjj_b1Eta"].append(q_Wjj_b1.Eta())
+#                result["Wjj_b1M"].append(q_Wjj_b1.M())
+##                if abs(q_Hbb.M()-125.6)>20: # check invariant mass within 16% error
+##                    print "Warning: Hbb reco: abs(q_Hbb.M()-125.6)>20"
+#                if hasLepton: # HWW_b1
+#                    q_HWW_b1 = q_Wjj_b1 + q_Wlnu1
+#                    result["HWW_b1Pt"].append(q_HWW_b1.Pt())
+#                    result["HWW_b1Eta"].append(q_HWW_b1.Eta())
+#                    result["HWW_b1M"].append(q_HWW_b1.M())
+#                    q_HHbbWW_b1 = q_Hbb_b1 + q_HWW_b1
+#                    result["HHbbWW_b1Pt"].append(q_HHbbWW_b1.Pt())
+#                    result["HHbbWW_b1Eta"].append(q_HHbbWW_b1.Eta())
+#                    result["HHbbWW_b1M"].append(q_HHbbWW_b1.M())
+
                 # Double b-tagging
                 if len(bjets)>1:
                     [q_Hbb_b2,q_Wjj_b2] = recoHW_b2(bjets,event.cleanedJets) # Double b-tagging
