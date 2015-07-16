@@ -1,34 +1,35 @@
 from ROOT import *
 
-# dimensions for the canvas
-W = 800 # canvas size in pixels along X
-H  = 600 # canvas size in pixels along Y
-T = 0.08*H
-B = 0.12*H
-L = 0.12*W
-R = 0.04*W
 
 # dimensions for the legend box
 legendTextSize = 0.032
-width = 0.21 # 0.195
-height = [0.07,0.19,0.20]
-x2 = 0.95
-y2 = 0.76  # y1 determined in makeLegend()
-x1 = x2 - width
 
+x1 = 0
+x2 = 0
+y2 = 0
+height = [0.07,0.19,0.20]
 
 
 def makeCanvas(square=False):
     
+    # dimensions for the canvas
+    global x1, x2, y1, y2
     if square:
-        global W, H, T, B, L, R, x1
         W = 800 # canvas size in pixels along X
         H  = 800 # canvas size in pixels along Y
-        T = 0.08*H
-        B = 0.12*H
-        L = 0.12*W
-        R = 0.04*W
-        x1 = x1/8*6
+        width = 0.30
+    else:
+        W = 800 # canvas size in pixels along X
+        H  = 600 # canvas size in pixels along Y
+        width = 0.21 # 0.195
+    x2 = 0.95
+    y2 = 0.76  # y1 determined in makeLegend()
+    x1 = x2 - width
+    T = 0.08*H
+    B = 0.12*H
+    L = 0.12*W
+    R = 0.04*W
+
     c1 = TCanvas("c","c",100,100,W,H)
     c1.SetFillColor(0)
     c1.SetBorderMode(0)
@@ -74,7 +75,7 @@ def makeTitle(hist):
         if "(" in title:
             title = title[:title.index(" ")] + title[title.index(" ("):] # only take proces and extra note
             if len(title)>16:
-                title = "#splitline{" + title.replace("(","}{(").replace(")",")}") # make line break for note
+                title = "#splitline{" + title.replace("(","}{(") + "}" # make line break for note
             # vars
             if "Pt" in title:
                 title = title.replace("Pt","p_{T}")
@@ -83,6 +84,10 @@ def makeTitle(hist):
             elif "Phi" in title:
                 title = title.replace("Phi","#phi")
 
+        elif len(title)>16 and title.count(" ")>3:
+            title = "#splitline{" + title + "}" # make line break
+            title[title.index(" ",3)] = "}{"
+
     # processes
     if "H" in title:
         if "bbWW" in title:
@@ -90,8 +95,8 @@ def makeTitle(hist):
         else:
             title = title.replace("H","H #rightarrow ")
     elif "W" in title:
-        if title[title.index("W")+1] not in ["'", " "]:
-            title = title.replace("W","W #rightarrow ",1)
+        if title[title.index("W")+1] not in ["'", " ", "W"]:
+            title = title.replace("W","W #rightarrow ")
     title = title.replace("nu","#nu")
 
     return title

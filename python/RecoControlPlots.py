@@ -156,24 +156,22 @@ class RecoControlPlots(BaseControlPlots):
 
             # Single b-tagging
             if len(bjets)>0:
-#                [q_Hbb_b1,q_Wjj_b1] = recoHW_b1(bjets,event.cleanedJets)       # Single b-tagging
-#                result["Hbb_b1Pt"].append(q_Hbb_b1.Pt())
-#                result["Hbb_b1Eta"].append(q_Hbb_b1.Eta())
-#                result["Hbb_b1M"].append(q_Hbb_b1.M())
-#                result["Wjj_b1Pt"].append(q_Wjj_b1.Pt())
-#                result["Wjj_b1Eta"].append(q_Wjj_b1.Eta())
-#                result["Wjj_b1M"].append(q_Wjj_b1.M())
-##                if abs(q_Hbb.M()-125.6)>20: # check invariant mass within 16% error
-##                    print "Warning: Hbb reco: abs(q_Hbb.M()-125.6)>20"
-#                if hasLepton: # HWW_b1
-#                    q_HWW_b1 = q_Wjj_b1 + q_Wlnu1
-#                    result["HWW_b1Pt"].append(q_HWW_b1.Pt())
-#                    result["HWW_b1Eta"].append(q_HWW_b1.Eta())
-#                    result["HWW_b1M"].append(q_HWW_b1.M())
-#                    q_HHbbWW_b1 = q_Hbb_b1 + q_HWW_b1
-#                    result["HHbbWW_b1Pt"].append(q_HHbbWW_b1.Pt())
-#                    result["HHbbWW_b1Eta"].append(q_HHbbWW_b1.Eta())
-#                    result["HHbbWW_b1M"].append(q_HHbbWW_b1.M())
+                [q_Hbb_b1,q_Wjj_b1] = recoHW_b1(bjets,event.cleanedJets)       # Single b-tagging
+                result["Hbb_b1Pt"].append(q_Hbb_b1.Pt())
+                result["Hbb_b1Eta"].append(q_Hbb_b1.Eta())
+                result["Hbb_b1M"].append(q_Hbb_b1.M())
+                result["Wjj_b1Pt"].append(q_Wjj_b1.Pt())
+                result["Wjj_b1Eta"].append(q_Wjj_b1.Eta())
+                result["Wjj_b1M"].append(q_Wjj_b1.M())
+                if hasLepton: # HWW_b1
+                    q_HWW_b1 = q_Wjj_b1 + q_Wlnu1
+                    result["HWW_b1Pt"].append(q_HWW_b1.Pt())
+                    result["HWW_b1Eta"].append(q_HWW_b1.Eta())
+                    result["HWW_b1M"].append(q_HWW_b1.M())
+                    q_HHbbWW_b1 = q_Hbb_b1 + q_HWW_b1
+                    result["HHbbWW_b1Pt"].append(q_HHbbWW_b1.Pt())
+                    result["HHbbWW_b1Eta"].append(q_HHbbWW_b1.Eta())
+                    result["HHbbWW_b1M"].append(q_HHbbWW_b1.M())
 
                 # Double b-tagging
                 if len(bjets)>1:

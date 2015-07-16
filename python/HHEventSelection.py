@@ -90,7 +90,7 @@ def isInCategory(category, categoryData):
     
     elif category == 2:
         return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5]
-        #      > exact 1 lepto     > 4 jets            > 2 b-jets          > Hbb, Wlnu
+        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > Hbb, Wlnu
     
     else:
         return False

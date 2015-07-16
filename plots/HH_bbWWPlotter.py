@@ -152,7 +152,7 @@ def main():
     print "\nExtra plots"
 
 
-    # __WlnuM vs Wjj__
+    # __WlnuM_+_Wjj__
     c = makeCanvas()
     hist_Wlnu = file.Get("stage_1/gen/WlnuM")
     hist_Wjj = file.Get("stage_1/gen/WjjM")

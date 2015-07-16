@@ -52,8 +52,8 @@ class GenControlPlots(BaseControlPlots):
         self.add2D("WjjWjjM","Wqq Mass vs. Wqq Mass gen",100,0,100,100,0,150)
         self.add2D("WlnuWlnuM","Wlnu Mass vs. Wlnu Mass gen",100,0,150,100,0,150)
         self.add2D("WlnuWlnuMt","Wlnu Mt vs. Wlnu Mt gen",100,0,150,100,0,150)
-        self.add2D("HHM","Hbb vs. HWW Mass gen",100,0,150,100,0,150)
-        self.add2D("bbWWM","bb vs. WW Mass gen",100,0,250,100,0,250)
+        self.add2D("HHM","Hbb Mass vs. HWW Mass gen",100,0,150,100,0,150)
+        self.add2D("bbWWM","bb Mass vs. WW Mass gen",100,0,250,100,0,250)
 
 
         for i in range(len(labels)):
