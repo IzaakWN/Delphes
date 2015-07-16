@@ -30,7 +30,7 @@ class ResControlPlots(BaseControlPlots):
         self.add("Nqqbtag","Both q's from W b-tagged",5,0,5)
         
         for i in range(9):
-            self.add("NJet%sWMatch"%i,"jet1 matches q from W",4,0,4)
+            self.add("NJet%sWMatch"%i,"jet%s matches q from W"%i,4,0,4)
         self.add("NJet12WMatch","jet1 and jet2 match q from W",4,0,4)
 
 
