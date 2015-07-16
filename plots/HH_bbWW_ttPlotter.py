@@ -90,18 +90,18 @@ def main():
     
     names2 = [ ]
 
-#    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
-#                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
-#                   ("gen/WlnuM", "reco/Wlnu1M"),
-#                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
-#
-##    names2.extend([("gen/lPt", "leptons/lPt")])
-#
-#    for process in ["Wjj"]:
-#        for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
-#            for var in ["Pt","Eta","M"]:
-#                names2.append( ("gen/"+process+var,\
-#                                "reco/"+process+alg+var))
+    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
+                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
+                   ("gen/WlnuM", "reco/Wlnu1M"),
+                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
+
+#    names2.extend([("gen/lPt", "leptons/lPt")])
+
+    for process in ["Wjj"]:
+        for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
+            for var in ["Pt","Eta","M"]:
+                names2.append( ("gen/"+process+var,\
+                                "reco/"+process+alg+var))
 
     for gen, reco in names2:
 
@@ -137,6 +137,7 @@ def main():
     ############
     # 2D plots #
     ############
+    print "\n2D plots"
 
     # WWM BG
     c = makeCanvas(square=True)

@@ -24,7 +24,8 @@ class configuration:
                    controlPlot("jets","JetControlPlots","JetControlPlots", { }),
                    controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
                    controlPlot("gen","GenControlPlots","GenControlPlots", { }),
-                   controlPlot("reco","RecoControlPlots","RecoControlPlots", { })]#,
+                   controlPlot("reco","RecoControlPlots","RecoControlPlots", { }),
+                   controlPlot("reco2","RecoControlPlots2","RecoControlPlots2", { })]#,
                    #controlPlot("res","ResControlPlots","ResControlPlots", { }),
                    #controlPlot("res2","ResControlPlots2","ResControlPlots2", { }) ]
 

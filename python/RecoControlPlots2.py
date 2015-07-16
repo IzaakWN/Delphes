@@ -14,8 +14,9 @@ from math import sqrt, cos
 # event.MEt
 
 particleSelection = ["Wlnu","Wjj","Hbb","HWW","HHbbWW"]
+vars = ["Pt","Eta","M"]
 algs = ["_d1"]
-alg_titles = ["2D"]
+alg_titles = ["(2D alg.)"]
 
 
 class RecoControlPlots2(BaseControlPlots):
@@ -67,24 +68,36 @@ class RecoControlPlots2(BaseControlPlots):
                     result[particle+alg+var] = []
 
         if hasLepton and len(event.bjets)>1:
-            [ q_Wlnu_d1, q_Wjj_d1, q_Hbb_d1, q_HWW_d1, q_HbbWW_d1 ] = recoHWW_d1(event)
-            
-            result["Hbb_d1Pt"].append(q_Hbb_d1.Pt())
-            result["Hbb_d1Eta"].append(q_Hbb_d1.Eta())
-            result["Hbb_d1M"].append(q_Hbb_d1.M())
-            
-            result["Wjj_d1Pt"].append(q_Wjj_d1.Pt())
-            result["Wjj_d1Eta"].append(q_Wjj_d1.Eta())
-            result["Wjj_d1M"].append(q_Wjj_d1.M())
-            
-            result["HWW_d1Pt"].append(q_HWW_d1.Pt())
-            result["HWW_d1Eta"].append(q_HWW_d1.Eta())
-            result["HWW_d1M"].append(q_HWW_d1.M())
-            
-            result["HHbbWW_d1Pt"].append(q_HHbbWW_d1.Pt())
-            result["HHbbWW_d1Eta"].append(q_HHbbWW_d1.Eta())
-            result["HHbbWW_d1M"].append(q_HHbbWW_d1.M())
-    
+        
+            vectors = recoHWW_d1(event)
+            if len(vectors) > 0:
+                [ q_Wlnu_d1, q_Wjj_d1, q_Hbb_d1, q_HWW_d1, q_HHbbWW_d1 ] = vectors
+                
+                result["Wlnu_d1Pt"].append(q_Wlnu_d1.Pt())
+                result["Wlnu_d1Eta"].append(q_Wlnu_d1.Eta())
+                result["Wlnu_d1M"].append(q_Wlnu_d1.M())
+                
+                result["Wjj_d1Pt"].append(q_Wjj_d1.Pt())
+                result["Wjj_d1Eta"].append(q_Wjj_d1.Eta())
+                result["Wjj_d1M"].append(q_Wjj_d1.M())
+                
+                result["Hbb_d1Pt"].append(q_Hbb_d1.Pt())
+                result["Hbb_d1Eta"].append(q_Hbb_d1.Eta())
+                result["Hbb_d1M"].append(q_Hbb_d1.M())
+                
+                result["HWW_d1Pt"].append(q_HWW_d1.Pt())
+                result["HWW_d1Eta"].append(q_HWW_d1.Eta())
+                result["HWW_d1M"].append(q_HWW_d1.M())
+                
+                result["HHbbWW_d1Pt"].append(q_HHbbWW_d1.Pt())
+                result["HHbbWW_d1Eta"].append(q_HHbbWW_d1.Eta())
+                result["HHbbWW_d1M"].append(q_HHbbWW_d1.M())
+#            
+#                print "RecoControlPlots2.py: succes!"
+#            
+#            else:
+#                print "RecoControlPlots2.py: d1 did not come through..."
+
         return result
 
 

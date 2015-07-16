@@ -273,7 +273,7 @@ class GenControlPlots(BaseControlPlots):
         else: print "Warning! GenControlPlots.py: No WW 2D-plot!"
 
         # __bbWW_2D-plots__
-        if len(b) == 2 and len(W) == 1:# and nWlnu == 1 and nWjj == 1:
+        if len(b) == 2 and len(W) > 1:
             q_b = [TLorentzVector(), TLorentzVector()]
             q_W = [TLorentzVector(), TLorentzVector()]
             for i in [0,1]:

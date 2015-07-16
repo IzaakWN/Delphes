@@ -20,7 +20,7 @@ MW_window = 10 # i.e. 80.4 +/- 10 GeV
 
 
 # note: assumption W is on-shell
-def recoNeutrino(p, MET, METphi, M=MW):
+def recoNeutrino(p, MET, METphi, M):
     """ Reconstruction of neutrino from Wlnu with lepton and MET
         by imposing the W mass constrain M. Helpfunction for recoWlnu1. """
     
@@ -60,7 +60,7 @@ def recoNeutrino(p, MET, METphi, M=MW):
         #######################
 
 # e.g. lepton = event.muon[0], MET = event.MET
-def recoWlnu1(PID,lepton,MET):
+def recoWlnu1(PID,lepton,MET,M=MW):
     """ Reconstruction of Wlnu, assuming it is on-shell in order to
         impose the W mass constrain. """
 
@@ -73,7 +73,7 @@ def recoWlnu1(PID,lepton,MET):
     p = TLorentzVector()
     p.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, m)
 
-    return p + recoNeutrino(p,MET.MET,MET.Phi)
+    return p + recoNeutrino(p,MET.MET,MET.Phi,M)
 
 
 
@@ -352,8 +352,6 @@ def recoHWW_d1(event):
     elif len(bjets) == 0: # no b-tag
         bjet1 = event.cleanedJets[0]
         bjet2 = event.cleanedJets[1]
-    else:
-        print "Error with len(bjets) recoHWW_d1"
     jets.remove(bjet1)
     jets.remove(bjet2)
     p_b1 = TLorentzVector()
@@ -381,10 +379,10 @@ def recoHWW_d1(event):
         print "Warning in recoHHW_d1: no lepton for Wlnu reco!"
         return []
     if recoMuon:
-        lepton = events.muons[0]
+        lepton = event.muons[0]
         leptonPID = 13
     else:
-        lepton = events.electron[0]
+        lepton = event.electrons[0]
         leptonPID = 11
 
 
@@ -407,11 +405,11 @@ def recoHWW_d1(event):
     
     # 1b) Reco off-shell Wlnu.
     #       -> MWlnu in [ min( 12.0 GeV, M_T of lepton+MET ), 48.0 GeV ]
-    WlnuMt = sqrt(2*event.met[0].MET*lepton.PT*(1-cos( lepton.Phi-event.met[0].Phi) ));
-    if WlnuMT > max_offshell: # Wlnu not off-shell
+    WlnuMt = sqrt(2*event.met[0].MET*lepton.PT*(1-cos( lepton.Phi-event.met[0].Phi) ))
+    if WlnuMt > max_offshell: # Wlnu not off-shell
         FailedReco1 = True
-    elif WlnuMt < 10: mean_M = 36.4
-    elif WlnuMt < 15: mean_M = 37.2
+    mean_M = 36.4
+    if WlnuMt < 15: mean_M = 37.2
     elif WlnuMt < 20: mean_M = 38.0
     elif WlnuMt < 25: mean_M = 40.2
     elif WlnuMt < 30: mean_M = 43.0
@@ -422,8 +420,8 @@ def recoHWW_d1(event):
     elif WlnuMt < 55: mean_M = 64.1
     elif WlnuMt < 60: mean_M = 66.6
     elif WlnuMt < 65: mean_M = 67.9
-    q_Wlnu2 = recoWlnu1(leptonPID,lepton,event.met[0],M=mean_M) # reco off-shell Wlnu, assuming M = 32 GeV
-    if q_Wlnu2.M() > 90:
+    q_Wlnu1 = recoWlnu1(leptonPID,lepton,event.met[0],M=mean_M) # reco off-shell Wlnu, assuming M = 32 GeV
+    if q_Wlnu1.M() > max_offshell:
         FailedReco1 = True
 
 
@@ -432,12 +430,12 @@ def recoHWW_d1(event):
     FailedReco2 = False
 
     # 2a) Reco on-shell Wln by mass-constraint.
-    q_Wlnu2 = recoWlnu1(lepton.PID,lepton,event.met[0])
+    q_Wlnu2 = recoWlnu1(leptonPID,lepton,event.met[0])
     
     # 2b) Reco off-shell Wjj by taking the next two leading jets.
-    q_Wjj1 = p_jets[0] + p_jets[1]
+    q_Wjj2 = p_jets[0] + p_jets[1]
     
-    if q_Wjj1.M() > max_offshell or q_Wlnu2.M() > 90:
+    if q_Wjj2.M() > max_offshell or abs(q_Wlnu2.M()) > MW + MW_window:
         FailedReco2 = True
 
 
@@ -446,57 +444,13 @@ def recoHWW_d1(event):
 
     if FailedReco1:
         if FailedReco2: # both failed
+#            print "Warning in recoHHW_d1: both failed!"
             return []
-        else:
+        else:           # reco 1 succeeded
             return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2 ]
-    elif FailedReco2:
+    elif FailedReco2:   # reco 2 succeeded
         return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1 , q_Hbb+q_Wlnu1+q_Wjj1 ]
-    else:
-        return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2 ] # prefer second for some reason...
+    else:               # both succeeded
+        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1 ] # TODO: find better way to choose
 
-
-
-
-
-    # DROPPED HIGHS MASS CONSTRAINT for single b-tagging !!!
-#    p_jets = []
-#    masses = []
-#    DmassesH = []
-#    DmassesW = []
-#    MW = 80.4
-#    MH = 125.7
-#
-#    # 1) Make TLorentzVectors for every jet.
-#    p_bjet = TLorentzVector()
-#    p_bjet.SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
-#    for i in range(n):
-#        p = TLorentzVector()
-#        p.SetPtEtaPhiM(jets[i].PT, jets[i].Eta, jets[i].Phi, jets[i].Mass)
-#        p_jets.append(p)
-#    
-#    # 2) Calculate masses of all combinations with b-jet.
-#    masses_b = [(p_bjet+p_jets[i]).M() for i in range(n)]
-#    
-#    # 3) Calculate difference to Higgs mass.
-#    DmassesH = [abs(MH-m) for m in masses_b]
-#
-#    # 4) Find jet combination with mass closest to H.
-#    indexH = min(enumerate(DmassesH), key=itemgetter(1))[0] # get index of min
-#
-#    # 5) Remove indexH from indices and make combination of the others.
-#    indices = range(n)
-#    indices.remove(indexH)
-#    indexComb = list(combinations(indices,2))
-#        # e.g. for indices = [0, 1, 3]:
-#        # indexComb = [(0, 1), (0, 3), (1, 3)]
-#
-#    # 5) Repeat steps 2 to 4 for W.
-#    for comb in indexComb:
-#        masses.append( (p_jets[comb[0]]+p_jets[comb[1]]).M() )
-#    DmassesW = [abs(MW-m) for m in masses]
-#    indexW = min(enumerate(DmassesW), key=itemgetter(1))[0]
-#    
-#    # 5) Make Higgs and W four-vectors.
-#    qH = p_bjet + p_jets[indexH]
-#    qW = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]]
 
