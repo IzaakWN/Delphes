@@ -22,14 +22,14 @@ def eventCategory(event):
     muons20 = [m for m in event.muons if m.PT>20]
     electrons20 = [e for e in event.electrons if e.PT>20]
     
-    if event.muons.GetEntries()>0:
+    if event.muons.GetEntries() > 0:
         for muon in event.muons: # remove all muons from jets
             l.SetPtEtaPhiM(muon.PT, muon.Eta, muon.Phi, 0.106)
             for jet in event.cleanedJets:
                 j.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
                 if TLorentzVector.DeltaR(l,j) < 0.4:
                     event.cleanedJets.remove(jet)
-    if event.electrons.GetEntries()>0:
+    if event.electrons.GetEntries() > 0:
         for electron in event.electrons: # remove all electrons from jets
             l.SetPtEtaPhiM(electron.PT, electron.Eta, electron.Phi, 0.000511)
             for jet in event.cleanedJets:

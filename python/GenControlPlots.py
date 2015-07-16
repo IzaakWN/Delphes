@@ -106,8 +106,8 @@ class GenControlPlots(BaseControlPlots):
             for var in vars:
                 result[label+var] = [ ]
         result["WlnuMt"] = [ ]
-        result["bMPID"] = [ ]
         result["WDPID"] = [ ]
+        result["bMPID"] = [ ]
         result["tDPID"] = [ ]
 
         p_Hbb = TLorentzVector(0,0,0,0)

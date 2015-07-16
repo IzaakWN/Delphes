@@ -14,7 +14,7 @@ tdrstyle.setTDRStyle()
 file = TFile("/home/uzh/ineute/phase2/Delphes_CMS/controlPlots_HH_all.root")
 file_tt = TFile("/home/uzh/ineute/phase2/Delphes_CMS/controlPlots_tt_all.root")
 
-stage = "stage_0/"
+stage = "stage_2/"
 
 
 def main():

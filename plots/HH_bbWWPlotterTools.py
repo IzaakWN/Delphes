@@ -21,7 +21,7 @@ def makeCanvas(square=False):
     else:
         W = 800 # canvas size in pixels along X
         H  = 600 # canvas size in pixels along Y
-        width = 0.21 # 0.195
+        width = 0.24 # 0.195
     x2 = 0.95
     y2 = 0.76  # y1 determined in makeLegend()
     x1 = x2 - width
@@ -66,6 +66,8 @@ def makeTitle(hist):
         title = title.replace(" multiplicity","")
     elif " PID" in title:
         title = title.replace(" PID","")
+    elif " Mt" in title:
+        title = title.replace(" Mt","")
     
     if " " in title:
         
@@ -84,9 +86,10 @@ def makeTitle(hist):
             elif "Phi" in title:
                 title = title.replace("Phi","#phi")
 
-        elif len(title)>16 and title.count(" ")>3:
+        elif len(title)>14 and title.count(" ")>1:
+            print "Split!"
             title = "#splitline{" + title + "}" # make line break
-            title[title.index(" ",3)] = "}{"
+            title = title[:title.index(" ",len(title)-5)] + "}{" + title[title.index(" ",len(title)-5)+1:]
 
     # processes
     if "H" in title:
