@@ -78,6 +78,7 @@ def main():
         name = name.replace("leptons/","basic_tt/")
         name = name.replace("jets/","basic_tt/")
         name = name.replace("reco/","reco_tt/")
+        name = name.replace("reco2/","reco_tt/")
         c.SaveAs(name+".png")
         c.Close()
 
@@ -102,6 +103,12 @@ def main():
             for var in ["Pt","Eta","M"]:
                 names2.append( ("gen/"+process+var,\
                                 "reco/"+process+alg+var))
+                                
+    for process in ["Wlnu","Wjj","Hbb","HWW","HHbbWW"]:
+        for alg in ["_d1"]: #["_b1","_b2","_c1","_c2"]:
+            for var in ["Pt","Eta","M"]:
+                names2.append( ("gen/"+process+var,\
+                                "reco2/"+process+alg+var))
 
     for gen, reco in names2:
 
@@ -110,10 +117,10 @@ def main():
         hist_reco = file.Get(stage+reco) # "MC"
         hist_reco_tt = file_tt.Get(stage+reco) ## "MC" from tt
         
-        if "nu" in gen:
-            hist_gen.Scale(1./hist_gen.Integral())
-            hist_reco.Scale(1./hist_reco.Integral())
-            hist_reco_tt.Scale(1./hist_reco_tt.Integral())
+#        if "nu" in gen:
+#            hist_gen.Scale(1./hist_gen.Integral())
+#            hist_reco.Scale(1./hist_reco.Integral())
+#            hist_reco_tt.Scale(1./hist_reco_tt.Integral())
 
         hist_reco.Draw("histsame")
         hist_reco_tt.Draw("histsame")

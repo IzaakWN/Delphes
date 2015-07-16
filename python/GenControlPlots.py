@@ -280,7 +280,6 @@ class GenControlPlots(BaseControlPlots):
                 q_b[i].SetPtEtaPhiM(b[i].PT, b[i].Eta, b[i].Phi, b[i].Mass)
                 q_W[i].SetPtEtaPhiM(W[i].PT, W[i].Eta, W[i].Phi, W[i].Mass)
             result["bbWWM"]  = [[ (q_b[0]+q_b[1]).M(),  (q_W[0]+q_W[1]).M() ]]
-        else: print "Warning! GenControlPlots.py: No bbWW 2D-plot!"
 
         result["NLeptons"] = nLeptons
         result["NElectrons"] = nElectrons

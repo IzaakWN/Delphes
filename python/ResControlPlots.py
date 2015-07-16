@@ -28,6 +28,10 @@ class ResControlPlots(BaseControlPlots):
         self.add("Nbadbtag","Fake b-tags from W",4,0,4)
         self.add("Nbadbtag2","Fake b-tags from W",4,0,4)
         self.add("Nqqbtag","Both q's from W b-tagged",5,0,5)
+        
+        for i in range(9):
+            self.add("NJet%sWMatch"%i,"jet1 matches q from W",4,0,4)
+        self.add("NJet12WMatch","jet1 and jet2 match q from W",4,0,4)
 
 
 
@@ -47,16 +51,21 @@ class ResControlPlots(BaseControlPlots):
         nBadbtag = 0
         nBadbtag2 = 0
         nqqbtag = 0
+#        nJet1WMatch = 0
+#        nJet2WMatch = 0
+#        nJet2WMatch = 0
+
         p_bjet = TLorentzVector()
+        p_jet = TLorentzVector()
         p_quark = TLorentzVector()
         p_quark1 = TLorentzVector()
         p_quark2 = TLorentzVector()
-        bjets = [ ]
         
-        for jet in event.jets:
-            if jet.BTag:
-                nbtags += 1
-                bjets += [jet]
+        for i in range(9):
+            result["NJet%sWMatch"%i] = []
+        bjets = event.bjets
+        jets30 = [jet for jet in event.cleanedJets if jet not in bjets[:2] and jet.PT > 30]
+        nJetWMatch = [0]*len(jets30)
         
         # good btag
         for particle in event.particles:
@@ -81,7 +90,7 @@ class ResControlPlots(BaseControlPlots):
                     if abs( D1.PID ) != 5: # b-quark; also allow for leptons
                         for bjet in bjets:
                             D2 = event.particles[particle.D2]
-                            p_bjet.SetPtEtaPhiM(bjet.PT,bjet.Eta,bjet.Phi,bjet.Mass)
+                            p_bjet.SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
                             p_quark1.SetPtEtaPhiM(D1.PT, D1.Eta, D1.Phi, D1.Mass)
                             p_quark2.SetPtEtaPhiM(D2.PT, D2.Eta, D2.Phi, D2.Mass)
                             if TLorentzVector.DeltaR( p_bjet, p_quark1 ) < 0.2:
@@ -92,6 +101,15 @@ class ResControlPlots(BaseControlPlots):
                             elif TLorentzVector.DeltaR( p_bjet, p_quark2 ) < 0.2:
                                 nBadbtag2 += 1
 #                                bjets.remove(bjet)
+                        for i in range(len(jets30)):
+                            D2 = event.particles[particle.D2]
+                            p_jet.SetPtEtaPhiM(jets30[i].PT, jets30[i].Eta, jets30[i].Phi, jets30[i].Mass)
+                            p_quark1.SetPtEtaPhiM(D1.PT, D1.Eta, D1.Phi, D1.Mass)
+                            p_quark2.SetPtEtaPhiM(D2.PT, D2.Eta, D2.Phi, D2.Mass)
+                            if TLorentzVector.DeltaR( p_jet, p_quark1 ) < 0.2:
+                                nJetWMatch[i] += 1
+                            if TLorentzVector.DeltaR( p_jet, p_quark2 ) < 0.2:
+                                nJetWMatch[i] += 1
 
         result["Nb"] = nb
         result["Nbtags"] = nbtags
@@ -100,6 +118,14 @@ class ResControlPlots(BaseControlPlots):
         result["Nbadbtag"] = nBadbtag
         result["Nbadbtag2"] = nBadbtag2
         result["Nqqbtag"] = nqqbtag
+        
+        for i in range(len(jets30)):
+            result["NJet%sWMatch"%i] = nJetWMatch[i]
+        if nJetWMatch[0]>0 and nJetWMatch[1]>0:
+            result["NJet12WMatch"] = nJetWMatch[0]
+        else:
+            result["NJet12WMatch"] = 0
+        
 
         return result
 
