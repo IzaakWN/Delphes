@@ -182,9 +182,11 @@ def makeEntryName2(hist,tt=False):
 
 
 def makeLegend(*hists, **kwargs):
-# last hist should be tt-hist
     hist0 = hists[0]
-    tt = kwargs.get('tt', False)
+    tt = kwargs.get('tt', False) # last hist should be tt-hist!
+    title = kwargs.get('title', None)
+    entries = kwargs.get('entries', None)
+    
     y1 = y2 - height[len(hists)-1]
     legend = TLegend(x1,y1,x2,y2)
 #    legend.SetFillStyle(0) # 0 = transparant
@@ -195,7 +197,10 @@ def makeLegend(*hists, **kwargs):
     if len(hists)==1:
         legend.AddEntry(hist0,makeEntryName1(hist0))
     else:
-        legend.SetHeader(makeTitle(hists[-1]))
+    
+        if title is None: legend.SetHeader(makeTitle(hists[-1]))
+        else: legend.SetHeader(title)
+        
         if tt:
             if len(hists)==3:
                 if "eutrino" in hist0.GetTitle():
@@ -204,44 +209,55 @@ def makeLegend(*hists, **kwargs):
                     legend.AddEntry(hist0,"gen signal")
             legend.AddEntry(hists[-2],"signal")
             legend.AddEntry(hists[-1],"t#bar{t}-BG")
-        else:
+        elif entries == None:
             for hist in hists:
                 legend.AddEntry(hist,makeEntryName2(hist))
+        else:
+            for i in len(hists):
+                legend.AddEntry(hists[i],entries[i])
 
     return legend
 
 
 
-def makeAxes(*hists):
+def makeAxes(*hists, **kwargs):
 
     hist0 = hists[0]
+    xlabel = kwargs.get('xlabel', "")
+    ylabel = kwargs.get('ylabel', "")
     
     # make correct x-axis labels
-    name = hist0.GetTitle()
-    ylabel = "Events / %s " % hist0.GetXaxis().GetBinWidth(0)
-    if "Pt" in name:
-        hist0.GetXaxis().SetTitle("transverse momentum p_{T} [GeV]")
-        ylabel += "GeV"
-    elif "Eta" in name:
-        hist0.GetXaxis().SetTitle("pseudorapidity #eta")
-    elif "Phi" in name:
-        hist0.GetXaxis().SetTitle("azimuthal angle #phi [rad]")
-        ylabel += "rad"
-    elif "Mass" in name:
-        if "vs." in name:
-            hist0.GetXaxis().SetTitle("W #rightarrow l#nu mass [GeV]")
-            ylabel = "W #rightarrow qq mass [GeV]"
-        else:
-            hist0.GetXaxis().SetTitle("invariant mass M [GeV]")
+    if xlabel + ylabel:
+        hist0.GetXaxis().SetTitle(xlabel)
+    else:
+        name = hist0.GetTitle()
+        ylabel = "Events / %s " % hist0.GetXaxis().GetBinWidth(0)
+        if "Pt" in name:
+            hist0.GetXaxis().SetTitle("transverse momentum p_{T} [GeV]")
             ylabel += "GeV"
-    elif "MET" in name:
-        hist0.GetXaxis().SetTitle("MET [GeV]")
-        ylabel += "GeV"
-    elif name in ["N", "multiplicity"]:
-        hist0.GetXaxis().SetTitle("multiplicity")
-    elif "PID" in name:
-        hist0.GetXaxis().SetTitle("PID")
-    else: print "Warning: no x-axis label!"
+        elif "Eta" in name:
+            hist0.GetXaxis().SetTitle("pseudorapidity #eta")
+        elif "Phi" in name:
+            hist0.GetXaxis().SetTitle("azimuthal angle #phi [rad]")
+            ylabel += "rad"
+        elif "Mass" in name:
+            if "vs." in name:
+                hist0.GetXaxis().SetTitle("W #rightarrow l#nu mass [GeV]")
+                ylabel = "W #rightarrow qq mass [GeV]"
+            else:
+                hist0.GetXaxis().SetTitle("invariant mass M [GeV]")
+                ylabel += "GeV"
+        elif "MET" in name:
+            hist0.GetXaxis().SetTitle("MET [GeV]")
+            ylabel += "GeV"
+        elif name in ["N", "multiplicity"]:
+            hist0.GetXaxis().SetTitle("multiplicity")
+        elif "PID" in name:
+            hist0.GetXaxis().SetTitle("PID")
+        elif "Mt" in name:
+            hist0.GetXaxis().SetTitle("transverse mass M_{T} [GeV]")
+            ylabel += "GeV"
+        else: print "Warning: no x-axis label!"
 
     # make correct y-axis labels
     hist0.GetYaxis().SetTitle(ylabel)
@@ -291,46 +307,3 @@ def setMarkerStyle(hist):
     hist.SetMarkerSize(0.8)
 
 
-
-
-
-# Garbage
-#
-#    title = hist.GetTitle()
-#    if " " in title:
-#        extra = ""
-#        if "gen" in title:
-#            if "from" in title:
-#                extra = title[title.index(" ",2):title.index(" ",3)]+" gen"
-#            elif "daughters" in title:
-#                extra = title[:title.index(" daughters")]+" daughters gen"
-#            elif "mother" in title:
-#                extra = title[:title.index(" mother")]+" mother gen"
-#            elif " W's" in title:
-#                extra = " W's gen"
-#            else:
-#                extra = " gen"
-#        if "(" in title:
-#            title = title[:title.index(" ")] + extra + title[title.index(" ("):] # only take proces and extra note
-##            title = "#splitline{" + title.replace("(","}{").replace(")","}") # make line break for note
-#        else:
-#            title = title[:title.index(" ")] + extra # only take proces
-#
-#    # processes
-#    if "H" in title:
-#        if "bbWW" in title:
-#            title = title.replace("HH","HH #rightarrow ")
-#        else:
-#            title = title.replace("H","H #rightarrow ")
-#    elif "W" in title:
-#        if "W's" not in title:
-#            title = title.replace("W","W #rightarrow ")
-#    title = title.replace("nu","#nu")
-#        
-#    # vars
-#    if "Pt" in title:
-#        title = title.replace("Pt","p_{T}")
-#    elif "Eta" in title:
-#        title = title.replace("Eta","#eta")
-#    elif "Phi" in title:
-#        title = title.replace("Phi","#phi")

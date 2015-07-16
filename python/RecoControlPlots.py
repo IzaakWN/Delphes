@@ -64,7 +64,6 @@ class RecoControlPlots(BaseControlPlots):
         hasMuon = (event.muons.GetEntries()>0)
         hasElectron = (event.electrons.GetEntries()>0)
         hasLepton = hasMuon or hasElectron
-        recoMuon = False
         
         # choose which lepton has to be reconstructed
         if hasMuon:
@@ -72,6 +71,8 @@ class RecoControlPlots(BaseControlPlots):
                 recoMuon = event.muons[0].PT > event.electrons[0].PT
             else:
                 recoMuon = True
+        else:
+            recoMuon = False
 
         # __Wlnu__
         result["Wlnu1Pt"] = [ ]

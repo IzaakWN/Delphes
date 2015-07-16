@@ -15,17 +15,17 @@ class LeptonControlPlots(BaseControlPlots):
 
     def beginJob(self):
       # declare histograms
-      self.add("NMuons","muons multiplicity (Pt>20 GeV)",10,0,10)
+      self.add("NMuons20","muons multiplicity (Pt>20 GeV)",10,0,10)
       self.add("Muon1Pt","muon Pt",100,0,500)
       self.add("Muon1Eta","muon Eta",50,-2.5,2.5)
       self.add("Muon2Pt","muon Pt",100,0,500)
       self.add("Muon2Eta","muon Eta",50,-2.5,2.5)
-      self.add("NElectrons","electrons multiplicity (Pt>20 GeV)",10,0,10)
+      self.add("NElectrons20","electrons multiplicity (Pt>20 GeV)",10,0,10)
       self.add("Electron1Pt","electron Pt",100,0,500)
       self.add("Electron1Eta","electron Eta",50,-2.5,2.5)
       self.add("Electron2Pt","electron Pt",100,0,500)
       self.add("Electron2Eta","electron Eta",50,-2.5,2.5)
-      self.add("NLeptons","lepton multiplicity (Pt>20 GeV)",10,0,10)
+      self.add("NLeptons20","lepton multiplicity (Pt>20 GeV)",10,0,10)
 
     # get information
     def process(self, event):
@@ -33,7 +33,7 @@ class LeptonControlPlots(BaseControlPlots):
         result = { }
         
         # Muons
-        result["NMuons"] = len([m for m in event.muons if m.PT>20])
+        result["NMuons20"] = len([m for m in event.muons if m.PT>20])
         result["Muon1Pt"] = [ ]
         result["Muon1Eta"] = [ ]
         result["Muon2Pt"] = [ ]
@@ -48,7 +48,7 @@ class LeptonControlPlots(BaseControlPlots):
             result["Muon2Eta"].append(event.muons[1].Eta)
 
         # Electrons
-        result["NElectrons"] = len([e for e in event.electrons if e.PT>20])
+        result["NElectrons20"] = len([e for e in event.electrons if e.PT>20])
         result["Electron1Pt"] = [ ]
         result["Electron1Eta"] = [ ]
         result["Electron2Pt"] = [ ]
@@ -61,7 +61,7 @@ class LeptonControlPlots(BaseControlPlots):
             result["Electron2Eta"].append(event.electrons[1].Eta)
         
         # Leptons
-        result["NLeptons"] = result["NMuons"] + result["NElectrons"]
+        result["NLeptons20"] = result["NMuons20"] + result["NElectrons20"]
 
         return result
 

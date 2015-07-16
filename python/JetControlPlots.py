@@ -26,7 +26,7 @@ class JetControlPlots(BaseControlPlots):
         self.add("Njets","jets multiplicity (Pt>30 GeV)",10,2,12)
         self.add("NcleanedJets","cleaned jets multiplicity (Pt>30 GeV)",10,2,12)
         self.add("Nbjets","b-jets multiplicity (Pt>30 GeV)",8,0,8)
-        self.add("MET","MET",100,0,500)
+        self.add("MET","MET",100,0,300)
         self.add("METPhi","MET Phi",64,-3.2,3.2)
         for type in types:
             for i in n:
@@ -75,7 +75,6 @@ class JetControlPlots(BaseControlPlots):
 
         # b-jets
         bjets = event.bjets
-        cleanedbJets = [ ]
     
         if len(bjets)>0:
             result["bjet1Pt"].append(bjets[0].PT)

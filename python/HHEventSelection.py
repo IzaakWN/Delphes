@@ -6,7 +6,7 @@ from ROOT import TLorentzVector
 #   event.jets
 
 # the list of category names
-categoryNames = [ "Lepton4Jets" ] #[ "GenLevel", "Lepton4Jets" ]
+categoryNames = [ "Lepton4Jets", "2Bjets", "OneLepton" ] #[ "GenLevel", "Lepton4Jets" ]
 
 
 
@@ -18,35 +18,46 @@ def eventCategory(event):
     categoryData = [ ]
     l = TLorentzVector()
     j = TLorentzVector()
-    event.cleanedJets = [jet for jet in event.jets][:10] # never more than 10 jets
+    event.cleanedJets = [jet for jet in event.jets][:10]
+    muons20 = [m for m in event.muons if m.PT>20]
+    electrons20 = [e for e in event.electrons if e.PT>20]
     
-    # 0: exactly one muon or electron with Pt > 20 GeV
     if event.muons.GetEntries()>0:
-        categoryData.append(event.muons[0].PT>20. and event.muons[1].PT<20.)
         for muon in event.muons: # remove all muons from jets
             l.SetPtEtaPhiM(muon.PT, muon.Eta, muon.Phi, 0.106)
             for jet in event.cleanedJets:
                 j.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
                 if TLorentzVector.DeltaR(l,j) < 0.4:
                     event.cleanedJets.remove(jet)
-    elif event.electrons.GetEntries()>0:
-        categoryData.append(event.electrons[0].PT>20. and event.electrons[1].PT<20.)
+    if event.electrons.GetEntries()>0:
         for electron in event.electrons: # remove all electrons from jets
             l.SetPtEtaPhiM(electron.PT, electron.Eta, electron.Phi, 0.000511)
             for jet in event.cleanedJets:
                 j.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
                 if TLorentzVector.DeltaR(l,j) < 0.4:
                     event.cleanedJets.remove(jet)
-    else:
-        categoryData.append(False)
+    
+    event.bjets = [ jet for jet in event.cleanedJets if jet.BTag and jet.PT > 30 ]
+    
+    # 0: at least one muon or electron with Pt > 20 GeV
+    categoryData.append( len(muons20+electrons20) > 0 )
+    
+    # 1: exactly one muon or electron with Pt > 20 GeV
+    categoryData.append( len(muons20+electrons20) == 1 )
 
-    # 1: Pt of leading 4 jets > 30 GeV after removing leptonic jets in (0) and (1)
+    # 2: Pt of leading 4 jets > 30 GeV after removing leptonic jets in (0)
     if event.jets.GetEntries() > 3:
         categoryData.append(event.cleanedJets[3].PT>30.)
     else:
         categoryData.append(False)
+    
+    # 3: al least one b-tags
+    categoryData.append( len(event.bjets)>1 )
+    
+    # 4: al least two b-tags
+    categoryData.append( len(event.bjets)>2 )
 
-    # 2: generator level: single Wlnu and Hbb
+    # 5: generator level: single Wlnu and Hbb
     nLeptons = 0
     nBquarks = 0
     for particle in event.particles:
@@ -58,13 +69,6 @@ def eventCategory(event):
             if abs(event.particles[D1].PID) in [5]: # b-quark
                 nBquarks+=2
     categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
-    
-    # 3: al least one b-tags
-    bjets30 = [ jet for jet in event.cleanedJets if jet.BTag and jet.PT > 30 ]
-    categoryData.append( len(bjets30)>1 )
-    
-    # 4: al least two b-tags
-    categoryData.append( len(bjets30)>2 )
 
     return categoryData
 
@@ -75,9 +79,18 @@ def isInCategory(category, categoryData):
     
 #    if category==0:
 #        return categoryData[2]
-#    elif category==1::
-#        return categoryData[0] and categoryData[2] and categoryData[3]
-    if category==0:#1:#2:
-        return categoryData[0] and categoryData[2] and categoryData[4]
+
+    if category == 0:
+        return categoryData[0] and categoryData[2] and categoryData[5]
+        #      > lepton            > 4 jets            > Hbb, Wlnu
+    
+    elif category == 1:
+        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[5]
+        #      > lepton            > 4 jets            > 2 b-jets          > Hbb, Wlnu
+    
+    elif category == 2:
+        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5]
+        #      > exact 1 lepto     > 4 jets            > 2 b-jets          > Hbb, Wlnu
+    
     else:
         return False

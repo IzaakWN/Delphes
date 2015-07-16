@@ -26,6 +26,7 @@ class ResControlPlots(BaseControlPlots):
         self.add("Nbtags","b-tag multiplicity",6,0,6)
         self.add("Ngoodbtag","Correct b-tags from H",3,0,3)
         self.add("Nbadbtag","Fake b-tags from W",4,0,4)
+        self.add("Nbadbtag2","Fake b-tags from W",4,0,4)
         self.add("Nqqbtag","Both q's from W b-tagged",5,0,5)
 
 
@@ -44,6 +45,7 @@ class ResControlPlots(BaseControlPlots):
         nbtags = 0
         nGoodbtag = 0
         nBadbtag = 0
+        nBadbtag2 = 0
         nqqbtag = 0
         p_bjet = TLorentzVector()
         p_quark = TLorentzVector()
@@ -87,15 +89,16 @@ class ResControlPlots(BaseControlPlots):
                                 if TLorentzVector.DeltaR( p_bjet, p_quark2 ) < 0.2:
                                      nqqbtag += 1 # check if both q are b-tagged as one jet
                                 bjets.remove(bjet)
-    #                        elif TLorentzVector.DeltaR( p_bjet, p_quark2 ) < 0.2:
-    #                            nBadbtag += 1
-    #                            bjets.remove(bjet)
+                            elif TLorentzVector.DeltaR( p_bjet, p_quark2 ) < 0.2:
+                                nBadbtag2 += 1
+#                                bjets.remove(bjet)
 
         result["Nb"] = nb
         result["Nbtags"] = nbtags
         result["NHbb"] = nHbb
         result["Ngoodbtag"] = nGoodbtag
         result["Nbadbtag"] = nBadbtag
+        result["Nbadbtag2"] = nBadbtag2
         result["Nqqbtag"] = nqqbtag
 
         return result

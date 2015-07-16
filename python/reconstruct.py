@@ -423,7 +423,7 @@ def recoHWW_d1(event):
     elif WlnuMt < 60: mean_M = 66.6
     elif WlnuMt < 65: mean_M = 67.9
     q_Wlnu2 = recoWlnu1(leptonPID,lepton,event.met[0],M=mean_M) # reco off-shell Wlnu, assuming M = 32 GeV
-    if q.Wlnu2.M() > 90
+    if q_Wlnu2.M() > 90:
         FailedReco1 = True
 
 
@@ -437,22 +437,22 @@ def recoHWW_d1(event):
     # 2b) Reco off-shell Wjj by taking the next two leading jets.
     q_Wjj1 = p_jets[0] + p_jets[1]
     
-    if q_Wjj1.M() > max_offshell or q_Wlnu2.M() > 90
+    if q_Wjj1.M() > max_offshell or q_Wlnu2.M() > 90:
         FailedReco2 = True
 
 
     # 3) Determine best combination.
     # --------------------------------
 
-    if FailedReco1
-        if FailedReco2
+    if FailedReco1:
+        if FailedReco2: # both failed
             return []
         else:
             return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2 ]
-    elif FailedReco2
+    elif FailedReco2:
         return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1 , q_Hbb+q_Wlnu1+q_Wjj1 ]
     else:
-        return []
+        return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2 ] # prefer second for some reason...
 
 
 

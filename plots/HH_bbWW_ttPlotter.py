@@ -30,9 +30,9 @@ def main():
 #    for particle in ["b1","b2","q","nu","l","e","mu"]:
 #        for var in ["Pt","Eta","M"]:
 #            names.append("gen/"+particle+var)
-#
+
 #    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
-#                     "NWlnu","NWq","WlnuPID","WDPID","tDPID"]:
+#                     "NWlnu","WDPID","tDPID"]: #NWjj
 #        names.append("gen/"+particle)
 #
 #    for jet in ["jet","bjet"]:
@@ -42,9 +42,14 @@ def main():
 #
 #    for jet in ["Njets","Nbjets"]:
 #        names.append("jets/"+jet)
-
-    for particle in ["NMuons","NElectrons"]:
-        names.append("leptons/"+particle)
+#
+#    for particle in ["NMuons20","NElectrons20"]:
+#        names.append("leptons/"+particle)
+#
+#    for process in ["Hbb", "HWW", "HHbbWW"]:
+#        for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
+#            for var in ["Pt","Eta","M"]:
+#                names.append("reco/"+process+alg+var)
 
     for name in names:
 
@@ -90,7 +95,7 @@ def main():
 #
 ##    names2.extend([("gen/lPt", "leptons/lPt")])
 #
-#    for process in ["Hbb", "Wjj", "HWW", "HHbbWW"]:
+#    for process in ["Wjj"]:
 #        for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
 #            for var in ["Pt","Eta","M"]:
 #                names2.append( ("gen/"+process+var,\
@@ -103,10 +108,10 @@ def main():
         hist_reco = file.Get("stage_0/"+reco) # "MC"
         hist_reco_tt = file_tt.Get("stage_0/"+reco) ## "MC" from tt
         
-#        if "nu" in gen:
-#            hist_gen.Scale(1./hist_gen.Integral())
-#            hist_reco.Scale(1./hist_reco.Integral())
-#            hist_reco_tt.Scale(1./hist_reco_tt.Integral())
+        if "nu" in gen:
+            hist_gen.Scale(1./hist_gen.Integral())
+            hist_reco.Scale(1./hist_reco.Integral())
+            hist_reco_tt.Scale(1./hist_reco_tt.Integral())
 
         hist_reco.Draw("histsame")
         hist_reco_tt.Draw("histsame")
@@ -131,6 +136,7 @@ def main():
     # 2D plots #
     ############
 
+    # WWM
     c = makeCanvas(square=True)
     hist = file_tt.Get("stage_0/gen/WWM")
     
@@ -140,6 +146,21 @@ def main():
     CMS_lumi.CMS_lumi(c,14,33)
 
     c.SaveAs("basic_tt/WWM.png")
+    c.Close()
+
+    # bbWWM
+    c = makeCanvas(square=True)
+    hist = file.Get("stage_0/gen/bbWWM")
+    hist_tt = file_tt.Get("stage_0/gen/bbWWM")
+    hist_tt.SetFillColor(kBlue)
+
+    hist_tt.Draw()
+    hist.Draw("same")
+    makeAxes(hist)
+
+    CMS_lumi.CMS_lumi(c,14,33)
+
+    c.SaveAs("basic_tt/bbWWM.png")
     c.Close()
 
 
@@ -211,7 +232,7 @@ def main():
     W = 1200
     H = 1200
 
-    for stage in ["0","1"]:
+    for stage in ["0"]:
         c = makeCanvas(square=True)
         hist = file_tt.Get("stage_"+stage+"/gen/NWlnu")
         hist.GetXaxis().SetRangeUser(0, 3)
@@ -220,7 +241,7 @@ def main():
         pie.SetAngularOffset(200)
         pie.SetEntryRadiusOffset(2,.03)
 
-        labels = ["all jets","monoleptonic","dileptonic"]
+        labels = ["hadronic","monoleptonic","dileptonic"]
         colors = [kAzure-4,kGreen-3,kRed] #kOrange-3
         linecolors = [kAzure-6,kGreen+4,kRed+4] #Orange+4
         pie.SetLabelFormat("#splitline{#scale[1.4]{#font[2]{%txt}}}{#scale[1.2]{ %perc}}")
