@@ -41,7 +41,7 @@ def plotBasic(stage):
 #    for jet in ["Njets","Nbjets"]:
 #        names.append("jets/"+jet)
 #
-#    for particle in ["NMuons20","NElectrons20"]:
+#    for particle in ["NMuons20","NElectrons20","NLeptons20"]:
 #        names.append("leptons/"+particle)
 
     for process in ["Hbb", "HWW"]:
@@ -182,7 +182,7 @@ def plot2D(stage):
     c.Close()
 
 
-    # WWM singal vs BG
+    # WWM signal vs BG
     c = makeCanvas(square=True)
     hist = file.Get(stage+"gen/WWM")
     hist_tt = file_tt.Get(stage+"gen/WWM")
@@ -201,7 +201,7 @@ def plot2D(stage):
     c.Close()
     
 
-    # bbWWM singal vs BG
+    # bbWWM signal vs BG
     c = makeCanvas(square=True)
     hist = file.Get(stage+"gen/bbWWM")
     hist_tt = file_tt.Get(stage+"gen/bbWWM")
@@ -226,32 +226,35 @@ def plot2D(stage):
 def plotExtra(stage):
     print "\n  %s: Extra plots" % stage[:-1]
     
-#    for var in ["M","Pt","Eta"]:
-#
-#        c = makeCanvas()
-#        hist_S = file.Get(stage+"gen/HHbbWW"+var) # signal: HH -> bbWW
-#        hist_tt = file_tt.Get(stage+"gen/ttbbWW"+var) # BG: tt -> bbWW
-#        hist_S.Scale(1./hist_S.Integral())
-#        hist_tt.Scale(1./hist_tt.Integral())
-#        
-#        hist_S.Draw()
-#        hist_tt.Draw("same")
-#        makeAxes(hist_S,hist_tt)
-#
-#        y1 = y2 - height[1]
-#        legend = TLegend(x1,y1,x2,y2)
-#        legend.SetBorderSize(0)
-#        legend.SetTextSize(legendTextSize)
-#        legend.SetHeader("gen level")
-#        legend.AddEntry(hist_S,"HH #rightarrow bbWW")
-#        legend.AddEntry(hist_tt,"t#bar{t} #rightarrow bbWW")
-#        legend.Draw()
-#
-#        CMS_lumi.CMS_lumi(c,14,33)
-#        setLineStyle(hist_S,hist_tt)
-#        
-#        c.SaveAs("basic/HHtt"+var+".png")
-#        c.Close()
+    
+    # __HH_vs._tt__
+    
+    for var in ["M","Pt","Eta"]:
+
+        c = makeCanvas()
+        hist_S = file.Get(stage+"gen/HHbbWW"+var) # signal: HH -> bbWW
+        hist_tt = file_tt.Get(stage+"gen/ttbbWW"+var) # BG: tt -> bbWW
+        hist_S.Scale(1./hist_S.Integral())
+        hist_tt.Scale(1./hist_tt.Integral())
+        
+        hist_S.Draw()
+        hist_tt.Draw("same")
+        makeAxes(hist_S,hist_tt)
+
+        y1 = y2 - height[1]
+        legend = TLegend(x1,y1,x2,y2)
+        legend.SetBorderSize(0)
+        legend.SetTextSize(legendTextSize)
+        legend.SetHeader("gen level")
+        legend.AddEntry(hist_S,"HH #rightarrow bbWW")
+        legend.AddEntry(hist_tt,"t#bar{t} #rightarrow bbWW")
+        legend.Draw()
+
+        CMS_lumi.CMS_lumi(c,14,33)
+        setLineStyle(hist_S,hist_tt)
+        
+        c.SaveAs("basic/HHtt"+var+".png")
+        c.Close()
 
 
     # __NJetiWMatch__
@@ -267,8 +270,6 @@ def plotExtra(stage):
     
     c.SaveAs("basic_tt/"+stage+"NJetiWMatch.png")
     c.Close()
-    
-
 
 
     # __WlnuM vs Wjj__
@@ -348,7 +349,7 @@ def plotPie(stage):
 
 def main():
 
-    for stage in ["stage_3/","stage_1/","stage_2/","stage_3/"]:
+    for stage in ["stage_0/","stage_1/","stage_2/","stage_3/"]:
         plotBasic(stage)
         plotOverlay(stage)
         plot2D(stage)

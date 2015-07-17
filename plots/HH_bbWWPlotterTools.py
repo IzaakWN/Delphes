@@ -240,7 +240,9 @@ def makeAxes(*hists, **kwargs):
     else:
         name = hist0.GetTitle()
         ylabel = "Events / %s " % hist0.GetXaxis().GetBinWidth(0)
-        if "Pt" in name:
+        if name in ["N", "multiplicity"]:
+            hist0.GetXaxis().SetTitle("multiplicity")
+        elif "Pt" in name:
             hist0.GetXaxis().SetTitle("transverse momentum p_{T} [GeV]")
             ylabel += "GeV"
         elif "Eta" in name:
@@ -258,8 +260,6 @@ def makeAxes(*hists, **kwargs):
         elif "MET" in name:
             hist0.GetXaxis().SetTitle("MET [GeV]")
             ylabel += "GeV"
-        elif name in ["N", "multiplicity"]:
-            hist0.GetXaxis().SetTitle("multiplicity")
         elif "PID" in name:
             hist0.GetXaxis().SetTitle("PID")
         elif "Mt" in name:
