@@ -20,7 +20,7 @@ class configuration:
   eventSelection = "HHEventSelection"
 
   # control plot classes
-  controlPlots = [ #controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
+  controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
                    controlPlot("jets","JetControlPlots","JetControlPlots", { }),
                    controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
                    controlPlot("gen","GenControlPlots","GenControlPlots", { }),

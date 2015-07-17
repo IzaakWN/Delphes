@@ -32,8 +32,9 @@ class ResControlPlots(BaseControlPlots):
         self.add("Nqqbtag","Both q's from W b-tagged",5,0,5)
         
         for i in range(10):
-            self.add("NJet%sWMatch"%i,"jet%s matches q from W"%i,4,0,4)
-        self.add("NJet12WMatch","jet1 and jet2 match q from W",4,0,4)
+            self.add("NJet%sWMatch"%i,"jet%s matches q from W"%(i+1),4,0,4)
+        self.add("NJetiWMatch","jeti matches q from W",11,0,11)
+        self.add("NJet12WMatch","jet1 and jet2 match qq from W",4,0,4)
 
         self.add("DeltaRMatchedJets","DeltaR between matched jets",100,0,10)
         self.add("DeltaRUnMatchedJets","DeltaR between matched jets and matched jets",100,0,10)
@@ -41,6 +42,11 @@ class ResControlPlots(BaseControlPlots):
 
 
     def process(self, event):
+        
+        bjets = event.bjets
+        jets30 = [jet for jet in event.cleanedJets if jet not in bjets[:2] and jet.PT > 30]
+        if len(jets30)<4:
+            return { }
         
         result = { }
         
@@ -64,8 +70,6 @@ class ResControlPlots(BaseControlPlots):
         
         for i in range(10):
             result["NJet%sWMatch"%i] = [ ]
-        bjets = event.bjets
-        jets30 = [jet for jet in event.cleanedJets if jet not in bjets[:2] and jet.PT > 30]
         nJetWMatch = [0]*len(jets30)
         
         p_matchedJets = [ ]
@@ -134,6 +138,8 @@ class ResControlPlots(BaseControlPlots):
         
         for i in range(len(jets30)):
             result["NJet%sWMatch"%i] = nJetWMatch[i]
+            if nJetWMatch[i] > 0:
+                result["NJetiWMatch"] = i+1
         if nJetWMatch[0]>0 and nJetWMatch[1]>0:
             result["NJet12WMatch"] = nJetWMatch[0]
         else:

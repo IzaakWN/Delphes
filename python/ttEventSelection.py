@@ -6,7 +6,7 @@ from ROOT import TLorentzVector
 #   event.jets
 
 # the list of category names
-categoryNames = [ "Lepton4Jets", "2Bjets", "OneLepton" ] #[ "GenLevel", "Lepton4Jets" ]
+categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "OneLepton" ] #[ "GenLevel", "Lepton4Jets" ]
 
 
 
@@ -36,6 +36,8 @@ def eventCategory(event):
                 j.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
                 if TLorentzVector.DeltaR(l,j) < 0.4:
                     event.cleanedJets.remove(jet)
+                    
+    event.bjets = [ jet for jet in event.cleanedJets if jet.BTag and jet.PT > 30 ]
     
     # 0: at least one muon or electron with Pt > 20 GeV
     categoryData.append( len(muons20+electrons20) > 0 )
@@ -50,11 +52,10 @@ def eventCategory(event):
         categoryData.append(False)
     
     # 3: al least one b-tags
-    event.bjets = [ jet for jet in event.cleanedJets if jet.BTag and jet.PT > 30 ]
-    categoryData.append( len(event.bjets)>1 )
+    categoryData.append( len(event.bjets)>0 )
     
     # 4: al least two b-tags
-    categoryData.append( len(event.bjets)>2 )
+    categoryData.append( len(event.bjets)>1 )
 
     return categoryData
 
@@ -63,18 +64,18 @@ def eventCategory(event):
 def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
-#    if category==0:
-#        return True
+    if category==0:
+        return True
 
-    if category == 0:
+    if category == 1:
         return categoryData[0] and categoryData[2]
         #      > lepton            > 4 jets
 
-    elif category == 1:
+    elif category == 2:
         return categoryData[0] and categoryData[2] and categoryData[4]
         #      > lepton            > 4 jets            > 2 b-jets
 
-    elif category == 2:
+    elif category == 3:
         return categoryData[1] and categoryData[2] and categoryData[4]
         #      > lepton            > 4 jets            > 2 b-jets
 

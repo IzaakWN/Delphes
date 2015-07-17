@@ -14,43 +14,41 @@ tdrstyle.setTDRStyle()
 file = TFile("/home/uzh/ineute/phase2/Delphes_CMS/controlPlots_HH_all.root")
 file_tt = TFile("/home/uzh/ineute/phase2/Delphes_CMS/controlPlots_tt_all.root")
 
-stage = "stage_2/"
-
-
-def main():
-
 
 
     ###############
     # basic plots #
     ###############
-    print "\nBasic plots"
+
+def plotBasic(stage):
+    print "\n  %s: Basic plots" % stage[:-1]
 
     names = [ ]
 
-    for particle in ["b1","b2","q","nu","l","e","mu"]:
+#    for particle in ["b1","b2","q","nu","l","e","mu"]:
+#        for var in ["Pt","Eta","M"]:
+#            names.append("gen/"+particle+var)
+#
+#    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
+#                     "NWlnu","WDPID","tDPID"]: #NWjj
+#        names.append("gen/"+particle)
+#
+#    for jet in ["jet","bjet"]:
+#        for var in ["Pt","Eta","M"]:
+#            for i in ["1","2","3","4"]:
+#                names.append("jets/"+jet+i+var)
+#
+#    for jet in ["Njets","Nbjets"]:
+#        names.append("jets/"+jet)
+#
+#    for particle in ["NMuons20","NElectrons20"]:
+#        names.append("leptons/"+particle)
+
+    for process in ["Hbb", "HWW"]:
+#        for alg in ["_b2","_d1"]: #["_b1","_b2","_c1","_c2"]:
         for var in ["Pt","Eta","M"]:
-            names.append("gen/"+particle+var)
-
-    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
-                     "NWlnu","WDPID","tDPID"]: #NWjj
-        names.append("gen/"+particle)
-
-    for jet in ["jet","bjet"]:
-        for var in ["Pt","Eta","M"]:
-            for i in ["1","2","3","4"]:
-                names.append("jets/"+jet+i+var)
-
-    for jet in ["Njets","Nbjets"]:
-        names.append("jets/"+jet)
-
-    for particle in ["NMuons20","NElectrons20"]:
-        names.append("leptons/"+particle)
-
-    for process in ["Hbb", "HWW", "HHbbWW"]:
-        for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
-            for var in ["Pt","Eta","M"]:
-                names.append("reco/"+process+alg+var)
+            names.append("reco/"+process+"_b2"+var)
+            names.append("reco2/"+process+"_d1"+var)
 
     for name in names:
 
@@ -58,11 +56,11 @@ def main():
         hist_S = file.Get(stage+name) # signal: HH -> bbWW
         hist_tt = file_tt.Get(stage+name) # BG: tt -> bbWW
         
-#        if "N" == name[4] or "PID" in name:
-        I = hist_S.Integral()
-        if I == 0: I=1
-        hist_S.Scale(1./I)
-        hist_tt.Scale(1./hist_tt.Integral())
+        if "H" not in name:
+            I = hist_S.Integral()
+            if I == 0: I=1
+            hist_S.Scale(1./I)
+            hist_tt.Scale(1./hist_tt.Integral())
         
         hist_S.Draw()
         hist_tt.Draw("same")
@@ -74,11 +72,11 @@ def main():
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(hist_S,hist_tt)
         
-        name = name.replace("gen/","basic_tt/")
-        name = name.replace("leptons/","basic_tt/")
-        name = name.replace("jets/","basic_tt/")
-        name = name.replace("reco/","reco_tt/")
-        name = name.replace("reco2/","reco_tt/")
+        name = name.replace("gen/","basic_tt/"+stage)
+        name = name.replace("leptons/","basic_tt/"+stage)
+        name = name.replace("jets/","basic_tt/"+stage)
+        name = name.replace("reco/","reco_tt/"+stage)
+        name = name.replace("reco2/","reco_tt/"+stage)
         c.SaveAs(name+".png")
         c.Close()
 
@@ -87,24 +85,26 @@ def main():
     ############################
     # overlay "reco" and "gen" #
     ############################
-    print "\nOverlay plots: reco and gen"
+
+def plotOverlay(stage):
+    print "\n  %s: Overlay plots: reco and gen" % stage[:-1]
     
     names2 = [ ]
 
-    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
-                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
-                   ("gen/WlnuM", "reco/Wlnu1M"),
-                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
+#    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
+#                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
+#                   ("gen/WlnuM", "reco/Wlnu1M"),
+#                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
 
 #    names2.extend([("gen/lPt", "leptons/lPt")])
 
-    for process in ["Wjj"]:
+    for process in ["Wjj","HHbbWW"]:
         for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
             for var in ["Pt","Eta","M"]:
                 names2.append( ("gen/"+process+var,\
                                 "reco/"+process+alg+var))
                                 
-    for process in ["Wlnu","Wjj","Hbb","HWW","HHbbWW"]:
+    for process in ["Wlnu","Wjj","HHbbWW"]:
         for alg in ["_d1"]: #["_b1","_b2","_c1","_c2"]:
             for var in ["Pt","Eta","M"]:
                 names2.append( ("gen/"+process+var,\
@@ -134,8 +134,9 @@ def main():
         setLineStyle(hist_reco,hist_reco_tt)
         setMarkerStyle(hist_gen)
         
-        reco = reco.replace("reco/","reco_tt/")
-        reco = reco.replace("jets/","basic_tt/")
+        reco = reco.replace("reco/","reco_tt/"+stage)
+        reco = reco.replace("reco2/","reco_tt/"+stage)
+        reco = reco.replace("jets/","basic_tt/"+stage)
         c.SaveAs(reco+".png")
         c.Close()
 
@@ -144,28 +145,51 @@ def main():
     ############
     # 2D plots #
     ############
-    print "\n2D plots"
+
+def plot2D(stage):
+    print "\n  %s: 2D plots" % stage[:-1]
+
+
+    # WWM signal
+    c = makeCanvas(square=True)
+    hist = file.Get(stage+"gen/WWM")
+    
+    hist.Draw()
+    makeAxes(hist)
+    legend = makeLegend(hist)
+    legend.Draw()
+    hist.SetMarkerColor(kRed+3)
+
+    CMS_lumi.CMS_lumi(c,14,33)
+
+    c.SaveAs("basic_tt/"+stage+"WWM.png")
+    c.Close()
+
 
     # WWM BG
     c = makeCanvas(square=True)
-    hist = file.Get(stage+"gen/WWM")
     hist_tt = file_tt.Get(stage+"gen/WWM")
     
     hist_tt.Draw()
     makeAxes(hist_tt)
+    legend = makeLegend(hist)
+    legend.Draw()
+    hist.SetMarkerColor(kRed+3)
 
     CMS_lumi.CMS_lumi(c,14,33)
 
-    c.SaveAs("basic_tt/WWM.png")
+    c.SaveAs("basic_tt/"+stage+"WWM_tt.png")
     c.Close()
+
 
     # WWM singal vs BG
     c = makeCanvas(square=True)
+    hist = file.Get(stage+"gen/WWM")
     hist_tt = file_tt.Get(stage+"gen/WWM")
 
     hist_tt.Draw()
     hist.Draw("same")
-    makeAxes(hist)
+    makeAxes(hist_tt,hist)
     legend = makeLegend(hist,hist_tt,tt=True)
     legend.Draw()
     hist.SetMarkerColor(kRed+3)
@@ -173,8 +197,9 @@ def main():
 
     CMS_lumi.CMS_lumi(c,14,33)
 
-    c.SaveAs("basic_tt/WWM_both.png")
+    c.SaveAs("basic_tt/"+stage+"WWM_both.png")
     c.Close()
+    
 
     # bbWWM singal vs BG
     c = makeCanvas(square=True)
@@ -189,7 +214,7 @@ def main():
 
     CMS_lumi.CMS_lumi(c,14,33)
 
-    c.SaveAs("basic_tt/bbWWM_both.png")
+    c.SaveAs("basic_tt/"+stage+"bbWWM_both.png")
     c.Close()
 
 
@@ -197,34 +222,52 @@ def main():
     ###############
     # extra plots #
     ###############
-    print "\nExtra plots"
+
+def plotExtra(stage):
+    print "\n  %s: Extra plots" % stage[:-1]
     
-    for var in ["M","Pt","Eta"]:
+#    for var in ["M","Pt","Eta"]:
+#
+#        c = makeCanvas()
+#        hist_S = file.Get(stage+"gen/HHbbWW"+var) # signal: HH -> bbWW
+#        hist_tt = file_tt.Get(stage+"gen/ttbbWW"+var) # BG: tt -> bbWW
+#        hist_S.Scale(1./hist_S.Integral())
+#        hist_tt.Scale(1./hist_tt.Integral())
+#        
+#        hist_S.Draw()
+#        hist_tt.Draw("same")
+#        makeAxes(hist_S,hist_tt)
+#
+#        y1 = y2 - height[1]
+#        legend = TLegend(x1,y1,x2,y2)
+#        legend.SetBorderSize(0)
+#        legend.SetTextSize(legendTextSize)
+#        legend.SetHeader("gen level")
+#        legend.AddEntry(hist_S,"HH #rightarrow bbWW")
+#        legend.AddEntry(hist_tt,"t#bar{t} #rightarrow bbWW")
+#        legend.Draw()
+#
+#        CMS_lumi.CMS_lumi(c,14,33)
+#        setLineStyle(hist_S,hist_tt)
+#        
+#        c.SaveAs("basic/HHtt"+var+".png")
+#        c.Close()
 
-        c = makeCanvas()
-        hist_S = file.Get(stage+"gen/HHbbWW"+var) # signal: HH -> bbWW
-        hist_tt = file_tt.Get(stage+"gen/ttbbWW"+var) # BG: tt -> bbWW
-        hist_S.Scale(1./hist_S.Integral())
-        hist_tt.Scale(1./hist_tt.Integral())
-        
-        hist_S.Draw()
-        hist_tt.Draw("same")
-        makeAxes(hist_S,hist_tt)
 
-        y1 = y2 - height[1]
-        legend = TLegend(x1,y1,x2,y2)
-        legend.SetBorderSize(0)
-        legend.SetTextSize(legendTextSize)
-        legend.SetHeader("gen level")
-        legend.AddEntry(hist_S,"HH #rightarrow bbWW")
-        legend.AddEntry(hist_tt,"t#bar{t} #rightarrow bbWW")
-        legend.Draw()
+    # __NJetiWMatch__
+    c = makeCanvas()
+    hist = file.Get(stage+"gen/WlnuM")
+    
+    hist.Draw
+    makeAxes(hist)
+    legend = makeLegend(hist,entries="#splitline{jet i matches}{q from W}")
+    legend.Draw()
 
-        CMS_lumi.CMS_lumi(c,14,33)
-        setLineStyle(hist_S,hist_tt)
-        
-        c.SaveAs("basic/HHtt"+var+".png")
-        c.Close()
+    CMS_lumi.CMS_lumi(c,14,33)
+    
+    c.SaveAs("basic_tt/"+stage+"NJetiWMatch.png")
+    c.Close()
+    
 
 
 
@@ -253,45 +296,64 @@ def main():
 
     CMS_lumi.CMS_lumi(c,14,33)
 
-    c.SaveAs("basic_tt/WWM_1D.png")
+    c.SaveAs("basic_tt/"+stage+"WWM_1D.png")
     c.Close()
 
+
+
+    ###############
+    # Pies, mmmmm #
+    ###############
+
+def plotPie(stage):
+    print "\n  %s: Pie charts" % stage[:-1]
     
-    # __Pie chart__
     W = 1200
     H = 1200
+    
+    c = makeCanvas(square=True)
+    hist = file_tt.Get(stage+"gen/NWlnu")
+    hist.GetXaxis().SetRangeUser(0, 3)
+    pie = TPie(hist)
+    pie.SetCircle(.53,.5,.2)
+#    pie.SetAngularOffset(200)
+    pie.SetEntryRadiusOffset(2,.03)
 
-    for stageN in ["0"]:
-        c = makeCanvas(square=True)
-        hist = file_tt.Get("stage_"+stageN+"/gen/NWlnu")
-        hist.GetXaxis().SetRangeUser(0, 3)
-        pie = TPie(hist)
-        pie.SetCircle(.486,.5,.2)
-        pie.SetAngularOffset(200)
-        pie.SetEntryRadiusOffset(2,.03)
+    labels = [" hadronic"," monoleptonic"," dileptonic"]
+    colors = [kAzure-4,kGreen-3,kRed] #kOrange-3
+    linecolors = [kAzure-6,kGreen+4,kRed+4] #Orange+4
+    pie.SetLabelFormat("#splitline{#scale[1.4]{#font[2]{%txt}}}{#scale[1.2]{  %perc}}")
+    pie.SetLabelsOffset(0.026)
+    for i in range(3):
+        pie.SetEntryFillColor(i,colors[i])
+        pie.SetEntryLineColor(i,linecolors[i])
+        pie.SetEntryLineWidth(i,1)
+        pie.SetEntryLabel(i,labels[i])
+    
+    if "0" in stage:
+        pie.SetEntryRadiusOffset(0,.02)
+    else:
+        pie.SetEntryRadiusOffset(1,.02)
 
-        labels = ["hadronic","monoleptonic","dileptonic"]
-        colors = [kAzure-4,kGreen-3,kRed] #kOrange-3
-        linecolors = [kAzure-6,kGreen+4,kRed+4] #Orange+4
-        pie.SetLabelFormat("#splitline{#scale[1.4]{#font[2]{%txt}}}{#scale[1.2]{ %perc}}")
-        pie.SetLabelsOffset(0.019)
-        for i in range(3):
-            pie.SetEntryFillColor(i,colors[i])
-            pie.SetEntryLineColor(i,linecolors[i])
-            pie.SetEntryLineWidth(i,1)
-            pie.SetEntryLabel(i,labels[i])
-        
-        if stageN == "0":
-            pie.SetEntryRadiusOffset(0,.02)
-        else:
-            pie.SetEntryRadiusOffset(1,.02)
+    pie.Draw("SC>")
 
-        pie.Draw("SC>")
-
-        c.SaveAs("basic_tt/branchfraction_stage"+stageN+".png")
-        c.Close()
+    c.SaveAs("basic_tt/"+stage+"branchfraction"+stage[-2]+".png")
+    c.Close()
 
 
+
+    ########
+    # main #
+    ########
+
+def main():
+
+    for stage in ["stage_3/","stage_1/","stage_2/","stage_3/"]:
+        plotBasic(stage)
+        plotOverlay(stage)
+        plot2D(stage)
+        plotExtra(stage)
+        plotPie(stage)
 
     print "\nDone with this, son.\n"
 

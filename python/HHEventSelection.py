@@ -6,7 +6,7 @@ from ROOT import TLorentzVector
 #   event.jets
 
 # the list of category names
-categoryNames = [ "Lepton4Jets", "2Bjets", "OneLepton" ] #[ "GenLevel", "Lepton4Jets" ]
+categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "OneLepton" ]
 
 
 
@@ -52,10 +52,10 @@ def eventCategory(event):
         categoryData.append(False)
     
     # 3: al least one b-tags
-    categoryData.append( len(event.bjets)>1 )
+    categoryData.append( len(event.bjets)>0 )
     
     # 4: al least two b-tags
-    categoryData.append( len(event.bjets)>2 )
+    categoryData.append( len(event.bjets)>1 )
 
     # 5: generator level: single Wlnu and Hbb
     nLeptons = 0
@@ -77,18 +77,18 @@ def eventCategory(event):
 def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
-#    if category==0:
-#        return categoryData[2]
+    if category==0:
+        return categoryData[5]
 
-    if category == 0:
+    if category == 1:
         return categoryData[0] and categoryData[2] and categoryData[5]
         #      > lepton            > 4 jets            > Hbb, Wlnu
     
-    elif category == 1:
+    elif category == 2:
         return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[5]
         #      > lepton            > 4 jets            > 2 b-jets          > Hbb, Wlnu
     
-    elif category == 2:
+    elif category == 3:
         return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5]
         #      > exact 1 lepton    > 4 jets            > 2 b-jets          > Hbb, Wlnu
     
