@@ -98,8 +98,9 @@ def makeTitle(hist):
         else:
             title = title.replace("H","H #rightarrow ")
     elif "W" in title:
-        if title[title.index("W")+1] not in ["'", " ", "W"]:
-            title = title.replace("W","W #rightarrow ")
+        if title.index("W")+1-len(title): # not W at the end!
+            if title[title.index("W")+1] not in ["'", " ", "W"]:
+                title = title.replace("W","W #rightarrow ")
     title = title.replace("nu","#nu")
 
     return title

@@ -23,9 +23,15 @@ class JetControlPlots(BaseControlPlots):
 
     def beginJob(self):
         
-        self.add("Njets","jets multiplicity (Pt>30 GeV)",10,2,12)
-        self.add("NcleanedJets","cleaned jets multiplicity (Pt>30 GeV)",10,2,12)
+        self.add("Nuncleanedjets","uncleaned jets multiplicity (Pt>30 GeV)",12,0,12)
+        self.add("Njets","jets multiplicity (Pt>30 GeV)",12,0,12)
         self.add("Nbjets","b-jets multiplicity (Pt>30 GeV)",8,0,8)
+        
+        self.add2D("JetiEta","jeti abs(Eta)",14,0,14,20,0,5)
+        self.add("NjetsEta3","jets multiplicity (Pt>30 GeV, Eta<3)",12,0,12)
+        self.add("NjetsEta25","jets multiplicity (Pt>30 GeV, Eta<2.5)",12,0,12)
+        self.add("NjetsEta2","jets multiplicity (Pt>30 GeV), Eta<2)",12,0,12)
+        
         self.add("MET","MET",100,0,300)
         self.add("METPhi","MET Phi",64,-3.2,3.2)
         for type in types:
@@ -40,12 +46,33 @@ class JetControlPlots(BaseControlPlots):
     def process(self, event):
         
         result = { }
+        
         for type in types:
             for i in n:
                 for var in vars:
                     result[type+i+var] = [ ]
-        result["Njets"]  = len([j for j in event.jets if j.PT>30])
-        result["NcleanedJets"]  = len([j for j in event.cleanedJets if j.PT>30])
+        
+        jets = [j for j in event.cleanedJets if j.PT>30]
+        result["Nuncleanedjets"]  = len([j for j in event.jets if j.PT>30])
+        result["Njets"]  = len(jets)
+        
+        nJetsEta3 = 0 # Eta < 3
+        nJetsEta25 = 0 # Eta < 2.5
+        nJetsEta2 = 0 # Eta < 2
+        result["JetiEta"] = [ ]
+        for i in range(len(jets)):
+            result["JetiEta"].append([ i, abs(jets[i].Eta) ])
+            if jets[i].Eta < 3:
+                nJetsEta3 += 1
+                if jets[i].Eta < 2.5:
+                    nJetsEta25 += 1
+                    if jets[i].Eta < 2:
+                        nJetsEta2 += 1
+        result["NjetsEta3"] = nJetsEta3
+        result["NjetsEta25"] = nJetsEta25
+        result["NjetsEta2"] = nJetsEta2
+                    
+        
         
         # MET
         result["MET"] = event.met[0].MET
@@ -74,7 +101,7 @@ class JetControlPlots(BaseControlPlots):
             result["jet4M"].append(event.jets[3].Mass)
 
         # b-jets
-        bjets = event.bjets
+        bjets = event.bjets30
     
         if len(bjets)>0:
             result["bjet1Pt"].append(bjets[0].PT)

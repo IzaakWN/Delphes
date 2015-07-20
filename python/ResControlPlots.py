@@ -35,15 +35,17 @@ class ResControlPlots(BaseControlPlots):
             self.add("NJet%sWMatch"%i,"jet%s matches q from W"%(i+1),4,0,4)
         self.add("NJetiWMatch","jeti matches q from W",11,0,11)
         self.add("NJet12WMatch","jet1 and jet2 match qq from W",4,0,4)
+        self.add("jetWMatchEta","jets matching q from W Eta",100,-5,5)
+        self.add("jetWUnMatchEta","jets unmatching q from W Eta",100,-5,5)
 
-        self.add("DeltaRMatchedJets","DeltaR between matched jets",100,0,10)
-        self.add("DeltaRUnMatchedJets","DeltaR between matched jets and matched jets",100,0,10)
-        self.add("DeltaRWqq","DeltaR between q's from Wqq",100,0,10)
+#        self.add("DeltaRMatchedJets","DeltaR between matched jets",100,0,10)
+#        self.add("DeltaRUnMatchedJets","DeltaR between matched jets and matched jets",100,0,10)
+#        self.add("DeltaRWqq","DeltaR between q's from Wqq",100,0,10)
 
 
     def process(self, event):
         
-        bjets = event.bjets
+        bjets = event.bjets30
         jets30 = [jet for jet in event.cleanedJets if jet not in bjets[:2] and jet.PT > 30]
         if len(jets30)<4:
             return { }
@@ -71,14 +73,15 @@ class ResControlPlots(BaseControlPlots):
         for i in range(10):
             result["NJet%sWMatch"%i] = [ ]
         nJetWMatch = [0]*len(jets30)
-        
         p_matchedJets = [ ]
         p_unmatchedJets = [ ]
-        result["DeltaRWqq"] = [ ]
-        result["DeltaRMatchedJets"] = [ ]
-        result["DeltaRUnMatchedJets"] = [ ]
-
+        result["jetWMatchEta"] = [ ]
+        result["jetWUnMatchEta"] = [ ]
         
+#        result["DeltaRWqq"] = [ ]
+#        result["DeltaRMatchedJets"] = [ ]
+#        result["DeltaRUnMatchedJets"] = [ ]
+
         # good btag
         for particle in event.particles:
             D = particle.D1
@@ -103,7 +106,7 @@ class ResControlPlots(BaseControlPlots):
                         D2 = event.particles[particle.D2]
                         p_quark1.SetPtEtaPhiM(D1.PT, D1.Eta, D1.Phi, D1.Mass)
                         p_quark2.SetPtEtaPhiM(D2.PT, D2.Eta, D2.Phi, D2.Mass)
-                        result["DeltaRWqq"].append(TLorentzVector.DeltaR( p_quark1, p_quark2 ))
+#                        result["DeltaRWqq"].append(TLorentzVector.DeltaR( p_quark1, p_quark2 ))
                         for bjet in bjets:
                             p_bjet.SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
                             if TLorentzVector.DeltaR( p_bjet, p_quark1 ) < 0.2:
@@ -120,11 +123,13 @@ class ResControlPlots(BaseControlPlots):
                             p_unmatchedJets.append(p_jet)
                             if TLorentzVector.DeltaR( p_jet, p_quark1 ) < 0.2:
                                 nJetWMatch[i] += 1
+                                result["jetWMatchEta"].append(jets30[i].Eta)
                                 p_matchedJets.append(p_jet)
                                 p_unmatchedJets.remove(p_jet)
                             if TLorentzVector.DeltaR( p_jet, p_quark2 ) < 0.2:
                                 nJetWMatch[i] += 1
                                 if p_jet not in p_matchedJets:
+                                    result["jetWMatchEta"].append(jets30[i].Eta)
                                     p_matchedJets.append(p_jet)
                                     p_unmatchedJets.remove(p_jet)
 
@@ -145,12 +150,15 @@ class ResControlPlots(BaseControlPlots):
         else:
             result["NJet12WMatch"] = 0
         
-        for comb in combinations( p_matchedJets, 2 ):
-            result["DeltaRMatchedJets"].append( TLorentzVector.DeltaR(comb[0],comb[1]) )
+        for p in p_unmatchedJets:
+            result["jetWUnMatchEta"].append( p.Eta() )
         
-        for comb in product( p_matchedJets, p_unmatchedJets ):
-            result["DeltaRUnMatchedJets"].append( TLorentzVector.DeltaR(comb[0],comb[1]) )
-        
+#        for comb in combinations( p_matchedJets, 2 ):
+#            result["DeltaRMatchedJets"].append( TLorentzVector.DeltaR(comb[0],comb[1]) )
+#        
+#        for comb in product( p_matchedJets, p_unmatchedJets ):
+#            result["DeltaRUnMatchedJets"].append( TLorentzVector.DeltaR(comb[0],comb[1]) )
+
         return result
 
 

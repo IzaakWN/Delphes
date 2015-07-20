@@ -15,7 +15,7 @@ MW = 80.4
 MH = 125.7
 
 min_offshell = 12
-max_offshell = 70
+max_offshell = 50
 MW_window = 10 # i.e. 80.4 +/- 10 GeV
 
 
@@ -122,24 +122,24 @@ def recoHjj(jet1,jet2):
 
 
 
-def cut(jets0):
-    """ Make PT > 30 GeV cuts on jets0, but return at least
+def cut(jets0,min_jets=3):
+    """ Make PT > 30 GeV and Eta < 2.5 cuts on jets0, but return at least
         min_jets jets. Helpfunction for the recoHWc's. """
 
     # make pT>30 GeV cut
     jets = [ ]
     jets_cut = [ ]
     for jet in jets0:
-        if jet.PT > 30:
+        if jet.PT > 30 and jet.Eta < 2.5:
             jets.append(jet)
         else:
             jets_cut.append(jet)
     
     n = min(6,len(jets)) # take n leading jets
 
-    # add jets if not enough
-    if n < 3:
-        d = 3-n
+    # re-add jets if not enough
+    if n < min_jets:
+        d = min_jets-n
         jets.extend(jets_cut[:d])
 
     return jets
@@ -280,7 +280,7 @@ def recoHW_c2(jets0):
     """ Reconstruction of Hbb and Wjj, by taking the best combination
         for H first, assuming it is on-shell, and taking the next two leading
         jets of the remaining to make Wjj. """
-    
+
     jets = cut(jets0) # make pT>30 GeV cut
     indices = range(len(jets))
     p_jets = [ ]
@@ -341,8 +341,8 @@ def recoHWW_d1(event):
     # -----------------------------------------------------------
     
     # 0a) Make H-vector.
-    bjets = event.bjets
-    jets = event.cleanedJets[:]
+    bjets = event.bjets30
+    jets = event.cleanedJets30[:]
     if len(bjets) > 0:
         bjet1 = bjets[0]
         if bjets > 1: # two b-tags
@@ -354,6 +354,7 @@ def recoHWW_d1(event):
         bjet2 = event.cleanedJets[1]
     jets.remove(bjet1)
     jets.remove(bjet2)
+    jets = cut(jets,2) # make Pt and Eta cuts
     p_b1 = TLorentzVector()
     p_b2 = TLorentzVector()
     p_b1.SetPtEtaPhiM(bjet1.PT, bjet1.Eta, bjet1.Phi, bjet1.Mass)
@@ -417,9 +418,6 @@ def recoHWW_d1(event):
     elif WlnuMt < 40: mean_M = 49.0
     elif WlnuMt < 45: mean_M = 58.2
     elif WlnuMt < 50: mean_M = 60.9
-    elif WlnuMt < 55: mean_M = 64.1
-    elif WlnuMt < 60: mean_M = 66.6
-    elif WlnuMt < 65: mean_M = 67.9
     q_Wlnu1 = recoWlnu1(leptonPID,lepton,event.met[0],M=mean_M) # reco off-shell Wlnu, assuming M = 32 GeV
     if q_Wlnu1.M() > max_offshell:
         FailedReco1 = True
@@ -432,10 +430,12 @@ def recoHWW_d1(event):
     # 2a) Reco on-shell Wln by mass-constraint.
     q_Wlnu2 = recoWlnu1(leptonPID,lepton,event.met[0])
     
-    # 2b) Reco off-shell Wjj by taking the next two leading jets.
-    q_Wjj2 = p_jets[0] + p_jets[1]
+    # 2b) Reco off-shell Wjj by taking making the best combination.
+    DmassesW = [abs(30-m) for m in masses] # mass differences from middle of off-shell W mass window
+    indexW = min(enumerate(DmassesW), key=itemgetter(1))[0] # get index of min
+    q_Wjj2 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
     
-    if q_Wjj2.M() > max_offshell or abs(q_Wlnu2.M()) > MW + MW_window:
+    if q_Wjj2.M() > max_offshell or q_Wjj2.M() < min_offshell or abs(q_Wlnu2.M()) > MW + MW_window:
         FailedReco2 = True
 
 

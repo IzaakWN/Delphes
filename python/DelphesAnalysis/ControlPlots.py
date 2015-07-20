@@ -176,7 +176,7 @@ def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber
     else:
       for cp in controlPlots[:1]:
         # set categories (first CP only)
-        cp.setCategories(map(lambda c:EventSelection.isInCategory(c, event.category),range(EventSelection.eventCategories())))
+        cp.setCategories(map(lambda c: EventSelection.isInCategory(c, event.category),range(EventSelection.eventCategories())))
       for cp in controlPlots:
         # process event (all CP)
         cp.processEvent(event)

@@ -25,7 +25,8 @@ class configuration:
                    controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
                    controlPlot("gen","GenControlPlots","GenControlPlots", { }),
                    controlPlot("reco","RecoControlPlots","RecoControlPlots", { }),
-                   controlPlot("reco2","RecoControlPlots2","RecoControlPlots2", { })]
+                   controlPlot("reco2","RecoControlPlots2","RecoControlPlots2", { }),
+                   controlPlot("res","ResControlPlots","ResControlPlots", { })]
 
   # event content: lists of eventCollection, eventProducer, and eventWeight objects respectively.
   eventCollections = [ eventCollection("muons","Muon"), 

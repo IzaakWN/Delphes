@@ -25,24 +25,28 @@ def plotBasic(stage):
 
     names = [ ]
 
-#    for particle in ["b1","b2","q","nu","l","e","mu"]:
-#        for var in ["Pt","Eta","M"]:
-#            names.append("gen/"+particle+var)
-#
-#    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
-#                     "NWlnu","WDPID","tDPID"]: #NWjj
-#        names.append("gen/"+particle)
-#
-#    for jet in ["jet","bjet"]:
-#        for var in ["Pt","Eta","M"]:
-#            for i in ["1","2","3","4"]:
-#                names.append("jets/"+jet+i+var)
-#
-#    for jet in ["Njets","Nbjets"]:
-#        names.append("jets/"+jet)
-#
-#    for particle in ["NMuons20","NElectrons20","NLeptons20"]:
-#        names.append("leptons/"+particle)
+    for particle in ["b1","b2","q","nu","l","e","mu"]:
+        for var in ["Pt","Eta","M"]:
+            names.append("gen/"+particle+var)
+
+    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
+                     "NWlnu","WDPID","tDPID"]: #NWjj
+        names.append("gen/"+particle)
+
+    for jet in ["jet","bjet"]:
+        for var in ["Pt","Eta","M"]:
+            for i in ["1","2","3","4"]:
+                names.append("jets/"+jet+i+var)
+
+    for jet in ["Njets","Nbjets"]:
+        names.append("jets/"+jet)
+        
+    names.append("res/NJetiWMatch")        
+    names.append("res/jetWMatchEta")
+    names.append("res/jetWUnMatchEta")
+
+    for particle in ["NMuons20","NElectrons20","NLeptons20"]:
+        names.append("leptons/"+particle)
 
     for process in ["Hbb", "HWW"]:
 #        for alg in ["_b2","_d1"]: #["_b1","_b2","_c1","_c2"]:
@@ -75,6 +79,7 @@ def plotBasic(stage):
         name = name.replace("gen/","basic_tt/"+stage)
         name = name.replace("leptons/","basic_tt/"+stage)
         name = name.replace("jets/","basic_tt/"+stage)
+        name = name.replace("res/","basic_tt/"+stage)
         name = name.replace("reco/","reco_tt/"+stage)
         name = name.replace("reco2/","reco_tt/"+stage)
         c.SaveAs(name+".png")
@@ -91,10 +96,10 @@ def plotOverlay(stage):
     
     names2 = [ ]
 
-#    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
-#                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
-#                   ("gen/WlnuM", "reco/Wlnu1M"),
-#                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
+    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
+                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
+                   ("gen/WlnuM", "reco/Wlnu1M"),
+                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
 
 #    names2.extend([("gen/lPt", "leptons/lPt")])
 
@@ -117,10 +122,10 @@ def plotOverlay(stage):
         hist_reco = file.Get(stage+reco) # "MC"
         hist_reco_tt = file_tt.Get(stage+reco) ## "MC" from tt
         
-#        if "nu" in gen:
-#            hist_gen.Scale(1./hist_gen.Integral())
-#            hist_reco.Scale(1./hist_reco.Integral())
-#            hist_reco_tt.Scale(1./hist_reco_tt.Integral())
+        if "MET" in reco:
+            hist_gen.Scale(1./hist_gen.Integral())
+            hist_reco.Scale(1./hist_reco.Integral())
+            hist_reco_tt.Scale(1./hist_reco_tt.Integral())
 
         hist_reco.Draw("histsame")
         hist_reco_tt.Draw("histsame")
@@ -349,7 +354,7 @@ def plotPie(stage):
 
 def main():
 
-    for stage in ["stage_0/","stage_1/","stage_2/","stage_3/"]:
+    for stage in ["stage_0/","stage_1/","stage_2/","stage_3/","stage_4/"]:
         plotBasic(stage)
         plotOverlay(stage)
         plot2D(stage)

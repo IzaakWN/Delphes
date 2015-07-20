@@ -6,7 +6,7 @@ from ROOT import TLorentzVector
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "OneLepton" ]
+categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "OneLepton", "MET&Eta" ]
 
 
 
@@ -37,7 +37,8 @@ def eventCategory(event):
                 if TLorentzVector.DeltaR(l,j) < 0.4:
                     event.cleanedJets.remove(jet)
     
-    event.bjets = [ jet for jet in event.cleanedJets if jet.BTag and jet.PT > 30 ]
+    event.cleanedJets30 = [jet for jet in event.cleanedJets if jet.PT > 30]
+    event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag]
     
     # 0: at least one muon or electron with Pt > 20 GeV
     categoryData.append( len(muons20+electrons20) > 0 )
@@ -51,13 +52,20 @@ def eventCategory(event):
     else:
         categoryData.append(False)
     
-    # 3: al least one b-tags
-    categoryData.append( len(event.bjets)>0 )
+    # 3: at least one b-jet with Pt > 30 GeV
+    categoryData.append( len(event.bjets30)>0 )
     
-    # 4: al least two b-tags
-    categoryData.append( len(event.bjets)>1 )
+    # 4: at least two b-jet with Pt > 30 GeV
+    categoryData.append( len(event.bjets30)>1 )
+    
+    # 5: MET > 20 GeV cut
+    categoryData.append( event.met[0].MET>20 )
+    
+    # 6: at least 2 b-jets and 2 non-b-jets with Eta < 2.5
+    categoryData.append( len([jet for jet in event.cleanedJets30 if jet.Eta < 2.5]) > 3
+                         and len([jet for jet in event.bjets30 if jet.Eta < 2.5]) > 1 )
 
-    # 5: generator level: single Wlnu and Hbb
+    # 7: generator level: single Wlnu and Hbb
     nLeptons = 0
     nBquarks = 0
     for particle in event.particles:
@@ -77,20 +85,25 @@ def eventCategory(event):
 def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
-    if category==0:
-        return categoryData[5]
+    if category == 0:
+        return categoryData[7]
+        #      > Hbb, Wlnu
 
     if category == 1:
-        return categoryData[0] and categoryData[2] and categoryData[5]
+        return categoryData[0] and categoryData[2] and categoryData[7]
         #      > lepton            > 4 jets            > Hbb, Wlnu
     
     elif category == 2:
-        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[5]
+        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[7]
         #      > lepton            > 4 jets            > 2 b-jets          > Hbb, Wlnu
     
     elif category == 3:
-        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5]
-        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > Hbb, Wlnu
+        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[7]
+        #      > lepton            > 4 jets            > 2 b-jets          > Hbb, Wlnu
+    
+    elif category == 4:
+        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5] and categoryData[6] and categoryData[7]
+        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > MET               > 2 jets Eta    > Hbb, Wlnu
     
     else:
         return False

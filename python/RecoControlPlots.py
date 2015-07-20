@@ -111,7 +111,7 @@ class RecoControlPlots(BaseControlPlots):
             for var in vars:
                 for alg in algs:
                     result[particle+alg+var] = []
-        bjets = event.bjets
+        bjets = event.bjets30
         result["M_jetComb1"] = [ ]
         result["M_jetComb2"] = [ ]
         if len(event.cleanedJets)>3:

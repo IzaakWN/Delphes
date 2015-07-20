@@ -48,26 +48,18 @@ class RecoControlPlots2(BaseControlPlots):
     def process(self, event):
     
         result = { }
-        
-        hasMuon = (event.muons.GetEntries()>0)
-        hasElectron = (event.electrons.GetEntries()>0)
-        hasLepton = hasMuon or hasElectron
-        
-        # choose which lepton has to be reconstructed
-        if hasMuon:
-            if hasElectron: # muon
-                recoMuon = event.muons[0].PT > event.electrons[0].PT
-            else:
-                recoMuon = True
-        else:
-            recoMuon = False
 
         for particle in particleSelection:
             for var in vars:
                 for alg in algs:
                     result[particle+alg+var] = []
+        
+        hasLepton = (event.muons.GetEntries()>0) or (event.electrons.GetEntries()>0)
 
-        if hasLepton and len(event.bjets)>1:
+        category6 = len([ jet for jet in event.cleanedJets30 if jet.Eta < 2.5 ]) > 3 \
+                    and len([ jet for jet in event.bjets30 if jet.Eta < 2.5 ]) > 1
+
+        if hasLepton and len(event.bjets30)>1 and category6:
         
             vectors = recoHWW_d1(event)
             if len(vectors) > 0:
