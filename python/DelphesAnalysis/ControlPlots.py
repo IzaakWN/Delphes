@@ -1,4 +1,6 @@
-#!/usr/bin/env python 
+import time
+t0 = time.time()
+#!/usr/bin/env python
 
 #######################################################################################
 ###  Option parsing and main routine  #################################################
@@ -7,6 +9,7 @@
 from optparse import OptionParser
 import sys
 import os
+
 usage="""%prog [options]"""
 description="""A simple script to generate control plots."""
 epilog="""Example:
@@ -45,7 +48,7 @@ if options.outputname is None:
 import Delphes
 import ROOT
 import itertools
-import time
+#import time
 from importlib import import_module
 from AnalysisEvent import AnalysisEvent
 from BaseControlPlots import getArgSet
@@ -104,7 +107,7 @@ def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber
   elif os.path.isfile(path):
     files=[path]
   else:
-    files=[]
+    files=[path]
 
   # output
   output = ROOT.TFile(outputname, "RECREATE")
@@ -143,12 +146,21 @@ def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber
 
   # process events
   i = 0
-  t0 = time.time()
+  DeltaTb = [ ]
+  tb = time.time()
+  n = events.GetEntries()
+  ETA = " "
+  print "\n\n\t__%s_events_to_process.__" %n
   for event in events:
     # printout
-    if i%100==0 : 
-      print "Processing... event %d. Last batch in %f s." % (i,(time.time()-t0))
-      t0 = time.time()
+    if i%1000==0 :
+      if i%10000==0 :
+        if len(DeltaTb)>0:
+          ETA = " ETA: %s" % time.strftime("%M min. %S s.", time.gmtime( sum(DeltaTb[1:])/len(DeltaTb)*(n-i)/1000 ))
+        print "\n    Running for %s" % time.strftime("%M min. %S s.", time.gmtime(time.time()-t0)) + ETA
+      DeltaTb.append(time.time()-tb)
+      print "%d%%: Processing... event %d. Last batch in %f s." % (i*100/n,i,(time.time()-tb))
+      tb = time.time()
     if configuration.runningMode=="plots":
       # loop on channels
       plots = filter(lambda x: EventSelection.isInCategory(x,event.category) ,levels)
@@ -164,19 +176,19 @@ def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber
     else:
       for cp in controlPlots[:1]:
         # set categories (first CP only)
-        cp.setCategories(map(lambda c:EventSelection.isInCategory(c, event.category),range(EventSelection.eventCategories())))
+        cp.setCategories(map(lambda c: EventSelection.isInCategory(c, event.category),range(EventSelection.eventCategories())))
       for cp in controlPlots:
         # process event (all CP)
         cp.processEvent(event)
       # add to the dataset
       rds.add(getArgSet(controlPlots))
     i += 1
-
+  
   # save all
   if configuration.runningMode=="plots":
     for level in levels:
      for cp in controlPlots[level]: 
-       cp.endJob()
+       cp.endJob(level)
   else:
    for cp in controlPlots: 
      cp.endJob()
@@ -192,6 +204,8 @@ def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber
   
   # close the file
   output.Close()
+
+  print "\nDone. Only took %s!\n" % time.strftime("%M:%S", time.gmtime(time.time()-t0))
 
 def createDirectory(dirStructure, directory, leafList):
   """Recursively creates the directories for the various stages"""

@@ -1,4 +1,6 @@
 from BaseControlPlots import BaseControlPlots
+#from ROOT import TLorentzVector
+#from reconstruct import reconstructWlnu
 
 # Requirements:
 # event.muons
@@ -13,29 +15,58 @@ class LeptonControlPlots(BaseControlPlots):
 
     def beginJob(self):
       # declare histograms
-      self.add("ElectronPt","Electron Pt",100,0,200)
-      self.add("MuonPt","Muon Pt",100,0,200)
-      self.add("ElectronEta","Electron Eta",50,-2.5,2.5)
-      self.add("MuonEta","Muon Eta",50,-2.5,2.5)
-      self.add("NMuons","Muon multiplicity",10,0,10)
-      self.add("NElectrons","Electron multiplicity",10,0,10)
+      self.add("NMuons20","muons multiplicity (Pt>20 GeV)",10,0,10)
+      self.add("Muon1Pt","muon Pt",100,0,500)
+      self.add("Muon1Eta","muon Eta",50,-2.5,2.5)
+      self.add("Muon2Pt","muon Pt",100,0,500)
+      self.add("Muon2Eta","muon Eta",50,-2.5,2.5)
+      self.add("NElectrons20","electrons multiplicity (Pt>20 GeV)",10,0,10)
+      self.add("Electron1Pt","electron Pt",100,0,500)
+      self.add("Electron1Eta","electron Eta",50,-2.5,2.5)
+      self.add("Electron2Pt","electron Pt",100,0,500)
+      self.add("Electron2Eta","electron Eta",50,-2.5,2.5)
+      self.add("NLeptons20","lepton multiplicity (Pt>20 GeV)",10,0,10)
 
+    # get information
     def process(self, event):
-      #get information
-      result = { }
-      result["ElectronPt"] = [ ]
-      result["MuonPt"] = [ ]
-      result["ElectronEta"] = [ ]
-      result["MuonEta"] = [ ]
-      for mu in event.muons:
-        result["MuonPt"].append(mu.PT)
-        result["MuonEta"].append(mu.Eta)
-      for ele in event.electrons:
-        result["ElectronPt"].append(ele.PT)
-        result["ElectronEta"].append(ele.Eta)
-      result["NMuons"] = event.muons.GetEntries()
-      result["NElectrons"] = event.electrons.GetEntries()
-      return result
+    
+        result = { }
+        
+        # Muons
+        result["NMuons20"] = len([m for m in event.muons if m.PT>20])
+        result["Muon1Pt"] = [ ]
+        result["Muon1Eta"] = [ ]
+        result["Muon2Pt"] = [ ]
+        result["Muon2Eta"] = [ ]
+        result["Muon2Eta"] = [ ]
+        result["Muon2Eta"] = [ ]
+        if event.muons.GetEntries()>0:
+            result["Muon1Pt"].append(event.muons[0].PT)
+            result["Muon1Eta"].append(event.muons[0].Eta)
+        if event.muons.GetEntries()>1:
+            result["Muon2Pt"].append(event.muons[1].PT)
+            result["Muon2Eta"].append(event.muons[1].Eta)
+
+        # Electrons
+        result["NElectrons20"] = len([e for e in event.electrons if e.PT>20])
+        result["Electron1Pt"] = [ ]
+        result["Electron1Eta"] = [ ]
+        result["Electron2Pt"] = [ ]
+        result["Electron2Eta"] = [ ]
+        if event.electrons.GetEntries()>0:
+            result["Electron1Pt"].append(event.electrons[0].PT)
+            result["Electron1Eta"].append(event.electrons[0].Eta)
+        if event.electrons.GetEntries()>1:
+            result["Electron2Pt"].append(event.electrons[1].PT)
+            result["Electron2Eta"].append(event.electrons[1].Eta)
+        
+        # Leptons
+        result["NLeptons20"] = result["NMuons20"] + result["NElectrons20"]
+
+        return result
+
+
+
 
 if __name__=="__main__":
   import sys

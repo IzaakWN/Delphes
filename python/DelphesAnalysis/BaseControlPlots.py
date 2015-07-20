@@ -86,6 +86,13 @@ class BaseControlPlots:
       self._dir.cd()
       self._h_vector[args[0]] = ROOT.TH1F(*args)
 
+    # IWN
+    def addHisto2D(self,*args):
+      """Add one 2D histograms to the list of products. Arguments are as for TH2F."""
+      # this fills a distionnary name <-> histogram
+      self._dir.cd()
+      self._h_vector[args[0]] = ROOT.TH2F(*args)
+
     def addVariable(self,*args):
       """Add one variable to the list of products. Arguments are as for RooRealVar."""
       # this fills a distionnary name <-> RooRealVar
@@ -95,8 +102,18 @@ class BaseControlPlots:
     
     def add(self, *args):
       """Add one item to the list of products. Arguments are as for TH1F."""
+      # TH1(name, title, nbinsx, xlow, xup)
       if self._mode=="plots":
         self.addHisto(*args)
+      else:
+        self.addVariable(*[args[i] for i in [0,1,3,4]])
+    
+    # IWN
+    def add2D(self, *args):
+      """Add one item to the list of products. Arguments are as for TH2F."""
+      # TH2(name, title, nbinsx, xbins, nbinsy, ylow, yup)
+      if self._mode=="plots":
+        self.addHisto2D(*args)
       else:
         self.addVariable(*[args[i] for i in [0,1,3,4]])
 
@@ -126,7 +143,11 @@ class BaseControlPlots:
       """Fills histograms with the data provided as input."""
       for name,value in data.items():
         if isinstance(value,list):
-          for val in value: self._h_vector[name].Fill(val,weight)
+          for val in value: # IWN
+            if isinstance(val,list):
+              self._h_vector[name].Fill(val[0],val[1],weight) # for TH2
+            else:
+              self._h_vector[name].Fill(val,weight) # for TH1
         else:
           self._h_vector[name].Fill(value,weight)
 
@@ -152,11 +173,15 @@ class BaseControlPlots:
       else:
         self.fillRDS(data)
 
-    def endJob(self):
+    def endJob(self,level=""):
       """Save and close."""
       if self._mode=="plots":
         self._dir.cd()
         self._dir.Write()
+        #c=ROOT.TCanvas("c","c",200,200)
+	#for h in self._h_vector.values():
+	#    h.Draw()
+	#    c.SaveAs(configuration.defaultFilename+"_"+str(level)+"_"+self._dir.GetName()+"_"+h.GetName()+".pdf")
         if not self._f is None:
           self._f.Close()
       else:

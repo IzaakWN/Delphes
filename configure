@@ -3,8 +3,24 @@
 # A (so) simple configure script.
 
 # test Makefile && make distclean
+
+if [ ! -d external/pythia8201 ]; then
+  echo "Downloading Pythia 8.201"
+  cd external
+  wget http://home.thep.lu.se/~torbjorn/pythia8/pythia8201.tgz
+  echo "Extracting Pythia"
+  tar xfz pythia8201.tgz
+  cd pythia8201
+  echo "Compiling Pythia"
+  make
+  rm ../pythia8201.tgz
+  cd ../..
+  echo "Compilation done"
+fi
+
 tclsh ./doc/genMakefile.tcl > Makefile
 echo "Makefile ready"
 echo "To build Delphes type "
 echo "   make"
+echo "Always make sure to export PYTHIA8=`pwd`/external/pythia8201"
 
