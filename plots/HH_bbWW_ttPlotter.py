@@ -61,10 +61,7 @@ def plotBasic(stage):
         hist_tt = file_tt.Get(stage+name) # BG: tt -> bbWW
         
         if "H" not in name:
-            I = hist_S.Integral()
-            if I == 0: I=1
-            hist_S.Scale(1./I)
-            hist_tt.Scale(1./hist_tt.Integral())
+            norm(hist_S,hist_tt)
         
         hist_S.Draw()
         hist_tt.Draw("same")
@@ -122,14 +119,12 @@ def plotOverlay(stage):
         hist_reco = file.Get(stage+reco) # "MC"
         hist_reco_tt = file_tt.Get(stage+reco) ## "MC" from tt
         
-        if "MET" in reco:
-            hist_gen.Scale(1./hist_gen.Integral())
-            hist_reco.Scale(1./hist_reco.Integral())
-            hist_reco_tt.Scale(1./hist_reco_tt.Integral())
+#        if "MET" in reco:
+#            norm(hist_gen,hist_reco,hist_reco_tt)
 
         hist_reco.Draw("histsame")
         hist_reco_tt.Draw("histsame")
-        hist_gen.Draw("ex0same")
+        hist_gen.Draw("P0same")
         makeAxes(hist_reco,hist_reco_tt,hist_gen)
         
         legend = makeLegend(hist_gen,hist_reco,hist_reco_tt,tt=True)
@@ -264,10 +259,11 @@ def plotExtra(stage):
 
     # __NJetiWMatch__
     c = makeCanvas()
-    hist = file.Get(stage+"gen/WlnuM")
-    
-    hist.Draw
+    hist = file.Get(stage+"res/NJetiWMatch")
+    norm(hist)
+    hist.Draw()
     makeAxes(hist)
+    setLineStyle(hist)
     legend = makeLegend(hist,entries="#splitline{jet i matches}{q from W}")
     legend.Draw()
 
@@ -355,11 +351,11 @@ def plotPie(stage):
 def main():
 
     for stage in ["stage_0/","stage_1/","stage_2/","stage_3/","stage_4/"]:
-        plotBasic(stage)
+#        plotBasic(stage)
         plotOverlay(stage)
-        plot2D(stage)
-        plotExtra(stage)
-        plotPie(stage)
+#        plot2D(stage)
+#        plotExtra(stage)
+#        plotPie(stage)
 
     print "\nDone with this, son.\n"
 

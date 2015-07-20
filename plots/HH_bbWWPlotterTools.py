@@ -204,7 +204,10 @@ def makeLegend(*hists, **kwargs):
 
     # make entries
     if len(hists)==1:
-        legend.AddEntry(hist0,makeEntryName1(hist0))
+        if entries is None:
+            legend.AddEntry(hist0,makeEntryName1(hist0))
+        else:
+            legend.AddEntry(hist0,entries)
     else:
     
         if title is None: legend.SetHeader(makeTitle(hists[-1]))
@@ -218,7 +221,7 @@ def makeLegend(*hists, **kwargs):
                     legend.AddEntry(hist0,"gen signal")
             legend.AddEntry(hists[-2],"signal")
             legend.AddEntry(hists[-1],"t#bar{t}-BG")
-        elif entries == None:
+        elif entries is None:
             for hist in hists:
                 legend.AddEntry(hist,makeEntryName2(hist))
         else:
@@ -312,7 +315,18 @@ def setLineStyle(*hists):
 
 
 def setMarkerStyle(hist):
+
     hist.SetMarkerStyle(20)
     hist.SetMarkerSize(0.8)
+
+
+
+def norm(*hists):
+    
+    for hist in hists:
+        I = hist.Integral()
+        if I:
+            hist.Scale(1/I)
+
 
 
