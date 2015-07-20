@@ -20,7 +20,7 @@ class ResControlPlots(BaseControlPlots):
 
 
 
-    # IWN was here 20/07/2015
+    # IWN was here 20/07/2015 second time
     def beginJob(self):
     
         # b-tagging efficiency
