@@ -19,11 +19,6 @@ class ResControlPlots(BaseControlPlots):
         BaseControlPlots.__init__(self, dir=dir, purpose="jetmet", dataset=dataset, mode=mode)
 
 
-
-<<<<<<< HEAD
-    # IWN was here 20/07/2015 second time
-=======
->>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
     def beginJob(self):
     
         # b-tagging efficiency
@@ -39,17 +34,14 @@ class ResControlPlots(BaseControlPlots):
             self.add("NJet%sWMatch"%i,"jet%s matches q from W"%(i+1),4,0,4)
         self.add("NJetiWMatch","jeti matches q from W",11,0,11)
         self.add("NJet12WMatch","jet1 and jet2 match qq from W",4,0,4)
-<<<<<<< HEAD
         self.add("NJetWMatches","jets matching q from W",5,0,5)
         
         self.add("jetWMatchEta","jets matching q from W Eta",100,-5,5)
         self.add("jetWMatchBeta","jets matching q from W Beta",3000,-1500,1500)
         self.add("jetWUnMatchEta","jets unmatching q from W Eta",100,-5,5)
         self.add("jetWUnMatchBeta","jets unmatching q from W Beta",3000,-1500,1500)
-=======
         self.add("jetWMatchEta","jets matching q from W Eta",100,-5,5)
         self.add("jetWUnMatchEta","jets unmatching q from W Eta",100,-5,5)
->>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
 
 #        self.add("DeltaRMatchedJets","DeltaR between matched jets",100,0,10)
 #        self.add("DeltaRUnMatchedJets","DeltaR between matched jets and matched jets",100,0,10)
@@ -89,13 +81,10 @@ class ResControlPlots(BaseControlPlots):
         p_matchedJets = [ ]
         p_unmatchedJets = [ ]
         result["jetWMatchEta"] = [ ]
-<<<<<<< HEAD
         result["jetWMatchBeta"] = [ ]
         result["jetWUnMatchEta"] = [ ]
         result["jetWUnMatchBeta"] = [ ]
-=======
         result["jetWUnMatchEta"] = [ ]
->>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
         
 #        result["DeltaRWqq"] = [ ]
 #        result["DeltaRMatchedJets"] = [ ]
@@ -139,7 +128,6 @@ class ResControlPlots(BaseControlPlots):
                         for i in range(len(jets30)):
                             p_jet = TLorentzVector()
                             p_jet.SetPtEtaPhiM(jets30[i].PT, jets30[i].Eta, jets30[i].Phi, jets30[i].Mass)
-<<<<<<< HEAD
                             if TLorentzVector.DeltaR( p_jet, p_quark1 ) < 0.2:
                                 nJetWMatch[i] += 1
                                 result["jetWMatchEta"].append( jets30[i].Eta )
@@ -156,21 +144,6 @@ class ResControlPlots(BaseControlPlots):
                                 result["jetWUnMatchEta"].append( jets30[i].Eta )
                                 result["jetWUnMatchBeta"].append( jets30[i].Beta )
 
-=======
-                            p_unmatchedJets.append(p_jet)
-                            if TLorentzVector.DeltaR( p_jet, p_quark1 ) < 0.2:
-                                nJetWMatch[i] += 1
-                                result["jetWMatchEta"].append(jets30[i].Eta)
-                                p_matchedJets.append(p_jet)
-                                p_unmatchedJets.remove(p_jet)
-                            if TLorentzVector.DeltaR( p_jet, p_quark2 ) < 0.2:
-                                nJetWMatch[i] += 1
-                                if p_jet not in p_matchedJets:
-                                    result["jetWMatchEta"].append(jets30[i].Eta)
-                                    p_matchedJets.append(p_jet)
-                                    p_unmatchedJets.remove(p_jet)
->>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
-
         result["Nb"] = nb
         result["Nbtags"] = nbtags
         result["NHbb"] = nHbb
@@ -178,8 +151,7 @@ class ResControlPlots(BaseControlPlots):
         result["Nbadbtag"] = nBadbtag
         result["Nbadbtag2"] = nBadbtag2
         result["Nqqbtag"] = nqqbtag
-        
-<<<<<<< HEAD
+
         nMatches = 0
         for i in range(len(jets30)):
             result["NJet%sWMatch"%i] = nJetWMatch[i]
@@ -187,23 +159,14 @@ class ResControlPlots(BaseControlPlots):
                 nMatches += 1
                 result["NJetiWMatch"] = i+1
         result["NJetWMatches"] = nMatches
-=======
-        for i in range(len(jets30)):
-            result["NJet%sWMatch"%i] = nJetWMatch[i]
-            if nJetWMatch[i] > 0:
-                result["NJetiWMatch"] = i+1
->>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
         if nJetWMatch[0]>0 and nJetWMatch[1]>0:
             result["NJet12WMatch"] = nJetWMatch[0]
         else:
             result["NJet12WMatch"] = 0
-        
-<<<<<<< HEAD
-=======
+
         for p in p_unmatchedJets:
             result["jetWUnMatchEta"].append( p.Eta() )
-        
->>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
+
 #        for comb in combinations( p_matchedJets, 2 ):
 #            result["DeltaRMatchedJets"].append( TLorentzVector.DeltaR(comb[0],comb[1]) )
 #        
@@ -218,11 +181,6 @@ if __name__=="__main__":
     import sys
     from DelphesAnalysis.BaseControlPlots import runTest
     runTest(sys.argv[1], JetControlPlots())
-
-<<<<<<< HEAD
-=======
-
-
 
 
 
@@ -268,7 +226,3 @@ if __name__=="__main__":
 #        result["NHHb"] = nHHb
 #        result["Ngoodbtag"] = nGoodbtag
 #        result["Nbadbtag"] = nbtags - nGoodbtag
-
-
-
->>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
