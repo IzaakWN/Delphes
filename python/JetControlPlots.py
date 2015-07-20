@@ -102,11 +102,7 @@ class JetControlPlots(BaseControlPlots):
 
         # b-jets
         bjets30 = event.bjets30
-<<<<<<< HEAD
         result["Nbjets30"] = len(bjets30)
-=======
-        result["Nbjets30"] = len(bjets)
->>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
     
         if len(bjets30)>0:
             result["bjet1Pt"].append(bjets30[0].PT)
