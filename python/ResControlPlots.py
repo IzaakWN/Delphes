@@ -40,8 +40,6 @@ class ResControlPlots(BaseControlPlots):
         self.add("jetWMatchBeta","jets matching q from W Beta",3000,-1500,1500)
         self.add("jetWUnMatchEta","jets unmatching q from W Eta",100,-5,5)
         self.add("jetWUnMatchBeta","jets unmatching q from W Beta",3000,-1500,1500)
-        self.add("jetWMatchEta","jets matching q from W Eta",100,-5,5)
-        self.add("jetWUnMatchEta","jets unmatching q from W Eta",100,-5,5)
 
 #        self.add("DeltaRMatchedJets","DeltaR between matched jets",100,0,10)
 #        self.add("DeltaRUnMatchedJets","DeltaR between matched jets and matched jets",100,0,10)
@@ -84,7 +82,6 @@ class ResControlPlots(BaseControlPlots):
         result["jetWMatchBeta"] = [ ]
         result["jetWUnMatchEta"] = [ ]
         result["jetWUnMatchBeta"] = [ ]
-        result["jetWUnMatchEta"] = [ ]
         
 #        result["DeltaRWqq"] = [ ]
 #        result["DeltaRMatchedJets"] = [ ]
@@ -130,15 +127,15 @@ class ResControlPlots(BaseControlPlots):
                             p_jet.SetPtEtaPhiM(jets30[i].PT, jets30[i].Eta, jets30[i].Phi, jets30[i].Mass)
                             if TLorentzVector.DeltaR( p_jet, p_quark1 ) < 0.2:
                                 nJetWMatch[i] += 1
+                                p_matchedJets.append(p_jet)
                                 result["jetWMatchEta"].append( jets30[i].Eta )
                                 result["jetWMatchBeta"].append( jets30[i].Beta )
-                                p_matchedJets.append(p_jet)
                             if TLorentzVector.DeltaR( p_jet, p_quark2 ) < 0.2:
                                 nJetWMatch[i] += 1
                                 if p_jet not in p_matchedJets:
+                                    p_matchedJets.append(p_jet)
                                     result["jetWMatchEta"].append( jets30[i].Eta )
                                     result["jetWMatchBeta"].append( jets30[i].Beta )
-                                    p_matchedJets.append(p_jet)
                             if not nJetWMatch[i]:
                                 p_unmatchedJets.append(p_jet)
                                 result["jetWUnMatchEta"].append( jets30[i].Eta )
@@ -163,9 +160,6 @@ class ResControlPlots(BaseControlPlots):
             result["NJet12WMatch"] = nJetWMatch[0]
         else:
             result["NJet12WMatch"] = 0
-
-        for p in p_unmatchedJets:
-            result["jetWUnMatchEta"].append( p.Eta() )
 
 #        for comb in combinations( p_matchedJets, 2 ):
 #            result["DeltaRMatchedJets"].append( TLorentzVector.DeltaR(comb[0],comb[1]) )
