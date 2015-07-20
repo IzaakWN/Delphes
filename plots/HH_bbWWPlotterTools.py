@@ -54,7 +54,7 @@ def makeTitle(hist):
     # replace stuff
     if " Pt" in title:
         title = title.replace(" Pt","") # take away variable
-    elif " Eta" in title:
+    elif " Eta" in title and "Eta<" not in title:
         title = title.replace(" Eta","")
     elif " Mass" in title:
         title = title.replace(" Mass","")
@@ -81,7 +81,7 @@ def makeTitle(hist):
             # vars
             if "Pt" in title:
                 title = title.replace("Pt","p_{T}")
-            elif "Eta" in title:
+            if "Eta" in title:
                 title = title.replace("Eta","#eta")
             elif "Phi" in title:
                 title = title.replace("Phi","#phi")
@@ -99,7 +99,7 @@ def makeTitle(hist):
             title = title.replace("H","H #rightarrow ")
     elif "W" in title:
         if title.index("W")+1-len(title): # not W at the end!
-            if title[title.index("W")+1] not in ["'", " ", "W"]:
+            if title[title.index("W")+1] not in ["'", " ", "W", "}"]:
                 title = title.replace("W","W #rightarrow ")
     title = title.replace("nu","#nu")
 
@@ -114,7 +114,7 @@ def makeEntryName1(hist):
     # replace stuff
     if " Pt" in title:
         title = title.replace(" Pt","") # take away variable
-    elif " Eta" in title:
+    elif " Eta" in title and "Eta<" not in title:
         title = title.replace(" Eta","")
     elif " Mass" in title:
         title = title.replace(" Mass","")
@@ -164,7 +164,7 @@ def makeEntryName2(hist,tt=False):
     elif " Pt" in title:
         title = title[title.index("Pt")+3:] # take away process, variable and space
 #        title = title.replace(" Pt","") # take away variable
-    elif " Eta" in title:
+    elif " Eta" in title and "Eta<" not in title:
         title = title[title.index("Eta")+4:]
     elif " Phi" in title:
         title = title[title.index("Phi")+4:]
@@ -172,6 +172,7 @@ def makeEntryName2(hist,tt=False):
         title = title[title.index("Mass")+5:]
     elif " multiplicity" in title:
         title = title[title.index("multiplicity")+13:]
+
     if "Pt" in title:
         title = title.replace("Pt","p_{T}")
     elif "Eta" in title:
@@ -225,7 +226,7 @@ def makeLegend(*hists, **kwargs):
             for hist in hists:
                 legend.AddEntry(hist,makeEntryName2(hist))
         else:
-            for i in len(hists):
+            for i in range(len(hists)):
                 legend.AddEntry(hists[i],entries[i])
 
     return legend
@@ -246,27 +247,27 @@ def makeAxes(*hists, **kwargs):
         ylabel = "Events / %s " % hist0.GetXaxis().GetBinWidth(0)
         if name in ["N", "multiplicity"]:
             hist0.GetXaxis().SetTitle("multiplicity")
-        elif "Pt" in name:
+        elif " Pt" in name:
             hist0.GetXaxis().SetTitle("transverse momentum p_{T} [GeV]")
             ylabel += "GeV"
-        elif "Eta" in name:
+        elif " Eta" in name and " Eta<" not in name:
             hist0.GetXaxis().SetTitle("pseudorapidity #eta")
-        elif "Phi" in name:
+        elif " Phi" in name:
             hist0.GetXaxis().SetTitle("azimuthal angle #phi [rad]")
             ylabel += "rad"
-        elif "Mass" in name:
+        elif " Mass" in name:
             if "vs." in name:
                 hist0.GetXaxis().SetTitle("W #rightarrow l#nu mass [GeV]")
                 ylabel = "W #rightarrow qq mass [GeV]"
             else:
                 hist0.GetXaxis().SetTitle("invariant mass M [GeV]")
                 ylabel += "GeV"
-        elif "MET" in name:
+        elif " MET" in name:
             hist0.GetXaxis().SetTitle("MET [GeV]")
             ylabel += "GeV"
-        elif "PID" in name:
+        elif " PID" in name:
             hist0.GetXaxis().SetTitle("PID")
-        elif "Mt" in name:
+        elif " Mt" in name:
             hist0.GetXaxis().SetTitle("transverse mass M_{T} [GeV]")
             ylabel += "GeV"
         else: print "Warning: no x-axis label!"

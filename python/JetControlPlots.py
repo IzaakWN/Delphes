@@ -3,7 +3,7 @@ from ROOT import TLorentzVector
 
 # Requirements:
 # event.jets
-# event.bjets
+# event.bjets30
 # event.met
 
 types = ["jet","bjet"]
@@ -23,14 +23,14 @@ class JetControlPlots(BaseControlPlots):
 
     def beginJob(self):
         
-        self.add("Nuncleanedjets","uncleaned jets multiplicity (Pt>30 GeV)",12,0,12)
-        self.add("Njets","jets multiplicity (Pt>30 GeV)",12,0,12)
-        self.add("Nbjets","b-jets multiplicity (Pt>30 GeV)",8,0,8)
+        self.add("Nuncleanedjets30","uncleaned jets multiplicity (Pt>30 GeV)",12,0,12)
+        self.add("Njets30","jets multiplicity (Pt>30 GeV)",12,0,12)
+        self.add("Nbjets30","b-jets multiplicity (Pt>30 GeV)",8,0,8)
         
         self.add2D("JetiEta","jeti abs(Eta)",14,0,14,20,0,5)
         self.add("NjetsEta3","jets multiplicity (Pt>30 GeV, Eta<3)",12,0,12)
         self.add("NjetsEta25","jets multiplicity (Pt>30 GeV, Eta<2.5)",12,0,12)
-        self.add("NjetsEta2","jets multiplicity (Pt>30 GeV), Eta<2)",12,0,12)
+        self.add("NjetsEta2","jets multiplicity (Pt>30 GeV, Eta<2)",12,0,12)
         
         self.add("MET","MET",100,0,300)
         self.add("METPhi","MET Phi",64,-3.2,3.2)
@@ -52,9 +52,9 @@ class JetControlPlots(BaseControlPlots):
                 for var in vars:
                     result[type+i+var] = [ ]
         
-        jets = [j for j in event.cleanedJets if j.PT>30]
-        result["Nuncleanedjets"]  = len([j for j in event.jets if j.PT>30])
-        result["Njets"]  = len(jets)
+        jets = event.cleanedJets30
+        result["Nuncleanedjets30"]  = len([j for j in event.jets if j.PT>30])
+        result["Njets30"]  = len(jets)
         
         nJetsEta3 = 0 # Eta < 3
         nJetsEta25 = 0 # Eta < 2.5
@@ -101,29 +101,29 @@ class JetControlPlots(BaseControlPlots):
             result["jet4M"].append(event.jets[3].Mass)
 
         # b-jets
-        bjets = event.bjets30
+        bjets30 = event.bjets30
+        result["Nbjets30"] = len(bjets)
     
-        if len(bjets)>0:
-            result["bjet1Pt"].append(bjets[0].PT)
-            result["bjet1Eta"].append(bjets[0].Eta)
-            result["bjet1Phi"].append(bjets[0].Phi)
-            result["bjet1M"].append(bjets[0].Mass)
-        if len(bjets)>1:
-            result["bjet2Pt"].append(bjets[1].PT)
-            result["bjet2Eta"].append(bjets[1].Eta)
-            result["bjet2Phi"].append(bjets[1].Phi)
-            result["bjet2M"].append(bjets[1].Mass)
-        if len(bjets)>2:
-            result["bjet3Pt"].append(bjets[2].PT)
-            result["bjet3Eta"].append(bjets[2].Eta)
-            result["bjet3Phi"].append(bjets[2].Phi)
-            result["bjet3M"].append(bjets[2].Mass)
-        if len(bjets)>3:
-            result["bjet4Pt"].append(bjets[3].PT)
-            result["bjet4Eta"].append(bjets[3].Eta)
-            result["bjet4Phi"].append(bjets[3].Phi)
-            result["bjet4M"].append(bjets[3].Mass)
-        result["Nbjets"] = len([bj for bj in bjets if bj.PT>30])
+        if len(bjets30)>0:
+            result["bjet1Pt"].append(bjets30[0].PT)
+            result["bjet1Eta"].append(bjets30[0].Eta)
+            result["bjet1Phi"].append(bjets30[0].Phi)
+            result["bjet1M"].append(bjets30[0].Mass)
+        if len(bjets30)>1:
+            result["bjet2Pt"].append(bjets30[1].PT)
+            result["bjet2Eta"].append(bjets30[1].Eta)
+            result["bjet2Phi"].append(bjets30[1].Phi)
+            result["bjet2M"].append(bjets30[1].Mass)
+        if len(bjets30)>2:
+            result["bjet3Pt"].append(bjets30[2].PT)
+            result["bjet3Eta"].append(bjets30[2].Eta)
+            result["bjet3Phi"].append(bjets30[2].Phi)
+            result["bjet3M"].append(bjets30[2].Mass)
+        if len(bjets30)>3:
+            result["bjet4Pt"].append(bjets30[3].PT)
+            result["bjet4Eta"].append(bjets30[3].Eta)
+            result["bjet4Phi"].append(bjets30[3].Phi)
+            result["bjet4M"].append(bjets30[3].Mass)
         
         return result
 

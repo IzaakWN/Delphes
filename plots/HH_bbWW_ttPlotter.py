@@ -25,25 +25,28 @@ def plotBasic(stage):
 
     names = [ ]
 
-    for particle in ["b1","b2","q","nu","l","e","mu"]:
-        for var in ["Pt","Eta","M"]:
-            names.append("gen/"+particle+var)
+#    for particle in ["b1","b2","q","nu","l","e","mu"]:
+#        for var in ["Pt","Eta","M"]:
+#            names.append("gen/"+particle+var)
+#
+#    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
+#                     "NWlnu","WDPID","tDPID"]: #NWjj
+#        names.append("gen/"+particle)
+#
+#    for jet in ["jet","bjet"]:
+#        for var in ["Pt","Eta","M"]:
+#            for i in ["1","2","3","4"]:
+#                names.append("jets/"+jet+i+var)
+#
+#    for jet in ["Njets","Nbjets"]:
+#        names.append("jets/"+jet)
 
-    for particle in ["NVirtualWs","NLeptons","NElectrons","NMuons","NTaus",
-                     "NWlnu","WDPID","tDPID"]: #NWjj
-        names.append("gen/"+particle)
-
-    for jet in ["jet","bjet"]:
-        for var in ["Pt","Eta","M"]:
-            for i in ["1","2","3","4"]:
-                names.append("jets/"+jet+i+var)
-
-    for jet in ["Njets","Nbjets"]:
-        names.append("jets/"+jet)
-        
-    names.append("res/NJetiWMatch")        
+    names.append("res/NJetiWMatch")
     names.append("res/jetWMatchEta")
     names.append("res/jetWUnMatchEta")
+    names.append("jets/NjetsEta3")
+    names.append("jets/NjetsEta25")
+    names.append("jets/NjetsEta2")
 
     for particle in ["NMuons20","NElectrons20","NLeptons20"]:
         names.append("leptons/"+particle)
@@ -273,6 +276,23 @@ def plotExtra(stage):
     c.Close()
 
 
+    # __jetWMatchEta_vs._jetWUnMatchEta___
+    c = makeCanvas()
+    hist = file.Get(stage+"res/jetWMatchEta")
+    hist_un = file.Get(stage+"res/jetWUnMatchEta")
+    hist.Draw()
+    hist_un.Draw("same")
+    makeAxes(hist,hist_un)
+    setLineStyle(hist,hist_un)
+    legend = makeLegend(hist,hist_un,title="jet and q from W",entries=["matched","unmatched"])
+    legend.Draw()
+
+    CMS_lumi.CMS_lumi(c,14,33)
+    
+    c.SaveAs("basic_tt/"+stage+"jetWMatchEta_unscaled.png")
+    c.Close()
+
+
     # __WlnuM vs Wjj__
     c = makeCanvas()
     hist_Wlnu = file_tt.Get(stage+"gen/WlnuM")
@@ -351,10 +371,10 @@ def plotPie(stage):
 def main():
 
     for stage in ["stage_0/","stage_1/","stage_2/","stage_3/","stage_4/"]:
-#        plotBasic(stage)
-        plotOverlay(stage)
+        plotBasic(stage)
+#        plotOverlay(stage)
 #        plot2D(stage)
-#        plotExtra(stage)
+        plotExtra(stage)
 #        plotPie(stage)
 
     print "\nDone with this, son.\n"
