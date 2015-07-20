@@ -48,8 +48,13 @@ def plotBasic(stage):
     names.append("jets/NjetsEta25")
     names.append("jets/NjetsEta2")
 
+<<<<<<< HEAD
 #    for particle in ["NMuons20","NElectrons20","NLeptons20"]:
 #        names.append("leptons/"+particle)
+=======
+    for particle in ["NMuons20","NElectrons20","NLeptons20"]:
+        names.append("leptons/"+particle)
+>>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
 
     for process in ["Hbb", "HWW"]:
 #        for alg in ["_b2","_d1"]: #["_b1","_b2","_c1","_c2"]:
@@ -371,11 +376,19 @@ def plotPie(stage):
 def main():
 
     for stage in ["stage_0/","stage_1/","stage_2/","stage_3/","stage_4/"]:
+<<<<<<< HEAD
         plotOverlay(stage)
         plotExtra(stage)
         plotBasic(stage)
         plot2D(stage)
         plotPie(stage)
+=======
+        plotBasic(stage)
+#        plotOverlay(stage)
+#        plot2D(stage)
+        plotExtra(stage)
+#        plotPie(stage)
+>>>>>>> f0e6ac99b7c213ab1a9cc84801dbda7163a58d20
 
     print "\nDone with this, son.\n"
 
