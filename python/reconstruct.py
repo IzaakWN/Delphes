@@ -431,7 +431,7 @@ def recoHWW_d1(event):
     q_Wlnu2 = recoWlnu1(leptonPID,lepton,event.met[0])
     
     # 2b) Reco off-shell Wjj by taking making the best combination.
-    DmassesW = [abs(30-m) for m in masses] # mass differences from middle of off-shell W mass window
+    DmassesW = [abs(20-m) for m in masses] # mass differences from middle of off-shell W mass window
     indexW = min(enumerate(DmassesW), key=itemgetter(1))[0] # get index of min
     q_Wjj2 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
     
