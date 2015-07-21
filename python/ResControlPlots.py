@@ -30,9 +30,10 @@ class ResControlPlots(BaseControlPlots):
         self.add("Nbadbtag2","Fake b-tags from W",4,0,4)
         self.add("Nqqbtag","Both q's from W b-tagged",5,0,5)
         
-        for i in range(10):
-            self.add("NJet%sWMatch"%i,"jet%s matches q from W"%(i+1),4,0,4)
+#        for i in range(10):
+#            self.add("NJet%sWMatch"%i,"jet%s matches q from W"%(i+1),4,0,4)
         self.add("NJetiWMatch","jeti matches q from W",11,0,11)
+        self.add("NJetiqMatch","jeti matches q not from W",11,0,11)
         self.add("NJet12WMatch","jet1 and jet2 match qq from W",4,0,4)
         self.add("NJetWMatches","jets matching q from W",5,0,5)
         
@@ -73,21 +74,24 @@ class ResControlPlots(BaseControlPlots):
         p_quark1 = TLorentzVector()
         p_quark2 = TLorentzVector()
         
-        for i in range(10):
-            result["NJet%sWMatch"%i] = [ ]
+#        for i in range(10):
+#            result["NJet%sWMatch"%i] = [ ]
         nJetWMatch = [0]*len(jets30)
+        nJetqMatch = [0]*len(jets30)
         p_matchedJets = [ ]
-        p_unmatchedJets = [ ]
+        ip_unmatchedJets = [ ]
         result["jetWMatchEta"] = [ ]
         result["jetWMatchBeta"] = [ ]
         result["jetWUnMatchEta"] = [ ]
         result["jetWUnMatchBeta"] = [ ]
+        result["NJetiWMatch"] = [ ]
+        result["NJetiqMatch"] = [ ]
         
 #        result["DeltaRWqq"] = [ ]
 #        result["DeltaRMatchedJets"] = [ ]
 #        result["DeltaRUnMatchedJets"] = [ ]
 
-        # good btag
+        # good b-tag, bad b-tag and Wq-jet matching
         for particle in event.particles:
             D = particle.D1
             if D>=0 and D<len(event.particles) and event.particles[D]:
@@ -132,14 +136,22 @@ class ResControlPlots(BaseControlPlots):
                                 result["jetWMatchBeta"].append( jets30[i].Beta )
                             if TLorentzVector.DeltaR( p_jet, p_quark2 ) < 0.2:
                                 nJetWMatch[i] += 1
-                                if p_jet not in p_matchedJets:
+                                if p_jet not in p_matchedJets: # prevent double counting
                                     p_matchedJets.append(p_jet)
                                     result["jetWMatchEta"].append( jets30[i].Eta )
                                     result["jetWMatchBeta"].append( jets30[i].Beta )
                             if not nJetWMatch[i]:
-                                p_unmatchedJets.append(p_jet)
+                                ip_unmatchedJets.append((i,p_jet))
                                 result["jetWUnMatchEta"].append( jets30[i].Eta )
                                 result["jetWUnMatchBeta"].append( jets30[i].Beta )
+        
+        for particle in event.particles:
+            if particle.PID in [1,2,3,4,5,6]:
+                p_quark1.SetPtEtaPhiM(particle.PT, particle.Eta, particle.Phi, particle.Mass)
+                for i, p_jet in ip_unmatchedJets:
+                    if TLorentzVector.DeltaR( p_jet, p_quark ) < 0.2:
+                        nJetqMatch[i] += 1
+
 
         result["Nb"] = nb
         result["Nbtags"] = nbtags
@@ -151,16 +163,19 @@ class ResControlPlots(BaseControlPlots):
 
         nMatches = 0
         for i in range(len(jets30)):
-            result["NJet%sWMatch"%i] = nJetWMatch[i]
+#            result["NJet%sWMatch"%i] = nJetWMatch[i]
             if nJetWMatch[i] > 0:
                 nMatches += 1
-                result["NJetiWMatch"] = i+1
+                result["NJetiWMatch"].append(i+1)
+            if nJetqMatch[i] > 0:
+                result["NJetiqMatch"].append(i+1)
         result["NJetWMatches"] = nMatches
+        
         if nJetWMatch[0]>0 and nJetWMatch[1]>0:
             result["NJet12WMatch"] = nJetWMatch[0]
         else:
             result["NJet12WMatch"] = 0
-
+        
 #        for comb in combinations( p_matchedJets, 2 ):
 #            result["DeltaRMatchedJets"].append( TLorentzVector.DeltaR(comb[0],comb[1]) )
 #        

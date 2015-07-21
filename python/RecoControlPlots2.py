@@ -42,18 +42,16 @@ class RecoControlPlots2(BaseControlPlots):
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],150,0,1500)
                 else:
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,300)
+        self.add("case_d1"," 2D-reco case",5,0,5)
+        self.add2D("WWM_d1","Wjj Mass vs. Wlnu Mass (2D alg.)",100,0,300,100,0,300)
 
 
 
     def process(self, event):
     
         result = { }
+        case = 0
 
-        for particle in particleSelection:
-            for var in vars:
-                for alg in algs:
-                    result[particle+alg+var] = []
-        
         hasLepton = (event.muons.GetEntries()>0) or (event.electrons.GetEntries()>0)
 
         category6 = len([ jet for jet in event.cleanedJets30 if jet.Eta < 2.5 ]) > 3 \
@@ -63,33 +61,36 @@ class RecoControlPlots2(BaseControlPlots):
         
             vectors = recoHWW_d1(event)
             if len(vectors) > 0:
-                [ q_Wlnu_d1, q_Wjj_d1, q_Hbb_d1, q_HWW_d1, q_HHbbWW_d1 ] = vectors
+                [ q_Wlnu_d1, q_Wjj_d1, q_Hbb_d1, q_HWW_d1, q_HHbbWW_d1, case] = vectors
                 
-                result["Wlnu_d1Pt"].append(q_Wlnu_d1.Pt())
-                result["Wlnu_d1Eta"].append(q_Wlnu_d1.Eta())
-                result["Wlnu_d1M"].append(q_Wlnu_d1.M())
+                result["Wlnu_d1Pt"] = q_Wlnu_d1.Pt()
+                result["Wlnu_d1Eta"] = q_Wlnu_d1.Eta()
+                result["Wlnu_d1M"] = q_Wlnu_d1.M()
                 
-                result["Wjj_d1Pt"].append(q_Wjj_d1.Pt())
-                result["Wjj_d1Eta"].append(q_Wjj_d1.Eta())
-                result["Wjj_d1M"].append(q_Wjj_d1.M())
+                result["Wjj_d1Pt"] = q_Wjj_d1.Pt()
+                result["Wjj_d1Eta"] = q_Wjj_d1.Eta()
+                result["Wjj_d1M"] = q_Wjj_d1.M()
                 
-                result["Hbb_d1Pt"].append(q_Hbb_d1.Pt())
-                result["Hbb_d1Eta"].append(q_Hbb_d1.Eta())
-                result["Hbb_d1M"].append(q_Hbb_d1.M())
+                result["Hbb_d1Pt"] = q_Hbb_d1.Pt()
+                result["Hbb_d1Eta"] = q_Hbb_d1.Eta()
+                result["Hbb_d1M"] = q_Hbb_d1.M()
                 
-                result["HWW_d1Pt"].append(q_HWW_d1.Pt())
-                result["HWW_d1Eta"].append(q_HWW_d1.Eta())
-                result["HWW_d1M"].append(q_HWW_d1.M())
+                result["HWW_d1Pt"] = q_HWW_d1.Pt()
+                result["HWW_d1Eta"] = q_HWW_d1.Eta()
+                result["HWW_d1M"] = q_HWW_d1.M()
                 
-                result["HHbbWW_d1Pt"].append(q_HHbbWW_d1.Pt())
-                result["HHbbWW_d1Eta"].append(q_HHbbWW_d1.Eta())
-                result["HHbbWW_d1M"].append(q_HHbbWW_d1.M())
+                result["HHbbWW_d1Pt"] = q_HHbbWW_d1.Pt()
+                result["HHbbWW_d1Eta"] = q_HHbbWW_d1.Eta()
+                result["HHbbWW_d1M"] = q_HHbbWW_d1.M()
+    
+                result["WWM_d1"] = [[ q_Wlnu_d1.M(), q_Wjj_d1.M() ]]
 #            
 #                print "RecoControlPlots2.py: succes!"
 #            
 #            else:
 #                print "RecoControlPlots2.py: d1 did not come through..."
 
+        result["case_d1"] = case
         return result
 
 

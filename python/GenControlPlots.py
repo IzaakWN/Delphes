@@ -42,6 +42,7 @@ class GenControlPlots(BaseControlPlots):
         self.add("Ntb","tb multiplicity gen",10,0,10)
         
         self.add("WDPID","W's daughters PID gen",30,0,30)
+        self.add("WMPID","W's mother PID gen",30,0,30)
         self.add("bMPID","b-quark's mother PID gen",12000,-3000,3000)
         self.add("tDPID","t's daughters PID gen",30,0,30)
         
@@ -107,6 +108,7 @@ class GenControlPlots(BaseControlPlots):
                 result[label+var] = [ ]
         result["WlnuMt"] = [ ]
         result["WDPID"] = [ ]
+        result["WMPID"] = [ ]
         result["bMPID"] = [ ]
         result["tDPID"] = [ ]
 
@@ -182,6 +184,7 @@ class GenControlPlots(BaseControlPlots):
                 PID_D1 = abs( event.particles[D1].PID )
                 PID_D2 = abs( event.particles[D2].PID )
                 result["WDPID"].extend( [PID_D1, PID_D2] ) # all W daughters
+                result["WMPID"].append( event.particles[particle.M1].PID ) # W mother
                 if PID_D1 in [11,13,15]: # e, mu, tau
                     nWlnu+=1
                     result["WlnuPt"].append( particle.PT )

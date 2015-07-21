@@ -15,8 +15,8 @@ from math import sqrt, cos
 
 particleSelection = ["Wjj","Hbb","HWW","HHbbWW"]
 vars = ["Pt","Eta","M"]
-algs = ["_b1","_b2"]#,"_c1","_c2"]
-alg_titles = ["(one b-tag)","(two b-tag)","(no b-tag W on-shell)","(no b-tag)"]
+algs = ["_b1","_b2","_b3"]#,"_c1","_c2"]
+alg_titles = ["(one b-tag)","(two b-tag)","(two b-tag with M<100 GeV)"]#,"(no b-tag W on-shell)","(no b-tag)"]
 
 
 class RecoControlPlots(BaseControlPlots):
@@ -39,6 +39,8 @@ class RecoControlPlots(BaseControlPlots):
         self.add("Wlnu2Pt","Wlnu Pt reco 2",100,0,600) # Wlnu 2 without mass constrain
         self.add("Wlnu2Eta","Wlnu Eta reco 2",100,-5,5)
         self.add("Wlnu2M","Wlnu Mass reco 2",100,0,200)
+        
+        self.add("WlnuMt","Wlnu reco Mt",100,0,300)
 
         for particle in particleSelection:
             for i in range(len(algs)):
@@ -51,9 +53,8 @@ class RecoControlPlots(BaseControlPlots):
                 else:
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,300)
     
-        self.add("M_jetComb1","combined jets Mass (combination alg.)",100,0,1000) # M_jetComb combination alg.
-        self.add("M_jetComb2","combined jets Mass (combination alg.2)",100,0,1000) # M_jetComb combination alg. 2
-        self.add("WlnuMt","Wlnu reco Mt",100,0,300)
+#        self.add("M_jetComb1","combined jets Mass (combination alg.)",100,0,1000) # M_jetComb combination alg.
+#        self.add("M_jetComb2","combined jets Mass (combination alg.2)",100,0,1000) # M_jetComb combination alg. 2
 
 
 
@@ -92,7 +93,8 @@ class RecoControlPlots(BaseControlPlots):
             result["Wlnu2Pt"].append(q_Wlnu2.Pt())
             result["Wlnu2Eta"].append(q_Wlnu2.Eta())
             result["Wlnu2M"].append(q_Wlnu2.M())
-            result["WlnuMt"].append(sqrt(2*event.met[0].MET*event.muons[0].PT*(1-cos( event.muons[0].Phi-event.met[0].Phi) )))
+            result["WlnuMt"].append(recoWlnuMt(event.muons[0],event.met[0]))
+#            sqrt(2*event.met[0].MET*event.muons[0].PT*(1-cos( event.muons[0].Phi-event.met[0].Phi) ))
         elif hasElectron:
             q_Wlnu1 = recoWlnu1(11,event.electrons[0],event.met[0])
             result["Wlnu1Pt"].append(q_Wlnu1.Pt())
@@ -102,7 +104,7 @@ class RecoControlPlots(BaseControlPlots):
             result["Wlnu2Pt"].append(q_Wlnu2.Pt())
             result["Wlnu2Eta"].append(q_Wlnu2.Eta())
             result["Wlnu2M"].append(q_Wlnu2.M())
-            result["WlnuMt"].append(sqrt(2*event.met[0].MET*event.electrons[0].PT*(1-cos( event.electrons[0].Phi-event.met[0].Phi) )))
+            result["WlnuMt"].append(recoWlnuMt(event.electrons[0],event.met[0]))
         
     
     
@@ -112,8 +114,8 @@ class RecoControlPlots(BaseControlPlots):
                 for alg in algs:
                     result[particle+alg+var] = []
         bjets = event.bjets30
-        result["M_jetComb1"] = [ ]
-        result["M_jetComb2"] = [ ]
+#        result["M_jetComb1"] = [ ]
+#        result["M_jetComb2"] = [ ]
         if len(event.cleanedJets)>3:
         
 #            # Combination alg.
@@ -182,7 +184,7 @@ class RecoControlPlots(BaseControlPlots):
                     result["Wjj_b2Pt"].append(q_Wjj_b2.Pt())
                     result["Wjj_b2Eta"].append(q_Wjj_b2.Eta())
                     result["Wjj_b2M"].append(q_Wjj_b2.M())
-                    if hasLepton: # HWW2
+                    if hasLepton:
                         q_HWW_b2 = q_Wjj_b2 + q_Wlnu1
                         result["HWW_b2Pt"].append(q_HWW_b2.Pt())
                         result["HWW_b2Eta"].append(q_HWW_b2.Eta())
@@ -191,6 +193,24 @@ class RecoControlPlots(BaseControlPlots):
                         result["HHbbWW_b2Pt"].append(q_HHbbWW_b2.Pt())
                         result["HHbbWW_b2Eta"].append(q_HHbbWW_b2.Eta())
                         result["HHbbWW_b2M"].append(q_HHbbWW_b2.M())
+                    
+                    # Double b-tagging 2
+                    [q_Hbb_b3,q_Wjj_b3] = recoHW_b3(bjets,event.cleanedJets) # Double b-tagging 2
+                    result["Hbb_b3Pt"].append(q_Hbb_b3.Pt())
+                    result["Hbb_b3Eta"].append(q_Hbb_b3.Eta())
+                    result["Hbb_b3M"].append(q_Hbb_b3.M())
+                    result["Wjj_b3Pt"].append(q_Wjj_b3.Pt())
+                    result["Wjj_b3Eta"].append(q_Wjj_b3.Eta())
+                    result["Wjj_b3M"].append(q_Wjj_b3.M())
+                    if hasLepton:
+                        q_HWW_b3 = q_Wjj_b3 + q_Wlnu1
+                        result["HWW_b3Pt"].append(q_HWW_b3.Pt())
+                        result["HWW_b3Eta"].append(q_HWW_b3.Eta())
+                        result["HWW_b3M"].append(q_HWW_b3.M())
+                        q_HHbbWW_b3 = q_Hbb_b3 + q_HWW_b3
+                        result["HHbbWW_b3Pt"].append(q_HHbbWW_b3.Pt())
+                        result["HHbbWW_b3Eta"].append(q_HHbbWW_b3.Eta())
+                        result["HHbbWW_b3M"].append(q_HHbbWW_b3.M())
     
         return result
 

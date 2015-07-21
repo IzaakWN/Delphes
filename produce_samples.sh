@@ -1,2 +1,0 @@
-./DelphesCMSFWLite Cards/JetStudies_Phase_II_140PileUp_conf4_TP.tcl HH_bbWW_1_TP.root dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/yangyong//data/Delphes/GEN/HH_bbWW/HH_bbWW_1.root
-./DelphesCMSFWLite Cards/JetStudies_Phase_II_140PileUp_conf4_Strawman5.tcl HH_bbWW_1_Strawman5.root dcap://t3se01.psi.ch:22125//pnfs/psi.ch/cms/trivcat/store/user/yangyong//data/Delphes/GEN/HH_bbWW/HH_bbWW_1.root
