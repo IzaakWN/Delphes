@@ -505,11 +505,11 @@ def recoHWW_d1(event):
     if FailedReco1:
         if FailedReco2: # both failed
 #            print "Warning in recoHHW_d1: both failed!"
-            return [ ]
+            return [ FailedReco1, FailedReco2 ]
         else:           # reco 2 succeeded, 1 failed
             return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2, 2, FailedReco1, FailedReco2 ]
     elif FailedReco2:   # reco 1 succeeded, 2 failed
-        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1 , q_Hbb+q_Wlnu1+q_Wjj1, 1, FailedReco1, FailedReco2 ]
+        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1, 1, FailedReco1, FailedReco2 ]
     else:               # both succeeded
         return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1, 3, FailedReco1, FailedReco2 ] # TODO: find better way to choose
 

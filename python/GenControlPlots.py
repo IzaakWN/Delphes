@@ -44,6 +44,7 @@ class GenControlPlots(BaseControlPlots):
         self.add("WDPID","W's daughters PID gen",30,0,30)
         self.add("WMPID","W's mother PID gen",30,0,30)
         self.add("bMPID","b-quark's mother PID gen",12000,-3000,3000)
+        self.add("qMPID","non b-quark's mother PID gen",12000,-3000,3000)
         self.add("tDPID","t's daughters PID gen",30,0,30)
         
         self.add("NVirtualWs","virtual W's multiplicity gen",5,0,5)
@@ -67,7 +68,7 @@ class GenControlPlots(BaseControlPlots):
                 self.add(label+"M",title+" Mass gen",100,0,200)
                 self.add(label+"Mt",title+" Mt gen",100,0,250)
                 self.add(label+"Mt_Wjjonshell",title+" with Wjj on-shell Mt gen",100,0,250)
-            if label=="HWW":
+            elif label=="HWW":
                 self.add(label+"Pt",title+" Pt gen",100,0,600)
                 self.add(label+"M",title+" Mass gen",200,0,800)
             elif label in ["HHbbWW","ttbbWW"]:
@@ -110,6 +111,7 @@ class GenControlPlots(BaseControlPlots):
         result["WDPID"] = [ ]
         result["WMPID"] = [ ]
         result["bMPID"] = [ ]
+        result["qMPID"] = [ ]
         result["tDPID"] = [ ]
 
         p_Hbb = TLorentzVector(0,0,0,0)
@@ -154,6 +156,9 @@ class GenControlPlots(BaseControlPlots):
                 result["qEta"].append( particle.Eta )
                 result["qPhi"].append( particle.Phi )
                 result["qM"].append( particle.Mass )
+                M1 = particle.M1
+                if M1>=0 and M1<len(event.particles) and event.particles[M1]:
+                    result["qMPID"].append( abs(event.particles[M1].PID) )
                 
                 # top
                 if PID == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2:

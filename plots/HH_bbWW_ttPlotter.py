@@ -96,10 +96,10 @@ def plotOverlay(stage):
     
     names2 = [ ]
 
-    names2.extend([("gen/WlnuPt", "reco/Wlnu1Pt"),
-                   ("gen/WlnuEta", "reco/Wlnu1Eta"),
-                   ("gen/WlnuM", "reco/Wlnu1M"),
-                   ("gen/nuPt", "jets/MET")]) # beware of normalization above!
+    names2.extend([ ("gen/WlnuPt", "reco/Wlnu1Pt"),
+                    ("gen/WlnuEta", "reco/Wlnu1Eta"),
+                    ("gen/WlnuM", "reco/Wlnu1M"),
+                    ("gen/nuPt", "jets/MET") ]) # beware of normalization above!
 
 #    names2.extend([("gen/lPt", "leptons/lPt")])
 
@@ -107,13 +107,13 @@ def plotOverlay(stage):
         for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
             for var in ["Pt","Eta","M"]:
                 names2.append( ("gen/"+process+var,\
-                                "reco/"+process+alg+var))
+                                "reco/"+process+alg+var) )
                                 
     for process in ["Wlnu","Wjj","HHbbWW"]:
         for alg in ["_d1"]: #["_b1","_b2","_c1","_c2"]:
             for var in ["Pt","Eta","M"]:
                 names2.append( ("gen/"+process+var,\
-                                "reco2/"+process+alg+var))
+                                "reco2/"+process+alg+var) )
 
     for gen, reco in names2:
 

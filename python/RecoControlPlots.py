@@ -3,6 +3,10 @@ from ROOT import TLorentzVector
 from reconstruct import *
 from math import sqrt, cos
 
+HM_max = 125 + 40
+HM_min = 125 - 40
+WM_max = 100
+
 # Requirements:
 # event.muons
 # event.electrons
@@ -48,6 +52,10 @@ class RecoControlPlots(BaseControlPlots):
                 self.add(particle+algs[i]+"Eta",particle+" Eta reco "+alg_titles[i],100,-5,5)
                 if particle=="HWW":
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,800)
+                    self.add(particle+algs[i]+"M_window",particle+" Mass reco "+alg_titles[i]+" window",100,85,160)
+                elif particle=="Hbb":
+                    self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,300)
+                    self.add(particle+algs[i]+"M_window",particle+" Mass reco "+alg_titles[i]+" window",100,85,160)
                 elif particle=="HHbbWW":
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],150,0,1500)
                 else:
@@ -159,58 +167,67 @@ class RecoControlPlots(BaseControlPlots):
             # Single b-tagging
             if len(bjets)>0:
                 [q_Hbb_b1,q_Wjj_b1] = recoHW_b1(bjets,event.cleanedJets)       # Single b-tagging
-                result["Hbb_b1Pt"].append(q_Hbb_b1.Pt())
+                result["Hbb_b1Pt" ].append(q_Hbb_b1.Pt())
                 result["Hbb_b1Eta"].append(q_Hbb_b1.Eta())
-                result["Hbb_b1M"].append(q_Hbb_b1.M())
-                result["Wjj_b1Pt"].append(q_Wjj_b1.Pt())
+                result["Hbb_b1M"  ].append(q_Hbb_b1.M())
+                result["Wjj_b1Pt" ].append(q_Wjj_b1.Pt())
                 result["Wjj_b1Eta"].append(q_Wjj_b1.Eta())
-                result["Wjj_b1M"].append(q_Wjj_b1.M())
+                result["Wjj_b1M"  ].append(q_Wjj_b1.M())
                 if hasLepton: # HWW_b1
                     q_HWW_b1 = q_Wjj_b1 + q_Wlnu1
-                    result["HWW_b1Pt"].append(q_HWW_b1.Pt())
+                    result["HWW_b1Pt" ].append(q_HWW_b1.Pt())
                     result["HWW_b1Eta"].append(q_HWW_b1.Eta())
-                    result["HWW_b1M"].append(q_HWW_b1.M())
+                    result["HWW_b1M"  ].append(q_HWW_b1.M())
                     q_HHbbWW_b1 = q_Hbb_b1 + q_HWW_b1
-                    result["HHbbWW_b1Pt"].append(q_HHbbWW_b1.Pt())
+                    result["HHbbWW_b1Pt" ].append(q_HHbbWW_b1.Pt())
                     result["HHbbWW_b1Eta"].append(q_HHbbWW_b1.Eta())
-                    result["HHbbWW_b1M"].append(q_HHbbWW_b1.M())
+                    result["HHbbWW_b1M"  ].append(q_HHbbWW_b1.M())
+                    if HM_min < q_Hbb_b1.M() < HM_max and HM_min < q_HWW_b1.M() < HM_max and q_Wjj_b1.M() < WM_max and q_Wlnu1.M() < WM_max:
+                        result["Hbb_b1M_window"] = q_Hbb_b1.M()
+                        result["HWW_b1M_window"] = q_HWW_b1.M()
 
                 # Double b-tagging
                 if len(bjets)>1:
                     [q_Hbb_b2,q_Wjj_b2] = recoHW_b2(bjets,event.cleanedJets) # Double b-tagging
-                    result["Hbb_b2Pt"].append(q_Hbb_b2.Pt())
+                    result["Hbb_b2Pt" ].append(q_Hbb_b2.Pt())
                     result["Hbb_b2Eta"].append(q_Hbb_b2.Eta())
-                    result["Hbb_b2M"].append(q_Hbb_b2.M())
-                    result["Wjj_b2Pt"].append(q_Wjj_b2.Pt())
+                    result["Hbb_b2M"  ].append(q_Hbb_b2.M())
+                    result["Wjj_b2Pt" ].append(q_Wjj_b2.Pt())
                     result["Wjj_b2Eta"].append(q_Wjj_b2.Eta())
-                    result["Wjj_b2M"].append(q_Wjj_b2.M())
+                    result["Wjj_b2M"  ].append(q_Wjj_b2.M())
                     if hasLepton:
                         q_HWW_b2 = q_Wjj_b2 + q_Wlnu1
-                        result["HWW_b2Pt"].append(q_HWW_b2.Pt())
+                        result["HWW_b2Pt" ].append(q_HWW_b2.Pt())
                         result["HWW_b2Eta"].append(q_HWW_b2.Eta())
-                        result["HWW_b2M"].append(q_HWW_b2.M())
+                        result["HWW_b2M"  ].append(q_HWW_b2.M())
                         q_HHbbWW_b2 = q_Hbb_b2 + q_HWW_b2
-                        result["HHbbWW_b2Pt"].append(q_HHbbWW_b2.Pt())
+                        result["HHbbWW_b2Pt" ].append(q_HHbbWW_b2.Pt())
                         result["HHbbWW_b2Eta"].append(q_HHbbWW_b2.Eta())
-                        result["HHbbWW_b2M"].append(q_HHbbWW_b2.M())
+                        result["HHbbWW_b2M"  ].append(q_HHbbWW_b2.M())
+                        if HM_min < q_Hbb_b2.M() < HM_max and HM_min < q_HWW_b2.M() < HM_max and q_Wjj_b2.M() < WM_max and q_Wlnu1.M() < WM_max:
+                            result["Hbb_b2M_window"] = q_Hbb_b2.M()
+                            result["HWW_b2M_window"] = q_HWW_b2.M()
                     
                     # Double b-tagging 2
                     [q_Hbb_b3,q_Wjj_b3] = recoHW_b3(bjets,event.cleanedJets) # Double b-tagging 2
-                    result["Hbb_b3Pt"].append(q_Hbb_b3.Pt())
+                    result["Hbb_b3Pt" ].append(q_Hbb_b3.Pt())
                     result["Hbb_b3Eta"].append(q_Hbb_b3.Eta())
-                    result["Hbb_b3M"].append(q_Hbb_b3.M())
-                    result["Wjj_b3Pt"].append(q_Wjj_b3.Pt())
+                    result["Hbb_b3M"  ].append(q_Hbb_b3.M())
+                    result["Wjj_b3Pt" ].append(q_Wjj_b3.Pt())
                     result["Wjj_b3Eta"].append(q_Wjj_b3.Eta())
-                    result["Wjj_b3M"].append(q_Wjj_b3.M())
+                    result["Wjj_b3M"  ].append(q_Wjj_b3.M())
                     if hasLepton:
                         q_HWW_b3 = q_Wjj_b3 + q_Wlnu1
-                        result["HWW_b3Pt"].append(q_HWW_b3.Pt())
+                        result["HWW_b3Pt" ].append(q_HWW_b3.Pt())
                         result["HWW_b3Eta"].append(q_HWW_b3.Eta())
-                        result["HWW_b3M"].append(q_HWW_b3.M())
+                        result["HWW_b3M"  ].append(q_HWW_b3.M())
                         q_HHbbWW_b3 = q_Hbb_b3 + q_HWW_b3
-                        result["HHbbWW_b3Pt"].append(q_HHbbWW_b3.Pt())
+                        result["HHbbWW_b3Pt" ].append(q_HHbbWW_b3.Pt())
                         result["HHbbWW_b3Eta"].append(q_HHbbWW_b3.Eta())
-                        result["HHbbWW_b3M"].append(q_HHbbWW_b3.M())
+                        result["HHbbWW_b3M"  ].append(q_HHbbWW_b3.M())
+                        if HM_min < q_Hbb_b3.M() < HM_max and HM_min < q_HWW_b3.M() < HM_max and q_Wjj_b3.M() < WM_max and q_Wlnu1.M() < WM_max:
+                            result["Hbb_b3M_window"] = q_Hbb_b3.M()
+                            result["HWW_b3M_window"] = q_HWW_b3.M()
     
         return result
 
