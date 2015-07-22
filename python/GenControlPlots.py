@@ -169,10 +169,9 @@ class GenControlPlots(BaseControlPlots):
                         ntb+=1
                         b.append(event.particles[D1])
                         W.append(event.particles[D2])
-
             
             # __b-quark__
-            elif PID == 5:
+            if PID == 5:
                 nb += 1
                 M1 = particle.M1
                 if M1>=0 and M1<len(event.particles) and event.particles[M1]:

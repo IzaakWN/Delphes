@@ -111,7 +111,7 @@ class ResControlPlots(BaseControlPlots):
                 # W
                 elif abs( particle.PID ) == 24:
                     # look at both quarks
-                    if abs( D1.PID ) != 5: # b-quark; also allow for leptons
+                    if abs( D1.PID ) != 5: # no b-quark; also allow for leptons
                         D2 = event.particles[particle.D2]
                         p_quark1.SetPtEtaPhiM(D1.PT, D1.Eta, D1.Phi, D1.Mass)
                         p_quark2.SetPtEtaPhiM(D2.PT, D2.Eta, D2.Phi, D2.Mass)
@@ -126,28 +126,28 @@ class ResControlPlots(BaseControlPlots):
                             elif TLorentzVector.DeltaR( p_bjet, p_quark2 ) < 0.2:
                                 nBadbtag2 += 1
 #                                bjets.remove(bjet)
-                        for i in range(len(jets30)):
-                            p_jet = TLorentzVector()
-                            p_jet.SetPtEtaPhiM(jets30[i].PT, jets30[i].Eta, jets30[i].Phi, jets30[i].Mass)
-                            if TLorentzVector.DeltaR( p_jet, p_quark1 ) < 0.2:
-                                nJetWMatch[i] += 1
+                    for i in range(len(jets30)):
+                        p_jet = TLorentzVector()
+                        p_jet.SetPtEtaPhiM(jets30[i].PT, jets30[i].Eta, jets30[i].Phi, jets30[i].Mass)
+                        if TLorentzVector.DeltaR( p_jet, p_quark1 ) < 0.2:
+                            nJetWMatch[i] += 1
+                            p_matchedJets.append(p_jet)
+                            result["jetWMatchEta"].append( jets30[i].Eta )
+                            result["jetWMatchBeta"].append( jets30[i].Beta )
+                        if TLorentzVector.DeltaR( p_jet, p_quark2 ) < 0.2:
+                            nJetWMatch[i] += 1
+                            if p_jet not in p_matchedJets: # prevent double counting
                                 p_matchedJets.append(p_jet)
                                 result["jetWMatchEta"].append( jets30[i].Eta )
                                 result["jetWMatchBeta"].append( jets30[i].Beta )
-                            if TLorentzVector.DeltaR( p_jet, p_quark2 ) < 0.2:
-                                nJetWMatch[i] += 1
-                                if p_jet not in p_matchedJets: # prevent double counting
-                                    p_matchedJets.append(p_jet)
-                                    result["jetWMatchEta"].append( jets30[i].Eta )
-                                    result["jetWMatchBeta"].append( jets30[i].Beta )
-                            if not nJetWMatch[i]:
-                                ip_unmatchedJets.append((i,p_jet))
-                                result["jetWUnMatchEta"].append( jets30[i].Eta )
-                                result["jetWUnMatchBeta"].append( jets30[i].Beta )
+                        if not nJetWMatch[i]:
+                            ip_unmatchedJets.append((i,p_jet))
+                            result["jetWUnMatchEta"].append( jets30[i].Eta )
+                            result["jetWUnMatchBeta"].append( jets30[i].Beta )
         
         for particle in event.particles:
             if particle.PID in [1,2,3,4,5,6]:
-                p_quark1.SetPtEtaPhiM(particle.PT, particle.Eta, particle.Phi, particle.Mass)
+                p_quark.SetPtEtaPhiM(particle.PT, particle.Eta, particle.Phi, particle.Mass)
                 for i, p_jet in ip_unmatchedJets:
                     if TLorentzVector.DeltaR( p_jet, p_quark ) < 0.2:
                         nJetqMatch[i] += 1

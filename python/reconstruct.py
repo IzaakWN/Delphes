@@ -383,8 +383,9 @@ def recoHW_c2(jets0):
 def recoHWW_d1(event):
     """ Reconstuction of Hbb, Wjj and Wlnu by using taking best combination
         of one W on-shell and the other off-shell w.r.t. the Hbb reco.
-        Returns [] if reco failed.
-        Returns list of four-vectors: [q_Wlnu, q_Wjj, q_Hbb, q_HWW, q_HHbbWW].
+        Returns [ ] if reco failed.
+        Returns list of TLoretzVectors and integers:
+        [q_Wlnu, q_Wjj, q_Hbb, q_HWW, q_HHbbWW, case, FailedReco1, FailedReco2].
         
         WW 2D-mass windows for HH -> bbWW,
         when one W off- and the other on-shell (~90% of the cases):
@@ -448,7 +449,7 @@ def recoHWW_d1(event):
 
     # 1) Reco WW assuming Wjj on-shell, Wlnu off-shell.
     # ---------------------------------------------------
-    FailedReco1 = False
+    FailedReco1 = 0
     
     # 1a) Reco on-shell Wjj by best combination of jets.
     indices = range(len(jets))
@@ -461,7 +462,7 @@ def recoHWW_d1(event):
     minDm = min(enumerate(DmassesW), key=itemgetter(1)) # get index of min
     indexW = minDm[0]
     if minDm[1] > MW_window: # Wjj not on-shell
-        FailedReco1 = True
+        FailedReco1 = 1
     q_Wjj1 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
     
     # 1b) Reco off-shell Wlnu.
@@ -478,23 +479,24 @@ def recoHWW_d1(event):
     elif WlnuMt < 50: mean_M = 49.5
     q_Wlnu1 = recoWlnu1(leptonPID,lepton,event.met[0],M=mean_M) # reco off-shell Wlnu, assuming M = mean_M
     if q_Wlnu1.M() > max_offshell or WlnuMt > max_offshell:
-        FailedReco1 = True
+        FailedReco1 += 2
 
 
     # 2) Reco WW assuming Wlnu on-shell, Wjj off-shell.
     # ---------------------------------------------------
-    FailedReco2 = False
+    FailedReco2 = 0
 
     # 2a) Reco on-shell Wln by mass-constraint.
     q_Wlnu2 = recoWlnu1(leptonPID,lepton,event.met[0])
+    if abs(q_Wlnu2.M()) > MW + MW_window:
+        FailedReco2 = 1
     
     # 2b) Reco off-shell Wjj by taking making the best combination.
     DmassesW = [abs(20-m) for m in masses] # mass differences from middle of off-shell W mass window
     indexW = min(enumerate(DmassesW), key=itemgetter(1))[0] # get index of min
     q_Wjj2 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
-    
-    if q_Wjj2.M() > max_offshell or q_Wjj2.M() < min_offshell or abs(q_Wlnu2.M()) > MW + MW_window:
-        FailedReco2 = True
+    if q_Wjj2.M() > max_offshell or q_Wjj2.M() < min_offshell:
+        FailedReco2 += 2
 
 
     # 3) Determine best combination.
@@ -504,11 +506,11 @@ def recoHWW_d1(event):
         if FailedReco2: # both failed
 #            print "Warning in recoHHW_d1: both failed!"
             return [ ]
-        else:           # reco 1 succeeded
-            return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2, 2 ]
-    elif FailedReco2:   # reco 2 succeeded
-        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1 , q_Hbb+q_Wlnu1+q_Wjj1, 1 ]
+        else:           # reco 2 succeeded, 1 failed
+            return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2, 2, FailedReco1, FailedReco2 ]
+    elif FailedReco2:   # reco 1 succeeded, 2 failed
+        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1 , q_Hbb+q_Wlnu1+q_Wjj1, 1, FailedReco1, FailedReco2 ]
     else:               # both succeeded
-        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1, 3 ] # TODO: find better way to choose
+        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1, 3, FailedReco1, FailedReco2 ] # TODO: find better way to choose
 
 

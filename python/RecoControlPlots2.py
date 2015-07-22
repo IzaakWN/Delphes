@@ -42,15 +42,24 @@ class RecoControlPlots2(BaseControlPlots):
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],150,0,1500)
                 else:
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,300)
-        self.add("case_d1"," 2D-reco case",5,0,5)
+        self.add("Hbb_d1M_window","Hbb Mass reco (2D alg.) window",100,0,300)
+        self.add("HWW_d1M_window","HWW Mass reco (2D alg.) window",100,0,800)
+
+
         self.add2D("WWM_d1","Wjj Mass vs. Wlnu Mass (2D alg.)",100,0,300,100,0,300)
+        
+        
+    
+        self.add("case_d1","2D-reco case",5,0,5)
+        self.add("Failed1_d1","2D-reco failed part 1 case",5,0,5)
+        self.add("Failed2_d1","2D-reco failed part 2 case",5,0,5)
 
 
 
     def process(self, event):
     
         result = { }
-        case = 0
+        cases = [0,0,0]
 
         hasLepton = (event.muons.GetEntries()>0) or (event.electrons.GetEntries()>0)
 
@@ -61,7 +70,7 @@ class RecoControlPlots2(BaseControlPlots):
         
             vectors = recoHWW_d1(event)
             if len(vectors) > 0:
-                [ q_Wlnu_d1, q_Wjj_d1, q_Hbb_d1, q_HWW_d1, q_HHbbWW_d1, case] = vectors
+                [ q_Wlnu_d1, q_Wjj_d1, q_Hbb_d1, q_HWW_d1, q_HHbbWW_d1, cases[0], cases[1], cases[2]] = vectors
                 
                 result["Wlnu_d1Pt"] = q_Wlnu_d1.Pt()
                 result["Wlnu_d1Eta"] = q_Wlnu_d1.Eta()
@@ -84,13 +93,15 @@ class RecoControlPlots2(BaseControlPlots):
                 result["HHbbWW_d1M"] = q_HHbbWW_d1.M()
     
                 result["WWM_d1"] = [[ q_Wlnu_d1.M(), q_Wjj_d1.M() ]]
-#            
-#                print "RecoControlPlots2.py: succes!"
-#            
-#            else:
-#                print "RecoControlPlots2.py: d1 did not come through..."
+                
+                if 65 < q_Hbb_d1.M() < 185 and 65 < q_HWW_d1.M() < 185:
+                    result["Hbb_d1M_window"] = q_Hbb_d1.M()
+                    result["Hbb_d1M_window"] = q_HWW_d1.M()
 
-        result["case_d1"] = case
+        result["case_d1"] = cases[0]
+        result["Failed1_d1"] = cases[1]
+        result["Failed2_d1"] = cases[2]
+        
         return result
 
 
