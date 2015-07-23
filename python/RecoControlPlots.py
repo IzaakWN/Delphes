@@ -57,12 +57,12 @@ class RecoControlPlots(BaseControlPlots):
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,300)
                     self.add(particle+algs[i]+"M_window",particle+" Mass reco "+alg_titles[i]+" window",100,85,160)
                 elif particle=="HHbbWW":
-                    self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],150,0,1500)
+                    self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,1500)
                 else:
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,300)
     
-#        self.add("M_jetComb1","combined jets Mass (combination alg.)",100,0,1000) # M_jetComb combination alg.
-#        self.add("M_jetComb2","combined jets Mass (combination alg.2)",100,0,1000) # M_jetComb combination alg. 2
+#        self.add("jetCombs_c1M","combined jets Mass (combination alg.)",100,0,1000)
+#        self.add("jetCombs_c2M","combined jets Mass (combination alg.2)",100,0,1000)
 
 
 
@@ -76,7 +76,7 @@ class RecoControlPlots(BaseControlPlots):
         
         # choose which lepton has to be reconstructed
         if hasMuon:
-            if hasElectron: # muon
+            if hasElectron:
                 recoMuon = event.muons[0].PT > event.electrons[0].PT
             else:
                 recoMuon = True
@@ -122,8 +122,8 @@ class RecoControlPlots(BaseControlPlots):
                 for alg in algs:
                     result[particle+alg+var] = []
         bjets = event.bjets30
-#        result["M_jetComb1"] = [ ]
-#        result["M_jetComb2"] = [ ]
+#        result["jetCombs_c1M"] = [ ]
+#        result["jetCombs_c2M"] = [ ]
         if len(event.cleanedJets)>3:
         
 #            # Combination alg.
@@ -134,7 +134,7 @@ class RecoControlPlots(BaseControlPlots):
 #            result["Wjj_c1Pt"].append(q_Wjj_c1.Pt())
 #            result["Wjj_c1Eta"].append(q_Wjj_c1.Eta())
 #            result["Wjj_c1M"].append(q_Wjj_c1.M())
-#            result["M_jetComb1"].extend(M_jetComb1)
+#            result["jetCombs_c1M"].extend(jetCombs_c1M)
 #            if hasLepton: # HWWc
 #                q_HWW_c1 = q_Wjj_c1 + q_Wlnu1
 #                result["HWW_c1Pt"].append(q_HWW_c1.Pt())
@@ -153,7 +153,7 @@ class RecoControlPlots(BaseControlPlots):
 #            result["Wjj_c2Pt"].append(q_Wjj_c2.Pt())
 #            result["Wjj_c2Eta"].append(q_Wjj_c2.Eta())
 #            result["Wjj_c2M"].append(q_Wjj_c2.M())
-#            result["M_jetCom_b2"].extend(M_jetComb2)
+#            result["M_jetCom_b2"].extend(jetCombs_c2M)
 #            if hasLepton: # HWW_c2
 #                q_HWW_c2 = q_Wjj_c2 + q_Wlnu1
 #                result["HWW_c2Pt"].append(q_HWW_c2.Pt())

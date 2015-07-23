@@ -41,7 +41,7 @@ def eventCategory(event):
     event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag ]
     
     # 0: at least one muon or electron with Pt > 20 GeV
-    categoryData.append( len(muons20+electrons20) > 0 )
+    categoryData.append( len(muons20+electrons20) )
     
     # 1: exactly one muon or electron with Pt > 20 GeV
     categoryData.append( len(muons20+electrons20) == 1 )
@@ -101,7 +101,7 @@ def isInCategory(category, categoryData):
     
     if category == 3:
         return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[7]
-        #      > lepton            > 4 jets            > 2 b-jets          > Hbb, Wlnu
+        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > Hbb, Wlnu
     
     if category == 4:
         return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5] and categoryData[6] and categoryData[7]

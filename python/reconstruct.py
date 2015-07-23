@@ -14,9 +14,9 @@ from operator import itemgetter # to find index of minimum element
 MW = 80.4
 MH = 125.7
 
-min_offshell = 10
-max_offshell = 50
-MW_window = 10 # i.e. 80.4 +/- 10 GeV
+min_offshell = 0
+max_offshell = 70
+MW_window = 20 # i.e. 80.4 +/- 10 GeV
 
 
 # note: assumption W is on-shell
@@ -397,8 +397,8 @@ def recoHWW_d1(event):
             - both: 70.4 - 90.4 GeV """
 
 
-    # 0) Make H vector, make jet vectors and check for leptons.
-    # -----------------------------------------------------------
+    # 0) Prepare stuff.
+    # -------------------
     
     # 0a) Make H-vector.
     bjets = event.bjets30 # = [ jet for jet in event.cleanedJets30 if jet.BTag ]
@@ -427,7 +427,15 @@ def recoHWW_d1(event):
         p_jets.append(TLorentzVector())
         p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
     
-    # 0c) Check leading lepton.
+    # 0d) Make combinations of jets.
+    indices = range(len(jets))
+    masses = [ ]
+    DmassesW = [ ]
+    indexComb = list(combinations(indices,2)) # [ (0,1), (0,2), (1,2), ... ]
+    for comb in indexComb: # make all possible combinations
+        masses.append( (p_jets[comb[0]]+p_jets[comb[1]]).M() )
+    
+    # 0e) Check leading lepton.
     hasMuon = (event.muons.GetEntries()>0)
     hasElectron = (event.electrons.GetEntries()>0)
     recoMuon = False
@@ -452,22 +460,16 @@ def recoHWW_d1(event):
     FailedReco1 = 0
     
     # 1a) Reco on-shell Wjj by best combination of jets.
-    indices = range(len(jets))
-    masses = [ ]
-    DmassesW = [ ]
-    indexComb = list(combinations(indices,2)) # [ (0,1), (0,2), (1,2), ... ]
-    for comb in indexComb: # make all possible combinations
-        masses.append( (p_jets[comb[0]]+p_jets[comb[1]]).M() )
     DmassesW = [abs(MW-m) for m in masses] # mass differences
     minDm = min(enumerate(DmassesW), key=itemgetter(1)) # get index of min
     indexW = minDm[0]
+    q_Wjj1 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
     if minDm[1] > MW_window: # Wjj not on-shell
         FailedReco1 = 1
-    q_Wjj1 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
     
     # 1b) Reco off-shell Wlnu.
     #       -> MWlnu in [ min( 12.0 GeV, M_T of lepton+MET ), 48.0 GeV ]
-    WlnuMt = sqrt(2*event.met[0].MET*lepton.PT*(1-cos( lepton.Phi-event.met[0].Phi) ))
+    WlnuMt = recoWlnuMt(lepton,event.met[0])
     mean_M = 32.6
     if WlnuMt < 15: mean_M = 33.4
     elif WlnuMt < 20: mean_M = 34.1
@@ -505,12 +507,12 @@ def recoHWW_d1(event):
     if FailedReco1:
         if FailedReco2: # both failed
 #            print "Warning in recoHHW_d1: both failed!"
-            return [ FailedReco1, FailedReco2 ]
+            return [ FailedReco1, FailedReco2, masses ]
         else:           # reco 2 succeeded, 1 failed
-            return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2, 2, FailedReco1, FailedReco2 ]
+            return [ q_Wlnu2, q_Wjj2, q_Hbb, q_Wlnu2+q_Wjj2, q_Hbb+q_Wlnu2+q_Wjj2, [2, FailedReco1, FailedReco2]+masses ]
     elif FailedReco2:   # reco 1 succeeded, 2 failed
-        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1, 1, FailedReco1, FailedReco2 ]
+        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1, [1, FailedReco1, FailedReco2]+masses ]
     else:               # both succeeded
-        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1, 3, FailedReco1, FailedReco2 ] # TODO: find better way to choose
+        return [ q_Wlnu1, q_Wjj1, q_Hbb, q_Wlnu1+q_Wjj1, q_Hbb+q_Wlnu1+q_Wjj1, [3, FailedReco1, FailedReco2]+masses ] # TODO: find better way to choose
 
 

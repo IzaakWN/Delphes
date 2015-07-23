@@ -43,7 +43,7 @@ class RecoControlPlots2(BaseControlPlots):
                 if particle=="HWW":
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,800)
                 elif particle=="HHbbWW":
-                    self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],150,0,1500)
+                    self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,1500)
                 else:
                     self.add(particle+algs[i]+"M",particle+" Mass reco "+alg_titles[i],100,0,300)
         self.add("Hbb_d1M_window","Hbb Mass reco (2D alg.) window",100,85,160)
@@ -54,6 +54,7 @@ class RecoControlPlots2(BaseControlPlots):
         self.add("case_d1","2D-reco case",5,0,5)
         self.add("Failed1_d1","2D-reco failed part 1 case",5,0,5)
         self.add("Failed2_d1","2D-reco failed part 2 case",5,0,5)
+        self.add("jetCombs_d1M","combined jets Mass (2D alg.)",100,0,1000)
 
 
 
@@ -70,11 +71,15 @@ class RecoControlPlots2(BaseControlPlots):
         if hasLepton and len(event.bjets30)>1 and category6:
         
             vectors = recoHWW_d1(event)
-            if len(vectors) == 2:
-                [ cases[1], cases[2] ] = vectors
+            if len(vectors) == 3:
+                control = vectors
+                case = control[:3]
+                masses = control[3:]
             
             elif len(vectors) > 2:
-                [ q_Wlnu_d1, q_Wjj_d1, q_Hbb_d1, q_HWW_d1, q_HHbbWW_d1, cases[0], cases[1], cases[2]] = vectors
+                [ q_Wlnu_d1, q_Wjj_d1, q_Hbb_d1, q_HWW_d1, q_HHbbWW_d1, control] = vectors
+                case = control[:3]
+                masses = control[3:]
                 
                 result["Wlnu_d1Pt"] = q_Wlnu_d1.Pt()
                 result["Wlnu_d1Eta"] = q_Wlnu_d1.Eta()
@@ -102,9 +107,12 @@ class RecoControlPlots2(BaseControlPlots):
                     result["Hbb_d1M_window"] = q_Hbb_d1.M()
                     result["HWW_d1M_window"] = q_HWW_d1.M()
 
-        result["case_d1"] = cases[0]
-        result["Failed1_d1"] = cases[1]
-        result["Failed2_d1"] = cases[2]
+            result["case_d1"] = cases[0]
+            result["Failed1_d1"] = cases[1]
+            result["Failed2_d1"] = cases[2]
+            result["jetCombs_d1M"] = masses
+        
+        
         
         return result
 
