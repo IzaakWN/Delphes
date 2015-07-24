@@ -68,6 +68,8 @@ def makeTitle(hist):
         title = title.replace(" PID","")
     elif " Mt" in title:
         title = title.replace(" Mt","")
+    elif "MW" in title:
+        title = title.replace("MW","M")#_{W}")
     
     if " " in title:
         
@@ -76,7 +78,10 @@ def makeTitle(hist):
 
         if "(" in title:
             title = title[:title.index(" ")] + title[title.index(" ("):] # only take proces and extra note
-            if len(title)>16:
+            if len(title)>25:
+                title = "#splitline{" + title + "}" # make line break
+                title = title[:title.index(" ",len(title)/2)] + "}{" + title[title.index(" ",len(title)/2)+1:]
+            elif len(title)>16:
                 title = "#splitline{" + title.replace("(","}{(") + "}" # make line break for note
             # vars
             if "Pt" in title:
@@ -99,7 +104,7 @@ def makeTitle(hist):
             title = title.replace("H","H #rightarrow ")
     elif "W" in title:
         if title.index("W")+1-len(title): # not W at the end!
-            if title[title.index("W")+1] not in ["'", " ", "W", "}"]:
+            if title[title.index("W")+1] in ["'", " ", "W",">","<", "}"]:
                 title = title.replace("W","W #rightarrow ")
     title = title.replace("nu","#nu")
 
@@ -147,6 +152,10 @@ def makeEntryName1(hist):
     if "(" in title:
         title = title[:title.index(" (")]
 #        title = "#splitline{" + title.replace(" (","}{").replace(")","}")
+    elif " vs. " in title:
+        print "Split!"
+        title = "#splitline{" + title + "}" # make line break
+        title = title[:title.index(" vs. ")+5] + "}{" + title[title.index(" vs. ")+5:]
 
     # TODO: line break if title too long
 
@@ -204,7 +213,7 @@ def makeLegend(*hists, **kwargs):
     legend.SetTextSize(legendTextSize)
 
     # make entries
-    if len(hists)==1:
+    if len(hists) == 1:
         if entries is None:
             legend.AddEntry(hist0,makeEntryName1(hist0))
         else:
@@ -215,7 +224,7 @@ def makeLegend(*hists, **kwargs):
         else: legend.SetHeader(title)
         
         if tt:
-            if len(hists)==3:
+            if len(hists) == 3:
                 if "eutrino" in hist0.GetTitle():
                     legend.AddEntry(hist0,"neutrino gen signal")
                 else:
@@ -230,6 +239,56 @@ def makeLegend(*hists, **kwargs):
                 legend.AddEntry(hists[i],entries[i])
 
     return legend
+
+
+
+def makeAxes2D(*hists, **kwargs):
+
+    hist0 = hists[0]
+    name = hist0.GetTitle()
+    xlabel = kwargs.get('xlabel', "")
+    ylabel = kwargs.get('ylabel', "")
+    
+    # make correct x-axis labels
+    if xlabel + ylabel:
+        hist0.GetXaxis().SetTitle(xlabel)
+    elif " vs. " in name:
+        xlabel = name[name.index(" vs. ")+5:]
+        ylabel = name[:name.index(" vs. ")].replace(" gen","")
+        if "H" in name:
+            xlabel = xlabel.replace("H","H #rightarrow ")
+            xlabel = xlabel.replace("Mass","mass [GeV]")
+            xlabel = xlabel.replace("Mt","M_{T} [GeV]")
+            ylabel = ylabel.replace("H","H #rightarrow ")
+            ylabel = ylabel.replace("Mass","mass [GeV]")
+            ylabel = ylabel.replace("Mt","M_{T} [GeV]")
+        elif "W" in name:
+            xlabel = xlabel.replace("W","W #rightarrow ")
+            xlabel = xlabel.replace("nu","#nu")
+            xlabel = xlabel.replace("Mass","mass [GeV]")
+            xlabel = xlabel.replace("Mt","M_{T} [GeV]")
+            ylabel = ylabel.replace("W","W #rightarrow ")
+            ylabel = ylabel.replace("nu","#nu")
+            ylabel = ylabel.replace("Mass","mass [GeV]")
+            ylabel = ylabel.replace("Mt","M_{T} [GeV]")
+        elif "jet combinations" in xlabel:
+            xlabel = "#Delta#eta"
+            ylabel = "#Delta#phi"
+        else: print "Warning: no axis labels!"
+    else: print "Warning: no axis labels!"
+
+    # set labels
+    hist0.GetXaxis().SetTitle(xlabel)
+    hist0.GetYaxis().SetTitle(ylabel)
+    hist0.GetYaxis().SetTitleOffset(1.5)
+
+    # set optimal range
+    mins = [ ]
+    maxs = [ ]
+    for hist in hists: #(hist0,) + hists:
+        mins.append(hist.GetMinimum())
+        maxs.append(hist.GetMaximum())
+    hist0.GetYaxis().SetRangeUser(min(mins),max(maxs)*1.12)
 
 
 

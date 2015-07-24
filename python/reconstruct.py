@@ -8,15 +8,21 @@
 from ROOT import TLorentzVector
 from BaseControlPlots import BaseControlPlots
 from math import sqrt, cos, sin
-from itertools import combinations # to make jets combinations
+from itertools import combinations, product, chain # to make jets combinations
+        # e.g. for 4 jets, gibt es 6 combinations:
+        # indexComb = list(combinations(range(4),2))
+        #           = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
 from operator import itemgetter # to find index of minimum element
 
 MW = 80.4
 MH = 125.7
 
 min_offshell = 0
-max_offshell = 70
-MW_window = 20 # i.e. 80.4 +/- 10 GeV
+max_offshell = 80
+window = 50 # i.e. 80.4 +/- 30 GeV
+MW_max = 105
+MH_min = MH-window
+MH_max = MH+window
 
 
 # note: assumption W is on-shell
@@ -140,7 +146,7 @@ def cut(jets0,min_jets=3):
     jets = [ ]
     jets_cut = [ ]
     for jet in jets0:
-        if jet.PT > 30 and jet.Eta < 2.5:
+        if jet.PT > 30: #and jet.Eta < 2.5:
             jets.append(jet)
         else:
             jets_cut.append(jet)
@@ -163,7 +169,7 @@ def cutb(bjets,jets0,min_jets):
     jets = [ ]
     jets_cut = [ ]
     for jet in jets0:
-        if jet is not bjets: # don't include given b-jets
+        if not jet in bjets: # don't include given b-jets
 #            if jet.PT > 30: # make pT>30 GeV cut
             jets.append(jet)
         else:
@@ -243,16 +249,14 @@ def recoHW_b2(bjets,jets0):
         ################################
 
 def recoHW_b3(bjets,jets0):
-    """ Reconstruction of Hbb and Wjj, by requiring at least two b-tags.
+    """ Reconstruction of Hbb and Wjj, requiring at least two b-tags.
         The two leading bjets are combined to reconstruct Hbb.
         The remaining leading jets are used to form a combination for Wjj
-        with exclusion of mass over 100 GeV. """
+        with exclusion of mass over MW_max, if possible. """
 
     jets = jets0[:]
     jets.remove(bjets[0])
     jets.remove(bjets[1])
-    jets = cut(jets) # make pT>30 GeV and eta < 2.5 cuts
-    indices = range(len(jets))
 
     # 1) Make TLorentzVectors for every jet.
     p_bjets = [ TLorentzVector(), TLorentzVector() ]
@@ -266,23 +270,87 @@ def recoHW_b3(bjets,jets0):
     # 2) Make Higgs four-vector.
     qH = p_bjets[0] + p_bjets[1]
     
-    # 3) Make combinations with remaining jets, excluding mass < 100 GeV
+    # 3) Make combinations with remaining jets, excluding mass > MW_max
     masses = [ ]
-    comb_masses = [ ]
-    indexComb = list(combinations(indices,2))
-        # e.g. for 4 jets, gibt es 6 combinations:
-        # indexComb = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
-    for comb in indexComb:
-        mass = (p_jets[comb[0]]+p_jets[comb[1]]).M()
-        if mass < 100:
+    p_jetCombs = [ ]
+    for p_jet1, p_jet2 in combinations(p_jets,2):
+        mass = (p_jet1+p_jet2).M()
+        if mass < MW_max:
             masses.append(mass)
-            comb_masses.append(comb)
+            p_jetCombs = [p_jet1,p_jet2]
             break # for now only need first combination!
     
-    # 4) Make W four-vector of first combination with mass < 100 GeV
+    # 4) Make W four-vector of first combination with mass < MW_max
     if len(masses)>0:
         # TODO: give preference to certain mass windows?
-        qW = p_jets[comb_masses[0][0]] + p_jets[comb_masses[0][1]]
+        qW = p_jetCombs[0] + p_jetCombs[1]
+    else:
+        qW = p_jets[0] + p_jets[1]
+
+    return [qH, qW]
+
+
+
+        ################################
+        # Double b-tagging algorithm 3 #
+        ################################
+
+def recoHW_b4(bjets,jets0):
+    """ Reconstruction of Hbb and Wjj, requiring at least two b-tags.
+        The first combination of jets with 60<M<150 are combined to reconstruct Hbb,
+        with a preference for combinations with b-jets.
+        The remaining leading jets are used to form a combination for Wjj
+        with exclusion of mass over 100 GeV, if possible. """
+
+    # 1) Make TLorentzVectors for every jet.
+    p_bjets = [ ]
+    for bjet in bjets:
+        p_bjets.append(TLorentzVector())
+        p_bjets[-1].SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
+    if MH_min < (p_bjets[0]+p_bjets[1]).M() < MH_max:
+        return recoHW_b3(bjets,jets0)
+    jets = [ jet for jet in jets0 if not jet in bjets ]
+    p_jets = [ ]
+    for jet in jets:
+        p_jets.append(TLorentzVector())
+        p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
+
+    # 2) Make combinations for H
+    masses = [ ]
+    p_bjetCombs = [ ]
+    # prefer                   (bjets,bjet)    above  (bjet,jet)   above   (jet,jet)
+    for p_bjet1, p_bjet2 in chain( combinations(p_bjets,2), product(p_bjets,p_jets), combinations(p_jets,2) ):
+        mass = (p_bjet1+p_bjet2).M()
+        if MH_min < mass < MH_max:
+            masses.append(mass)
+            p_bjetCombs = [p_bjet1,p_bjet2]
+            break # only take first combination!
+    p_jets = p_jets + p_bjets
+
+    # 3) Make four-vector for H
+    if len(masses)>0:
+        qH = p_bjetCombs[0] + p_bjetCombs[1]
+        p_jets.remove(p_bjetCombs[0])
+        p_jets.remove(p_bjetCombs[1])
+    else:
+        qH = p_bjets[0] + p_bjets[1]
+        p_jets.remove(p_bjets[0])
+        p_jets.remove(p_bjets[1])
+    
+    # 4) Make combinations with remaining jets, excluding mass > MW_max
+    masses = [ ]
+    p_jetCombs = [ ]
+    for p_jet1, p_jet2 in combinations(p_jets,2):
+        mass = (p_jet1+p_jet2).M()
+        if mass < MW_max:
+            masses.append(mass)
+            p_jetCombs = [p_jet1,p_jet2]
+            break # for now only need first combination!
+    
+    # 5) Make W four-vector of first combination with mass < MW_max
+    if len(masses)>0:
+        # TODO: give preference to certain mass windows?
+        qW = p_jetCombs[0] + p_jetCombs[1]
     else:
         qW = p_jets[0] + p_jets[1]
 
@@ -298,7 +366,7 @@ def recoHW_c1(jets0):
     """ Reconstruction of Hbb and Wjj, by taking the best combination
         for both seperately, assuming they are on-shell. """
 
-    jets = cut(jets0) # make pT>30 GeV and eta < 2.5 cuts
+    jets = cut(jets0) # make pT>30 GeV
     indices = range(len(jets))
 
     # 1) Make TLorentzVectors for every jet.
@@ -309,11 +377,9 @@ def recoHW_c1(jets0):
 
     # 2) Calculate masses of all the jet combinations.
     masses = [ ]
-    indexComb = list(combinations(indices,2))
-        # e.g. for 4 jets, gibt es 6 combinations:
-        # indexComb = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
-    for comb in indexComb:
-        masses.append( (p_jets[comb[0]]+p_jets[comb[1]]).M() )
+    indexComb = list(combinations(range(len(jets)),2))
+    for i, j in indexComb:
+        masses.append( (p_jets[i]+p_jets[j]).M() )
     
     # 3) Calculate difference to the Higgs and W mass.
     DmassesH = [abs(MH-m) for m in masses]
@@ -341,7 +407,7 @@ def recoHW_c2(jets0):
         for H first, assuming it is on-shell, and taking the next two leading
         jets of the remaining to make Wjj. """
 
-    jets = cut(jets0) # make pT>30 GeV and eta < 2.5 cut
+    jets = cut(jets0) # make pT>30 GeV
     indices = range(len(jets))
 
     # 1) Make TLorentzVectors for every jet.
@@ -352,10 +418,8 @@ def recoHW_c2(jets0):
     
     # 2) Calculate masses of all the jet combinations.
     masses = [ ]
-    indexComb = list(combinations(indices,2))
-        # e.g. for 4 jets, gibt es 6 combinations:
-        # indexComb = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)]
-    for comb in indexComb:
+    indexComb = list(combinations(range(len(jets)),2))
+    for i, j in indexComb:
         masses.append( (p_jets[comb[0]]+p_jets[comb[1]]).M() )
     
     # 3) Calculate difference to the Higgs.
@@ -401,7 +465,7 @@ def recoHWW_d1(event):
     # -------------------
     
     # 0a) Make H-vector.
-    bjets = event.bjets30 # = [ jet for jet in event.cleanedJets30 if jet.BTag ]
+    bjets = event.bjets30[:] # = [ jet for jet in event.cleanedJets30 if jet.BTag ]
     jets = event.cleanedJets30[:]
     if len(bjets) > 0:
         bjet1 = bjets[0]
@@ -414,7 +478,7 @@ def recoHWW_d1(event):
         bjet2 = event.cleanedJets[1]
     jets.remove(bjet1)
     jets.remove(bjet2)
-    jets = cut(jets,2) # make Pt and Eta cuts
+#    jets = cut(jets,2) # make Pt cuts
     p_b1 = TLorentzVector()
     p_b2 = TLorentzVector()
     p_b1.SetPtEtaPhiM(bjet1.PT, bjet1.Eta, bjet1.Phi, bjet1.Mass)
@@ -428,12 +492,11 @@ def recoHWW_d1(event):
         p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
     
     # 0d) Make combinations of jets.
-    indices = range(len(jets))
     masses = [ ]
     DmassesW = [ ]
-    indexComb = list(combinations(indices,2)) # [ (0,1), (0,2), (1,2), ... ]
-    for comb in indexComb: # make all possible combinations
-        masses.append( (p_jets[comb[0]]+p_jets[comb[1]]).M() )
+    indexComb = list(combinations(range(len(jets)),2))
+    for i, j in indexComb: # make all possible combinations
+        masses.append( (p_jets[i]+p_jets[j]).M() )
     
     # 0e) Check leading lepton.
     hasMuon = (event.muons.GetEntries()>0)
@@ -464,7 +527,7 @@ def recoHWW_d1(event):
     minDm = min(enumerate(DmassesW), key=itemgetter(1)) # get index of min
     indexW = minDm[0]
     q_Wjj1 = p_jets[indexComb[indexW][0]] + p_jets[indexComb[indexW][1]] # make Wjj vector
-    if minDm[1] > MW_window: # Wjj not on-shell
+    if minDm[1] > window: # Wjj not on-shell
         FailedReco1 = 1
     
     # 1b) Reco off-shell Wlnu.
@@ -490,7 +553,7 @@ def recoHWW_d1(event):
 
     # 2a) Reco on-shell Wln by mass-constraint.
     q_Wlnu2 = recoWlnu1(leptonPID,lepton,event.met[0])
-    if abs(q_Wlnu2.M()) > MW + MW_window:
+    if abs(q_Wlnu2.M()) > MW + 15:
         FailedReco2 = 1
     
     # 2b) Reco off-shell Wjj by taking making the best combination.

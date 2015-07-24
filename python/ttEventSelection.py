@@ -74,17 +74,20 @@ def isInCategory(category, categoryData):
     
     if category == 0:
 #        return True
-        return categoryData[0] and categoryData[2]
-        #      > lepton            > 4 jets
+#        return categoryData[0] and categoryData[2]
+#        #      > lepton            > 4 jets
+        return isInCategory(1, categoryData)
 
     if category == 1:
         return categoryData[0] and categoryData[2]
         #      > lepton            > 4 jets
-    
+#        return isInCategory(3, categoryData)
+
     if category == 2:
         return categoryData[0] and categoryData[2] and categoryData[4]
         #      > lepton            > 4 jets            > 2 b-jets
-    
+#        return isInCategory(3, categoryData)
+
     if category == 3:
         return categoryData[1] and categoryData[2] and categoryData[4]
         #      > exact 1 lepton    > 4 jets            > 2 b-jets

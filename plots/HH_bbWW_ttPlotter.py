@@ -25,6 +25,9 @@ def plotBasic(stage):
 
     names = [ ]
 
+#    if stage[-2] == "0":
+#        names.append("selection/category")
+
 #    for particle in ["b1","b2","q","nu","l","e","mu"]:
 #        for var in ["Pt","Eta","M"]:
 #            names.append("gen/"+particle+var)
@@ -38,23 +41,25 @@ def plotBasic(stage):
 #            for i in ["1","2","3","4"]:
 #                names.append("jets/"+jet+i+var)
 #
-#    for jet in ["Njets","Nbjets"]:
+#    for jet in ["NJets30","NUncleanedJets30","NBjets30"]:
 #        names.append("jets/"+jet)
-
-    names.append("res/NJetiWMatch")
-    names.append("res/jetWMatchEta")
-    names.append("res/jetWUnMatchEta")
-    names.append("jets/NjetsEta3")
-    names.append("jets/NjetsEta25")
-    names.append("jets/NjetsEta2")
-
+#
+#    names.append("res/NJetiWMatch")
+#    names.append("res/JetWMatchEta")
+#    names.append("res/JetWUnMatchEta")
+#    names.append("jets/NJetsEta3")
+#    names.append("jets/NJetsEta25")
+#    names.append("jets/NJetsEta2")
+#
 #    for particle in ["NMuons20","NElectrons20","NLeptons20"]:
 #        names.append("leptons/"+particle)
 
     for process in ["Hbb", "HWW"]:
-#        for alg in ["_b2","_d1"]: #["_b1","_b2","_c1","_c2"]:
+#        for alg in ["_b2","_b3","_b4","_d1"]: #["_b1","_b2","_c1","_c2"]:
         for var in ["Pt","Eta","M"]:
             names.append("reco/"+process+"_b2"+var)
+            names.append("reco/"+process+"_b3"+var)
+            names.append("reco/"+process+"_b4"+var)
             names.append("reco2/"+process+"_d1"+var)
 
     for name in names:
@@ -63,9 +68,12 @@ def plotBasic(stage):
         hist_S = file.Get(stage+name) # signal: HH -> bbWW
         hist_tt = file_tt.Get(stage+name) # BG: tt -> bbWW
         
+#        if "category" in name:
+#            hist_S.Scale(1/hist_S.GetBinContent(1))
+#            hist_tt.Scale(1/hist_tt.GetBinContent(1))
         if "H" not in name:
             norm(hist_S,hist_tt)
-        
+
         hist_S.Draw()
         hist_tt.Draw("same")
         makeAxes(hist_S,hist_tt)
@@ -76,6 +84,7 @@ def plotBasic(stage):
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(hist_S,hist_tt)
         
+        name = name.replace("selection/","basic_tt/"+stage)
         name = name.replace("gen/","basic_tt/"+stage)
         name = name.replace("leptons/","basic_tt/"+stage)
         name = name.replace("jets/","basic_tt/"+stage)
@@ -98,13 +107,13 @@ def plotOverlay(stage):
 
     names2.extend([ ("gen/WlnuPt", "reco/Wlnu1Pt"),
                     ("gen/WlnuEta", "reco/Wlnu1Eta"),
-                    ("gen/WlnuM", "reco/Wlnu1M"),
-                    ("gen/nuPt", "jets/MET") ]) # beware of normalization above!
+                    ("gen/WlnuM", "reco/Wlnu1M") ])
+#    names2.append("gen/nuPt", "jets/MET") # beware of normalization above!
 
 #    names2.extend([("gen/lPt", "leptons/lPt")])
 
     for process in ["Wjj","HHbbWW"]:
-        for alg in ["_b2"]: #["_b1","_b2","_c1","_c2"]:
+        for alg in ["_b2","_b3","_b4"]: #["_b1","_b2","_c1","_c2"]:
             for var in ["Pt","Eta","M"]:
                 names2.append( ("gen/"+process+var,\
                                 "reco/"+process+alg+var) )
@@ -158,7 +167,7 @@ def plot2D(stage):
     hist = file.Get(stage+"gen/WWM")
     
     hist.Draw()
-    makeAxes(hist)
+    makeAxes2D(hist)
     legend = makeLegend(hist)
     legend.Draw()
     hist.SetMarkerColor(kRed+3)
@@ -174,7 +183,7 @@ def plot2D(stage):
     hist_tt = file_tt.Get(stage+"gen/WWM")
     
     hist_tt.Draw()
-    makeAxes(hist_tt)
+    makeAxes2D(hist_tt)
     legend = makeLegend(hist)
     legend.Draw()
     hist.SetMarkerColor(kRed+3)
@@ -192,7 +201,7 @@ def plot2D(stage):
 
     hist_tt.Draw()
     hist.Draw("same")
-    makeAxes(hist_tt,hist)
+    makeAxes2D(hist_tt,hist)
     legend = makeLegend(hist,hist_tt,tt=True)
     legend.Draw()
     hist.SetMarkerColor(kRed+3)
@@ -211,7 +220,7 @@ def plot2D(stage):
 
     hist_tt.Draw()
     hist.Draw("same")
-    makeAxes(hist)
+    makeAxes2D(hist)
     hist.SetMarkerColor(kRed+3)
     hist_tt.SetMarkerColor(kAzure+4)
 
@@ -278,8 +287,8 @@ def plotExtra(stage):
 
     # __jetWMatchEta_vs._jetWUnMatchEta___
     c = makeCanvas()
-    hist = file.Get(stage+"res/jetWMatchEta")
-    hist_un = file.Get(stage+"res/jetWUnMatchEta")
+    hist = file.Get(stage+"res/JetWMatchEta")
+    hist_un = file.Get(stage+"res/JetWUnMatchEta")
     hist.Draw()
     hist_un.Draw("same")
     makeAxes(hist,hist_un)
@@ -289,7 +298,7 @@ def plotExtra(stage):
 
     CMS_lumi.CMS_lumi(c,14,33)
     
-    c.SaveAs("basic_tt/"+stage+"jetWMatchEta_unscaled.png")
+    c.SaveAs("basic_tt/"+stage+"JetWMatchEta_unscaled.png")
     c.Close()
 
 
@@ -370,12 +379,12 @@ def plotPie(stage):
 
 def main():
 
-    for stage in ["stage_0/","stage_1/","stage_2/","stage_3/","stage_4/"]:
+    for stage in ["stage_1/","stage_2/","stage_3/","stage_4/"]:
         plotOverlay(stage)
-        plotExtra(stage)
+#        plotExtra(stage)
         plotBasic(stage)
-        plot2D(stage)
-        plotPie(stage)
+#        plot2D(stage)
+#        plotPie(stage)
 
     print "\nDone with this, son.\n"
 

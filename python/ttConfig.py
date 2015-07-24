@@ -21,19 +21,19 @@ class configuration:
 
   # control plot classes
   controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
-                   controlPlot("jets","JetControlPlots","JetControlPlots", { }),
-                   controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
-                   controlPlot("gen","GenControlPlots","GenControlPlots", { }),
+                   #controlPlot("jets","JetControlPlots","JetControlPlots", { }),
+                   #controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
+                   #controlPlot("gen","GenControlPlots","GenControlPlots", { }),
                    controlPlot("reco","RecoControlPlots","RecoControlPlots", { }),
-                   controlPlot("reco2","RecoControlPlots2","RecoControlPlots2", { }),
-                   controlPlot("res","ResControlPlots","ResControlPlots", { })]
+                   controlPlot("reco2","RecoControlPlots2","RecoControlPlots2", { })]#,
+                   #controlPlot("res","ResControlPlots","ResControlPlots", { }) ]
 
   # event content: lists of eventCollection, eventProducer, and eventWeight objects respectively.
   eventCollections = [ eventCollection("muons","Muon"), 
                        eventCollection("electrons","Electron"), 
 		               eventCollection("met","MissingET"),
                        eventCollection("jets","Jet"),
-                       eventCollection("particles","Particle")] 
+                       eventCollection("particles","Particle") ]
   eventProducers   = [ eventProducer("category","ttEventSelection","eventCategory",{ }) ] 
   eventWeights     = [ ]
 
