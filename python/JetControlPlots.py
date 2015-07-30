@@ -1,7 +1,6 @@
 from BaseControlPlots import BaseControlPlots
 from ROOT import TLorentzVector
 from itertools import combinations # to make jets combinations
-import reconstruct
 
 # Requirements:
 # event.jets
@@ -29,16 +28,16 @@ class JetControlPlots(BaseControlPlots):
         self.add("NUncleanedJets30","uncleaned jets multiplicity (Pt>30 GeV)",12,0,12)
         self.add("NJets30","jets multiplicity (Pt>30 GeV)",12,0,12)
         self.add("NBjets30","b-jets multiplicity (Pt>30 GeV)",8,0,8)
+        self.add("NJets15","jets multiplicity (Pt>15 GeV)",20,0,20)
+        self.add("NBjets15","b-jets multiplicity (Pt>15 GeV)",10,0,10)
         
         self.add2D("JetiEta","jeti abs(Eta)",14,0,14,20,0,5)
-        self.add("NJetsEta3","jets multiplicity (Pt>30 GeV, Eta<3)",12,0,12)
-        self.add("NJetsEta25","jets multiplicity (Pt>30 GeV, Eta<2.5)",12,0,12)
-        self.add("NJetsEta2","jets multiplicity (Pt>30 GeV, Eta<2)",12,0,12)
         
-        self.add("JetsCombsDeltaR","jet combinations DeltaR (Pt>30 GeV)",100,0,8)
-        self.add("BJetsCombsDeltaR","b-jet combinations DeltaR (Pt>30 GeV)",100,0,8)
-        self.add2D("JetsCombsEtaPhi","jet combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,5,50,0,7)
-        self.add2D("BJetsCombsEtaPhi","b-jet combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,5,50,0,7)
+        self.add("JetsDeltaR","jet combinations DeltaR (Pt>30 GeV)",100,0,8)
+        self.add("BJetsDeltaR","b-jet combinations DeltaR (Pt>30 GeV)",100,0,8)
+        self.add2D("JetsDeltaEtaDeltaPhi","jet combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,5,50,0,7)
+        self.add2D("BJetsDeltaEtaDeltaPhi","b-jet combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,5,50,0,7)
+        self.add2D("LeptonJetDeltaEtaDeltaPhi","lepton-jet combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,5,50,0,7)
         
         self.add("MET","MET",100,0,300)
         self.add("METPhi","MET Phi",64,-3.2,3.2)
@@ -60,14 +59,16 @@ class JetControlPlots(BaseControlPlots):
                 for var in vars:
                     result[type+i+var] = [ ]
     
-        result["JetsCombsDeltaR"] = [ ]
-        result["BJetsCombsDeltaR"] = [ ]
-        result["JetsCombsEtaPhi"] = [ ]
-        result["BJetsCombsEtaPhi"] = [ ]
+        result["JetsDeltaR"] = [ ]
+        result["BJetsDeltaR"] = [ ]
+        result["JetsDeltaEtaDeltaPhi"] = [ ]
+        result["BJetsDeltaEtaDeltaPhi"] = [ ]
+        result["LeptonJetDeltaEtaDeltaPhi"] = [ ]
         
         jets = event.cleanedJets30
         result["NUncleanedJets30"]  = len([j for j in event.jets if j.PT>30])
         result["NJets30"]  = len(jets)
+        result["NJets15"]  = len([j for j in event.cleanedJets if j.PT>15])
         
         nJetsEta3 = 0 # Eta < 3
         nJetsEta25 = 0 # Eta < 2.5
@@ -75,15 +76,6 @@ class JetControlPlots(BaseControlPlots):
         result["JetiEta"] = [ ]
         for i in range(len(jets)):
             result["JetiEta"].append([ i, abs(jets[i].Eta) ])
-            if jets[i].Eta < 3:
-                nJetsEta3 += 1
-                if jets[i].Eta < 2.5:
-                    nJetsEta25 += 1
-                    if jets[i].Eta < 2:
-                        nJetsEta2 += 1
-        result["NJetsEta3"] = nJetsEta3
-        result["NJetsEta25"] = nJetsEta25
-        result["NJetsEta2"] = nJetsEta2
                     
         
         
@@ -116,6 +108,7 @@ class JetControlPlots(BaseControlPlots):
         # b-jets
         bjets = event.bjets30
         result["NBjets30"] = len(bjets)
+        result["NBjets15"]  = len([j for j in event.cleanedJets if j.PT>15 and j.BTag])
     
         if len(bjets)>0:
             result["bjet1Pt"].append(bjets[0].PT)
@@ -145,10 +138,10 @@ class JetControlPlots(BaseControlPlots):
             p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
         indexComb = list(combinations(range(len(jets)),2))
         for comb in indexComb:
-            result["JetsCombsDeltaR"].append(TLorentzVector.DeltaR( p_jets[comb[0]], p_jets[comb[1]] ))
-            result["JetsCombsEtaPhi"].append([ abs(jets[comb[0]].Eta - jets[comb[1]].Eta),
+            result["JetsDeltaR"].append(TLorentzVector.DeltaR( p_jets[comb[0]], p_jets[comb[1]] ))
+            result["JetsDeltaEtaDeltaPhi"].append([ abs(jets[comb[0]].Eta - jets[comb[1]].Eta),
                                                abs(jets[comb[0]].Phi - jets[comb[1]].Phi)  ])
-
+        
         # Delta R for bjets
         p_bjets = [ ]
         for bjet in bjets:
@@ -156,9 +149,16 @@ class JetControlPlots(BaseControlPlots):
             p_bjets[-1].SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
         indexComb = list(combinations(range(len(bjets)),2))
         for comb in indexComb:
-            result["BJetsCombsDeltaR"].append(TLorentzVector.DeltaR( p_bjets[comb[0]], p_bjets[comb[1]] ))
-            result["BJetsCombsEtaPhi"].append([ abs(bjets[comb[0]].Eta - bjets[comb[1]].Eta),
+            result["BJetsDeltaR"].append(TLorentzVector.DeltaR( p_bjets[comb[0]], p_bjets[comb[1]] ))
+            result["BJetsDeltaEtaDeltaPhi"].append([ abs(bjets[comb[0]].Eta - bjets[comb[1]].Eta),
                                                 abs(bjets[comb[0]].Phi - bjets[comb[1]].Phi)  ])
+        
+        # lepton-jet
+        lepton = event.leadingLepton
+        
+        for jet in jets:
+            result["LeptonJetDeltaEtaDeltaPhi"].append([ abs(lepton.Eta - jet.Eta),
+                                                         abs(lepton.Phi - jet.Phi)  ])
         
         return result
 

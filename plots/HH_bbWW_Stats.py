@@ -6,7 +6,7 @@ import time
 L = 3000 # / fb
 
 # cross section
-sigma_S = 40 * 0.027 # fb = sigma_HH * BR_bbWW
+sigma_S = 40 * 0.027 * 4 # fb = sigma_HH * BR_bbWW
 sigma_B = 984500 # fb
 
 # expected number of events
@@ -19,7 +19,9 @@ B_tot = 496200
 
 preamble = time.strftime("\n\n%D - %H:%M:%S",time.gmtime()) + \
            "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
-           "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot)
+           "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot) + \
+           "\n\n# Comments:\n" + raw_input("\n# Comments: ")
+
 print preamble
 f = open("HH_bbWW_Stats.txt","a")
 f.write( preamble )
@@ -35,7 +37,7 @@ file_tt = TFile("/home/uzh/ineute/phase2/Delphes_CMS/controlPlots_tt_all.root")
 def punzi(stage):
     table = "\n\n  %s: Punzi significance" % stage[:-1] + \
               "\n  -------------------------------------------------" + \
-              "\n   sigma \tS \tB \tS/B \treco" + \
+              "\n   P     \tS \tB \tS/B \treco" + \
               "\n  -------------------------------------------------"
 
     hist_S = file.Get(stage+"selection/category") # signal: HH -> bbWW
@@ -51,7 +53,7 @@ def punzi(stage):
 
     names = [ ]
 #    for process in ["Hbb"]:
-    for alg in ["_b2","_b3","_b4"]:
+    for alg in ["_b1","_b2","_b3","_b4"]:
         names.append( "reco/Hbb"+alg+"M" )
         names.append( "reco/Hbb"+alg+"M_window1" )
         names.append( "reco/Hbb"+alg+"M_window2" )

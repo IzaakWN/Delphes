@@ -20,8 +20,8 @@ MH = 125.7
 min_offshell = 0
 max_offshell = 80
 window = 50 # i.e. 80.4 +/- 30 GeV
-MW_max = 105
-MH_min = MH-window
+MW_max = 130
+MH_min = MH-window-20
 MH_max = MH+window
 
 
@@ -104,15 +104,73 @@ def recoWlnu2(PID,lepton,MET):
 
 
 
-        ################
-        # Wlnu Mt reco #
-        ################
+        ##################
+        # Wlnu Mt reco 1 #
+        ##################
 
 # e.g. lepton = event.muon[0], MET = event.met[0]
-def recoWlnuMt(lepton,MET):
+def recoWlnu1Mt(lepton,MET):
+    """ Reconstruction of Mt of Wlnu from pT and Phi of lepton and MET. """
+    
+    p_l = TLorentzVector()
+    p_l.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, m)
+    E = p_l.E()*p_l.E() + MET.MET
+    P = p_l.P()*p_l.P() + MET.MET
+    
+    return sqrt( E*E - P*P )
+
+
+
+        ##################
+        # Wlnu Mt reco 2 #
+        ##################
+
+# e.g. lepton = event.muon[0], MET = event.met[0]
+def recoWlnu2Mt(lepton,MET):
     """ Reconstruction of Mt of Wlnu from pT and Phi of lepton and MET. """
     
     return sqrt(2 * MET.MET * lepton.PT * (1-cos( lepton.Phi - MET.Phi)) )
+
+
+
+        ##################
+        # Wlnu Mc reco 1 #
+        ##################
+
+# e.g. lepton = event.muon[0], MET = event.met[0]
+def recoHWWMC1(p_Wjj,PID,lepton,MET):
+    """ Reconstruction of Mt of Wlnu from pT and Phi of lepton and MET. """
+    
+    if PID == 11: m = 0.000511 # GeV, electron
+    elif PID == 13: m = 0.106 # GeV, muon
+    elif PID == 15: m = 1.78 # GeV, tau
+    
+    p_l = TLorentzVector()
+    p_l.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, m)
+    p_jjl = p_Wjj + p_l
+    
+    return sqrt( p_jjl.Pt()*p_jjl.Pt() + p_jjl.M()*p_jjl.M() ) + MET.MET
+
+
+
+        ##################
+        # Wlnu Mc reco 2 #
+        ##################
+
+# e.g. lepton = event.muon[0], MET = event.met[0]
+def recoHWWMC2(p_Wjj,PID,lepton,MET):
+    """ Reconstruction of Mt of Wlnu from pT and Phi of lepton and MET. """
+    
+    if PID == 11: m = 0.000511 # GeV, electron
+    elif PID == 13: m = 0.106 # GeV, muon
+    elif PID == 15: m = 1.78 # GeV, tau
+    
+    p_l = TLorentzVector()
+    p_l.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, m)
+    M = (p_Wjj+p_l).M()
+    ET = MET.MET
+    
+    return sqrt( M*M + ET*ET ) + ET
 
 
 
@@ -152,6 +210,30 @@ def cut(jets0,min_jets=3):
             jets_cut.append(jet)
     
     n = min(6,len(jets)) # take n leading jets
+
+    # re-add jets if not enough
+    if n < min_jets:
+        d = min_jets-n
+        jets.extend(jets_cut[:d])
+
+    return jets
+
+
+
+def cut15(jets0,min_jets=3):
+    """ Make PT > 15 GeV and Eta < 2.5 cuts on jets0, but return at least
+        min_jets jets. Helpfunction for the recoHWc's. """
+
+    # make pT>15 GeV cut
+    jets = [ ]
+    jets_cut = [ ]
+    for jet in jets0:
+        if jet.PT > 15 and jet.Eta < 2.5:
+            jets.append(jet)
+        else:
+            jets_cut.append(jet)
+    
+    n = min(8,len(jets)) # take n leading jets
 
     # re-add jets if not enough
     if n < min_jets:
@@ -251,8 +333,8 @@ def recoHW_b2(bjets,jets0):
 def recoHW_b3(bjets,jets0):
     """ Reconstruction of Hbb and Wjj, requiring at least two b-tags.
         The two leading bjets are combined to reconstruct Hbb.
-        The remaining leading jets are used to form a combination for Wjj
-        with exclusion of mass over MW_max, if possible. """
+        The remaining leading jets are used to form the combination for Wjj
+        the highest Pt with exclusion of mass over MW_max, if possible. """
 
     jets = jets0[:]
     jets.remove(bjets[0])
@@ -271,19 +353,17 @@ def recoHW_b3(bjets,jets0):
     qH = p_bjets[0] + p_bjets[1]
     
     # 3) Make combinations with remaining jets, excluding mass > MW_max
-    masses = [ ]
-    p_jetCombs = [ ]
+    PT_max = 0
+    p_max = TLorentzVector(0,0,0,0)
     for p_jet1, p_jet2 in combinations(p_jets,2):
-        mass = (p_jet1+p_jet2).M()
-        if mass < MW_max:
-            masses.append(mass)
-            p_jetCombs = [p_jet1,p_jet2]
-            break # for now only need first combination!
-    
+        p = p_jet1 + p_jet2
+        if p.M() < MW_max and PT_max < p.Pt():
+            p_max = p
+            PT_max = p.Pt()
+
     # 4) Make W four-vector of first combination with mass < MW_max
-    if len(masses)>0:
-        # TODO: give preference to certain mass windows?
-        qW = p_jetCombs[0] + p_jetCombs[1]
+    if PT_max:
+        qW = p_max
     else:
         qW = p_jets[0] + p_jets[1]
 
@@ -319,7 +399,7 @@ def recoHW_b4(bjets,jets0):
     masses = [ ]
     p_bjetCombs = [ ]
     # prefer                   (bjets,bjet)    above  (bjet,jet)   above   (jet,jet)
-    for p_bjet1, p_bjet2 in chain( combinations(p_bjets,2), product(p_bjets,p_jets), combinations(p_jets,2) ):
+    for p_bjet1, p_bjet2 in chain( combinations(p_bjets,2), product(p_bjets,p_jets)):#, combinations(p_jets,2) ):
         mass = (p_bjet1+p_bjet2).M()
         if MH_min < mass < MH_max:
             masses.append(mass)
@@ -338,23 +418,106 @@ def recoHW_b4(bjets,jets0):
         p_jets.remove(p_bjets[1])
     
     # 4) Make combinations with remaining jets, excluding mass > MW_max
-    masses = [ ]
-    p_jetCombs = [ ]
+    PT_max = 0
+    p_max = TLorentzVector(0,0,0,0)
     for p_jet1, p_jet2 in combinations(p_jets,2):
-        mass = (p_jet1+p_jet2).M()
-        if mass < MW_max:
-            masses.append(mass)
-            p_jetCombs = [p_jet1,p_jet2]
-            break # for now only need first combination!
+        p = p_jet1 + p_jet2
+        if p.M() < MW_max and PT_max < p.Pt():
+            p_max = p
+            PT_max = p.Pt()
     
     # 5) Make W four-vector of first combination with mass < MW_max
-    if len(masses)>0:
-        # TODO: give preference to certain mass windows?
-        qW = p_jetCombs[0] + p_jetCombs[1]
+    if PT_max:
+        qW = p_max
     else:
         qW = p_jets[0] + p_jets[1]
 
     return [qH, qW]
+
+
+
+        ###################
+        # HWW algorithm 1 #
+        ###################
+
+def recoHWW1(bjets,jets0,lepton,MET):
+    """ Reconstruction of HWW, requiring at least two b-tags.
+        The two leading bjets are taken out the jets, and the
+        next leading jets with
+           DeltaPhi(jet,lepton)<1.8 or 5<DeltaPhi(jet,lepton)
+        are used to form HWW. """
+
+    jets = jets0[:]
+    jets.remove(bjets[0])
+    jets.remove(bjets[1])
+
+    # 1) Make TLorentzVectors.
+    p_l = TLorentzVector()
+    p_l.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
+    p_bjets = [ TLorentzVector(), TLorentzVector() ]
+    p_bjets[0].SetPtEtaPhiM(bjets[0].PT, bjets[0].Eta, bjets[0].Phi, bjets[0].Mass)
+    p_bjets[1].SetPtEtaPhiM(bjets[1].PT, bjets[1].Eta, bjets[1].Phi, bjets[1].Mass)
+    p_jets = [ ]
+    for jet in jets:
+        p_jets.append(TLorentzVector())
+        p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
+
+    # 2) Make Higgs four-vector.
+    qH = p_bjets[0] + p_bjets[1]
+    
+    # 3) Make combinations with remaining jets, excluding mass > MW_max
+    PT_max = 0
+    p_max = TLorentzVector(0,0,0,0)
+    for p_jet1, p_jet2 in combinations(p_jets,2):
+        p_Wjj = p_jet1 + p_jet2
+        
+#        if p.M() < MW_max and PT_max < p.Pt():
+#            p_max = p
+#            PT_max = p.Pt()
+
+    return 0
+
+
+
+        ###################
+        # HWW algorithm 2 #
+        ###################
+
+def recoHWW2(bjets,jets0,lepton,MET):
+    """ Reconstruction of Hbb and Wjj, requiring at least two b-tags.
+        The two leading bjets are combined to reconstruct Hbb.
+        The remaining leading jets are used to form the combination that
+        is back-to-back in the HWW frame. """
+
+    jets = jets0[:]
+    jets.remove(bjets[0])
+    jets.remove(bjets[1])
+
+    # 1) Make TLorentzVectors.
+    p_l = TLorentzVector()
+    p_l.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
+    p_bjets = [ TLorentzVector(), TLorentzVector() ]
+    p_bjets[0].SetPtEtaPhiM(bjets[0].PT, bjets[0].Eta, bjets[0].Phi, bjets[0].Mass)
+    p_bjets[1].SetPtEtaPhiM(bjets[1].PT, bjets[1].Eta, bjets[1].Phi, bjets[1].Mass)
+    p_jets = [ ]
+    for jet in jets:
+        p_jets.append(TLorentzVector())
+        p_jets[-1].SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
+
+    # 2) Make Higgs four-vector.
+    qH = p_bjets[0] + p_bjets[1]
+    
+    # 3) Make combinations with remaining jets, excluding mass > MW_max
+    PT_max = 0
+    p_max = TLorentzVector(0,0,0,0)
+    for p_jet1, p_jet2 in combinations(p_jets,2):
+        p_Wjj = p_jet1 + p_jet2
+        
+#        if p.M() < MW_max and PT_max < p.Pt():
+#            p_max = p
+#            PT_max = p.Pt()
+
+    return 0
 
 
 
@@ -466,7 +629,7 @@ def recoHWW_d1(event):
     
     # 0a) Make H-vector.
     bjets = event.bjets30[:] # = [ jet for jet in event.cleanedJets30 if jet.BTag ]
-    jets = event.cleanedJets30[:]
+    jets = event.cleanedJets15[:10]
     if len(bjets) > 0:
         bjet1 = bjets[0]
         if bjets > 1: # two b-tags
@@ -532,17 +695,17 @@ def recoHWW_d1(event):
     
     # 1b) Reco off-shell Wlnu.
     #       -> MWlnu in [ min( 12.0 GeV, M_T of lepton+MET ), 48.0 GeV ]
-    WlnuMt = recoWlnuMt(lepton,event.met[0])
-    mean_M = 32.6
-    if WlnuMt < 15: mean_M = 33.4
-    elif WlnuMt < 20: mean_M = 34.1
-    elif WlnuMt < 25: mean_M = 36.2
-    elif WlnuMt < 30: mean_M = 38.5
-    elif WlnuMt < 35: mean_M = 39.9
-    elif WlnuMt < 40: mean_M = 43.1
-    elif WlnuMt < 45: mean_M = 47.5
-    elif WlnuMt < 50: mean_M = 49.5
-    q_Wlnu1 = recoWlnu1(leptonPID,lepton,event.met[0],M=mean_M) # reco off-shell Wlnu, assuming M = mean_M
+    WlnuMt = recoWlnu2Mt(lepton,event.met[0])
+#    mean_M = 32.6
+#    if WlnuMt < 15: mean_M = 33.4
+#    elif WlnuMt < 20: mean_M = 34.1
+#    elif WlnuMt < 25: mean_M = 36.2
+#    elif WlnuMt < 30: mean_M = 38.5
+#    elif WlnuMt < 35: mean_M = 39.9
+#    elif WlnuMt < 40: mean_M = 43.1
+#    elif WlnuMt < 45: mean_M = 47.5
+#    elif WlnuMt < 50: mean_M = 49.5
+    q_Wlnu1 = recoWlnu1(leptonPID,lepton,event.met[0],M=WlnuMt) # reco off-shell Wlnu, assuming M = mean_M
     if q_Wlnu1.M() > max_offshell or WlnuMt > max_offshell:
         FailedReco1 += 2
 

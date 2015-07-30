@@ -1,6 +1,7 @@
 from BaseControlPlots import BaseControlPlots
 from ROOT import TLorentzVector
 from math import sqrt, pow, cos
+from operator import attrgetter
 
 # Requirements:
 # event.Hs
@@ -56,7 +57,8 @@ class GenControlPlots(BaseControlPlots):
         self.add2D("WlnuWlnuMt","Wlnu Mt vs. Wlnu Mt gen",100,0,150,100,0,150)
         self.add2D("HHM","Hbb Mass vs. HWW Mass gen",100,0,150,100,0,150)
         self.add2D("bbWWM","bb Mass vs. WW Mass gen",100,0,250,100,0,250)
-
+        self.add2D("leptonQuarkDeltaPhiDeltaEta","lepton-quark DeltaPhi vs. DeltaEta",50,0,5,50,0,7)
+        self.add2D("leptonQuarksDeltaPhiDeltaEta","lepton-quarks DeltaPhi vs. DeltaEta",50,0,5,50,0,7)
 
         for i in range(len(labels)):
             label = labels[i]
@@ -87,6 +89,11 @@ class GenControlPlots(BaseControlPlots):
         
         result = { }
         
+        leptons = [ ]
+        neutrinos = [ ]
+        quark1s = [ ]
+        quarks = [ ]
+        
         nHiggs = 0
         nt = 0
         nW = 0
@@ -113,6 +120,7 @@ class GenControlPlots(BaseControlPlots):
         result["bMPID"] = [ ]
         result["qMPID"] = [ ]
         result["tDPID"] = [ ]
+        result["leptonQuarksDeltaPhiDeltaEta"] = [ ]
 
         p_Hbb = TLorentzVector(0,0,0,0)
         p_HWW = TLorentzVector(0,0,0,0)
@@ -190,6 +198,8 @@ class GenControlPlots(BaseControlPlots):
                 result["WDPID"].extend( [PID_D1, PID_D2] ) # all W daughters
                 result["WMPID"].append( event.particles[particle.M1].PID ) # W mother
                 if PID_D1 in [11,13,15]: # e, mu, tau
+                    leptons.append(event.particles[D1])
+                    neutrinos.append(event.particles[D2])
                     nWlnu+=1
                     result["WlnuPt"].append( particle.PT )
                     result["WlnuEta"].append( particle.Eta )
@@ -205,6 +215,8 @@ class GenControlPlots(BaseControlPlots):
                     result["nuM"].append( event.particles[D2].Mass )
                 elif PID_D1 in [1,2,3,4,5]: # d, u, s, c, b
                     nWjj+=1
+                    quark1s.append(event.particles[D1])
+                    quarks.extend([event.particles[D1],event.particles[D2]])
                     result["WjjPt"].append( particle.PT )
                     result["WjjEta"].append( particle.Eta )
                     result["WjjPhi"].append( particle.Phi )
@@ -288,6 +300,16 @@ class GenControlPlots(BaseControlPlots):
                 q_b[i].SetPtEtaPhiM(b[i].PT, b[i].Eta, b[i].Phi, b[i].Mass)
                 q_W[i].SetPtEtaPhiM(W[i].PT, W[i].Eta, W[i].Phi, W[i].Mass)
             result["bbWWM"]  = [[ (q_b[0]+q_b[1]).M(),  (q_W[0]+q_W[1]).M() ]]
+    
+        if leptons and quark1s:
+            leadingLepton = max(leptons, key=attrgetter('PT'))
+            leadingQuark1 = max(quark1s, key=attrgetter('PT'))
+            result["leptonQuarkDeltaPhiDeltaEta"] = [[ abs(leadingLepton.Eta - leadingQuark1.Eta),
+                                                       abs(leadingLepton.Phi - leadingQuark1.Phi) ]]
+            for quark in quarks:
+                result["leptonQuarksDeltaPhiDeltaEta"].append([ abs(leadingLepton.Eta - quark.Eta),
+                                                                abs(leadingLepton.Phi - quark.Phi) ])
+
 
         result["NLeptons"] = nLeptons
         result["NElectrons"] = nElectrons

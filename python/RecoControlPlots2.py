@@ -3,9 +3,10 @@ from ROOT import TLorentzVector
 from reconstruct import *
 from math import sqrt, cos
 
-HM_max = 125 + 50
-HM_min = 125 - 50
+HM_max = 125 + 15
+HM_min = 125 - 30
 WM_max = 80 + 30
+WM_offshell_max = 60
 
 # Requirements:
 # event.muons
@@ -103,9 +104,9 @@ class RecoControlPlots2(BaseControlPlots):
     
                 result["WWM_d1"] = [[ q_Wlnu_d1.M(), q_Wjj_d1.M() ]]
                 
-                if HM_min < q_Hbb_d1.M() < HM_max and HM_min < q_HWW_d1.M() < HM_max:
+                if HM_min < q_Hbb_d1.M() < HM_max: #and HM_min < q_HWW_d1.M() < HM_max:
                     result["Hbb_d1M_window1"] = q_Hbb_d1.M()
-                    if q_Wlnu_d1.M() < WM_max and q_Wjj_d1.M() < WM_max:
+                    if q_Wlnu_d1.M() < WM_max and q_Wjj_d1.M() < WM_offshell_max:
                         result["Hbb_d1M_window2"] = q_Hbb_d1.M()
 
             result["case_d1"] = cases[0]

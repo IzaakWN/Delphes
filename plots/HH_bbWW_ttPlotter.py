@@ -44,9 +44,9 @@ def plotBasic(stage):
 #    for jet in ["NJets30","NUncleanedJets30","NBjets30"]:
 #        names.append("jets/"+jet)
 #
-#    names.append("res/NJetiWMatch")
-#    names.append("res/JetWMatchEta")
-#    names.append("res/JetWUnMatchEta")
+#    names.append("match/NJetiWMatch")
+#    names.append("match/JetWMatchEta")
+#    names.append("match/JetWUnMatchEta")
 #    names.append("jets/NJetsEta3")
 #    names.append("jets/NJetsEta25")
 #    names.append("jets/NJetsEta2")
@@ -61,6 +61,9 @@ def plotBasic(stage):
             names.append("reco/"+process+"_b3"+var)
             names.append("reco/"+process+"_b4"+var)
             names.append("reco2/"+process+"_d1"+var)
+    names.append("reco/HWW_b2Mc")
+    names.append("reco/HWW_b3Mc")
+    names.append("reco/HWW_b4Mc")
 
     for name in names:
 
@@ -88,7 +91,7 @@ def plotBasic(stage):
         name = name.replace("gen/","basic_tt/"+stage)
         name = name.replace("leptons/","basic_tt/"+stage)
         name = name.replace("jets/","basic_tt/"+stage)
-        name = name.replace("res/","basic_tt/"+stage)
+        name = name.replace("match/","basic_tt/"+stage)
         name = name.replace("reco/","reco_tt/"+stage)
         name = name.replace("reco2/","reco_tt/"+stage)
         c.SaveAs(name+".png")
@@ -107,7 +110,8 @@ def plotOverlay(stage):
 
     names2.extend([ ("gen/WlnuPt", "reco/Wlnu1Pt"),
                     ("gen/WlnuEta", "reco/Wlnu1Eta"),
-                    ("gen/WlnuM", "reco/Wlnu1M") ])
+                    ("gen/WlnuM", "reco/Wlnu1M"),
+                    ("gen/WlnuMt", "reco/WlnuMt") ])
 #    names2.append("gen/nuPt", "jets/MET") # beware of normalization above!
 
 #    names2.extend([("gen/lPt", "leptons/lPt")])
@@ -271,7 +275,7 @@ def plotExtra(stage):
 
     # __NJetiWMatch__
     c = makeCanvas()
-    hist = file.Get(stage+"res/NJetiWMatch")
+    hist = file.Get(stage+"match/NJetiWMatch")
     norm(hist)
     hist.Draw()
     makeAxes(hist)
@@ -287,8 +291,8 @@ def plotExtra(stage):
 
     # __jetWMatchEta_vs._jetWUnMatchEta___
     c = makeCanvas()
-    hist = file.Get(stage+"res/JetWMatchEta")
-    hist_un = file.Get(stage+"res/JetWUnMatchEta")
+    hist = file.Get(stage+"match/JetWMatchEta")
+    hist_un = file.Get(stage+"match/JetWUnMatchEta")
     hist.Draw()
     hist_un.Draw("same")
     makeAxes(hist,hist_un)
@@ -350,7 +354,7 @@ def plotPie(stage):
 #    pie.SetAngularOffset(200)
     pie.SetEntryRadiusOffset(2,.03)
 
-    labels = [" hadronic"," monoleptonic"," dileptonic"]
+    labels = [" hadronic"," semi-leptonic"," dileptonic"]
     colors = [kAzure-4,kGreen-3,kRed] #kOrange-3
     linecolors = [kAzure-6,kGreen+4,kRed+4] #Orange+4
     pie.SetLabelFormat("#splitline{#scale[1.4]{#font[2]{%txt}}}{#scale[1.2]{  %perc}}")
@@ -379,7 +383,7 @@ def plotPie(stage):
 
 def main():
 
-    for stage in ["stage_1/","stage_2/","stage_3/","stage_4/"]:
+    for stage in ["stage_1/","stage_3/","stage_4/"]:
         plotOverlay(stage)
 #        plotExtra(stage)
         plotBasic(stage)
