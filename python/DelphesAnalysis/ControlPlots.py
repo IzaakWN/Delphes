@@ -1,4 +1,6 @@
-#!/usr/bin/env python 
+import time
+t0 = time.time()
+#!/usr/bin/env python
 
 #######################################################################################
 ###  Option parsing and main routine  #################################################
@@ -7,6 +9,7 @@
 from optparse import OptionParser
 import sys
 import os
+
 usage="""%prog [options]"""
 description="""A simple script to generate control plots."""
 epilog="""Example:
@@ -27,6 +30,8 @@ parser.add_option("--Njobs", type="int", dest='Njobs', default="1",
                   help="Number of jobs when splitting the processing.")
 parser.add_option("--jobNumber", type="int", dest='jobNumber', default="0",
                   help="Number of the job is a splitted set of jobs.")
+parser.add_option("-t", "--txtFile", dest="txt", default=None,
+                  help="Read input file from text file at DIR.", metavar="DIR")
 
 (options, args) = parser.parse_args()
 
@@ -45,7 +50,7 @@ if options.outputname is None:
 import Delphes
 import ROOT
 import itertools
-import time
+#import time
 from importlib import import_module
 from AnalysisEvent import AnalysisEvent
 from BaseControlPlots import getArgSet
@@ -55,7 +60,7 @@ import cProfile
 def main(options):
   """simplistic program main"""
   # do basic arg checking
-  if options.path is None: 
+  if options.path is None:
     print "Error: no input path specified."
     parser.print_help()
     return
@@ -85,26 +90,41 @@ def main(options):
     print "Error: jobNumber must be strictly smaller than Njobs."
     parser.print_help()
     return
-  # if all ok, run the procedure
-  runAnalysis(path=options.path,outputname=options.outputname, levels=levels, Njobs=options.Njobs, jobNumber=options.jobNumber)
+  # IWN
+  if options.txt:
+    if not options.txt.endswith(".txt"): 
+      print "Error: file is not a txt file."
+      parser.print_help()
+      return
+# if all ok, run the procedure
+  runAnalysis(path=options.path,txt=options.txt,outputname=options.outputname, levels=levels, Njobs=options.Njobs, jobNumber=options.jobNumber)
 
 #######################################################################################
 ### Central Routine: manage input/output, loop on events, manage weights and plots  ###
 #######################################################################################
 
-def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber=1):
+def runAnalysis(path, txt, levels, outputname="controlPlots.root", Njobs=1, jobNumber=1):
   """produce all the plots in one go"""
 
   # inputs
-  if os.path.isdir(path):
-    dirList=list(itertools.islice(os.listdir(path), jobNumber, None, Njobs))
+  dcapDir = False
+  if "dcap://" in path:
+    split = path.split("/")
+    decapDir = os.path.isdir("/"+"/".join(split[3:]))
+  if os.path.isdir(path) or decapDir:
+    if txt: # IWN: use txt file with all names
+      f = open(txt)
+      dirList=list(itertools.islice([line[:-1] for line in f], jobNumber, None, Njobs))
+      f.close()
+    else:
+      dirList=list(itertools.islice(os.listdir(path), jobNumber, None, Njobs))
     files=[]
     for fname in dirList:
       files.append(path+"/"+fname)
   elif os.path.isfile(path):
     files=[path]
   else:
-    files=[]
+    files=[path]
 
   # output
   output = ROOT.TFile(outputname, "RECREATE")
@@ -143,12 +163,21 @@ def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber
 
   # process events
   i = 0
-  t0 = time.time()
+  DeltaTb = [ ]
+  tb = time.time()
+  n = events.GetEntries()
+  ETA = " "
+  print "\n\n\t__%s_events_to_process.__" %n
   for event in events:
     # printout
-    if i%100==0 : 
-      print "Processing... event %d. Last batch in %f s." % (i,(time.time()-t0))
-      t0 = time.time()
+    if i%1000==0 :
+      if i%10000==0 :
+        if len(DeltaTb)>0:
+          ETA = " ETA: %s" % time.strftime("%M min. %S s.", time.gmtime( sum(DeltaTb[1:])/len(DeltaTb)*(n-i)/1000 ))
+        print "\n    Running for %s" % time.strftime("%M min. %S s.", time.gmtime(time.time()-t0)) + ETA
+      DeltaTb.append(time.time()-tb)
+      print "%d%%: Processing... event %d. Last batch in %f s." % (i*100/n,i,(time.time()-tb))
+      tb = time.time()
     if configuration.runningMode=="plots":
       # loop on channels
       plots = filter(lambda x: EventSelection.isInCategory(x,event.category) ,levels)
@@ -164,19 +193,19 @@ def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber
     else:
       for cp in controlPlots[:1]:
         # set categories (first CP only)
-        cp.setCategories(map(lambda c:EventSelection.isInCategory(c, event.category),range(EventSelection.eventCategories())))
+        cp.setCategories(map(lambda c: EventSelection.isInCategory(c, event.category),range(EventSelection.eventCategories())))
       for cp in controlPlots:
         # process event (all CP)
         cp.processEvent(event)
       # add to the dataset
       rds.add(getArgSet(controlPlots))
     i += 1
-
+  
   # save all
   if configuration.runningMode=="plots":
     for level in levels:
      for cp in controlPlots[level]: 
-       cp.endJob()
+       cp.endJob(level)
   else:
    for cp in controlPlots: 
      cp.endJob()
@@ -192,6 +221,8 @@ def runAnalysis(path, levels, outputname="controlPlots.root", Njobs=1, jobNumber
   
   # close the file
   output.Close()
+
+  print "\nDone. Only took %s!\n" % time.strftime("%M:%S", time.gmtime(time.time()-t0))
 
 def createDirectory(dirStructure, directory, leafList):
   """Recursively creates the directories for the various stages"""

@@ -31,13 +31,15 @@ class AnalysisEvent(TChain):
          if path.isfile(thefile): 
            self.AddFile(thefile)
          else:
-           print "Warning: ",thefile," do not exist."
+           self.AddFile(thefile)
+           print "Warning: ",thefile," do not exist on local disk."
      elif  isinstance(inputFiles,StringTypes):
        thefile = inputFiles
        if path.isfile(thefile): 
          self.AddFile(thefile)
        else:
-         print "Warning: ",thefile," do not exist."
+         self.AddFile(thefile)
+         print "Warning: ",thefile," do not exist on local disk."
      else:
        print "Warning: invalid inputFiles"
      #self.BuildIndex("Event[0].Number")
