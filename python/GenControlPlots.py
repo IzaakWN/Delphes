@@ -10,9 +10,9 @@ from fold import fold
 # event.MEt
 
 labels = ["Wlnu","Wjj","Wbb","Hbb","HWW","HHbbWW","ttbbWW",\
-          "b1","b2"]#,"q","nu","l","e","mu","tau"] # note "l" is only charged lepton
+          "b1","b2","nu"]#,"q","l","e","mu","tau"] # note "l" is only charged lepton
 titles = ["Wlnu","Wjj","Wbb","Hbb","HWW","HHbbWW","ttbbWW",\
-          "b1","b2"]#,"quarks","neutrinos","leptons","electrons","muons","taus"]
+          "b1","b2","neutrinos"]#,"quarks","leptons","electrons","muons","taus"]
 vars = ["Pt","Eta","Phi","M"]
 
 
@@ -82,7 +82,7 @@ class GenControlPlots(BaseControlPlots):
             elif label in ["HHbbWW","ttbbWW"]:
                 self.add(label+"Pt",title+" Pt gen",100,0,600)
                 self.add(label+"M",title+" Mass gen",150,0,1500)
-            elif label in ["b1","b2"]#,"q","nu","l","e","mu","tau"]:
+            elif label in ["b1","b2","nu"]:#,"q","l","e","mu","tau"]:
                 self.add(label+"Pt",title+" Pt gen",100,0,300)
                 self.add(label+"M",title+" Mass gen",50,0,5)
             else:
