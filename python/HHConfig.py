@@ -1,4 +1,5 @@
 #configuration of the ControlPlot machinery
+#Biiiiitch
 
 from collections import namedtuple
 controlPlot     = namedtuple("controlPlot",    ["label","module","classname","kwargs"])
