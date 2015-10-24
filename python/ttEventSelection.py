@@ -45,7 +45,8 @@ def eventCategory(event):
     event.cleanedJets15 = [ jet for jet in event.cleanedJets if jet.PT > 15 and abs(jet.Eta) < 2.5 ]
     event.cleanedJets30 = [ jet for jet in event.cleanedJets15 if jet.PT > 30 and abs(jet.Eta) < 2.5 ]
     event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag and abs(jet.Eta) < 2.5 ]
-    
+    nonbjets30 = [ jet for jet in event.cleanedJets30 if (not jet.BTag) and abs(jet.Eta) < 2.5 ]
+
     # 0: at least one muon or electron with Pt > 20 GeV
     categoryData.append( len(leps) )
     
@@ -55,7 +56,7 @@ def eventCategory(event):
     # 2: Pt of leading 4 jets > 30 GeV
     categoryData.append(len(event.cleanedJets30)>3)
 #    categoryData.append(len(event.cleanedJets30)>2 and len(event.cleanedJets15)>3)
-    
+
     # 3: at least one b-jet with Pt > 30 GeV
     categoryData.append( len(event.bjets30)>0 )
     

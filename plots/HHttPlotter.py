@@ -28,8 +28,12 @@ def plotBasic(stage):
     if stage == "stage_0/":
         names.append("selection/category")
 
-    for comb in ["jj","jj_cut","jj_b2b","bb","bb_cut"]:
+    for comb in ["jj","jj_cut","jj_cut2","jj_b2b","jj_b2b_cut",
+                 "bb","bb_cut"]:
         names.append("cleanup/M_"+comb)
+
+    for comb in ["jj","jl","jjl","bb","bl","bbl"]:
+        names.append("cleanup/DeltaPhi_"+comb)
 
     #for particle in ["b1","b2","q","nu","l","e","mu"]:
         #for var in ["Pt","Eta","M"]:
@@ -291,7 +295,7 @@ def plot2D(stage):
         c.Close()
 
     # RECO LEVEL: DeltaPhi vs. DeltaEta
-    names = ["jj","jl","j1l","j2l","j3l","bb"]
+    names = ["jj","jl","j1l","j2l","j3l","bb","bl"]
 
     for name in names:
         c = makeCanvas(square=True)

@@ -52,15 +52,16 @@ def punzi(stage):
              "\n  -------------------------------------------------"
 
     names = [ ]
-#    for process in ["Hbb"]:
-    for alg in ["_b1","_b2","_b3","_b4","_a1"]:
-        names.append( "reco/Hbb"+alg+"M" )
-        names.append( "reco/Hbb"+alg+"M_window1" )
-        names.append( "reco/Hbb"+alg+"M_window2" )
-    names.append( "reco/Hbb_a1M_window3" )
-    names.append( "reco2/Hbb_d1M" )
-    names.append( "reco2/Hbb_d1M_window1" )
-    names.append( "reco2/Hbb_d1M_window2" )
+    #for alg in ["_b1","_b2","_b3","_b4","_a1"]:
+        #names.append( "reco/Hbb"+alg+"M" )
+        #names.append( "reco/Hbb"+alg+"M_window1" )
+        #names.append( "reco/Hbb"+alg+"M_window2" )
+    #names.append( "reco/Hbb_a1M_window3" )
+    #names.append( "reco2/Hbb_d1M" )
+    #names.append( "reco2/Hbb_d1M_window1" )
+    #names.append( "reco2/Hbb_d1M_window2" )
+    for alg in ["jj","jj_cut","jj_b2b","jj_b2b_cut","bb","bb_cut"]
+        names.append( "cleanup/M_"+alg )
 
     for name in names:
 
