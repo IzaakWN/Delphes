@@ -65,10 +65,12 @@ def eventCategory(event):
     for particle in event.particles:
         D1 = particle.D1
         D2 = particle.D2
+        # W, Z -> lv
         if abs(particle.PID) in [23,24] and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
                 if abs(D.PID) in [11,13,15]: # e, mu, tau
                     nLeptons+=1
+        # H -> bb
         if abs(particle.PID) == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) in [5]: # b-quark
                 nBquarks+=2
