@@ -44,31 +44,18 @@ def punzi(stage):
 
     hist_S = file.Get(stage+"selection/category") # signal: HH -> bbWW
     hist_B = file_tt.Get(stage+"selection/category") # BG: tt -> bbWW
-    
-    S = hist_S.GetBinContent(1) # MC after reco and cuts
-    B = hist_B.GetBinContent(1)
+
+    if int(stage[:-1]) < 4:
+        S = hist_S.GetBinContent(1) # MC after reco and cuts
+        B = hist_B.GetBinContent(1)
+    else:
+        S = hist_S.GetBinContent(5) # MC after reco and cuts
+        B = hist_B.GetBinContent(5)
     
     P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) ))*10000 )/10000
 
     table += "\n   %s\t%i\t%i\tnone" % (P,N_S*(S/S_tot),N_B*(B/B_tot)) + \
              "\n  -------------------------------------------------"
-
-    #names = [ ]
-##    for process in ["Hbb"]:
-    #names.append( "reco2/Hbb_d1M_window2" )
-
-    #for name in names:
-
-        #hist_S = file.Get(stage+name) # MC signal: HH -> bbWW
-        #hist_B = file_tt.Get(stage+name) # MC BG: tt -> bbWW
-        
-        #S = hist_S.GetEntries()
-        #B = hist_B.GetEntries()
-        
-        #P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) ))*10000 )/10000
-
-        #title = name[name.index("_")+1:]
-        #table += "\n   %s\t%i\t%i\t" % (P,N_S*(S/S_tot),N_B*(B/B_tot)) + title
 
     print table
     f.write( "\n"+table )
