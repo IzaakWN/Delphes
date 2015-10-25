@@ -36,7 +36,7 @@ class EventSelectionControlPlots(BaseControlPlots):
         
         for category in range(self.eventCategories):
             if EventSelection.isInCategory(category, categoryData):
-            result["category"].append(category)
+                result["category"].append(category)
         
         result["category_dilep"] = result["category"][:4]
         result["category_semilep"] = result["category"][4:]
