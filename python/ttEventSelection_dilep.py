@@ -23,7 +23,8 @@ def eventCategory(event):
     electrons25 = [ e for e in event.electrons if e.PT>25 and abs(e.Eta) < 2.5 ]
     leps = sorted(muons20+electrons25, key=lambda x: x.PT, reverse=True)
     event.leadingLeptons = leps[:5]
-    event.bjets30 = [ jet for jet in event.jets if jet.BTag and jet.PT > 30 and abs(jet.Eta) < 2.5 ]
+    event.jets30 = [ j for j in event.jets if j.PT > 30 and abs(j.Eta) < 2.5 and not j.BTag ]
+    event.bjets30 = [ j for j in event.jets if j.PT > 30 and abs(j.Eta) < 2.5 and j.BTag ]
     for m in muons20:
         m.Mass = 0.1057
     for e in electrons25:
@@ -99,6 +100,19 @@ def eventCategory(event):
     # 3: clean-up cuts
     categoryData.append( event.M_ll<85 and 60<event.M_jj<160 and \
                          event.DeltaR_ll<2 and event.DeltaR_jj<3.1 and event.DeltaPhi_jjll>1.7 )
+
+    # 4-5: generator level: 1 leptons, 2 b-quarks
+    categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
+    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ll_gen<2.5) or event.particles.GetEntries()==0)
+
+    # 6: one muon or electron with PT > 20, 25 GeV
+    #    MET > 20 GeV
+    #    2 jets
+    #    2 b-jets with PT > 30 GeV
+    categoryData.append( len(leps)>0 and \
+                         event.met[0].MET>20 and \
+                         len(event.jets30)>1 and \
+                         len(event.bjets30)>1 )
     
     return categoryData
 
@@ -106,6 +120,9 @@ def eventCategory(event):
 
 def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
+
+
+    # dileptonic final state
     
     if category == 0:
         return categoryData[0]
@@ -122,6 +139,22 @@ def isInCategory(category, categoryData):
     if category == 3:
         return categoryData[1] and categoryData[2] and categoryData[3]
         #      > signal            > selection         > clean-up
-        
+    
+    
+    # semileptonic final state
+    
+    if category == 4:
+        return categoryData[4]
+        #      > GenLevel
+    
+    if category == 5:
+        return categoryData[5]
+        #      > GenLevel with cuts
+
+    if category == 6:
+        return categoryData[5] and categoryData[6]
+        #      > signal            > selection
+
+
     else:
         return False
