@@ -82,8 +82,8 @@ def punzi(stage):
 
 def main():
 
-    for stage in ["stage_0/","stage_1/","stage_2/","stage_3/"]:
-        punzi(stage)
+    for stageN in ["0","1","2","3","4","5","6"]:
+        punzi("stage_"+stageN+"/")
 
     f.write("\n\n\n")
     f.close()
