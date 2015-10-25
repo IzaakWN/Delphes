@@ -81,7 +81,7 @@ def punzi(stage):
 
 def main():
 
-    global S_tot, B_tot, N_S, N_B L
+    global S_tot, B_tot, N_S, N_B, L
 
 
     preamble = "\n\n# Dileptonic channel" + \
