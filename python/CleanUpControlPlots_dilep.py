@@ -16,10 +16,10 @@ class CleanUpControlPlots(BaseControlPlots):
     def beginJob(self):
       # declare histograms
       self.add("M_ll","lepton-lepton Mass",100,0,300)
-      self.add("M_jj","bjet-bjet Mass",100,0,300)
+      self.add("M_bb","bjet-bjet Mass",100,0,300)
       self.add("DeltaR_ll","lepton-lepton DeltaR_ll",100,0,4.5)
-      self.add("DeltaR_jj","bjet-bjet DeltaR_jj",100,0,4.5)
-      self.add("DeltaPhi_jjll","DeltaPhi_jjll",100,0,3.5)
+      self.add("DeltaR_bb","bjet-bjet DeltaR_bb",100,0,4.5)
+      self.add("DeltaPhi_bbll","DeltaPhi_bbll",100,0,3.5)
 
     # get information
     def process(self, event):
@@ -28,14 +28,14 @@ class CleanUpControlPlots(BaseControlPlots):
         
         if event.M_ll:
             result["M_ll"] = event.M_ll
-        if event.M_jj:
-            result["M_jj"] = event.M_jj
+        if event.M_bb:
+            result["M_bb"] = event.M_bb
         if event.DeltaR_ll:
             result["DeltaR_ll"] = event.DeltaR_ll
-        if event.DeltaR_jj:
-            result["DeltaR_jj"] = event.DeltaR_jj
-        if event.DeltaPhi_jjll:
-            result["DeltaPhi_jjll"] = event.DeltaPhi_jjll
+        if event.DeltaR_bb:
+            result["DeltaR_bb"] = event.DeltaR_bb
+        if event.DeltaPhi_bbll:
+            result["DeltaPhi_bbll"] = event.DeltaPhi_bbll
 
         return result
 
