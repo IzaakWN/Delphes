@@ -19,7 +19,7 @@ N_B = sigma_B * L
 
 # total number of MC events run on
 S_tot = 51464 #214888
-B_tot = 50789 #8899 #21195 #170692
+B_tot = 50789 #8899 #211952 #170692
 
 preamble = time.strftime("\n\n%D - %H:%M:%S",time.gmtime()) + \
            "\n\n# Comments:\n" + raw_input("\n# Comments: ")
@@ -45,7 +45,7 @@ def punzi(stage):
     hist_S = file.Get(stage+"selection/category") # signal: HH -> bbWW
     hist_B = file_tt.Get(stage+"selection/category") # BG: tt -> bbWW
 
-    if int(stage[:-1]) < 4:
+    if int(stage[-2]) < 4:
         S = hist_S.GetBinContent(1) # MC after reco and cuts
         B = hist_B.GetBinContent(1)
     else:
@@ -86,7 +86,7 @@ def main():
     N_S = sigma_S * L
     N_B = sigma_B * L
     S_tot = 214888
-    B_tot = 21195 # 170692
+    B_tot = 211952 # 170692
     preamble = "\n\n\n\n# Semileptonic channel" + \
                "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
                "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot)
