@@ -55,7 +55,7 @@ def eventCategory(event):
         event.DeltaR_jj = TLorentzVector.DeltaR(p_j1,p_j2) 
         if phi_ll:
             event.DeltaPhi_jjll = fold( abs(phi_ll - (p_jj).Phi()) )
-    #gen_lepton15 = [ ]
+    gen_leptons15 = [ ]
     #hasElectron = event.electrons.GetEntries()
 
     # 0-1: generator level: single Wlnu and Hbb
@@ -79,7 +79,7 @@ def eventCategory(event):
     #    2 b-jets with PT > 30 GeV
     categoryData.append( len(leps)>1 and \
                          event.met[0].MET>20 and \
-                         len(event.bjets30)==2 )
+                         len(event.bjets30)>1 )
 
     # 3: clean-up cuts
     categoryData.append( event.M_ll<85 and 60<event.M_jj<160 and \
