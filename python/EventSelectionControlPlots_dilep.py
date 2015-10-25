@@ -23,14 +23,14 @@ class EventSelectionControlPlots(BaseControlPlots):
         self.add("event","Event number",1000,0,100000)
         self.add("category","event category", self.eventCategories+1, 0, self.eventCategories+1)
         self.add("category_dilep","event category dileptonic final state", 4, 0, 4)
-        self.add("category_semilep","event category semileptonic final state", 4, 0, self.eventCategories-3)
+        self.add("category_semilep","event category semileptonic final state", 4, 4, 8)
 
     def process(self, event):
         """EventSelectionControlPlots_dilep"""
 
         result = { }
 
-        ## event category
+        # event category
         categoryData = event.category
         result["category"] = [ ]
         
@@ -40,7 +40,6 @@ class EventSelectionControlPlots(BaseControlPlots):
         
         result["category_dilep"] = result["category"][:4]
         result["category_semilep"] = result["category"][4:]
-        
         result["event"] = event.event()
         
         return result
