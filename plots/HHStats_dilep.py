@@ -7,7 +7,7 @@ L = 3000 # / fb
 
 # cross section
 # ttbar: https://twiki.cern.ch/twiki/bin/view/LHCPhysics/TtbarNNLO
-sigma_S = 40 * 0.01 # fb = sigma_HH * BR_bbWW_bbqqlnu
+sigma_S = 40 * 0.01 # fb = sigma_HH * BR_bbWW_bblnulnu
 sigma_B = 984500 * 0.06 # fb
 #sigma_S = 0.163 # fb
 #sigma_B = 9.03 # fb
@@ -17,8 +17,8 @@ N_S = sigma_S * L
 N_B = sigma_B * L
 
 # total number of MC events run on
-S_tot = 51464 #979907
-B_tot = 50789 #499600
+S_tot = 51464 #214888
+B_tot = 50789 #21195
 
 preamble = time.strftime("\n\n%D - %H:%M:%S",time.gmtime()) + \
            "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
@@ -49,9 +49,9 @@ def punzi(stage):
     S = hist_S.GetBinContent(1) # MC after reco and cuts
     B = hist_B.GetBinContent(1)
     
-    P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) ))*10000 )/10000
+    P = round( N_S * (S//S_tot) // (1+sqrt( N_B * (B//B_tot) ))*10000 )//10000
 
-    table += "\n   %s\t%i\t%i\tnone" % (P,N_S*(S/S_tot),N_B*(B/B_tot)) + \
+    table += "\n   %s\t%i\t%i\tnone" % (P,N_S*(S//S_tot),N_B*(B//B_tot)) + \
              "\n  -------------------------------------------------"
 
     #names = [ ]
@@ -81,9 +81,27 @@ def punzi(stage):
     ########
 
 def main():
+    global S_tot, B_tot
 
-    for stageN in ["0","1","2","3","4","5","6"]:
+    for stageN in ["0","1","2","3"]:
+        S_tot = 51464
+        B_tot = 50789
         punzi("stage_"+stageN+"/")
+    
+#    for stageN in ["1","2","3"]:
+#        S_tot = 51464
+#        B_tot = 18899
+#        punzi("stage_"+stageN+"/")
+
+    for stageN in ["4","5","6","7"]:
+        S_tot = 214888
+        B_tot = 211952
+        punzi("stage_"+stageN+"/")
+    
+#    for stageN in ["5","6","7"]:
+#        S_tot = 214888
+#        B_tot = 170692
+#        punzi("stage_"+stageN+"/")
 
     f.write("\n\n\n")
     f.close()
