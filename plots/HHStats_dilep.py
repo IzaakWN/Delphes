@@ -19,11 +19,9 @@ N_B = sigma_B * L
 
 # total number of MC events run on
 S_tot = 51464 #214888
-B_tot = 50789 #21195
+B_tot = 50789 #8899 #21195 #170692
 
 preamble = time.strftime("\n\n%D - %H:%M:%S",time.gmtime()) + \
-           "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
-           "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot) + \
            "\n\n# Comments:\n" + raw_input("\n# Comments: ")
 
 print preamble
@@ -82,27 +80,34 @@ def punzi(stage):
     ########
 
 def main():
-    global S_tot, B_tot
+
+    global S_tot, B_tot, L
+
+
+    preamble = "\n\n# Dileptonic channel" + \
+               "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
+               "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot)
+    print preamble
+    f.write( preamble )
 
     for stageN in ["0","1","2","3"]:
-        S_tot = 51464
-        B_tot = 50789
         punzi("stage_"+stageN+"/")
-    
-#    for stageN in ["1","2","3"]:
-#        S_tot = 51464
-#        B_tot = 18899
-#        punzi("stage_"+stageN+"/")
+
+
+    sigma_S = 40 * 0.07 # fb
+    sigma_B = 984500 * 0.30 # fb
+    N_S = sigma_S * L
+    N_B = sigma_B * L
+    S_tot = 214888
+    B_tot = 21195 # 170692
+    preamble = "\n\n\n\n# Semileptonic channel" + \
+               "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
+               "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot)
+    print preamble
+    f.write( preamble )
 
     for stageN in ["4","5","6","7"]:
-        S_tot = 214888
-        B_tot = 211952
         punzi("stage_"+stageN+"/")
-    
-#    for stageN in ["5","6","7"]:
-#        S_tot = 214888
-#        B_tot = 170692
-#        punzi("stage_"+stageN+"/")
 
     f.write("\n\n\n")
     f.close()
