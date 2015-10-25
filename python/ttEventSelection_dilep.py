@@ -64,12 +64,14 @@ def eventCategory(event):
     nBquarks15 = 0
     for particle in event.particles:
         D1 = particle.D1
+        # W, Z –> e, mu, tau
         if abs(particle.PID) in [23,24] and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
                 if abs(D.PID) in [11,13,15]: # e, mu, tau
                     if D.PT > 15 and abs(D.Eta) < 2.5:
                         gen_leptons15.append(D)
                     nLeptons+=1
+        # t –> bW
         if abs(particle.PID) == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
                 if abs(D.PID) in [5]: # b-quark
@@ -92,7 +94,7 @@ def eventCategory(event):
     #    2 b-jets with PT > 30 GeV
     categoryData.append( len(leps)>1 and \
                          event.met[0].MET>20 and \
-                         len(event.bjets30)==2 )
+                         len(event.bjets30)>1 )
 
     # 3: clean-up cuts
     categoryData.append( event.M_ll<85 and 60<event.M_jj<160 and \
