@@ -1,5 +1,6 @@
 from ROOT import *
 from math import sqrt
+from __future__ import division
 import time
 
 # intgrated luminosity
@@ -49,9 +50,9 @@ def punzi(stage):
     S = hist_S.GetBinContent(1) # MC after reco and cuts
     B = hist_B.GetBinContent(1)
     
-    P = round( N_S * (S//S_tot) // (1+sqrt( N_B * (B//B_tot) ))*10000 )//10000
+    P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) ))*10000 )/10000
 
-    table += "\n   %s\t%i\t%i\tnone" % (P,N_S*(S//S_tot),N_B*(B//B_tot)) + \
+    table += "\n   %s\t%i\t%i\tnone" % (P,N_S*(S/S_tot),N_B*(B/B_tot)) + \
              "\n  -------------------------------------------------"
 
     #names = [ ]
