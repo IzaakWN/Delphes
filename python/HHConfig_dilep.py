@@ -20,11 +20,12 @@ class configuration:
   eventSelection = "HHEventSelection_dilep"
 
   # control plot classes
-  controlPlots = [ controlPlot("selection","EventSelectionControlPlots_dilep","EventSelectionControlPlots", { }),
-                   controlPlot("cleanup","CleanUpControlPlots_dilep","CleanUpControlPlots", { }),
-                   controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
-                   controlPlot("gen","GenControlPlots","GenControlPlots", { }) ]
-                   #controlPlot("jets","JetControlPlots","JetControlPlots", { })]
+  controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }) ] #,
+                   #controlPlot("cleanup","CleanUpControlPlots_dilep","CleanUpControlPlots", { }),
+                   #controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
+                   #controlPlot("gen","GenControlPlots","GenControlPlots", { }) ]
+                   #controlPlot("jets","JetControlPlots","JetControlPlots", { }),
+                   #controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
                    #controlPlot("reco","RecoControlPlots","RecoControlPlots", { }),
                    #controlPlot("reco2","RecoControlPlots2","RecoControlPlots2", { }),
                    #controlPlot("match","MatchControlPlots","MatchControlPlots", { }),
