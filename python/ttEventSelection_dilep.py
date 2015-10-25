@@ -7,7 +7,8 @@ from fold import fold
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "GenLevelCuts","Cuts", "CleanUp" ]
+categoryNames = [ "GenLevel_dilep", "GenLevelCuts_dilep","Cuts_dilep", "CleanUp_dilep",
+                  "GenLevel", "GenLevelCuts","Cuts", "CleanUp" ]
 
 
 
@@ -32,10 +33,10 @@ def eventCategory(event):
     
     # clean-up cuts
     event.M_ll = 0
-    event.M_jj = 0
+    event.M_bb = 0
     event.DeltaR_ll = 0
-    event.DeltaR_jj = 0
-    event.DeltaPhi_jjll = 0
+    event.DeltaR_bb = 0
+    event.DeltaPhi_bbll = 0
     phi_ll = 0 
     if len(leps)>1: # TODO: check for opposite charge! 
         p_l1 = TLorentzVector(0,0,0,0)
@@ -47,15 +48,15 @@ def eventCategory(event):
         phi_ll = p_ll.Phi()
         event.DeltaR_ll = TLorentzVector.DeltaR(p_l1,p_l2)    
     if len(event.bjets30)>1:
-        p_j1 = TLorentzVector(0,0,0,0)
-        p_j2 = TLorentzVector(0,0,0,0)
-        p_j1.SetPtEtaPhiM(event.bjets30[0].PT,event.bjets30[0].Eta,event.bjets30[0].Phi,event.bjets30[0].Mass)
-        p_j2.SetPtEtaPhiM(event.bjets30[1].PT,event.bjets30[1].Eta,event.bjets30[1].Phi,event.bjets30[1].Mass)
-        p_jj = p_j1 + p_j2
-        event.M_jj = p_jj.M()
-        event.DeltaR_jj = TLorentzVector.DeltaR(p_j1,p_j2) 
+        p_b1 = TLorentzVector(0,0,0,0)
+        p_b2 = TLorentzVector(0,0,0,0)
+        p_b1.SetPtEtaPhiM(event.bjets30[0].PT,event.bjets30[0].Eta,event.bjets30[0].Phi,event.bjets30[0].Mass)
+        p_b2.SetPtEtaPhiM(event.bjets30[1].PT,event.bjets30[1].Eta,event.bjets30[1].Phi,event.bjets30[1].Mass)
+        p_bb = p_b1 + p_b2
+        event.M_bb = p_bb.M()
+        event.DeltaR_bb = TLorentzVector.DeltaR(p_b1,p_b2)
         if phi_ll:
-            event.DeltaPhi_jjll = fold( abs(phi_ll - (p_jj).Phi()) )
+            event.DeltaPhi_bbll = fold( abs(phi_ll - (p_bb).Phi()) )
     gen_leptons15 = [ ]
     #hasElectron = event.electrons.GetEntries()
 
@@ -98,8 +99,8 @@ def eventCategory(event):
                          len(event.bjets30)>1 )
 
     # 3: clean-up cuts
-    categoryData.append( event.M_ll<85 and 60<event.M_jj<160 and \
-                         event.DeltaR_ll<2 and event.DeltaR_jj<3.1 and event.DeltaPhi_jjll>1.7 )
+    categoryData.append( event.M_ll<85 and 60<event.M_bb<160 and \
+                         event.DeltaR_ll<2 and event.DeltaR_bb<3.1 and event.DeltaPhi_bbll>1.7 )
 
     # 4-5: generator level: 1 leptons, 2 b-quarks
     categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
@@ -113,6 +114,10 @@ def eventCategory(event):
                          event.met[0].MET>20 and \
                          len(event.jets30)>1 and \
                          len(event.bjets30)>1 )
+
+    # 7: clean-up cuts
+    categoryData.append( 60<event.M_bb<160 and \
+                         event.DeltaR_bb<3.1 )
     
     return categoryData
 
@@ -154,6 +159,10 @@ def isInCategory(category, categoryData):
     if category == 6:
         return categoryData[5] and categoryData[6]
         #      > signal            > selection
+
+    if category == 7:
+        return categoryData[5] and categoryData[6] and categoryData[7]
+        #      > signal            > selection         > clean-up
 
 
     else:
