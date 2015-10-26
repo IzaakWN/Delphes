@@ -75,7 +75,7 @@ def eventCategory(event):
         # t -> bW
         if abs(particle.PID) == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
-                if abs(D.PID) in [5]: # b-quark
+                if abs(D.PID) == 5: # b-quark
                     nBquarks+=1
                     if D.PT > 15:
                       nBquarks15+=1
