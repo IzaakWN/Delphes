@@ -68,7 +68,7 @@ def eventCategory(event):
         # W, Z -> e, mu, tau
         if abs(particle.PID) == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
-                if abs(D.PID) in [11,13]:#,15]: # e, mu, tau
+                if abs(D.PID) in [11,13,15]: # e, mu, tau
                     if D.PT > 15 and abs(D.Eta) < 2.5:
                         gen_leptons15.append(D)
                     nLeptons+=1
