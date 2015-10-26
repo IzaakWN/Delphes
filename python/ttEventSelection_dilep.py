@@ -30,8 +30,8 @@ def eventCategory(event):
         m.Mass = 0.1057
     for e in electrons25:
         e.Mass = 0.000511
-    
-    # clean-up cuts
+
+    # preparation for clean-up
     event.M_ll = 0
     event.M_bb = 0
     event.DeltaR_ll = 0
@@ -57,12 +57,11 @@ def eventCategory(event):
         event.DeltaR_bb = TLorentzVector.DeltaR(p_b1,p_b2)
         if phi_ll:
             event.DeltaPhi_bbll = fold( abs(phi_ll - (p_bb).Phi()) )
-    gen_leptons15 = [ ]
-    #hasElectron = event.electrons.GetEntries()
 
-    # 0-1: generator level: 2 leptons, 2 b-quarks
+    # preparation for gen level selection
     nLeptons = 0
     nBquarks = 0
+    gen_leptons15 = [ ]
     nBquarks15 = 0
     for particle in event.particles:
         D1 = particle.D1
@@ -88,6 +87,7 @@ def eventCategory(event):
         p2.SetPtEtaPhiM(gen_leptons15[1].PT,gen_leptons15[1].Eta,gen_leptons15[1].Phi,gen_leptons15[1].Mass)
         DeltaR_ll_gen = TLorentzVector.DeltaR(p1,p2)
     
+    # 0-1: generator level: 2 leptons, 2 b-quarks
     categoryData.append((nLeptons==2 and nBquarks==2) or event.particles.GetEntries()==0)
     categoryData.append((len(gen_leptons15)==2 and nBquarks15==2 and DeltaR_ll_gen<2.5) or event.particles.GetEntries()==0)
     
@@ -104,7 +104,7 @@ def eventCategory(event):
 
     # 4-5: generator level: 1 leptons, 2 b-quarks
     categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
-    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ll_gen<2.5) or event.particles.GetEntries()==0)
+    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2) or event.particles.GetEntries()==0)
 
     # 6: one muon or electron with PT > 20, 25 GeV
     #    MET > 20 GeV
@@ -139,11 +139,11 @@ def isInCategory(category, categoryData):
 
     if category == 2:
         return categoryData[1] and categoryData[2]
-        #      > signal            > selection
+        #      > GenLevel          > selection
 
     if category == 3:
         return categoryData[1] and categoryData[2] and categoryData[3]
-        #      > signal            > selection         > clean-up
+        #      > GenLevel          > selection         > clean-up
     
     
     # semileptonic final state
@@ -158,11 +158,11 @@ def isInCategory(category, categoryData):
 
     if category == 6:
         return categoryData[5] and categoryData[6]
-        #      > signal            > selection
+        #      > GenLevel          > selection
 
     if category == 7:
         return categoryData[5] and categoryData[6] and categoryData[7]
-        #      > signal            > selection         > clean-up
+        #      > GenLevel          > selection         > clean-up
 
 
     else:
