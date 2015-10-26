@@ -24,7 +24,7 @@ def eventCategory(event):
     electrons25 = [ e for e in event.electrons if e.PT>25 and abs(e.Eta) < 2.5 ]
     leps = sorted(muons20+electrons25, key=lambda x: x.PT, reverse=True)
     event.leadingLeptons = leps[:5]
-    event.jets30 = [ j for j in event.jets if j.PT > 30 and abs(j.Eta) < 2.5 and not j.BTag ]
+    event.jets20 = [ j for j in event.jets if j.PT > 20 and abs(j.Eta) < 2.5 and not j.BTag ]
     event.bjets30 = [ j for j in event.jets if j.PT > 30 and abs(j.Eta) < 2.5 and j.BTag ]
     for m in muons20:
         m.Mass = 0.1057
@@ -67,7 +67,7 @@ def eventCategory(event):
         # W, Z -> lv
         if abs(particle.PID) in [23,24] and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
-                if abs(D.PID) in [11,13,15]: # e, mu, tau
+                if abs(D.PID) in [11,13]#,15]: # e, mu, tau
                     nLeptons+=1
         # H -> bb
         if abs(particle.PID) == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
@@ -99,7 +99,7 @@ def eventCategory(event):
     #    2 b-jets with PT > 30 GeV
     categoryData.append( len(leps)>0 and \
                          event.met[0].MET>20 and \
-                         len(event.jets30)>1 and \
+                         len(event.jets20)>1 and \
                          len(event.bjets30)>1 )
 
     # 7: clean-up cuts
