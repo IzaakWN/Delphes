@@ -50,7 +50,7 @@ def punzi(stage):
         B = hist_B.GetBinContent(1)
         if int(stage[-2]) == 0:
             print "\nGenlevel with cuts on BG = %s GenLevel without cuts on BG \n" % \
-                  round(hist_B.GetBinContent(2)/hist_B.GetBinContent(1)*1000)/1000
+                  round(int(hist_B.GetBinContent(2))/int(hist_B.GetBinContent(1))*1000)/1000
     else:
         S = hist_S.GetBinContent(5) # MC after reco and cuts
         B = hist_B.GetBinContent(5)
