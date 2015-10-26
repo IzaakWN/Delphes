@@ -31,7 +31,7 @@ def eventCategory(event):
     for e in electrons25:
         e.Mass = 0.000511
     
-    # clean-up cuts
+    # preparation for clean-up
     event.M_ll = 0
     event.M_bb = 0
     event.DeltaR_ll = 0
@@ -57,9 +57,8 @@ def eventCategory(event):
         event.DeltaR_bb = TLorentzVector.DeltaR(p_b1,p_b2) 
         if phi_ll:
             event.DeltaPhi_bbll = fold( abs(phi_ll - (p_bb).Phi()) )
-    gen_leptons15 = [ ]
 
-    # 0-1: generator level: double Wlnu and Hbb
+    # preparation for gen level selection
     nLeptons = 0
     nBquarks = 0
     for particle in event.particles:
@@ -74,6 +73,8 @@ def eventCategory(event):
         if abs(particle.PID) == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) in [5]: # b-quark
                 nBquarks+=2
+
+    # 0-1: generator level: double Wlnu and Hbb
     categoryData.append((nLeptons==2 and nBquarks==2) or event.particles.GetEntries()==0)
     categoryData.append((nLeptons==2 and nBquarks==2) or event.particles.GetEntries()==0) # same, cfr. tt
     
@@ -111,7 +112,7 @@ def eventCategory(event):
 
 def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
-
+    
 
     # dileptonic final state
     
@@ -125,11 +126,11 @@ def isInCategory(category, categoryData):
 
     if category == 2:
         return categoryData[1] and categoryData[2]
-        #      > signal            > selection
+        #      > GenLevel          > selection
 
     if category == 3:
         return categoryData[1] and categoryData[2] and categoryData[3]
-        #      > signal            > selection         > clean-up
+        #      > GenLevel          > selection         > clean-up
     
     
     # semileptonic final state
@@ -144,11 +145,11 @@ def isInCategory(category, categoryData):
 
     if category == 6:
         return categoryData[5] and categoryData[6]
-        #      > signal            > selection
+        #      > GenLevel          > selection
 
     if category == 7:
         return categoryData[5] and categoryData[6] and categoryData[7]
-        #      > signal            > selection         > clean-up
+        #      > GenLevel          > selection         > clean-up
 
 
     else:
