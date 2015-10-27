@@ -17,10 +17,10 @@ L = 3000 # / fb
 
 # cross section
 # ttbar: https://twiki.cern.ch/twiki/bin/view/LHCPhysics/TtbarNNLO
-#sigma_S = 40 * 0.01 # fb = sigma_HH * BR_bbWW_bblnulnu
-#sigma_B = 984500 * 0.06 # fb
-sigma_S = 0.163*2.3 # fb
-sigma_B = 9030*1.85 # fb
+sigma_S = 40 * 0.0113 # fb = sigma_HH * BR_bbWW_bblnulnu
+sigma_B = 984500 * 0.0453 # fb
+#sigma_S = 0.163*2.3 # fb
+#sigma_B = 9030*1.85 # fb
 
 # expected number of events
 N_S = sigma_S * L
@@ -68,48 +68,48 @@ def punzi(stage):
 
 def main():
 
-    #global S_tot, B_tot, N_S, N_B, L
+    global S_tot, B_tot, N_S, N_B, L
 
-    #header = "\n\n Punzi significance" + \
-             #"\n  -------------------------------------------------" + \
-             #"\n   P     \tS \tB \t\tstage" + \
-             #"\n  -------------------------------------------------"
-
-
-    #preamble = "\n\n# Dileptonic channel" + \
-               #"\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
-               #"\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot) + \
-               #header
-    #print preamble
-    #f.write( preamble)
-
-    #for stageN in ["1","2","3"]:
-        #punzi("stage_"+stageN+"/")
+    header = "\n\n Punzi significance" + \
+             "\n  -------------------------------------------------" + \
+             "\n   P     \tS \tB \t\tstage" + \
+             "\n  -------------------------------------------------"
 
 
-    ##sigma_S = 40 * 0.07 # fb
-    ##sigma_B = 984500 * 0.30 # fb
-    #sigma_S = 0.163*2.3/0.01*0.07 # fb
-    #sigma_B = 9030*1.85/0.06*0.30 # fb
-    #N_S = sigma_S * L
-    #N_B = sigma_B * L
-    #hist_S = file.Get("stage_4/selection/category") # signal: HH -> bbWW
-    #hist_B = file_tt.Get("stage_4/selection/category") # BG: tt -> bbWW
-    #S_tot = hist_S.GetBinContent(5) #214888
-    #B_tot = hist_B.GetBinContent(6) #211952 #170692
-    #preamble = "\n\n\n# Semileptonic channel" + \
-               #"\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
-               #"\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot) + \
-               #header
-    #print preamble
-    #f.write( preamble)
+    preamble = "\n\n# Dileptonic channel" + \
+               "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
+               "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot) + \
+               header
+    print preamble
+    f.write( preamble)
 
-    #for stageN in ["5","6","7"]:
-        #punzi("stage_"+stageN+"/")
+    for stageN in ["1","2","3"]:
+        punzi("stage_"+stageN+"/")
 
 
-    #f.write("\n\n\n")
-    #f.close()
+    #sigma_S = 40 * 0.0715 # fb
+    #sigma_B = 984500 * 0.2873 # fb
+    sigma_S = 0.163*2.3/0.0113*0.0715 # fb
+    sigma_B = 9030*1.85/0.0453*0.2873 # fb
+    N_S = sigma_S * L
+    N_B = sigma_B * L
+    hist_S = file.Get("stage_4/selection/category") # signal: HH -> bbWW
+    hist_B = file_tt.Get("stage_4/selection/category") # BG: tt -> bbWW
+    S_tot = hist_S.GetBinContent(5) #214888
+    B_tot = hist_B.GetBinContent(6) #211952 #170692
+    preamble = "\n\n\n# Semileptonic channel" + \
+               "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
+               "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot) + \
+               header
+    print preamble
+    f.write( preamble)
+
+    for stageN in ["5","6","7"]:
+        punzi("stage_"+stageN+"/")
+
+
+    f.write("\n\n\n")
+    f.close()
 
     print "\n"
     for stageN in ["0","1","2","3","4","5","6","7"]:
@@ -117,7 +117,7 @@ def main():
         hist_B = file_tt.Get("stage_"+stageN+"/selection/category") # BG: tt -> bbWW
         S = hist_S.GetBinContent(int(stageN)+1)
         B = hist_B.GetBinContent(int(stageN)+1)
-        print "stage_"+stageN+ ":  S = %s,\t B= %s" % (S,B)
+        print "stage_"+stageN+ ":  S = %s,\t B = %s" % (S,B)
         
 
 
