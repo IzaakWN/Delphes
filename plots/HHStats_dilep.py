@@ -3,12 +3,12 @@ from ROOT import *
 from math import sqrt
 import time
 
-#preamble = time.strftime("\n\n%D - %H:%M:%S",time.gmtime()) + \
-           #"\n\n# Comments:\n" + raw_input("\n# Comments: ")
+preamble = time.strftime("\n\n%D - %H:%M:%S",time.gmtime()) + \
+           "\n\n# Comments:\n" + raw_input("\n# Comments: ")
 
-#print preamble
+print preamble
 f = open("HHStats_dilep.txt","a")
-#f.write( preamble )
+f.write( preamble )
 file = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_dilep_all.root")
 file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_dilep_all.root")
 
@@ -55,10 +55,10 @@ def punzi(stage):
         B = hist_B.GetBinContent(5)
     
     P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) ))*100000 )/100000
-    table = "   %s\t%i\t%i\t" % (P,N_S*(S/S_tot),N_B*(B/B_tot))
+    table = "   %s\t%i\t%i\t" % (P,N_S*(S/S_tot),N_B*(B/B_tot)) + stage[:-1]
 
     print table
-    f.write( "\n"+table+stage[:-1])
+    f.write( "\n"+table)
 
 
 
