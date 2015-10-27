@@ -87,10 +87,10 @@ def main():
         punzi("stage_"+stageN+"/")
 
 
-    #sigma_S = 40 * 0.0715 # fb
-    #sigma_B = 984500 * 0.2873 # fb
-    sigma_S = 0.163*2.3/0.0113*0.0715 # fb
-    sigma_B = 9030*1.85/0.0453*0.2873 # fb
+    sigma_S = 40 * 0.0715 # fb
+    sigma_B = 984500 * 0.2873 # fb
+#    sigma_S = 0.163*2.3/0.0113*0.0715 # fb
+#    sigma_B = 9030*1.85/0.0453*0.2873 # fb
     N_S = sigma_S * L
     N_B = sigma_B * L
     hist_S = file.Get("stage_4/selection/category") # signal: HH -> bbWW
