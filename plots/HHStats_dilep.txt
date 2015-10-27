@@ -143,3 +143,93 @@ B_tot = 170692
    0.138	971 	49553653	stage_6
    0.1625	755 	21622745	stage_7
 
+
+
+10/27/15 - 15:24:56
+
+# Comments:
+Corrected BR
+
+# Dileptonic channel
+
+# expected number of events
+N_S = 1355
+N_B = 133793550
+
+# total number of MC events run on
+S_tot = 51464
+B_tot = 18899
+
+ Punzi significance
+  -------------------------------------------------
+   P     	S 	B 		stage
+  -------------------------------------------------
+   0.11722	1355	133793550	stage_1
+   0.02214	83	14321622	stage_2
+   0.04299	65	2343280	stage_3
+
+
+# Semileptonic channel
+
+# expected number of events
+N_S = 8580
+N_B = 848540549
+
+# total number of MC events run on
+S_tot = 214888
+B_tot = 170692
+
+ Punzi significance
+  -------------------------------------------------
+   P     	S 	B 		stage
+  -------------------------------------------------
+   0.29453	8580	848540549	stage_5
+   0.08171	1058	167802159	stage_6
+   0.09627	823	73220501	stage_7
+
+
+
+
+10/27/15 - 16:42:25
+
+# Comments:
+B_tot before any gen level cuts
+
+# Dileptonic channel
+
+# expected number of events
+N_S = 1355
+N_B = 133793550
+
+# total number of MC events run on
+S_tot = 51464
+B_tot = 50789
+
+ Punzi significance
+  -------------------------------------------------
+   P     	S 	B 		stage
+  -------------------------------------------------
+   0.19215	1355	49785668	stage_1
+   0.03629	83	5329192	stage_2
+   0.07044	65	871953	stage_3
+
+
+# Semileptonic channel
+
+# expected number of events
+N_S = 8580
+N_B = 848540549
+
+# total number of MC events run on
+S_tot = 214888
+B_tot = 211952
+
+ Punzi significance
+  -------------------------------------------------
+   P     	S 	B 		stage
+  -------------------------------------------------
+   0.32821	8580	683357946	stage_5
+   0.09105	1058	135136664	stage_6
+   0.10727	823	58966906	stage_7
+
+
