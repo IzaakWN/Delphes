@@ -20,8 +20,8 @@ class configuration:
   eventSelection = "ttEventSelection_dilep"
 
   # control plot classes
-  controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
-                   controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }) ]
+  controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }) ]
+                   #controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }) ]
                    #controlPlot("cleanup","CleanUpControlPlots_dilep","CleanUpControlPlots", { }),
                    #controlPlot("gen","GenControlPlots","GenControlPlots", { }) ]
                    #controlPlot("jets","JetControlPlots","JetControlPlots", { }),
