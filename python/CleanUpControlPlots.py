@@ -253,12 +253,12 @@ class CleanUpControlPlots(BaseControlPlots):
             p_bl = [ p for (p,D) in sorted(DeltaR_bl, key=lambda x: x[1])[:2] ] # need closest
             result["M_b1l"] = (p_lepton+p_bl[0]).M()
             result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_bl[0])
-            result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - p_bl[0]))
+            result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - p_bl[0].Phi()))
             result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_bl[0].Eta),
                                                 result["DeltaPhi_b1l"][0] ]]
             if len(DeltaR_bl)>1:
                 result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_bl[1])
-                result["DeltaPhi_b2l"] = fold(abs(lepton.Phi - p_bl[1]))
+                result["DeltaPhi_b2l"] = fold(abs(lepton.Phi - p_bl[1].Phi()))
                 result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_bl[1].Eta),
                                                         result["DeltaPhi_b2l"] ]]
 
@@ -271,8 +271,8 @@ class CleanUpControlPlots(BaseControlPlots):
             result["DeltaEtaDeltaPhi_bb"].append([ abs(p1.Eta() - p2.Eta()),
                                                    result["DeltaPhi_bb"][-1] ])
             madeCut = False
-            if result["DeltaR_bb"][-1]<2 and fold(abs(lepton.Phi - p1))>1.5 and \
-                                             fold(abs(lepton.Phi - p2))>1.5:
+            if result["DeltaR_bb"][-1]<2 and fold(abs(lepton.Phi - p1.Phi()))>1.5 and \
+                                             fold(abs(lepton.Phi - p2.Phi()))>1.5:
                 madeCut = True
                 result["M_bb_cut"].append(p_bb.M())
 
