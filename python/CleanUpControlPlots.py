@@ -129,7 +129,7 @@ class CleanUpControlPlots(BaseControlPlots):
 
         result["MDeltaPhi_jj_b2b"] = [ ]
 
-        jets = [ j for j in event.cleanedJets30[:8] if j not j.BTag ]
+        jets = [ j for j in event.cleanedJets30[:8] if not j.BTag ]
         p_jets = [ ]
         p_jjs = [ ]
         p_jj_cut = [ ]
