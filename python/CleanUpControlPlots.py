@@ -255,12 +255,12 @@ class CleanUpControlPlots(BaseControlPlots):
             result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_bl[0])
             result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - p_bl[0].Phi()))
             result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_bl[0].Eta()),
-                                                result["DeltaPhi_b1l"][0] ]]
+                                                result["DeltaPhi_b1l"] ]]
             if len(DeltaR_bl)>1:
                 result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_bl[1])
                 result["DeltaPhi_b2l"] = fold(abs(lepton.Phi - p_bl[1].Phi()))
                 result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_bl[1].Eta()),
-                                                        result["DeltaPhi_b2l"] ]]
+                                                    result["DeltaPhi_b2l"] ]]
 
         # bjet comb
         for p1, p2 in combinations(p_bjets,2):
