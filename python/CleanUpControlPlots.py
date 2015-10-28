@@ -244,7 +244,7 @@ class CleanUpControlPlots(BaseControlPlots):
             p_bjets[-1].SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
             if lepton:
                 DeltaPhi = fold(abs(lepton.Phi - bjet.Phi))
-                DeltaR_bl.append( (p_bjet[-1], TLV.DeltaR(p_lepton,p_bjets[-1])) )
+                DeltaR_bl.append( (p_bjets[-1], TLV.DeltaR(p_lepton,p_bjets[-1])) )
                 result["DeltaR_bl"].append(DeltaR_bl[-1])
                 result["DeltaPhi_bl"].append(DeltaPhi)
                 result["DeltaEtaDeltaPhi_bl"].append([ abs(lepton.Eta - bjet.Eta),
