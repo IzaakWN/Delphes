@@ -294,8 +294,11 @@ class CleanUpControlPlots(BaseControlPlots):
         for key, value in result.iteritems():
             if not isinstance(value, (int, long, float)):
                 if isinstance(value, list):
-                    if not isinstance(value[0], (int, long, float)):
-                        print ">>> We have a bad list: " + key
+                    if len(value):
+                        if not isinstance(value[0], (int, long, float)):
+                            print ">>> We have a bad list: " + key
+                    else:
+                        print ">>> We have an empty list: " + key
                 
                 else:
                     print ">>> We has it: " + key
