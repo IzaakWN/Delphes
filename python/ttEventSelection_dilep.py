@@ -31,7 +31,7 @@ def eventCategory(event):
         m.Mass = 0.1057
     for e in electrons25:
         e.Mass = 0.000511
-    for l1, l2 in combinations(leps[:3]): # take opposite charge
+    for l1, l2 in combinations(leps[:3],2): # take opposite charge
         if l1.Charge*l2.Charge < 0:
             leps = [l1,l2]
     
@@ -89,8 +89,8 @@ def eventCategory(event):
                       nBquarks15+=1
 
     # preparation for gen level cuts
-    DeltaR_ll_gen = 0
-    DeltaR_ql_gen = 0
+    DeltaR_ll_gen = 4
+    DeltaR_ql_gen = 4
     if len(gen_leptons15)==2:
         p1 = TLV(0,0,0,0)
         p2 = TLV(0,0,0,0)
