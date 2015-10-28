@@ -1,4 +1,4 @@
-from ROOT import TLorentzVector
+from ROOT import TLorentzVector as TLV
 from itertools import combinations
 from fold import fold
 
@@ -43,22 +43,22 @@ def eventCategory(event):
     event.DeltaPhi_bbll = 0
     phi_ll = 0 
     if len(leps)>1:
-        p_l1 = TLorentzVector(0,0,0,0)
-        p_l2 = TLorentzVector(0,0,0,0)
+        p_l1 = TLV(0,0,0,0)
+        p_l2 = TLV(0,0,0,0)
         p_l1.SetPtEtaPhiM(leps[0].PT,leps[0].Eta,leps[0].Phi,leps[0].Mass)
         p_l2.SetPtEtaPhiM(leps[1].PT,leps[1].Eta,leps[1].Phi,leps[1].Mass)
         p_ll = p_l1 + p_l2
         event.M_ll = p_ll.M()
         phi_ll = p_ll.Phi()
-        event.DeltaR_ll = TLorentzVector.DeltaR(p_l1,p_l2)
+        event.DeltaR_ll = TLV.DeltaR(p_l1,p_l2)
     if len(event.bjets30)>1:
-        p_b1 = TLorentzVector(0,0,0,0)
-        p_b2 = TLorentzVector(0,0,0,0)
+        p_b1 = TLV(0,0,0,0)
+        p_b2 = TLV(0,0,0,0)
         p_b1.SetPtEtaPhiM(event.bjets30[0].PT,event.bjets30[0].Eta,event.bjets30[0].Phi,event.bjets30[0].Mass)
         p_b2.SetPtEtaPhiM(event.bjets30[1].PT,event.bjets30[1].Eta,event.bjets30[1].Phi,event.bjets30[1].Mass)
         p_bb = p_b1 + p_b2
         event.M_bb = p_bb.M()
-        event.DeltaR_bb = TLorentzVector.DeltaR(p_b1,p_b2)
+        event.DeltaR_bb = TLV.DeltaR(p_b1,p_b2)
         if phi_ll:
             event.DeltaPhi_bbll = fold( abs(phi_ll - (p_bb).Phi()) )
 
@@ -66,6 +66,7 @@ def eventCategory(event):
     nLeptons = 0
     nBquarks = 0
     gen_leptons15 = [ ]
+    gen_quarks15 = [ ]
     nBquarks15 = 0
     for particle in event.particles:
         D1 = particle.D1
@@ -76,6 +77,9 @@ def eventCategory(event):
                     if D.PT > 15 and abs(D.Eta) < 2.5:
                         gen_leptons15.append(D)
                     nLeptons+=1
+                if abs(D.PID) in [1,2,3,4,5]: # e, mu, tau
+                    if D.PT > 15 and abs(D.Eta) < 2.5:
+                        gen_quarks15.append(D)
         # t -> bW
         if abs(particle.PID) == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
@@ -83,13 +87,23 @@ def eventCategory(event):
                     nBquarks+=1
                     if D.PT > 15:
                       nBquarks15+=1
+
+    # preparation for gen level cuts
     DeltaR_ll_gen = 0
+    DeltaR_ql_gen = 0
     if len(gen_leptons15)==2:
-        p1 = TLorentzVector(0,0,0,0)
-        p2 = TLorentzVector(0,0,0,0)
+        p1 = TLV(0,0,0,0)
+        p2 = TLV(0,0,0,0)
         p1.SetPtEtaPhiM(gen_leptons15[0].PT,gen_leptons15[0].Eta,gen_leptons15[0].Phi,gen_leptons15[0].Mass)
         p2.SetPtEtaPhiM(gen_leptons15[1].PT,gen_leptons15[1].Eta,gen_leptons15[1].Phi,gen_leptons15[1].Mass)
-        DeltaR_ll_gen = TLorentzVector.DeltaR(p1,p2)
+        DeltaR_ll_gen = TLV.DeltaR(p1,p2)
+    if len(gen_leptons15)==1 and len(gen_quarks15)==2:
+        pl = TLV(0,0,0,0)
+        pqs = [ TLV(0,0,0,0), TLV(0,0,0,0) ]
+        pl.SetPtEtaPhiM(gen_leptons15[0].PT,gen_leptons15[0].Eta,gen_leptons15[0].Phi,gen_leptons15[0].Mass)
+        pqs[0].SetPtEtaPhiM(gen_quarks15[0].PT,gen_quarks15[0].Eta,gen_quarks15[0].Phi,gen_quarks15[0].Mass)
+        pqs[1].SetPtEtaPhiM(gen_quarks15[1].PT,gen_quarks15[1].Eta,gen_quarks15[1].Phi,gen_quarks15[1].Mass)
+        DeltaR_ql_gen = min(TLV.DeltaR(pq,pl) for pq in pqs)
     
     # 0-1: generator level: 2 leptons, 2 b-quarks
     categoryData.append((nLeptons==2 and nBquarks==2) or event.particles.GetEntries()==0)
@@ -108,7 +122,7 @@ def eventCategory(event):
 
     # 4-5: generator level: 1 leptons, 2 b-quarks
     categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
-    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2) or event.particles.GetEntries()==0)
+    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ql_gen<2.5) or event.particles.GetEntries()==0)
 
     # 6: one muon or electron with PT > 20, 25 GeV
     #    MET > 20 GeV
