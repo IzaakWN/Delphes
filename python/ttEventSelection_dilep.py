@@ -34,12 +34,13 @@ def eventCategory(event):
     for l1, l2 in combinations(leps[:3],2): # take opposite charge
         if l1.Charge*l2.Charge < 0:
             leps = [l1,l2]
+            break
     
     # preparation for clean-up
-    event.M_ll = 0
+    event.M_ll = 100
     event.M_bb = 0
-    event.DeltaR_ll = 0
-    event.DeltaR_bb = 0
+    event.DeltaR_ll = 4 # > pi
+    event.DeltaR_bb = 4 # > pi
     event.DeltaPhi_bbll = 0
     phi_ll = 0
     if len(leps)>1:
