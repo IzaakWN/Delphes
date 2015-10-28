@@ -143,7 +143,7 @@ class CleanUpControlPlots(BaseControlPlots):
         bjets = event.bjets30
         p_bjets = [ ]
         p_bb_cut = [ ]
-        DeltaPhi_bl = [ ]
+        DeltaR_bl = [ ]
         #M_bb_closest = 0
         #M_bb_closest_cut = 0
         DeltaR_bb_closest = 0
@@ -244,13 +244,13 @@ class CleanUpControlPlots(BaseControlPlots):
             p_bjets[-1].SetPtEtaPhiM(bjet.PT, bjet.Eta, bjet.Phi, bjet.Mass)
             if lepton:
                 DeltaPhi = fold(abs(lepton.Phi - bjet.Phi))
-                DeltaPhi_bl.append(DeltaPhi)
-                result["DeltaR_bl"].append(TLV.DeltaR(p_lepton,p_bjets[-1]))
+                DeltaR_bl.append( TLV.DeltaR(p_lepton,p_bjets[-1]) )
+                result["DeltaR_bl"].append(DeltaR_bl[-1])
                 result["DeltaPhi_bl"].append(DeltaPhi)
                 result["DeltaEtaDeltaPhi_bl"].append([ abs(lepton.Eta - bjet.Eta),
                                                        DeltaPhi ])
         if lepton and len(DeltaPhi_bl):
-            p_bl = sorted(DeltaPhi_bl, key=DeltaPhi_bl.__getitem__)[:2] # need closest
+            p_bl = [ p for (p,D) in sorted(zip(bjets,DeltaR_bl), key=lambda x: x[1])[:2]) # need closest
             result["M_b1l"] = (p_lepton+p_bl[0]).M()
             result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_bl[0])
             result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - p_bl[0]))
