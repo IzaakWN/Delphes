@@ -1,5 +1,5 @@
 from ROOT import TLorentzVector
-#from itertools import combinations
+from itertools import combinations
 from fold import fold
 
 # requirements:
@@ -31,6 +31,9 @@ def eventCategory(event):
         m.Mass = 0.1057
     for e in electrons25:
         e.Mass = 0.000511
+    for l1, l2 in combinations(leps[:3]): # take opposite charge
+        if l1.Charge*l2.Charge < 0:
+            leps = [l1,l2]
     
     # preparation for clean-up
     event.M_ll = 0
@@ -39,7 +42,7 @@ def eventCategory(event):
     event.DeltaR_bb = 0
     event.DeltaPhi_bbll = 0
     phi_ll = 0 
-    if len(leps)>1: # TODO: check for opposite charge! 
+    if len(leps)>1:
         p_l1 = TLorentzVector(0,0,0,0)
         p_l2 = TLorentzVector(0,0,0,0)
         p_l1.SetPtEtaPhiM(leps[0].PT,leps[0].Eta,leps[0].Phi,leps[0].Mass)
