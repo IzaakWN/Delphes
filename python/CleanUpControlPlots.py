@@ -21,6 +21,7 @@ class CleanUpControlPlots(BaseControlPlots):
       # declare histograms
       self.add("M_jj","jet-jet combinations Mass",100,0,300)
       self.add("M_jj_cut","jet-jet combinations (DeltaPhi cuts) Mass",100,0,300)
+      self.add("M_jj_leading","leading jet-jet Mass",100,0,300)
       self.add("M_jj_leading_cut","jet-jet (DeltaPhi cuts) Mass",100,0,300)
       self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
       self.add("M_jj_b2b_cut","jet-jet b2b Mass",100,0,300)
@@ -79,6 +80,7 @@ class CleanUpControlPlots(BaseControlPlots):
 
         result["M_jj"] = [ ]
         result["M_jj_cut"] = [ ]
+        result["M_jj_leading"] = [ ]
         result["M_jj_leading_cut"] = [ ]
         result["M_jj_b2b"] = [ ]
         result["M_jj_b2b_cut"] = [ ]
