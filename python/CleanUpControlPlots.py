@@ -229,7 +229,7 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["M_jj_b2b_cut"] = p_jj_b2b.M()
 
         if len(jets)>1:
-            result["M_jj_leading"] = jets[0] + jets[1]
+            result["M_jj_leading"] = (p_jets[0] + p_jets[1]).M()
 
         if p_jj_cut:
             p = max(p_jj_cut, key=lambda p: p.Pt())
