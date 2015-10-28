@@ -143,7 +143,7 @@ class CleanUpControlPlots(BaseControlPlots):
         bjets = event.bjets30
         p_bjets = [ ]
         p_bb_cut = [ ]
-        DeltaPhi_bj = [ ]
+        DeltaPhi_bl = [ ]
         #M_bb_closest = 0
         #M_bb_closest_cut = 0
         DeltaR_bb_closest = 0
