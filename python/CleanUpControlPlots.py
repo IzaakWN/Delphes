@@ -296,12 +296,12 @@ class CleanUpControlPlots(BaseControlPlots):
                 if isinstance(value, list):
                     if len(value):
                         if not isinstance(value[0], (int, long, float)):
-                            print ">>> We have a bad list: " + key
+                            print ">>> We have a bad list: " + key + ", type" + type(value[0])
                     else:
                         print ">>> We have an empty list: " + key
                 
                 else:
-                    print ">>> We has it: " + key
+                    print ">>> We has it: " + ", type" + type(value[0])
 
         return result
 
