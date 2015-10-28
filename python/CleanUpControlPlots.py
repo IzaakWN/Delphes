@@ -271,10 +271,11 @@ class CleanUpControlPlots(BaseControlPlots):
             result["DeltaEtaDeltaPhi_bb"].append([ abs(p1.Eta() - p2.Eta()),
                                                    result["DeltaPhi_bb"][-1] ])
             madeCut = False
-            if result["DeltaR_bb"][-1]<2 and fold(abs(lepton.Phi - p1.Phi()))>1.5 and \
-                                             fold(abs(lepton.Phi - p2.Phi()))>1.5:
-                madeCut = True
-                result["M_bb_cut"].append(p_bb.M())
+            if lepton:
+                if result["DeltaR_bb"][-1]<2 and fold(abs(lepton.Phi - p1.Phi()))>1.5 and \
+                                                 fold(abs(lepton.Phi - p2.Phi()))>1.5:
+                    madeCut = True
+                    result["M_bb_cut"].append(p_bb.M())
 
             if result["DeltaR_bb"] < DeltaR_bb_closest:
                 result["M_bb_closest"] = p_bb.M()
