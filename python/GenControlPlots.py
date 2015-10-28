@@ -310,15 +310,15 @@ class GenControlPlots(BaseControlPlots):
         else: print "Warning! GenControlPlots.py: No WW 2D-plot!"
 
         # __bbWW_2D-plots__
-        q_b = [TLV(), TLV()]
+        p_b = [TLV(), TLV()]
         if len(b) == 2:
-            q_b[0].SetPtEtaPhiM(b[0].PT, b[0].Eta, b[0].Phi, b[0].Mass)
-            q_b[1].SetPtEtaPhiM(b[1].PT, b[1].Eta, b[1].Phi, b[1].Mass)
+            p_b[0].SetPtEtaPhiM(b[0].PT, b[0].Eta, b[0].Phi, b[0].Mass)
+            p_b[1].SetPtEtaPhiM(b[1].PT, b[1].Eta, b[1].Phi, b[1].Mass)
         if len(b) == 2 and len(W) > 1:
             q_W = [TLV(), TLV()]
             q_W[0].SetPtEtaPhiM(W[0].PT, W[0].Eta, W[0].Phi, W[0].Mass)
             q_W[1].SetPtEtaPhiM(W[1].PT, W[1].Eta, W[1].Phi, W[1].Mass)
-            result["bbWWM"]  = [[ (q_b[0]+q_b[1]).M(),  (q_W[0]+q_W[1]).M() ]]
+            result["bbWWM"]  = [[ (p_b[0]+p_b[1]).M(),  (q_W[0]+q_W[1]).M() ]]
 
         p_q = [ ]
         if quarks:
