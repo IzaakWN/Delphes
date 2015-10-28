@@ -314,6 +314,9 @@ class GenControlPlots(BaseControlPlots):
         if len(b) == 2:
             p_b[0].SetPtEtaPhiM(b[0].PT, b[0].Eta, b[0].Phi, b[0].Mass)
             p_b[1].SetPtEtaPhiM(b[1].PT, b[1].Eta, b[1].Phi, b[1].Mass)
+            result["DeltaR_bb"] = TLV.DeltaR(p_b[0],p_b[1])
+            result["DeltaEtaDeltaPhi_bb"] = [[ abs(b[0].Eta - b[1].Eta),
+                                               fold(abs(b[0].Phi - b[1].Phi)) ]]
         if len(b) == 2 and len(W) > 1:
             q_W = [TLV(), TLV()]
             q_W[0].SetPtEtaPhiM(W[0].PT, W[0].Eta, W[0].Phi, W[0].Mass)
@@ -325,15 +328,20 @@ class GenControlPlots(BaseControlPlots):
             for quark in quarks:
                 p_q.append(TLV())
                 p_q[-1].SetPtEtaPhiM(quark.PT, quark.Eta, quark.Phi, quark.Mass)
+            result["DeltaR_qq"] = TLV.DeltaR(p_q[0],p_q[1])
+            result["DeltaEtaDeltaPhi_qq"] = [[ abs(quarks[0].Eta - quarks[1].Eta),
+                                               fold(abs(quarks[0].Phi - quarks[1].Phi)) ]]
 
-        lepton = None
-        p_lepton = TLV()
         if leptons:
             lepton = max(leptons, key=attrgetter('PT'))
+            p_lepton = TLV()
             p_lepton.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
 
             if quarks:
+#                DeltaR_ql = sorted([ TLV.DeltaR(p_lepton,p) for p in p_q ])[:2]
                 [p_q1,p_q2] = sorted(p_q, key=lambda p: TLV.DeltaR(p,p_lepton))[:2]
+                result["DeltaR_q1l"] = TLV.DeltaR(p_lepton,p_q1)
+                result["DeltaR_q2l"] = TLV.DeltaR(p_lepton,p_q2)
                 result["DeltaEtaDeltaPhi_q1l"] = [[ abs(lepton.Eta - p_q1.Eta()),
                                               fold(abs(lepton.Phi - p_q1.Phi())) ]]
                 result["DeltaEtaDeltaPhi_q2l"] = [[ abs(lepton.Eta - p_q2.Eta()),
@@ -343,27 +351,12 @@ class GenControlPlots(BaseControlPlots):
                     result["DeltaEtaDeltaPhi_qsl"].append([ abs(lepton.Eta - quark.Eta),
                                                             fold(abs(lepton.Phi - quark.Phi)) ])
             if len(b)>1:
+                DeltaR_bl = sorted([ TLV.DeltaR(p_lepton,p) for p in p_b ])
+                result["DeltaR_b1l"] = DeltaR_bl[0]
+                result["DeltaR_b2l"] = DeltaR_bl[1]
                 for bquark in b:
                     result["DeltaEtaDeltaPhi_bsl"].append([ abs(lepton.Eta - bquark.Eta),
                                                             fold(abs(lepton.Phi - bquark.Phi)) ])
-
-        if len(quarks):
-            result["DeltaR_qq"] = TLV.DeltaR(p_q[0],p_q[1])
-            result["DeltaEtaDeltaPhi_qq"] = [[ abs(quarks[0].Eta - quarks[1].Eta),
-                                               fold(abs(quarks[0].Phi - quarks[1].Phi)) ]]
-            if lepton:
-                DeltaR_ql = sorted([ TLV.DeltaR(p_lepton,p) for p in p_q ], reverse=True)
-                result["DeltaR_q1l"] = DeltaR_ql[0]
-                result["DeltaR_q2l"] = DeltaR_ql[1]
-
-        if len(b) > 1:
-            result["DeltaR_bb"] = TLV.DeltaR(p_b[0],p_b[1])
-            result["DeltaEtaDeltaPhi_bb"] = [[ abs(b[0].Eta - b[1].Eta),
-                                               fold(abs(b[0].Phi - b[1].Phi)) ]]
-            if lepton:
-                DeltaR_bl = sorted([ TLV.DeltaR(p_lepton,p) for p in p_b ], reverse=True)
-                result["DeltaR_b1l"] = DeltaR_bl[0]
-                result["DeltaR_b2l"] = DeltaR_bl[1]
 
         #result["NLeptons"] = nLeptons
         #result["NElectrons"] = nElectrons

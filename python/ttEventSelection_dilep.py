@@ -41,7 +41,7 @@ def eventCategory(event):
     event.DeltaR_ll = 0
     event.DeltaR_bb = 0
     event.DeltaPhi_bbll = 0
-    phi_ll = 0 
+    phi_ll = 0
     if len(leps)>1:
         p_l1 = TLV(0,0,0,0)
         p_l2 = TLV(0,0,0,0)
