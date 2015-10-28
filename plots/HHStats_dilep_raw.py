@@ -42,8 +42,8 @@ def main():
     sigma_B = 984500 * 0.0453
 #    sigma_S = 0.163*2.3
 #    sigma_B = 9030*1.85/0.372
-    sigma_S = 0.163
-    sigma_B = 9030/0.372
+#    sigma_S = 0.163
+#    sigma_B = 9030/0.372
     N_S = sigma_S * L
     N_B = sigma_B * L
     S_tot = S_di[0]
