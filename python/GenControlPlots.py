@@ -328,9 +328,10 @@ class GenControlPlots(BaseControlPlots):
                 result["DeltaEtaDeltaPhi_qsl"].append([ abs(lepton.Eta - quark.Eta),
                                                    fold(abs(lepton.Phi - quark.Phi)) ])
 
+        lepton = None
+        p_lepton = TLV()
         if leptons:
             lepton = max(leptons, key=attrgetter('PT'))
-            p_lepton = TLV()
             p_lepton.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
 
             if quarks:
