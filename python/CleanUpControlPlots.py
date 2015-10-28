@@ -1,9 +1,9 @@
 from BaseControlPlots import BaseControlPlots
 from ROOT import TLorentzVector as TLV
 from itertools import combinations # to make jets combinations
+from copy import copy
 from fold import fold
 from reconstruct import max_b2b
-from copy import copy
 #from reconstruct import reconstructWlnu
 
 # Requirements:
@@ -180,8 +180,8 @@ class CleanUpControlPlots(BaseControlPlots):
                                                         result["DeltaPhi_j2l"] ]]
                     if len(p_ji)>2:
                         result["DeltaEtaDeltaPhi_j3l"] = [[ abs(lepton.Eta - p_ji[2].Eta()),
-                                                       fold(abs(lepton.Phi - p_ji[2].Phi()))]
-
+                                                            fold(abs(lepton.Phi - p_ji[2].Phi())) ]]
+        
         # jet comb
         for p1, p2 in combinations(p_jets,2):
             p_jj = p1 + p2

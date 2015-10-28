@@ -1,4 +1,4 @@
-from ROOT import TLorentzVector
+from ROOT import TLorentzVector as TLV
 from itertools import combinations
 from fold import fold
 
@@ -43,22 +43,22 @@ def eventCategory(event):
     event.DeltaPhi_bbll = 0
     phi_ll = 0 
     if len(leps)>1:
-        p_l1 = TLorentzVector(0,0,0,0)
-        p_l2 = TLorentzVector(0,0,0,0)
+        p_l1 = TLV(0,0,0,0)
+        p_l2 = TLV(0,0,0,0)
         p_l1.SetPtEtaPhiM(leps[0].PT,leps[0].Eta,leps[0].Phi,leps[0].Mass)
         p_l2.SetPtEtaPhiM(leps[1].PT,leps[1].Eta,leps[1].Phi,leps[1].Mass)
         p_ll = p_l1 + p_l2
         event.M_ll = p_ll.M()
         phi_ll = p_ll.Phi()
-        event.DeltaR_ll = TLorentzVector.DeltaR(p_l1,p_l2)
+        event.DeltaR_ll = TLV.DeltaR(p_l1,p_l2)
     if len(event.bjets30)>1:
-        p_b1 = TLorentzVector(0,0,0,0)
-        p_b2 = TLorentzVector(0,0,0,0)
+        p_b1 = TLV(0,0,0,0)
+        p_b2 = TLV(0,0,0,0)
         p_b1.SetPtEtaPhiM(event.bjets30[0].PT,event.bjets30[0].Eta,event.bjets30[0].Phi,event.bjets30[0].Mass)
         p_b2.SetPtEtaPhiM(event.bjets30[1].PT,event.bjets30[1].Eta,event.bjets30[1].Phi,event.bjets30[1].Mass)
         p_bb = p_b1 + p_b2
         event.M_bb = p_bb.M()
-        event.DeltaR_bb = TLorentzVector.DeltaR(p_b1,p_b2)
+        event.DeltaR_bb = TLV.DeltaR(p_b1,p_b2)
         if phi_ll:
             event.DeltaPhi_bbll = fold( abs(phi_ll - (p_bb).Phi()) )
 
@@ -116,7 +116,7 @@ def eventCategory(event):
 
 def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
-    
+
 
     # dileptonic final state
     
