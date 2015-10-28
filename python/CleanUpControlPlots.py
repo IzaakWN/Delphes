@@ -245,7 +245,7 @@ class CleanUpControlPlots(BaseControlPlots):
             if lepton:
                 DeltaPhi = fold(abs(lepton.Phi - bjet.Phi))
                 DeltaR_bl.append( (p_bjets[-1], TLV.DeltaR(p_lepton,p_bjets[-1])) )
-                result["DeltaR_bl"].append(DeltaR_bl[-1])
+                result["DeltaR_bl"].append(DeltaR_bl[-1][1])
                 result["DeltaPhi_bl"].append(DeltaPhi)
                 result["DeltaEtaDeltaPhi_bl"].append([ abs(lepton.Eta - bjet.Eta),
                                                        DeltaPhi ])
@@ -291,17 +291,17 @@ class CleanUpControlPlots(BaseControlPlots):
         if len(bjets)>2:
             result["M_bb_leading"] = (p_bjet[0]+p_bjet[1]).M()
 
-        for key, value in result.iteritems():
-            if not isinstance(value, (int, long, float)):
-                if isinstance(value, list):
-                    if len(value):
-                        if not isinstance(value[0], (int, long, float)):
-                            print ">>> We have a bad list: " + key + ", type" + type(value[0])
-                    else:
-                        print ">>> We have an empty list: " + key
-                
-                else:
-                    print ">>> We has it: " + ", type" + type(value[0])
+#        for key, value in result.iteritems():
+#            if not isinstance(value, (int, long, float)):
+#                if isinstance(value, list):
+#                    if len(value):
+#                        if not isinstance(value[0], (int, long, float)):
+#                            print ">>> We have a bad list: " + key + ", type" + type(value[0])
+#                    else:
+#                        print ">>> We have an empty list: " + key
+#                
+#                else:
+#                    print ">>> We has it: " + ", type" + type(value[0])
 
         return result
 
