@@ -249,14 +249,14 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["DeltaPhi_bl"].append(DeltaPhi)
                 result["DeltaEtaDeltaPhi_bl"].append([ abs(lepton.Eta - bjet.Eta),
                                                        DeltaPhi ])
-        if lepton and len(DeltaPhi_bl):
+        if lepton and len(DeltaR_bl):
             p_bl = [ p for (p,D) in sorted(zip(bjets,DeltaR_bl), key=lambda x: x[1])[:2] ] # need closest
             result["M_b1l"] = (p_lepton+p_bl[0]).M()
             result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_bl[0])
             result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - p_bl[0]))
             result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_bl[0].Eta),
                                                 result["DeltaPhi_b1l"][0] ]]
-            if len(DeltaPhi_bl)>1:
+            if len(DeltaR_bl)>1:
                 result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_bl[1])
                 result["DeltaPhi_b2l"] = fold(abs(lepton.Phi - p_bl[1]))
                 result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_bl[1].Eta),
