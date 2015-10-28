@@ -146,7 +146,8 @@ class CleanUpControlPlots(BaseControlPlots):
         DeltaR_bl = [ ]
         #M_bb_closest = 0
         #M_bb_closest_cut = 0
-        DeltaR_bb_closest = 0
+        DeltaR_bb_closest = 4 # > pi
+        PT_bb_leading = 0
 
         lepton = None
         p_lepton = TLV()
@@ -272,10 +273,12 @@ class CleanUpControlPlots(BaseControlPlots):
                                                    result["DeltaPhi_bb"][-1] ])
             madeCut = False
             if lepton:
-                if result["DeltaR_bb"][-1]<2 and fold(abs(lepton.Phi - p1.Phi()))>1.5 and \
-                                                 fold(abs(lepton.Phi - p2.Phi()))>1.5:
+                if result["DeltaR_bb"][-1]<2.5 and fold(abs(lepton.Phi - p1.Phi()))>1 and \
+                                                 fold(abs(lepton.Phi - p2.Phi()))>1:
                     madeCut = True
                     result["M_bb_cut"].append(p_bb.M())
+                    if p_bb.Pt() > PT_bb_leading:
+                        result["M_bb_leading_cut"] = p_bb.Pt()
 
             if result["DeltaR_bb"] < DeltaR_bb_closest:
                 result["M_bb_closest"] = p_bb.M()
