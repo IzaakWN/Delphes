@@ -325,8 +325,6 @@ class GenControlPlots(BaseControlPlots):
             for quark in quarks:
                 p_q.append(TLV())
                 p_q[-1].SetPtEtaPhiM(quark.PT, quark.Eta, quark.Phi, quark.Mass)
-                result["DeltaEtaDeltaPhi_qsl"].append([ abs(lepton.Eta - quark.Eta),
-                                                   fold(abs(lepton.Phi - quark.Phi)) ])
 
         lepton = None
         p_lepton = TLV()
@@ -340,10 +338,14 @@ class GenControlPlots(BaseControlPlots):
                                               fold(abs(lepton.Phi - p_q1.Phi())) ]]
                 result["DeltaEtaDeltaPhi_q2l"] = [[ abs(lepton.Eta - p_q2.Eta()),
                                               fold(abs(lepton.Phi - p_q2.Phi())) ]]
+                
+                for quark in quarks:
+                    result["DeltaEtaDeltaPhi_qsl"].append([ abs(lepton.Eta - quark.Eta),
+                                                            fold(abs(lepton.Phi - quark.Phi)) ])
             if len(b)>1:
                 for bquark in b:
                     result["DeltaEtaDeltaPhi_bsl"].append([ abs(lepton.Eta - bquark.Eta),
-                                                       fold(abs(lepton.Phi - bquark.Phi)) ])
+                                                            fold(abs(lepton.Phi - bquark.Phi)) ])
 
         if len(quarks):
             result["DeltaR_qq"] = TLV.DeltaR(p_q[0],p_q[1])
