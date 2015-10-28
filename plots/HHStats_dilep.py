@@ -55,7 +55,7 @@ def punzi(stage):
         B = hist_B.GetBinContent(5)
     
     P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) ))*100000 )/100000
-    table = "   %s\t%i\t%i\t" % (P,N_S*(S/S_tot),N_B*(B/B_tot)) + stage[:-1]
+    table = "  "+stage[:-1]+ "\t%s\t%i\t%i" % (P,N_S*(S/S_tot),N_B*(B/B_tot))
 
     print table
     f.write( "\n"+table)
@@ -71,9 +71,9 @@ def main():
     global S_tot, B_tot, N_S, N_B, L
 
     header = "\n\n Punzi significance" + \
-             "\n  -------------------------------------------------" + \
-             "\n   P     \tS \tB \t\tstage" + \
-             "\n  -------------------------------------------------"
+             "\n  ---------------------------------------" + \
+             "\n   stage\tP     \tS \tB" + \
+             "\n  ---------------------------------------"
 
 
     preamble = "\n\n# Dileptonic channel" + \

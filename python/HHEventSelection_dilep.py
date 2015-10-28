@@ -1,4 +1,5 @@
 from ROOT import TLorentzVector
+#from itertools import combinations
 from fold import fold
 
 # requirements:
@@ -46,7 +47,7 @@ def eventCategory(event):
         p_ll = p_l1 + p_l2
         event.M_ll = p_ll.M()
         phi_ll = p_ll.Phi()
-        event.DeltaR_ll = TLorentzVector.DeltaR(p_l1,p_l2)    
+        event.DeltaR_ll = TLorentzVector.DeltaR(p_l1,p_l2)
     if len(event.bjets30)>1:
         p_b1 = TLorentzVector(0,0,0,0)
         p_b2 = TLorentzVector(0,0,0,0)
@@ -54,7 +55,7 @@ def eventCategory(event):
         p_b2.SetPtEtaPhiM(event.bjets30[1].PT,event.bjets30[1].Eta,event.bjets30[1].Phi,event.bjets30[1].Mass)
         p_bb = p_b1 + p_b2
         event.M_bb = p_bb.M()
-        event.DeltaR_bb = TLorentzVector.DeltaR(p_b1,p_b2) 
+        event.DeltaR_bb = TLorentzVector.DeltaR(p_b1,p_b2)
         if phi_ll:
             event.DeltaPhi_bbll = fold( abs(phi_ll - (p_bb).Phi()) )
 
