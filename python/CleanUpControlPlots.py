@@ -291,6 +291,10 @@ class CleanUpControlPlots(BaseControlPlots):
         if len(bjets)>2:
             result["M_bb_leading"] = (p_bjet[0]+p_bjet[1]).M()
 
+        for key, value in result.iteritems():
+            if not isinstance(value, (int, long, float)):
+                print ">>> We has it: " + key
+
         return result
 
 
