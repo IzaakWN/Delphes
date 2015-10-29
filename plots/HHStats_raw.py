@@ -1,5 +1,5 @@
 from __future__ import division
-from ROOT import TFile, TH1
+from ROOT import TFile, TH1, TAxis
 from math import sqrt
 import time
 
@@ -62,8 +62,8 @@ def punzi(stage):
         P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) )), 5 )
         print "   %s\t%.2f\t%.2f\t" % ( P, N_S*(S/S_tot), N_B*(B/B_tot) ) + "M_" + obj
         
-        S = hist_S(hist_S->GetXaxis()->FindBin(x1),hist_S->GetXaxis()->FindBin(x2))
-        B = hist_S(hist_B->GetXaxis()->FindBin(x1),hist_S->GetXaxis()->FindBin(x2))
+        S = hist_S(hist_S.GetXaxis().FindBin(x1),hist_S.GetXaxis().FindBin(x2))
+        B = hist_S(hist_B.GetXaxis().FindBin(x1),hist_S.GetXaxis().FindBin(x2))
         
         P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) )), 5 )
         print "   %s\t%.2f\t%.2f\t" % ( P, N_S*(S/S_tot), N_B*(B/B_tot) ) + "M_" + obj + " window (%i,%i)" % (x1,x2)
