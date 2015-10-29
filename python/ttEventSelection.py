@@ -105,7 +105,7 @@ def isInCategory(category, categoryData):
     
     if category == 6:
         return categoryData[1] and categoryData[7] and categoryData[4]
-        #      > exact 1 lepton    > 4 jets 20 GeV     > 2 b-jets
+        #      > exact 1 lepton    > 4 jets > 20 GeV   > 2 b-jets 
         
     else:
         return False
