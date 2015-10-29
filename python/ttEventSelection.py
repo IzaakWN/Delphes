@@ -6,7 +6,7 @@ from ROOT import TLorentzVector
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "1Lepton", "Max6Jets", "MET" ]
+categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "1Lepton", "Max6Jets", "MET", "4Jets20" ]
 
 
 
@@ -43,7 +43,8 @@ def eventCategory(event):
                 event.cleanedJets.remove(jet)
 
     event.cleanedJets15 = [ jet for jet in event.cleanedJets if jet.PT > 15 and abs(jet.Eta) < 2.5 ]
-    event.cleanedJets30 = [ jet for jet in event.cleanedJets15 if jet.PT > 30 and abs(jet.Eta) < 2.5 ]
+    event.cleanedJets20 = [ jet for jet in event.cleanedJets15 if jet.PT > 20 and abs(jet.Eta) < 2.5 ]
+    event.cleanedJets30 = [ jet for jet in event.cleanedJets20 if jet.PT > 30 and abs(jet.Eta) < 2.5 ]
     event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag and abs(jet.Eta) < 2.5 ]
     nonbjets30 = [ jet for jet in event.cleanedJets30 if (not jet.BTag) and abs(jet.Eta) < 2.5 ]
 
@@ -68,6 +69,9 @@ def eventCategory(event):
     
     # 6: MET > 20 GeV cut
     categoryData.append( event.met[0].MET>20 )
+    
+    # 7: Pt of leading 4 jets > 20 GeV
+    categoryData.append(len(event.cleanedJets20)>3)
 
     return categoryData
 
@@ -99,5 +103,9 @@ def isInCategory(category, categoryData):
         return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5] and categoryData[6]
         #      > exact 1 lepton    > 4 jets            > 2 b-jets          > max 6 jets        > MET
     
+    if category == 6:
+        return categoryData[1] and categoryData[7] and categoryData[4]
+        #      > exact 1 lepton    > 4 jets 20 GeV     > 2 b-jets
+        
     else:
         return False
