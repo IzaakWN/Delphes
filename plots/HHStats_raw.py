@@ -1,5 +1,5 @@
 from __future__ import division
-from ROOT import TFile, TH1, TAxis
+from ROOT import TFile, TH1F, TAxis
 from math import sqrt
 import time
 
