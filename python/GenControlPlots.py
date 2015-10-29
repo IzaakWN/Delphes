@@ -292,8 +292,8 @@ class GenControlPlots(BaseControlPlots):
             result["HHbbWWEta"].append( q_HH.Eta() )
             result["HHbbWWPhi"].append( q_HH.Phi() )
             result["HHbbWWM"].append( q_HH.M() )
-#            if len(result["HWWM"]) and len(result["HbbM"]):
-            result["HHM"] = [[ result["HWWM"][0],  result["HbbM"][0] ]]
+            if len(result["HWWM"]) and len(result["HbbM"]): # needed when relaxed cut 4 jets pT < 20 GeV 
+                result["HHM"] = [[ result["HWWM"][0],  result["HbbM"][0] ]]
 #            result["HHMt"] = [[ result["HWWM"][0],  result["HbbM"][0] ]]
 
         # __WW_2D-plots__
