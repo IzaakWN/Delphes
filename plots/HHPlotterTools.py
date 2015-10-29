@@ -95,8 +95,9 @@ def makeTitle(hist):
 
         elif len(title)>14 and title.count(" ")>1:
             print "Split!"
+#            indixes = [ i for i, c in enumerate(title) if c == " " ]
             title = "#splitline{" + title + "}" # make line break
-            title = title[:title.index(" ",len(title)-7)] + "}{" + title[title.index(" ",len(title)-7)+1:]
+            title = title[:title.index(" ",len(title)/2)] + "}{" + title[title.index(" ",len(title)/2)+1:]
 
     # processes
     if "H" in title:
