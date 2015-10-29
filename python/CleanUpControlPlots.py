@@ -280,9 +280,9 @@ class CleanUpControlPlots(BaseControlPlots):
                     if p_bb.Pt() > PT_bb_leading:
                         result["M_bb_leading_cut"] = p_bb.Pt()
 
-            if result["DeltaR_bb"] < DeltaR_bb_closest:
+            if result["DeltaR_bb"][-1] < DeltaR_bb_closest:
                 result["M_bb_closest"] = p_bb.M()
-                DeltaR_bb_closest = result["DeltaR_bb"]
+                DeltaR_bb_closest = result["DeltaR_bb"][-1]
                 if madeCut:
                     result["M_bb_closest_cut"] = p_bb.M()
 

@@ -6,7 +6,7 @@ from ROOT import TLorentzVector
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "1Lepton", "Max6Jets", "MET" ]
+categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "1Lepton", "Max6Jets", "MET", "4Jets20" ]
 
 
 
@@ -43,7 +43,8 @@ def eventCategory(event):
                 event.cleanedJets.remove(jet)
 
     event.cleanedJets15 = [ jet for jet in event.cleanedJets if jet.PT > 15 and abs(jet.Eta) < 2.5 ]
-    event.cleanedJets30 = [ jet for jet in event.cleanedJets15 if jet.PT > 30 and abs(jet.Eta) < 2.5 ]
+    event.cleanedJets20 = [ jet for jet in event.cleanedJets15 if jet.PT > 20 and abs(jet.Eta) < 2.5 ]
+    event.cleanedJets30 = [ jet for jet in event.cleanedJets20 if jet.PT > 30 and abs(jet.Eta) < 2.5 ]
     event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag and abs(jet.Eta) < 2.5 ]
     nonbjets30 = [ jet for jet in event.cleanedJets30 if (not jet.BTag) and abs(jet.Eta) < 2.5 ]
 
@@ -68,8 +69,11 @@ def eventCategory(event):
     
     # 6: MET > 20 GeV cut
     categoryData.append( event.met[0].MET>20 )
+    
+    # 7: Pt of leading 4 jets > 20 GeV
+    categoryData.append(len(event.cleanedJets20)>3)
 
-    # 7: generator level: single Wlnu and Hbb
+    # 8: generator level: single Wlnu and Hbb
     nLeptons = 0
     nBquarks = 0
     for particle in event.particles:
@@ -90,15 +94,15 @@ def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
     if category == 0:
-        return categoryData[7]
+        return categoryData[8]
         #      > signal
 
     if category == 1: # in [0,1]
-        return categoryData[1] and categoryData[2] and categoryData[7]
+        return categoryData[1] and categoryData[2] and categoryData[8]
         #      > lepton            > 4 jets            > signal
 
     if category == 2:
-        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[7]
+        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[8]
         #      > lepton            > 4 jets            > 2 b-jets          > signal
 
     if category == 3:
@@ -106,12 +110,16 @@ def isInCategory(category, categoryData):
         #      > exact 1 lepton    > 4 jets            > 2 b-jets        > signal
 
     if category == 4:
-        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5] and categoryData[7]
+        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5] and categoryData[8]
         #      > exact 1 lepton    > 4 jets            > 2 b-jets          > max 6 jets        > signal
     
     if category == 5:
-        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5] and categoryData[6] and categoryData[7]
+        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[5] and categoryData[6] and categoryData[8]
         #      > exact 1 lepton    > 4 jets            > 2 b-jets          > max 6 jets        > MET               > signal
+    
+    if category == 6:
+        return categoryData[1] and categoryData[7] and categoryData[4] and categoryData[8]
+        #      > exact 1 lepton    > 4 jets 20 GeV     > 2 b-jets          > signal
         
     else:
         return False
