@@ -28,12 +28,21 @@ def plotBasic(stage):
     if stage == "stage_0/":
         names.append("selection/category")
 
-    for comb in ["jj","jj_cut","jj_cut2","jj_b2b","jj_b2b_cut",
-                 "bb","bb_cut"]:
+    for comb in [ "jj","jj_cut","jj_leading","jj_leading_cut","jj_b2b","jj_b2b_cut","jjl"
+                  "bb","bb_cut","bb_leading","bb_leading_cut","bb_closest","bb_closest_cut","b1l" ]:
         names.append("cleanup/M_"+comb)
 
-    for comb in ["jj","jl","jjl","bb","bl","bbl"]:
+    for comb in [ "jj","jl","j1l","j2l","jjl",
+                  "bb","bl","b1l","b2l" ]:
+        names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
+    names.append("cleanup/DeltaR_jjbb")
+    names.append("cleanup/DeltaPhi_jj_b2b")
+
+    for comb in [ "qq","q1l","q2l",
+                  "bb","b1l","b1l", ]:
+        names.append("gen/DeltaR_"+comb)
+    names.append("gen/DeltaPhi_qq")
 
     #for particle in ["b1","b2","q","nu","l","e","mu"]:
         #for var in ["Pt","Eta","M"]:
@@ -107,14 +116,14 @@ def plotBasic(stage):
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(hist_S,hist_tt)
         
-        name = name.replace("selection/","basic_tt/"+stage)
-        name = name.replace("gen/","basic_tt/"+stage)
-        name = name.replace("leptons/","basic_tt/"+stage)
-        name = name.replace("jets/","basic_tt/"+stage)
-        name = name.replace("match/","basic_tt/"+stage)
-        name = name.replace("cleanup/","basic_tt/"+stage)
-        name = name.replace("reco/","reco_tt/"+stage)
-        name = name.replace("reco2/","reco_tt/"+stage)
+        name = name.replace("selection/","basic/"+stage)
+        name = name.replace("gen/","basic/"+stage)
+        name = name.replace("leptons/","basic/"+stage)
+        name = name.replace("jets/","basic/"+stage)
+        name = name.replace("match/","basic/"+stage)
+        name = name.replace("cleanup/","cleanup/"+stage)
+        name = name.replace("reco/","reco/"+stage)
+        name = name.replace("reco2/","reco/"+stage)
         c.SaveAs(name+".png")
         c.Close()
 
@@ -191,9 +200,9 @@ def plotOverlay(stage):
         setLineStyle(hist_reco,hist_reco_tt)
         setMarkerStyle(hist_gen)
         
-        reco = reco.replace("reco/","reco_tt/"+stage)
-        reco = reco.replace("reco2/","reco_tt/"+stage)
-        reco = reco.replace("jets/","basic_tt/"+stage)
+        reco = reco.replace("reco/","reco/"+stage)
+        reco = reco.replace("reco2/","reco/"+stage)
+        reco = reco.replace("jets/","basic/"+stage)
         c.SaveAs(reco+".png")
         c.Close()
 
@@ -219,7 +228,7 @@ def plot2D(stage):
 
     #CMS_lumi.CMS_lumi(c,14,33)
 
-    #c.SaveAs("basic_tt/"+stage+"WWM.png")
+    #c.SaveAs("basic/"+stage+"WWM.png")
     #c.Close()
 
 
@@ -235,7 +244,7 @@ def plot2D(stage):
 
     #CMS_lumi.CMS_lumi(c,14,33)
 
-    #c.SaveAs("basic_tt/"+stage+"WWM_tt.png")
+    #c.SaveAs("basic/"+stage+"WWM_tt.png")
     #c.Close()
 
 
@@ -254,7 +263,7 @@ def plot2D(stage):
 
     #CMS_lumi.CMS_lumi(c,14,33)
 
-    #c.SaveAs("basic_tt/"+stage+"WWM_both.png")
+    #c.SaveAs("basic/"+stage+"WWM_both.png")
     #c.Close()
     
 
@@ -271,7 +280,7 @@ def plot2D(stage):
 
     #CMS_lumi.CMS_lumi(c,14,33)
 
-    #c.SaveAs("basic_tt/"+stage+"bbWWM_both.png")
+    #c.SaveAs("basic/"+stage+"bbWWM_both.png")
     #c.Close()
 
     # GEN LEVEL: DeltaPhi vs. DeltaEta
@@ -283,7 +292,7 @@ def plot2D(stage):
         hist.Draw("colz")
         makeAxes2D(hist)
         CMS_lumi.CMS_lumi(c,14,33)
-        c.SaveAs("basic_tt/"+stage+"DeltaEtaDeltaPhi_"+name+"_gen.png")
+        c.SaveAs("cleanup/"+stage+"DeltaEtaDeltaPhi_"+name+"_gen.png")
         c.Close()
 
         c = makeCanvas(square=True)
@@ -291,11 +300,12 @@ def plot2D(stage):
         hist_tt.Draw("colz")
         makeAxes2D(hist_tt)
         CMS_lumi.CMS_lumi(c,14,33)
-        c.SaveAs("basic_tt/"+stage+"DeltaEtaDeltaPhi_"+name+"_gen_tt.png")
+        c.SaveAs("cleanup/"+stage+"DeltaEtaDeltaPhi_"+name+"_gen_tt.png")
         c.Close()
-
+      
     # RECO LEVEL: DeltaPhi vs. DeltaEta
-    names = ["jj","jl","j1l","j2l","j3l","bb","bl"]
+    names = [ "jj","jl","j1l","j2l","j3l","jjl",
+              "bb","bl","b1l","b2","jjbb" ]
 
     for name in names:
         c = makeCanvas(square=True)
@@ -303,7 +313,7 @@ def plot2D(stage):
         hist.Draw("colz")
         makeAxes2D(hist)
         CMS_lumi.CMS_lumi(c,14,33)
-        c.SaveAs("basic_tt/"+stage+"DeltaEtaDeltaPhi_"+name+".png")
+        c.SaveAs("cleanup/"+stage+"DeltaEtaDeltaPhi_"+name+".png")
         c.Close()
 
         c = makeCanvas(square=True)
@@ -311,7 +321,7 @@ def plot2D(stage):
         hist_tt.Draw("colz")
         makeAxes2D(hist_tt)
         CMS_lumi.CMS_lumi(c,14,33)
-        c.SaveAs("basic_tt/"+stage+"DeltaEtaDeltaPhi_"+name+"_tt.png")
+        c.SaveAs("cleanup/"+stage+"DeltaEtaDeltaPhi_"+name+"_tt.png")
         c.Close()
 
 
@@ -366,7 +376,7 @@ def plotExtra(stage):
 
     CMS_lumi.CMS_lumi(c,14,33)
     
-    c.SaveAs("basic_tt/"+stage+"NJetiWMatch.png")
+    c.SaveAs("basic/"+stage+"NJetiWMatch.png")
     c.Close()
 
 
@@ -383,7 +393,7 @@ def plotExtra(stage):
 
     CMS_lumi.CMS_lumi(c,14,33)
     
-    c.SaveAs("basic_tt/"+stage+"JetWMatchEta_unscaled.png")
+    c.SaveAs("basic/"+stage+"JetWMatchEta_unscaled.png")
     c.Close()
 
 
@@ -412,7 +422,7 @@ def plotExtra(stage):
 
     CMS_lumi.CMS_lumi(c,14,33)
 
-    c.SaveAs("basic_tt/"+stage+"WWM_1D.png")
+    c.SaveAs("basic/"+stage+"WWM_1D.png")
     c.Close()
 
 
@@ -453,7 +463,7 @@ def plotPie(stage):
 
     pie.Draw("SC>")
 
-    c.SaveAs("basic_tt/"+stage+"branchfraction"+stage[-2]+".png")
+    c.SaveAs("basic/"+stage+"branchfraction"+stage[-2]+".png")
     c.Close()
 
 

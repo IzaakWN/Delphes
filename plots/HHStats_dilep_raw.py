@@ -38,17 +38,24 @@ def main():
 #    S_semi = [ 214888, 214888, 26511, 20634 ]
 #    B_semi = [ 211952, 182709, 35223, 15335 ]
 
-    # with oppositely charged + DeltaR_ql
-    S_di = [ 51464, 51464, 3181, 2500 ]
-    B_di = [ 50789, 18899, 2023, 331 ]
-    S_semi = [ 214888, 214888, 26511, 20634 ]
-    B_semi = [ 211952, 101940, 20848, 9428 ]
+#    # with oppositely charged + DeltaR_ql
+#    S_di = [ 51464, 51464, 3181, 2500  ]
+#    B_di = [ 50789, 18899, 2023, 331 ]
+#    S_semi = [ 214888, 214888, 26511, 20634 ]
+#    B_semi = [ 211952, 101940, 20848, 9428 ]
 
-    
+    # with oppositely charged + DeltaR_ql
+    # without taus
+    S_di = [ 22812, 22812, 2748, 2149 ]
+    B_di = [ 22546, 8339, 1755, 296 ]
+    S_semi = [ 166483, 166483, 28203, 22189 ]
+    B_semi = [ 164661, 68011, 19401, 8748 ]
+
     sigma_S = 40 * 0.0113
     sigma_B = 984500 * 0.0453
+#    k = B_di[1]/B_di[0]
 #    sigma_S = 0.163*2.3
-#    sigma_B = 9030*1.85/0.372
+#    sigma_B = 9030*1.85/k
 #    sigma_S = 0.163
 #    sigma_B = 9030/0.372
     N_S = sigma_S * L
@@ -59,23 +66,25 @@ def main():
     print "\n#Dileptonic channel\n" + header
     for i in range(4):
         P = punzi(S_di[i],B_di[i])
+        print "   %s" % round(33.2/40*P,5) + "\t%s" % round(33.2/40*N_S*S_di[i]/S_tot)+"\n"
 
 
-    sigma_S = 40 * 0.0715
-    sigma_B = 984500 * 0.2873
-#    sigma_S = 0.163*2.3/0.0113*0.0715
-#    sigma_B = 9030*1.85/0.372/0.0453*0.2873
-    N_S = sigma_S * L
-    N_B = sigma_B * L
-    S_tot = S_semi[0]
-    B_tot = B_semi[0]
+#    sigma_S = 40 * 0.0715
+#    sigma_B = 984500 * 0.2873
+##    k = B_semi[1]/B_semi[0]
+##    sigma_S = 0.163*2.3/0.0113*0.0715
+##    sigma_B = 9030*1.85/k/0.0453*0.2873
+#    N_S = sigma_S * L
+#    N_B = sigma_B * L
+#    S_tot = S_semi[0]
+#    B_tot = B_semi[0]
+#
+#    k = sqrt(0.0453/0.2873)
+#    print "\n\n#Semileptonic channel\n" + header
+#    for i in range(4):
+#        P = punzi(S_semi[i],B_semi[i])
+#        print "   %s" % round(k*P,5)+"\n"
 
-    k = sqrt(0.0453/0.2873)
-    print "\n\n#Semileptonic channel\n" + header
-    for i in range(4):
-        P = punzi(S_semi[i],B_semi[i])
-        print "   %s" % round(k*P,5)
-    
 
 
     print "\nDone!\n"
