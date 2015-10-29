@@ -66,13 +66,16 @@ class GenControlPlots(BaseControlPlots):
         self.add("DeltaR_b1l","closest bquark-lepton DeltaR",100,0,3.5)
         self.add("DeltaR_b2l","2nd closest bquark-lepton DeltaR",100,0,3.5)
         
+        self.add("DeltaPhi_qq","coupled quarks DeltaPhi gen",100,0,3.5)
+        
         self.add2D("DeltaEtaDeltaPhi_qq","quark-quark DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_bb","bquark-bquark DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
-        self.add2D("DeltaEtaDeltaPhi_q1l","lepton-quark DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
-        self.add2D("DeltaEtaDeltaPhi_q2l","lepton-quark DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_q1l","closest quark-lepton DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_q2l","2nd closest quark-lepton DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_qsl","lepton-quarks DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_b1l","closest bquark-lepton DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_b2l","2nd closest bquark-lepton DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_bsl","lepton-bquarks DeltaPhi vs. DeltaEta",50,0,5,50,0,3.2)
-        self.add("DeltaPhi_qq","coupled quarks DeltaPhi gen",100,0,7)
 
         for i in range(len(labels)):
             label = labels[i]
@@ -339,21 +342,25 @@ class GenControlPlots(BaseControlPlots):
 
             if quarks:
 #                DeltaR_ql = sorted([ TLV.DeltaR(p_lepton,p) for p in p_q ])[:2]
-                [p_q1,p_q2] = sorted(p_q, key=lambda p: TLV.DeltaR(p,p_lepton))[:2]
+                [p_q1,p_q2] = sorted(p_q, key = lambda p: TLV.DeltaR(p,p_lepton))[:2]
                 result["DeltaR_q1l"] = TLV.DeltaR(p_lepton,p_q1)
                 result["DeltaR_q2l"] = TLV.DeltaR(p_lepton,p_q2)
                 result["DeltaEtaDeltaPhi_q1l"] = [[ abs(lepton.Eta - p_q1.Eta()),
-                                              fold(abs(lepton.Phi - p_q1.Phi())) ]]
+                                               fold(abs(lepton.Phi - p_q1.Phi())) ]]
                 result["DeltaEtaDeltaPhi_q2l"] = [[ abs(lepton.Eta - p_q2.Eta()),
-                                              fold(abs(lepton.Phi - p_q2.Phi())) ]]
+                                               fold(abs(lepton.Phi - p_q2.Phi())) ]]
                 
                 for quark in quarks:
                     result["DeltaEtaDeltaPhi_qsl"].append([ abs(lepton.Eta - quark.Eta),
-                                                            fold(abs(lepton.Phi - quark.Phi)) ])
+                                                       fold(abs(lepton.Phi - quark.Phi)) ])
             if len(b)>1:
-                DeltaR_bl = sorted([ TLV.DeltaR(p_lepton,p) for p in p_b ])
-                result["DeltaR_b1l"] = DeltaR_bl[0]
-                result["DeltaR_b2l"] = DeltaR_bl[1]
+                [p_q1,p_q2] = sorted(p_q, key = lambda p: TLV.DeltaR(p,p_lepton))[:2]
+                result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_q1)
+                result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_q2)
+                result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_q1.Eta()),
+                                               fold(abs(lepton.Phi - p_q1.Phi())) ]]
+                result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_q2.Eta()),
+                                               fold(abs(lepton.Phi - p_q2.Phi())) ]]
                 for bquark in b:
                     result["DeltaEtaDeltaPhi_bsl"].append([ abs(lepton.Eta - bquark.Eta),
                                                             fold(abs(lepton.Phi - bquark.Phi)) ])

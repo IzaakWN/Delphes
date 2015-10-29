@@ -58,9 +58,9 @@ def plotBasic(stage):
     #for hist in ["NMuons20","NElectrons20","NLeptons20","Lepton1Pt","Lepton1Eta"]:
         #names.append("leptons/"+hist)
 
-    for hist in ["M_ll","M_jj","DeltaR_ll","DeltaR_jj","DeltaPhi_jjll"]:
+    for hist in [ "M_ll","M_jj", "DeltaR_ll","DeltaR_jj","DeltaPhi_jjll" ]:
         names.append("cleanup/"+hist)
-    
+        
     for name in names:
 
         c = makeCanvas()
@@ -88,7 +88,7 @@ def plotBasic(stage):
         name = name.replace("gen/","basic_dilep/"+stage)
         name = name.replace("leptons/","basic_dilep/"+stage)
         name = name.replace("jets/","basic_dilep/"+stage)
-        name = name.replace("cleanup/","basic_dilep/"+stage)
+        name = name.replace("cleanup/","cleanup_dilep/"+stage)
         c.SaveAs(name+".png")
         c.Close()
 
