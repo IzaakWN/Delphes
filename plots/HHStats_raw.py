@@ -37,8 +37,8 @@ def punzi(stage):
     for obj in [ "jj","jj_cut","jj_leading","jj_leading_cut","jj_b2b","jj_b2b_cut","jjl",
                  "bb","bb_cut","bb_leading","bb_leading_cut","bb_closest","bb_closest_cut","b1l" ]:
         
-        hist_S = file.Get("stage_"+stageN+"/cleanup/M_"+obj) # signal: HH -> bbWW
-        hist_B = file_tt.Get("stage_"+stageN+"/cleanup/M_"+obj) # BG: tt -> bbWW
+        hist_S = file.Get(stage+"/cleanup/M_"+obj) # signal: HH -> bbWW
+        hist_B = file_tt.Get(stage+"/cleanup/M_"+obj) # BG: tt -> bbWW
         
         S = hist_S.Integral(1,hist_S.GetMaximumBin())
         B = hist_B.Integral(1,hist_S.GetMaximumBin())
