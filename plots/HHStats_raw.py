@@ -1,5 +1,5 @@
 from __future__ import division
-from ROOT import *
+from ROOT import TFile, TH1
 from math import sqrt
 import time
 
@@ -28,7 +28,7 @@ B_tot = hist_B.GetBinContent(1)
 
 def punzi(stage):
 
-    print "\n   " + stage[:-1] + \
+    print "\n   " + stage + \
           " Punzi significance" + \
           "\n  ---------------------------------------" + \
           "\n   P     \tS \tB\t Mass reco" + \
