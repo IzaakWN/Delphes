@@ -305,7 +305,7 @@ def plot2D(stage):
       
     # RECO LEVEL: DeltaPhi vs. DeltaEta
     names = [ "jj","jl","j1l","j2l","j3l","jjl",
-              "bb","bl","b1l","b2","jjbb" ]
+              "bb","bl","b1l","b2l","jjbb" ]
 
     for name in names:
         c = makeCanvas(square=True)
