@@ -28,7 +28,7 @@ def plotBasic(stage):
     if stage == "stage_0/":
         names.append("selection/category")
 
-    for comb in [ "jj","jj_cut","jj_leading","jj_leading_cut","jj_b2b","jj_b2b_cut","jjl"
+    for comb in [ "jj","jj_cut","jj_leading","jj_leading_cut","jj_b2b","jj_b2b_cut","jjl",
                   "bb","bb_cut","bb_leading","bb_leading_cut","bb_closest","bb_closest_cut","b1l" ]:
         names.append("cleanup/M_"+comb)
 
@@ -284,7 +284,7 @@ def plot2D(stage):
     #c.Close()
 
     # GEN LEVEL: DeltaPhi vs. DeltaEta
-    names = ["qq","bb","q1l","q2l","qsl","bsl"]
+    names = [ "qq","bb","q1l","q2l","qsl","bsl" ]
 
     for name in names:
         c = makeCanvas(square=True)
@@ -336,7 +336,7 @@ def plotExtra(stage):
     
     # __HH_vs._tt__
     
-    for var in ["M","Pt","Eta"]:
+    for var in [ "M","Pt","Eta" ]:
 
         c = makeCanvas()
         hist_S = file.Get(stage+"gen/HHbbWW"+var) # signal: HH -> bbWW
