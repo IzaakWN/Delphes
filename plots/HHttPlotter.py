@@ -118,15 +118,15 @@ def plotBasic(stage):
 
         if "gen/Delta" in name:
             name = name.replace("gen/Delta","cleanup/"+stage+"Delta") + "_gen"
-
-        name = name.replace("selection/","basic/"+stage)
-        name = name.replace("cleanup/","cleanup/"+stage)
-        name = name.replace("gen/","basic/"+stage)
-        name = name.replace("leptons/","basic/"+stage)
-        name = name.replace("jets/","basic/"+stage)
-        name = name.replace("match/","basic/"+stage)
-        name = name.replace("reco/","reco/"+stage)
-        name = name.replace("reco2/","reco/"+stage)
+        else:
+            name = name.replace("selection/","basic/"+stage)
+            name = name.replace("cleanup/","cleanup/"+stage)
+            name = name.replace("gen/","basic/"+stage)
+            name = name.replace("leptons/","basic/"+stage)
+            name = name.replace("jets/","basic/"+stage)
+            name = name.replace("match/","basic/"+stage)
+            name = name.replace("reco/","reco/"+stage)
+            name = name.replace("reco2/","reco/"+stage)
         c.SaveAs(name+".png")
         c.Close()
 
