@@ -30,12 +30,28 @@ def punzi(stage):
 
     print "\n   " + stage + \
           " Punzi significance" + \
-          "\n  ---------------------------------------" + \
+          "\n  ----------------------------------------------------------" + \
           "\n   P     \tS \tB\t Mass reco" + \
-          "\n  ---------------------------------------"
+          "\n  ----------------------------------------------------------"
     
-    for obj in [ "jj","jj_cut","jj_leading","jj_leading_cut","jj_b2b","jj_b2b_cut","jjl",
-                 "bb","bb_cut","bb_leading","bb_leading_cut","bb_closest","bb_closest_cut","b1l" ]:
+    M = [ ("jj",0,120),
+          ("jj_cut",0,120),
+          ("jj_leading",0,120),
+          ("jj_leading_cut",0,120),
+          ("jj_b2b",0,120),
+          ("jj_b2b_cut",0,120),
+          ("jjl",0,120),
+          ("bb",0,120),
+          ("bb_cut",0,120),
+          ("bb_leading",0,120),
+          ("bb_leading_cut",0,120),
+          ("bb_closest",0,120),
+          ("bb_closest_cut",0,120),
+          ("b1l",0,120) ]
+    
+    
+    
+    for obj,x1,x2 in M:
         
         hist_S = file.Get(stage+"/cleanup/M_"+obj) # signal: HH -> bbWW
         hist_B = file_tt.Get(stage+"/cleanup/M_"+obj) # BG: tt -> bbWW
@@ -45,6 +61,12 @@ def punzi(stage):
         
         P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) )), 5 )
         print "   %s\t%.2f\t%.2f\t" % ( P, N_S*(S/S_tot), N_B*(B/B_tot) ) + "M_" + obj
+        
+        S = hist_S(hist_S->GetXaxis()->FindBin(x1),hist_S->GetXaxis()->FindBin(x2))
+        B = hist_S(hist_B->GetXaxis()->FindBin(x1),hist_S->GetXaxis()->FindBin(x2))
+        
+        P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) )), 5 )
+        print "   %s\t%.2f\t%.2f\t" % ( P, N_S*(S/S_tot), N_B*(B/B_tot) ) + "M_" + obj + " window (%i,%i)" % (x1,x2)
 
     print "\n\n"
 
@@ -55,7 +77,7 @@ def punzi(stage):
 
 def main():
 
-    for stageN in ["0","1","2","3","4","5","6","7"]:
+    for stageN in ["0","1","2","3","4","5","6"]:
         punzi("stage_"+stageN)
 
     print "\nDone!\n"
