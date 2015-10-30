@@ -269,7 +269,7 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["DeltaEtaDeltaPhi_jjbb"].append([ abs(p_bb.Eta() - p_jj.Eta()),
                                                     fold(abs(p_bb.Phi() - p_jj.Phi())) ])
         
-        if len(bjets)>2:
+        if len(bjets)>1:
             result["M_bb_leading"] = (p_bjets[0]+p_bjets[1]).M()
 
 #        for key, value in result.iteritems():
