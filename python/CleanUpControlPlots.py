@@ -178,7 +178,7 @@ class CleanUpControlPlots(BaseControlPlots):
             if lepton:
                 if ((TLV.DeltaR(p_lepton,p1)<1.5 and TLV.DeltaR(p_lepton,p2) < 2) or \
                     (TLV.DeltaR(p_lepton,p1)<2   and TLV.DeltaR(p_lepton,p2) < 1.5)) and \
-                     DeltaPhi < 2.1:
+                     DeltaPhi < 2:
                     madeCut = True
                     p_jj_cut.append(p_jj)
                     result["M_jj_cut"].append(p_jj.M())
