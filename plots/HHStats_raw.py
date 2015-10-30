@@ -56,8 +56,8 @@ def punzi(stage):
         hist_S = file.Get(stage+"/cleanup/M_"+obj) # signal: HH -> bbWW
         hist_B = file_tt.Get(stage+"/cleanup/M_"+obj) # BG: tt -> bbWW
         
-        S = hist_S.Integral(1,hist_S.GetMaximumBin())
-        B = hist_B.Integral(1,hist_B.GetMaximumBin())
+        S = hist_S.Integral(1,hist_S.GetSize()-2)
+        B = hist_B.Integral(1,hist_S.GetSize()-2)
         
         P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) )), 5 )
         print "   %s\t%.2f\t%.2f\t" % ( P, N_S*(S/S_tot), N_B*(B/B_tot) ) + "M_" + obj
