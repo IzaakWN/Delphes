@@ -25,7 +25,7 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add("M_jj_leading_cut","jet-jet (cut) Mass",100,0,300)
       self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
       self.add("M_jj_b2b_cut","jet-jet b2b Mass",100,0,300)
-      self.add("M_jjl","jets-lepton combinations Mass",100,0,300)
+      self.add("M_jjl","jets-lepton combinations Mass",150,0,450)
       self.add("M_bb","bjet-bjet combinations Mass",100,0,300)
       self.add("M_bb_leading","bjet-bjet Mass",100,0,300)
       self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
