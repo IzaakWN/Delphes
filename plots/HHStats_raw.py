@@ -41,13 +41,13 @@ def punzi(stage):
           ("jj_b2b",0,0),
           ("jj_b2b_cut",0,0),
           ("jjl",0,160),
-          ("bb",0,120),
+          ("bb",80,140),
           ("bb_cut",70,140),
-          ("bb_leading",0,120),
-          ("bb_leading_cut",0,120),
+          ("bb_leading",0,135),
+          ("bb_leading_cut",0,0),
           ("bb_closest",80,145),
           ("bb_closest_cut",80,145),
-          ("b1l",0,150) ]
+          ("b1l",140,0) ]
     
     
     
