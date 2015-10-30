@@ -30,9 +30,9 @@ def punzi(stage):
 
     print "\n   " + stage + \
           " Punzi significance" + \
-          "\n  ----------------------------------------------------------" + \
-          "\n   P     \tS \tB\t\t Mass reco" + \
-          "\n  ----------------------------------------------------------"
+          "\n  -------------------------------------------------------------" + \
+          "\n   P     \tS \tB\t\tMass reco" + \
+          "\n  -------------------------------------------------------------"
     
     M = [ ("jj",0,0),
           ("jj_cut",0,0),
@@ -57,19 +57,21 @@ def punzi(stage):
         hist_B = file_tt.Get(stage+"/cleanup/M_"+obj) # BG: tt -> bbWW
         
         S = hist_S.Integral(1,hist_S.GetMaximumBin())
-        B = hist_B.Integral(1,hist_S.GetMaximumBin())
+        B = hist_B.Integral(1,hist_B.GetMaximumBin())
         
         P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) )), 5 )
         print "   %s\t%.2f\t%.2f\t" % ( P, N_S*(S/S_tot), N_B*(B/B_tot) ) + "M_" + obj
             
         if x2:
             S = hist_S.Integral(hist_S.GetXaxis().FindBin(x1),hist_S.GetXaxis().FindBin(x2))
-            B = hist_S.Integral(hist_B.GetXaxis().FindBin(x1),hist_S.GetXaxis().FindBin(x2))
+            B = hist_B.Integral(hist_B.GetXaxis().FindBin(x1),hist_B.GetXaxis().FindBin(x2))
             
             P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) )), 5 )
-            print "   %s\t%.2f\t%.2f\t" % ( P, N_S*(S/S_tot), N_B*(B/B_tot) ) + "M_" + obj + " window (%i,%i)" % (x1,x2)
+            print "   %s\t%.1f\t%.1f\t" % ( P, N_S*(S/S_tot), N_B*(B/B_tot) ) + "M_" + obj + " window (%i,%i)" % (x1,x2)
 
     print "\n"
+
+
 
 
     ########
