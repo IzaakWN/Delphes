@@ -68,6 +68,10 @@ def makeTitle(hist):
         title = title.replace(" PID","")
     elif " Mt" in title:
         title = title.replace(" Mt","")
+    elif " DeltaR" in title:
+        title = title.replace(" DeltaR","")
+    elif " DeltaPhi" in title:
+        title = title.replace(" DeltaR","")
     elif "MW" in title:
         title = title.replace("MW","M")#_{W}")
     
@@ -336,10 +340,10 @@ def makeAxes(*hists, **kwargs):
                 hist0.GetXaxis().SetTitle("W #rightarrow l#nu mass [GeV]")
                 ylabel = "W #rightarrow qq mass [GeV]"
             elif "lepton-lepton" in name:
-                hist0.GetXaxis().SetTitle("invariant mass M_ll [GeV]")
+                hist0.GetXaxis().SetTitle("invariant mass M_{ll} [GeV]")
                 ylabel += "GeV"
             elif "bjet-bjet" in name:
-                hist0.GetXaxis().SetTitle("invariant mass M_jj [GeV]")
+                hist0.GetXaxis().SetTitle("invariant mass M_{bb} [GeV]")
                 ylabel += "GeV"
             else:
                 hist0.GetXaxis().SetTitle("invariant mass M [GeV]")
