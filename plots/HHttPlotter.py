@@ -287,7 +287,7 @@ def plot2D(stage):
     #c.Close()
 
     # GEN LEVEL: DeltaPhi vs. DeltaEta
-    names = [ "qq","bb","q1l","q2l","qsl","bsl" ]
+    names = [ "qq","bb","q1l","q2l","qsl","b1l","b2l","bsl" ]
 
     for name in names:
         c = makeCanvas(square=True)

@@ -20,18 +20,18 @@ class CleanUpControlPlots(BaseControlPlots):
     def beginJob(self):
       # declare histograms
       self.add("M_jj","jet-jet combinations Mass",100,0,300)
-      self.add("M_jj_cut","jet-jet combinations (DeltaPhi cuts) Mass",100,0,300)
+      self.add("M_jj_cut","jet-jet combinations (cut) Mass",100,0,300)
       self.add("M_jj_leading","leading jet-jet Mass",100,0,300)
-      self.add("M_jj_leading_cut","jet-jet (DeltaPhi cuts) Mass",100,0,300)
+      self.add("M_jj_leading_cut","jet-jet (cut) Mass",100,0,300)
       self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
       self.add("M_jj_b2b_cut","jet-jet b2b Mass",100,0,300)
       self.add("M_jjl","jets-lepton combinations Mass",100,0,300)
       self.add("M_bb","bjet-bjet combinations Mass",100,0,300)
       self.add("M_bb_leading","bjet-bjet Mass",100,0,300)
       self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
-      self.add("M_bb_cut","bjet-bjet combinations (DeltaPhi>2 cut) Mass",100,0,300)
-      self.add("M_bb_leading_cut","bjet-bjet (DeltaPhi>2 cut) Mass",100,0,300)
-      self.add("M_bb_closest_cut","closest bjet-bjet (DeltaPhi>2 cut) Mass",100,0,300)
+      self.add("M_bb_cut","bjet-bjet combinations (cut) Mass",100,0,300)
+      self.add("M_bb_leading_cut","bjet-bjet (cut) Mass",100,0,300)
+      self.add("M_bb_closest_cut","closest bjet-bjet (cut) Mass",100,0,300)
       self.add("M_b1l","closest bjet-lepton Mass",100,0,300)
 
       #self.add("DeltaPt_jl","lepton-bjet Mass",100,0,2)
@@ -59,19 +59,19 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add("DeltaPhi_b1l","closest bjet-lepton DeltaPhi",100,0,3.5)
       self.add("DeltaPhi_b2l","2nd closest bjet-lepton DeltaPhi",100,0,3.5)
 
-      self.add2D("DeltaEtaDeltaPhi_jj","jet-jet combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_jl","jet-lepton combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_j1l","closest jet-lepton combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_j2l","2nd closest jet-lepton combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_j3l","3rd closest jet-lepton combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_jjl","jets-lepton combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_bb","bjet-bjet DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_bl","bjet-lepton combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_b1l","closest bjet-lepton DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_b2l","2nd closest bjet-lepton DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
-      self.add2D("DeltaEtaDeltaPhi_jjbb","jets-bjets combinations DeltaPhi vs. DeltaEta (Pt>30 GeV)",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_jj","jet-jet combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_jl","jet-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_j1l","closest jet-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_j2l","2nd closest jet-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_j3l","3rd closest jet-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_jjl","jets-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_bb","bjet-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_bl","bjet-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_b1l","closest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_b2l","2nd closest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_jjbb","jets-bjets combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
 
-      self.add2D("MDeltaPhi_jj_b2b","jet-jet DeltaPhi vs. Mass (Pt>30 GeV)",100,0,200,50,0,3.2)
+      self.add2D("MDeltaPhi_jj_b2b","jet-jet DeltaPhi vs. Mass",100,0,200,50,0,3.2)
 
     # get information
     def process(self, event):
@@ -250,8 +250,8 @@ class CleanUpControlPlots(BaseControlPlots):
                                                    result["DeltaPhi_bb"][-1] ])
             madeCut = False
             if lepton:
-                if result["DeltaR_bb"][-1]<2.5 and fold(abs(lepton.Phi - p1.Phi()))>1 and \
-                                                 fold(abs(lepton.Phi - p2.Phi()))>1:
+                if result["DeltaR_bb"][-1]<2.5 and \
+                   (fold(abs(lepton.Phi - p1.Phi()))>1 or fold(abs(lepton.Phi - p2.Phi()))>1):
                     madeCut = True
                     result["M_bb_cut"].append(p_bb.M())
                     if p_bb.Pt() > PT_bb_leading:
