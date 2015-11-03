@@ -20,11 +20,11 @@ def tree1w():
     random = array('f', [0])
     ev = array('i', [0])
     t1.Branch("px",0,"px/F")
+    t1.SetBranchAddress("px",px) # test this method
     t1.Branch("py",py,"py/F")
+    t1.Branch("pz",pz,"py/F")
     t1.Branch("random",random,"random/D")
     t1.Branch("ev",ev,"ev/I")
-
-    t1.SetBranchAddress("py",py) # test this method
 
     # fill the tree
     for i in range(0,1000):
