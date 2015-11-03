@@ -28,12 +28,12 @@ class AnalysisEvent(TChain):
      TChain.__init__(self,"Delphes","Delphes")
      if isinstance(inputFiles,Iterable) and not isinstance(inputFiles,StringTypes):
        for thefile in inputFiles:
-         if path.isfile(thefile): 
+         if path.isfile(thefile) or "dcap://" in path:
            self.AddFile(thefile)
          else:
            self.AddFile(thefile)
            print "Warning: ",thefile," do not exist on local disk."
-     elif  isinstance(inputFiles,StringTypes):
+     elif isinstance(inputFiles,StringTypes):
        thefile = inputFiles
        if path.isfile(thefile): 
          self.AddFile(thefile)

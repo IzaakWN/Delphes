@@ -1,5 +1,6 @@
 from BaseControlPlots import BaseControlPlots
 from ROOT import TLorentzVector as TLV
+from ROOT import TTree, TBranch
 from itertools import combinations # to make jets combinations
 from copy import copy
 from fold import fold
@@ -72,6 +73,11 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add2D("DeltaEtaDeltaPhi_jjbb","jets-bjets combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
 
       self.add2D("MDeltaPhi_jj_b2b","jet-jet DeltaPhi vs. Mass",100,0,200,50,0,3.2)
+      
+      self.addTree("cleanup","Variables for MVA")
+      self._h_vector["cleanup"].Branch("DeltaR_b1l",0,"DeltaR_b1l/F")
+    
+    
 
     # get information
     def process(self, event):
@@ -271,6 +277,8 @@ class CleanUpControlPlots(BaseControlPlots):
         
         if len(bjets)>1:
             result["M_bb_leading"] = (p_bjets[0]+p_bjets[1]).M()
+
+        
 
 #        for key, value in result.iteritems():
 #            if not isinstance(value, (int, long, float)):

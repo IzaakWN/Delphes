@@ -93,6 +93,13 @@ class BaseControlPlots:
       self._dir.cd()
       self._h_vector[args[0]] = ROOT.TH2F(*args)
 
+    # IWN
+    def addTree(self,*args):
+      """Add one TTree to the list of products. Arguments are as for TTree."""
+      # this fills a distionnary name <-> histogram
+      self._dir.cd()
+      self._h_vector[args[0]] = ROOT.Tree(*args)
+
     def addVariable(self,*args):
       """Add one variable to the list of products. Arguments are as for RooRealVar."""
       # this fills a distionnary name <-> RooRealVar
@@ -114,6 +121,15 @@ class BaseControlPlots:
       # TH2(name, title, nbinsx, xbins, nbinsy, ylow, yup)
       if self._mode=="plots":
         self.addHisto2D(*args)
+      else:
+        self.addVariable(*[args[i] for i in [0,1,3,4]])
+    
+    # IWN
+    def addTree(self, *args):
+      """Add one item to the list of products. Arguments are as for Tree."""
+      # TTree(name, title)
+      if self._mode=="plots":
+        self.addTree(*args)
       else:
         self.addVariable(*[args[i] for i in [0,1,3,4]])
 
