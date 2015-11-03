@@ -10,6 +10,7 @@ def tree1w():
     # create a tree file tree1.root - create the file, the Tree and a few branches
     f = TFile("tree1.root","recreate")
     t1 = TTree("t1","a simple Tree with simple variables")
+    
     px = array('f', [0])
     py = array('f', [0])
     pz = array('f', [0])
@@ -32,3 +33,7 @@ def tree1w():
     #t1.Write()
     f.Write()
     f.Close()
+
+
+if __name__ == '__main__':
+    tree1w()
