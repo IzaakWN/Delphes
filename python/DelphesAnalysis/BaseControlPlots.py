@@ -99,7 +99,7 @@ class BaseControlPlots:
       """Add one TTree to the list of products. Arguments are as for TTree."""
       # this fills a distionnary name <-> histogram
       self._dir.cd()
-      self._h_vector[args[0]] = ROOT.Tree(*args)
+      self._h_vector[args[0]] = ROOT.TTree(*args)
 
     def addVariable(self,*args):
       """Add one variable to the list of products. Arguments are as for RooRealVar."""
