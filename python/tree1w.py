@@ -65,6 +65,7 @@ def tree2w():
 
 if __name__ == '__main__':
     tree1w()
+    tree2w()
 
 
 
