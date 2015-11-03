@@ -1,7 +1,7 @@
 from ROOT import TFile, TTree, TBranch, TRandom
 
 
-def tree1w()
+def tree1w():
 
     # create a tree file tree1.root - create the file, the Tree and a few branches
     f = TFile("tree1.root","recreate")
