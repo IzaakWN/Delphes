@@ -74,7 +74,7 @@ class CleanUpControlPlots(BaseControlPlots):
 
       self.add2D("MDeltaPhi_jj_b2b","jet-jet DeltaPhi vs. Mass",100,0,200,50,0,3.2)
       
-      self.addTree("cleanup","Variables for MVA")
+      self.addT("cleanup","Variables for MVA")
       self._h_vector["cleanup"].Branch("DeltaR_b1l",0,"DeltaR_b1l/F")
     
     

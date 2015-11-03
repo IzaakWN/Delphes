@@ -126,7 +126,7 @@ class BaseControlPlots:
         self.addVariable(*[args[i] for i in [0,1,3,4]])
     
     # IWN
-    def addTree(self, *args):
+    def addT(self, *args):
       """Add one item to the list of products. Arguments are as for Tree."""
       # TTree(name, title)
       if self._mode=="plots":
