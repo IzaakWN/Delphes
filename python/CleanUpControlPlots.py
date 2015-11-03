@@ -44,6 +44,7 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add("DeltaR_j2l","2nd closest jet-lepton DeltaR",100,0,4)
       self.add("DeltaR_jjl","jets-lepton combinations DeltaR",100,0,4)
       self.add("DeltaR_bb","bjet-bjet combinations DeltaR",100,0,4)
+      self.add("DeltaR_bb1","closest bjet-bjet combinations DeltaR",100,0,4)
       self.add("DeltaR_bl","bjet-lepton combinations DeltaR",100,0,4)
       self.add("DeltaR_b1l","closest bjet-lepton DeltaR",100,0,4)
       self.add("DeltaR_b2l","2nd closest bjet-lepton DeltaR",100,0,4)
@@ -56,6 +57,7 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add("DeltaPhi_j2l","2nd closest jet-lepton DeltaPhi",100,0,3.5)
       self.add("DeltaPhi_jjl","jets-lepton combinations DeltaPhi",100,0,3.5)
       self.add("DeltaPhi_bb","bjet-bjet combinations DeltaPhi",100,0,3.5)
+      self.add("DeltaPhi_bb1","closest bjet-bjet combinations DeltaPhi",100,0,3.5)
       self.add("DeltaPhi_bl","bjet-lepton combinations DeltaPhi",100,0,3.5)
       self.add("DeltaPhi_b1l","closest bjet-lepton DeltaPhi",100,0,3.5)
       self.add("DeltaPhi_b2l","2nd closest bjet-lepton DeltaPhi",100,0,3.5)
@@ -67,6 +69,7 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add2D("DeltaEtaDeltaPhi_j3l","3rd closest jet-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
       self.add2D("DeltaEtaDeltaPhi_jjl","jets-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
       self.add2D("DeltaEtaDeltaPhi_bb","bjet-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+      self.add2D("DeltaEtaDeltaPhi_bb1","closest bjet-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
       self.add2D("DeltaEtaDeltaPhi_bl","bjet-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
       self.add2D("DeltaEtaDeltaPhi_b1l","closest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
       self.add2D("DeltaEtaDeltaPhi_b2l","2nd closest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
@@ -75,7 +78,11 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add2D("MDeltaPhi_jj_b2b","jet-jet DeltaPhi vs. Mass",100,0,200,50,0,3.2)
       
       self.addT("cleanup","Variables for MVA")
+      self._h_vector["cleanup"].Branch("DeltaR_j1l",0,"DeltaR_j1l/F")
+      self._h_vector["cleanup"].Branch("DeltaR_j2l",0,"DeltaR_j2l/F")
+      self._h_vector["cleanup"].Branch("DeltaR_bb1",0,"DeltaR_bb1/F")
       self._h_vector["cleanup"].Branch("DeltaR_b1l",0,"DeltaR_b1l/F")
+      self._h_vector["cleanup"].Branch("DeltaR_b2l",0,"DeltaR_b2l/F")
     
     
 
@@ -121,14 +128,11 @@ class CleanUpControlPlots(BaseControlPlots):
         p_jj_b2b = None
         p_jj_b2b_cut = None
         DeltaPhi_b2b = 0 # < pi
-        #DeltaPhi_b2b_cut = 0
 
         bjets = event.bjets30
         p_bjets = [ ]
         p_bb_cut = [ ]
         DeltaR_bl = [ ]
-        #M_bb_closest = 0
-        #M_bb_closest_cut = 0
         DeltaR_bb_closest = 4 # > pi
         PT_bb_leading = 0
 
@@ -156,11 +160,13 @@ class CleanUpControlPlots(BaseControlPlots):
             p_ji = sorted(p_jets, key=lambda p: TLV.DeltaR(p,p_lepton))[:3]
             if len(p_ji)>0:
                 result["DeltaR_j1l"] = TLV.DeltaR(p_lepton,p_ji[0])
+                result["cleanup/DeltaR_j1l"] = result["DeltaR_j1l"]
                 result["DeltaPhi_j1l"] = fold(abs(lepton.Phi - p_ji[0].Phi()))
                 result["DeltaEtaDeltaPhi_j1l"] = [[ abs(lepton.Eta - p_ji[0].Eta()),
                                                     result["DeltaPhi_j1l"] ]]
                 if len(p_ji)>1:
                     result["DeltaR_j2l"] = TLV.DeltaR(p_lepton,p_ji[1])
+                    result["cleanup/DeltaR_j2l"] = result["DeltaR_j2l"]
                     result["DeltaPhi_j2l"] = fold(abs(lepton.Phi - p_ji[1].Phi()))
                     result["DeltaEtaDeltaPhi_j2l"] = [[ abs(lepton.Eta - p_ji[1].Eta()),
                                                         result["DeltaPhi_j2l"] ]]
@@ -243,6 +249,7 @@ class CleanUpControlPlots(BaseControlPlots):
                                                 result["DeltaPhi_b1l"] ]]
             if len(DeltaR_bl)>1:
                 result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_bl[1])
+                result["cleanup/DeltaR_b2l"] = result["DeltaR_b2l"]
                 result["DeltaPhi_b2l"] = fold(abs(lepton.Phi - p_bl[1].Phi()))
                 result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_bl[1].Eta()),
                                                     result["DeltaPhi_b2l"] ]]
@@ -266,6 +273,10 @@ class CleanUpControlPlots(BaseControlPlots):
 
             if result["DeltaR_bb"][-1] < DeltaR_bb_closest:
                 result["M_bb_closest"] = p_bb.M()
+                result["DeltaR_bb1"] = result["DeltaR_bb"]
+                result["cleanup/DeltaR_bb1"] = result["DeltaR_bb1"]
+                result["DeltaPhi_bb1"] = result["DeltaPhi_bb"]
+                result["DeltaEtaDeltaPhi_bb1"] = result["DeltaEtaDeltaPhi_bb"]
                 DeltaR_bb_closest = result["DeltaR_bb"][-1]
                 if madeCut:
                     result["M_bb_closest_cut"] = p_bb.M()
