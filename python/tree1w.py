@@ -46,16 +46,16 @@ def tree2w():
     f = TFile("tree2.root","recreate")
     t = TTree("t","a simple Tree with simple variables")
     
-    max = 5
-#    t1.Branch("nTracks",0,"nTracks/F")
-    t.Branch("px",0,"px[max]/F")
+    nTracks = array('f', [0])
+    t.Branch("nTracks",nTracks,"nTracks/F")
+    t.Branch("px",0,"px[nTracks]/F")
 
     # fill the tree
     for i in range(100):
-        n = gRandom.Integer(5)
-        px = array('f', [0]*n)
+        nTracks = gRandom.Integer(5)
+        px = array('f', [0]*nTracks)
         t.SetBranchAddress("px",px)
-        for j in range(n):
+        for j in range(nTracks):
             px[j] = gRandom.Gaus()
         t.Fill()
 
