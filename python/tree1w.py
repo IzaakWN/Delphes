@@ -1,5 +1,4 @@
-import ROOT
-from ROOT import TFile, TTree, TBranch, TRandom
+from ROOT import TFile, TTree, TBranch, TRandom, gRandom
 from array import array
 
 # http://wlav.web.cern.ch/wlav/pyroot/tpytree.html
@@ -11,8 +10,6 @@ def tree1w():
     # create a tree file tree1.root - create the file, the Tree and a few branches
     f = TFile("tree1.root","recreate")
     t1 = TTree("t1","a simple Tree with simple variables")
-    
-    gRandom = ROOT.gRandom
     
     px = array('f', [0])
     py = array('f', [0])
