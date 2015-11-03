@@ -64,9 +64,30 @@ def tree2w():
 
 
 
+def tree2aw():
+
+    f = TFile("tree2.root","recreate")
+    t = TTree("t","a simple Tree with simple variables")
+    
+    t.Branch("px",0,"px[6]/F")
+
+    # fill the tree
+    for i in range(1000):
+        n = gRandom.Integer(6)
+        px = array('f', [0]*n)
+        t.SetBranchAddress("px",px)
+        for j in range(n):
+            px[j] = 3+gRandom.Gaus()
+        t.Fill()
+
+    f.Write()
+    f.Close()
+
+
+
 if __name__ == '__main__':
     tree1w()
-    tree2w()
+    tree2aw()
 
 
 
