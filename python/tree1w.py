@@ -1,4 +1,5 @@
-from ROOT import TFile, TTree, TBranch, TRandom, gRandom
+import ROOT
+from ROOT import TFile, TTree, TBranch, TRandom
 from array import array
 
 # http://wlav.web.cern.ch/wlav/pyroot/tpytree.html
