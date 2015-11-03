@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 import ROOT 
 from CPconfig import configuration
+from array import array
 
 def getArgSet(controlplots):
   assert isinstance(controlplots,list)
@@ -158,14 +159,25 @@ class BaseControlPlots:
     def fillPlots(self, data, weight = 1.):
       """Fills histograms with the data provided as input."""
       for name,value in data.items():
-        if isinstance(value,list):
-          for val in value: # IWN
+        if "/" in name: # for TTree
+          [tree,name] = name.split("/")
+          var = array('f', [0])
+          self._h_vector[treeName].SetBranchAddress(name,var)
+#          if isinstance(value,list):
+#            for val in value:
+#              var = val
+#              self._h_vector[tree].Fill()
+#          else:
+          var[0] = value
+          self._h_vector[tree].Fill()
+        elif isinstance(value,list):
+          for val in value:
             if isinstance(val,list):
               self._h_vector[name].Fill(val[0],val[1],weight) # for TH2
             else:
               self._h_vector[name].Fill(val,weight) # for TH1
         else:
-          self._h_vector[name].Fill(value,weight)
+          self._h_vector[name].Fill(value,weight) # for TH1
 
     def fillRDS(self, data):
       """Fills roodataset with the data provided as input."""

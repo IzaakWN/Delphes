@@ -12,8 +12,6 @@ def tree1w():
     f = TFile("tree1.root","recreate")
     t1 = TTree("t1","a simple Tree with simple variables")
     
-    #ROOT.gRandom.SetSeed()
-    
     px = array('f', [0])
     py = array('f', [0])
     pz = array('f', [0])
@@ -40,6 +38,29 @@ def tree1w():
     #t1.Write()
     f.Write()
     f.Close()
+
+
+
+def tree2w():
+
+    f = TFile("tree2.root","recreate")
+    t = TTree("t","a simple Tree with simple variables")
+    
+#    t1.Branch("nTracks",0,"nTracks/F")
+    t.Branch("px",0,"px[n]/F")
+
+    # fill the tree
+    for i in range(0,100):
+        n = gRandom.Integer(5)
+        px = array('f', [0]*n)
+        t.SetBranchAddress("px",px)
+        for j in range(n)
+            px[j] = gRandom.Gaus()
+        t.Fill()
+
+    f.Write()
+    f.Close()
+
 
 
 if __name__ == '__main__':
