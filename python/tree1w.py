@@ -19,10 +19,12 @@ def tree1w():
     pz = array('f', [0])
     random = array('f', [0])
     ev = array('i', [0])
-    t1.Branch("px",px,"px/F")
+    t1.Branch("px",0,"px/F")
     t1.Branch("py",py,"py/F")
     t1.Branch("random",random,"random/D")
     t1.Branch("ev",ev,"ev/I")
+
+    t1.SetBranchAddress("py",py) # test this method
 
     # fill the tree
     for i in range(0,1000):
@@ -42,3 +44,7 @@ def tree1w():
 
 if __name__ == '__main__':
     tree1w()
+
+
+
+
