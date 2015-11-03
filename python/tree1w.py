@@ -1,4 +1,4 @@
-from ROOT import TFile, TTree, TBranch, TRandom
+from ROOT import TFile, TTree, TBranch, TRandom#, gRandom
 from array import array
 
 # http://wlav.web.cern.ch/wlav/pyroot/tpytree.html
@@ -11,6 +11,8 @@ def tree1w():
     f = TFile("tree1.root","recreate")
     t1 = TTree("t1","a simple Tree with simple variables")
     
+    gRandom = TRandom()
+    
     px = array('f', [0])
     py = array('f', [0])
     pz = array('f', [0])
@@ -22,9 +24,9 @@ def tree1w():
 
     # fill the tree
     for i in range(0,1000):
-        TRandom.Rannor(px[0],py[0])
+        gRandom.Rannor(px[0],py[0])
         pz[0] = px[0]*px[0] + py[0]*py[0]
-        random = TRandom.Rndm()
+        random = gRandom.Rndm()
         ev[0] = i
         t1.Fill()
 
