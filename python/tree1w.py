@@ -28,4 +28,6 @@ def tree1w():
 
     # save the Tree heade the file will be automatically closed
     # when going out of the function scope
-    t1.Write()
+    #t1.Write()
+    f.Write()
+    f.Close()
