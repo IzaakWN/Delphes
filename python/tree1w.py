@@ -25,7 +25,7 @@ def tree1w():
     t1.Branch("ev",ev,"ev/I")
 
     # fill the tree
-    for i in range(0,1000):
+    for i in range(1000):
         random = gRandom.Rndm()
         px[0] = gRandom.Gaus()
         py[0] = gRandom.Gaus()
@@ -50,11 +50,11 @@ def tree2w():
     t.Branch("px",0,"px[n]/F")
 
     # fill the tree
-    for i in range(0,100):
+    for i in range(100):
         n = gRandom.Integer(5)
         px = array('f', [0]*n)
         t.SetBranchAddress("px",px)
-        for j in range(n)
+        for j in range(n):
             px[j] = gRandom.Gaus()
         t.Fill()
 
