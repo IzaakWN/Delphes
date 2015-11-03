@@ -52,10 +52,10 @@ def tree2w():
 
     # fill the tree
     for i in range(100):
-        nTracks = gRandom.Integer(5)
-        px = array('f', [0]*nTracks)
+        nTracks[0] = gRandom.Integer(5)
+        px = array('f', [0]*nTracks[0])
         t.SetBranchAddress("px",px)
-        for j in range(nTracks):
+        for j in range(nTracks[0]):
             px[j] = gRandom.Gaus()
         t.Fill()
 
