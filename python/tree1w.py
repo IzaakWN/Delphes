@@ -46,8 +46,8 @@ def tree2w():
     f = TFile("tree2.root","recreate")
     t = TTree("t","a simple Tree with simple variables")
     
-    nTracks = array('f', [0])
-    t.Branch("nTracks",nTracks,"nTracks/F")
+    nTracks = array('i', [0])
+    t.Branch("nTracks",nTracks,"nTracks/I")
     t.Branch("px",0,"px[nTracks]/F")
 
     # fill the tree
