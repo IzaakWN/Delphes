@@ -161,11 +161,13 @@ class CleanUpControlPlots(BaseControlPlots):
             p_ji = sorted(p_jets, key=lambda p: TLV.DeltaR(p,p_lepton))[:3]
             if len(p_ji)>0:
                 result["DeltaR_j1l"] = TLV.DeltaR(p_lepton,p_ji[0])
+                result["cleanup/DeltaR_j1l"] = result["DeltaR_j1l"]
                 result["DeltaPhi_j1l"] = fold(abs(lepton.Phi - p_ji[0].Phi()))
                 result["DeltaEtaDeltaPhi_j1l"] = [[ abs(lepton.Eta - p_ji[0].Eta()),
                                                     result["DeltaPhi_j1l"] ]]
                 if len(p_ji)>1:
                     result["DeltaR_j2l"] = TLV.DeltaR(p_lepton,p_ji[1])
+                    result["cleanup/DeltaR_j2l"] = result["DeltaR_j2l"]
                     result["DeltaPhi_j2l"] = fold(abs(lepton.Phi - p_ji[1].Phi()))
                     result["DeltaEtaDeltaPhi_j2l"] = [[ abs(lepton.Eta - p_ji[1].Eta()),
                                                         result["DeltaPhi_j2l"] ]]
@@ -242,11 +244,13 @@ class CleanUpControlPlots(BaseControlPlots):
             p_bl = [ p for (p,D) in sorted(DeltaR_bl, key=lambda x: x[1])[:2] ] # need closest
             result["M_b1l"] = (p_lepton+p_bl[0]).M()
             result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_bl[0])
+            result["cleanup/DeltaR_b1l"] = result["DeltaR_b1l"]
             result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - p_bl[0].Phi()))
             result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_bl[0].Eta()),
                                                 result["DeltaPhi_b1l"] ]]
             if len(DeltaR_bl)>1:
                 result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_bl[1])
+                result["cleanup/DeltaR_b2l"] = result["DeltaR_b2l"]
                 result["DeltaPhi_b2l"] = fold(abs(lepton.Phi - p_bl[1].Phi()))
                 result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_bl[1].Eta()),
                                                     result["DeltaPhi_b2l"] ]]
@@ -270,7 +274,9 @@ class CleanUpControlPlots(BaseControlPlots):
 
             if result["DeltaR_bb"][-1] < DeltaR_bb_closest:
                 result["M_bb_closest"] = p_bb.M()
+                result["cleanup/M_bb_closest"] = result["M_bb_closest"]
                 result["DeltaR_bb1"] = result["DeltaR_bb"][-1]
+                result["cleanup/DeltaR_bb1"] = result["DeltaR_bb1"]
                 result["DeltaPhi_bb1"] = result["DeltaPhi_bb"][-1]
                 result["DeltaEtaDeltaPhi_bb1"] = result["DeltaEtaDeltaPhi_bb"][-1]
                 DeltaR_bb_closest = result["DeltaR_bb"][-1]
@@ -282,13 +288,6 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["DeltaR_jjbb"].append(TLV.DeltaR( p_bb, p_jj ))
                 result["DeltaEtaDeltaPhi_jjbb"].append([ abs(p_bb.Eta() - p_jj.Eta()),
                                                     fold(abs(p_bb.Phi() - p_jj.Phi())) ])
-        
-        result["cleanup/DeltaR_j1l"] = result["DeltaR_j1l"]
-        result["cleanup/DeltaR_j2l"] = result["DeltaR_j2l"]
-        result["cleanup/DeltaR_bb1"] = result["DeltaR_bb1"]
-        result["cleanup/DeltaR_b2l"] = result["DeltaR_b2l"]
-        result["cleanup/DeltaR_b1l"] = result["DeltaR_b1l"]
-        result["cleanup/M_bb_closest"] = result["M_bb_closest"]
         
         if len(bjets)>1:
             result["M_bb_leading"] = (p_bjets[0]+p_bjets[1]).M()
