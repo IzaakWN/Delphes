@@ -66,6 +66,9 @@ def eventCategory(event):
     # preparation for gen level selection
     nLeptons = 0
     nBquarks = 0
+    gen_leptons15 = [ ]
+    gen_quarks15 = [ ]
+    nBquarks15 = 0
     for particle in event.particles:
         D1 = particle.D1
         D2 = particle.D2
@@ -73,15 +76,36 @@ def eventCategory(event):
         if abs(particle.PID) in [23,24] and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
                 if abs(D.PID) in [11,13]:#,15]: # e, mu, tau
+                    if D.PT > 15 and abs(D.Eta) < 2.5:
+                        gen_leptons15.append(D)
                     nLeptons+=1
         # H -> bb
         if abs(particle.PID) == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) in [5]: # b-quark
+                if D.PT > 15:
+                  nBquarks15+=1
                 nBquarks+=2
+
+    # preparation for gen level cuts
+    DeltaR_ll_gen = 4
+    DeltaR_ql_gen = 4
+    if len(gen_leptons15)==2:
+        p1 = TLV(0,0,0,0)
+        p2 = TLV(0,0,0,0)
+        p1.SetPtEtaPhiM(gen_leptons15[0].PT,gen_leptons15[0].Eta,gen_leptons15[0].Phi,gen_leptons15[0].Mass)
+        p2.SetPtEtaPhiM(gen_leptons15[1].PT,gen_leptons15[1].Eta,gen_leptons15[1].Phi,gen_leptons15[1].Mass)
+        DeltaR_ll_gen = TLV.DeltaR(p1,p2)
+    if len(gen_leptons15)==1 and len(gen_quarks15)==2:
+        pl = TLV(0,0,0,0)
+        pqs = [ TLV(0,0,0,0), TLV(0,0,0,0) ]
+        pl.SetPtEtaPhiM(gen_leptons15[0].PT,gen_leptons15[0].Eta,gen_leptons15[0].Phi,gen_leptons15[0].Mass)
+        pqs[0].SetPtEtaPhiM(gen_quarks15[0].PT,gen_quarks15[0].Eta,gen_quarks15[0].Phi,gen_quarks15[0].Mass)
+        pqs[1].SetPtEtaPhiM(gen_quarks15[1].PT,gen_quarks15[1].Eta,gen_quarks15[1].Phi,gen_quarks15[1].Mass)
+        DeltaR_ql_gen = min(TLV.DeltaR(pq,pl) for pq in pqs)
 
     # 0-1: generator level: double Wlnu and Hbb
     categoryData.append((nLeptons==2 and nBquarks==2) or event.particles.GetEntries()==0)
-    categoryData.append((nLeptons==2 and nBquarks==2) or event.particles.GetEntries()==0) # same, cfr. tt
+    categoryData.append((len(gen_leptons15)==2 and nBquarks15==2 and DeltaR_ll_gen<2.5) or event.particles.GetEntries()==0)
     
     # 2: two muons or electrons with PT > 20, 25 GeV -> TODO: also check opposite signs?
     #    MET > 20 GeV
@@ -96,7 +120,7 @@ def eventCategory(event):
     
     # 4-5: generator level: single Wlnu, Wjj and Hbb
     categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
-    categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0) # same, cfr. tt
+    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ql_gen<2.5) or event.particles.GetEntries()==0)
 
     # 6: one muon or electron with PT > 20, 25 GeV
     #    MET > 20 GeV
