@@ -12,6 +12,8 @@ def tree1w():
     f = TFile("tree1.root","recreate")
     t1 = TTree("t1","a simple Tree with simple variables")
     
+    ROOT.gRandom.SetSeed()
+    
     px = array('f', [0])
     py = array('f', [0])
     pz = array('f', [0])
