@@ -1,4 +1,5 @@
 from ROOT import TFile, TTree, TBranch, TRandom
+import array
 
 # http://wlav.web.cern.ch/wlav/pyroot/tpytree.html
 # ftp://root.cern.ch/root/doc/ROOTUsersGuideHTML/ch12s14.html
