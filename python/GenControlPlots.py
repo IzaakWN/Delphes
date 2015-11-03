@@ -354,13 +354,13 @@ class GenControlPlots(BaseControlPlots):
                     result["DeltaEtaDeltaPhi_qsl"].append([ abs(lepton.Eta - quark.Eta),
                                                        fold(abs(lepton.Phi - quark.Phi)) ])
             if len(b)>1:
-                [p_q1,p_q2] = sorted(p_q, key = lambda p: TLV.DeltaR(p,p_lepton))[:2]
-                result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_q1)
-                result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_q2)
-                result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_q1.Eta()),
-                                               fold(abs(lepton.Phi - p_q1.Phi())) ]]
-                result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_q2.Eta()),
-                                               fold(abs(lepton.Phi - p_q2.Phi())) ]]
+                [p_b1,p_b2] = sorted(p_b, key = lambda p: TLV.DeltaR(p,p_lepton))[:2]
+                result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_b1)
+                result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_b2)
+                result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_b1.Eta()),
+                                               fold(abs(lepton.Phi - p_b1.Phi())) ]]
+                result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_b2.Eta()),
+                                               fold(abs(lepton.Phi - p_b2.Phi())) ]]
                 for bquark in b:
                     result["DeltaEtaDeltaPhi_bsl"].append([ abs(lepton.Eta - bquark.Eta),
                                                             fold(abs(lepton.Phi - bquark.Phi)) ])
