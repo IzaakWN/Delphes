@@ -237,6 +237,7 @@ class CleanUpControlPlots(BaseControlPlots):
             p_bl = [ p for (p,D) in sorted(DeltaR_bl, key=lambda x: x[1])[:2] ] # need closest
             result["M_b1l"] = (p_lepton+p_bl[0]).M()
             result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_bl[0])
+            result["cleanup/DeltaR_b1l"] = result["DeltaR_b1l"]
             result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - p_bl[0].Phi()))
             result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_bl[0].Eta()),
                                                 result["DeltaPhi_b1l"] ]]
