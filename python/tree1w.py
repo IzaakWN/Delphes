@@ -77,7 +77,7 @@ def tree2aw():
         px = array('f', [0]*n)
         t.SetBranchAddress("px",px)
         for j in range(n):
-            px[j] = 3+gRandom.Gaus()
+            px[j] = gRandom.Gaus()
         t.Fill()
 
     f.Write()
