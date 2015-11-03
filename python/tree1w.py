@@ -27,8 +27,8 @@ def tree1w():
     # fill the tree
     for i in range(0,1000):
         random = gRandom.Rndm()
-        px = gRandom.Gaus()
-        py = gRandom.Gaus()
+        px[0] = gRandom.Gaus()
+        py[0] = gRandom.Gaus()
         pz[0] = px[0]*px[0] + py[0]*py[0]
         ev[0] = i
         t1.Fill()
