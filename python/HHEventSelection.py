@@ -106,7 +106,7 @@ def isInCategory(category, categoryData):
         #      > lepton            > 4 jets            > 2 b-jets          > signal
 
     if category == 3:
-        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[7]
+        return categoryData[1] and categoryData[2] and categoryData[4] and categoryData[8]
         #      > exact 1 lepton    > 4 jets            > 2 b-jets          > signal
 
     if category == 4:
