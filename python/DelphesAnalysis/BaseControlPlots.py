@@ -2,6 +2,8 @@
 import ROOT 
 from CPconfig import configuration
 from array import array
+from collections import namedtuple
+tree = namedtuple("tree", ["label","vars"])
 
 def getArgSet(controlplots):
   assert isinstance(controlplots,list)

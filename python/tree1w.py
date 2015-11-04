@@ -140,7 +140,7 @@ def tree3bw():
     for i in range(50):
         for branch in branches:
             var = array('f', [0])
-            branches.SetAddress(var)
+            branche.SetAddress(var)
             var[0] = gRandom.Gaus()
         t.Fill()
 
