@@ -145,7 +145,7 @@ def tree3bw():
             v = gRandom.Gaus()
             var[0] = v
             print v
-        t.Fill()
+            t.Fill()
 
     f.Write()
     f.Close()
