@@ -92,9 +92,9 @@ def tree2bw():
 
 
 def addBranch(tree,branch):
-    var = array('f', [0])
-    vector[tree].tree.Branch(branch,var,branch+"/F")
-    vector[tree].vars.append(var)
+#    var = array('f', [0])
+    vector[tree].vars.append(array('f', [0]))
+    vector[tree].tree.Branch(branch,vector[tree].vars[-1],branch+"/F")
 
 
 
@@ -160,7 +160,7 @@ def tree3bw():
 if __name__ == '__main__':
     tree1w()
     tree2w()
-    tree3bw()
+    tree3w()
 
 
 
