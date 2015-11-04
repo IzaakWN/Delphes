@@ -136,15 +136,19 @@ def tree3bw():
     
     branches = t.GetListOfBranches()
     vars = [array('f', [0])]*branches.GetEntriesFast()
+    print branches.GetEntriesFast()
+    
+    for branch, var in zip(branches,vars):
+        branch.SetAddress(var)
+    
+    if vars[0] is vars[1]: "Shit!"
     
     # fill the tree
     for i in range(100):
-        for branch, var in zip(branches,vars):
-            print "\nbranch"
-            branch.SetAddress(var)
+        for var in vars:
             v = gRandom.Gaus()
             var[0] = v
-            print v
+            print "i=%s, v=%s" % (i,v)
         t.Fill()
 
     f.Write()
