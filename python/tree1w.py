@@ -137,7 +137,7 @@ def tree3bw():
     
     vars = []
     for branch in branches:
-        vars.append([array('f', [0])])
+        vars.append(array('f', [0]))
         branch.SetAddress(vars[-1])
     
     if vars[0] is vars[1]: print "Shit!"
