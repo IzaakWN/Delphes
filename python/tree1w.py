@@ -135,11 +135,11 @@ def tree3bw():
     t.Branch("py",py,"py/F")
     
     branches = t.GetListOfBranches()
+    vars = [array('f', [0])]*branches.GetEntriesFast()
     
     # fill the tree
-    for branch in branches:
+    for branch, var in zip(branches,vars):
         print "\nbranch"
-        var = array('f', [0])
         branch.SetAddress(var)
         for i in range(100):
             v = gRandom.Gaus()
