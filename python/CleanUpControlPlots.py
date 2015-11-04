@@ -19,6 +19,16 @@ class CleanUpControlPlots(BaseControlPlots):
       BaseControlPlots.__init__(self, dir=dir, purpose="cleanup", dataset=dataset, mode=mode)
 
     def beginJob(self):
+      
+      # declare tree and branches
+      self.addT("cleanup","Variables for MVA")
+      #self._h_vector["cleanup"].Branch("DeltaR_j1l",0,"DeltaR_j1l/F")
+      #self._h_vector["cleanup"].Branch("DeltaR_j2l",0,"DeltaR_j2l/F")
+      #self._h_vector["cleanup"].Branch("DeltaR_bb1",0,"DeltaR_bb1/F")
+      self._h_vector["cleanup"].Branch("DeltaR_b1l",0,"DeltaR_b1l/F")
+      #self._h_vector["cleanup"].Branch("DeltaR_b2l",0,"DeltaR_b2l/F")
+      self._h_vector["cleanup"].Branch("M_bb_closest",0,"M_bb_closest/F")
+    
       # declare histograms
       self.add("M_jj","jet-jet combinations Mass",100,0,300)
       self.add("M_jj_cut","jet-jet combinations (cut) Mass",100,0,300)
@@ -76,16 +86,8 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add2D("DeltaEtaDeltaPhi_jjbb","jets-bjets combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
 
       self.add2D("MDeltaPhi_jj_b2b","jet-jet DeltaPhi vs. Mass",100,0,200,50,0,3.2)
-      
-      self.addT("cleanup","Variables for MVA")
-      self._h_vector["cleanup"].Branch("DeltaR_j1l",0,"DeltaR_j1l/F")
-      self._h_vector["cleanup"].Branch("DeltaR_j2l",0,"DeltaR_j2l/F")
-      self._h_vector["cleanup"].Branch("DeltaR_bb1",0,"DeltaR_bb1/F")
-      self._h_vector["cleanup"].Branch("DeltaR_b1l",0,"DeltaR_b1l/F")
-      self._h_vector["cleanup"].Branch("DeltaR_b2l",0,"DeltaR_b2l/F")
-      self._h_vector["cleanup"].Branch("M_bb_closest",0,"M_bb_closest/F")
     
-    
+
 
     # get information
     def process(self, event):
@@ -161,20 +163,20 @@ class CleanUpControlPlots(BaseControlPlots):
             p_ji = sorted(p_jets, key=lambda p: TLV.DeltaR(p,p_lepton))[:3]
             if len(p_ji)>0:
                 result["DeltaR_j1l"] = TLV.DeltaR(p_lepton,p_ji[0])
-                result["cleanup/DeltaR_j1l"] = result["DeltaR_j1l"]
+                #result["cleanup/DeltaR_j1l"] = result["DeltaR_j1l"]
                 result["DeltaPhi_j1l"] = fold(abs(lepton.Phi - p_ji[0].Phi()))
                 result["DeltaEtaDeltaPhi_j1l"] = [[ abs(lepton.Eta - p_ji[0].Eta()),
                                                     result["DeltaPhi_j1l"] ]]
                 if len(p_ji)>1:
                     result["DeltaR_j2l"] = TLV.DeltaR(p_lepton,p_ji[1])
-                    result["cleanup/DeltaR_j2l"] = result["DeltaR_j2l"]
+                    #result["cleanup/DeltaR_j2l"] = result["DeltaR_j2l"]
                     result["DeltaPhi_j2l"] = fold(abs(lepton.Phi - p_ji[1].Phi()))
                     result["DeltaEtaDeltaPhi_j2l"] = [[ abs(lepton.Eta - p_ji[1].Eta()),
                                                         result["DeltaPhi_j2l"] ]]
                     if len(p_ji)>2:
                         result["DeltaEtaDeltaPhi_j3l"] = [[ abs(lepton.Eta - p_ji[2].Eta()),
                                                             fold(abs(lepton.Phi - p_ji[2].Phi())) ]]
-        
+
         # jet comb
         for p1, p2 in combinations(p_jets,2):
             p_jj = p1 + p2
@@ -250,7 +252,7 @@ class CleanUpControlPlots(BaseControlPlots):
                                                 result["DeltaPhi_b1l"] ]]
             if len(DeltaR_bl)>1:
                 result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_bl[1])
-                result["cleanup/DeltaR_b2l"] = result["DeltaR_b2l"]
+                #result["cleanup/DeltaR_b2l"] = result["DeltaR_b2l"]
                 result["DeltaPhi_b2l"] = fold(abs(lepton.Phi - p_bl[1].Phi()))
                 result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_bl[1].Eta()),
                                                     result["DeltaPhi_b2l"] ]]
@@ -276,7 +278,7 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["M_bb_closest"] = p_bb.M()
                 result["cleanup/M_bb_closest"] = result["M_bb_closest"]
                 result["DeltaR_bb1"] = result["DeltaR_bb"][-1]
-                result["cleanup/DeltaR_bb1"] = result["DeltaR_bb1"]
+                #result["cleanup/DeltaR_bb1"] = result["DeltaR_bb1"]
                 result["DeltaPhi_bb1"] = result["DeltaPhi_bb"][-1]
                 result["DeltaEtaDeltaPhi_bb1"] = result["DeltaEtaDeltaPhi_bb"][-1]
                 DeltaR_bb_closest = result["DeltaR_bb"][-1]

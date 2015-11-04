@@ -162,14 +162,11 @@ class BaseControlPlots:
         if "/" in name: # for TTree
           [tree,name] = name.split("/")
           var = array('f', [0])
-          self._h_vector[tree].SetBranchAddress(name,var)
-#          if isinstance(value,list):
-#            for val in value:
-#              var = val
-#              self._h_vector[tree].Fill()
-#          else:
+          branch = self._h_vector[tree].FindBranch(name)
+          branch.SetAddress(var)
           var[0] = value
-          self._h_vector[tree].Fill()
+          branch.Fill()
+          self._h_vector[tree].SetEntries(self._h_vector[tree].GetEntries()+1)
         elif isinstance(value,list):
           for val in value:
             if isinstance(val,list):

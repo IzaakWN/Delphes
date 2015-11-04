@@ -6,7 +6,7 @@ from ROOT import TLorentzVector
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Lepton4Jets", "2Bjets", "1Lepton", "Max6Jets", "MET", "4Jets20" ]
+categoryNames = [ "GenLevel", "Selection20", "Selection30", "MET", "Max5Jets" ]
 
 
 
@@ -92,13 +92,13 @@ def isInCategory(category, categoryData):
         return categoryData[1] and categoryData[3] and categoryData[5]
         #      > exact 1 lepton    > 4 jets            > 2 b-jets
 
-    if category == 4:
+    if category == 3:
         return categoryData[1] and categoryData[3] and categoryData[5] and categoryData[6]
         #      > exact 1 lepton    > 4 jets            > 2 b-jets          > MET
     
-    if category == 5:
+    if category == 4:
         return categoryData[1] and categoryData[3] and categoryData[5] and categoryData[6] and categoryData[7]
-        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > MET               > max 6 jets
+        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > MET               > max 5 jets
         
     else:
         return False
