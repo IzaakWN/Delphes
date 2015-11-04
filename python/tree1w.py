@@ -138,14 +138,14 @@ def tree3bw():
     vars = [array('f', [0])]*branches.GetEntriesFast()
     
     # fill the tree
-    for branch, var in zip(branches,vars):
-        print "\nbranch"
-        branch.SetAddress(var)
-        for i in range(100):
+    for i in range(100):
+        for branch, var in zip(branches,vars):
+            print "\nbranch"
+            branch.SetAddress(var)
             v = gRandom.Gaus()
             var[0] = v
             print v
-            t.Fill()
+        t.Fill()
 
     f.Write()
     f.Close()
