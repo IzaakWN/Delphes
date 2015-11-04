@@ -103,7 +103,6 @@ def tree3w():
 #  NOT WORKING!
 #
 
-    # create a tree file tree1.root - create the file, the Tree and a few branches
     f = TFile("tree3.root","recreate")
     t = TTree("t","a simple Tree with simple variables")
     
@@ -125,7 +124,6 @@ def tree3w():
 
 def tree3bw():
 
-    # create a tree file tree1.root - create the file, the Tree and a few branches
     f = TFile("tree3.root","recreate")
     t = TTree("t","a simple Tree with simple variables")
     
@@ -135,16 +133,18 @@ def tree3bw():
     t.Branch("py",py,"py/F")
     
     branches = t.GetListOfBranches()
-    vars = [array('f', [0])]*branches.GetEntriesFast()
-    print branches.GetEntriesFast()
+    print "nbranches=", branches.GetEntriesFast()
     
-    for branch, var in zip(branches,vars):
-        branch.SetAddress(var)
+    vars = []
+    for branch in branches:
+        vars.append([array('f', [0])])
+        branch.SetAddress(vars[-1])
     
-    if vars[0] is vars[1]: "Shit!"
+    if vars[0] is vars[1]: print "Shit!"
+    if vars[1] is vars[0]: print "Shit!"
     
     # fill the tree
-    for i in range(100):
+    for i in range(50):
         for var in vars:
             v = gRandom.Gaus()
             var[0] = v
