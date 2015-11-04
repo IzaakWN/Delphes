@@ -2,7 +2,7 @@
 from ROOT import TFile, TTree, TBranch, TRandom, gRandom
 from array import array
 from collections import namedtuple
-tree = namedtuple("tree", ["label","vars"])
+tree = namedtuple("tree", ["tree","vars"])
 vector = {}
 
 # http://wlav.web.cern.ch/wlav/pyroot/tpytree.html
@@ -94,7 +94,7 @@ def tree2aw():
 def addBranch(tree,branch):
     var = array('f', [0])
     vector[tree].tree.Branch(branch,var,branch+"/F")
-    vector[tree].tree.vars.append(var)
+    vector[tree].vars.append(var)
 
 
 
@@ -110,7 +110,7 @@ def tree3w():
     addBranch("tree3","py")
     
     # fill the tree
-    for i in range(1000):
+    for i in range(100):
         for var in vector["tree3"].vars:
             var = gRandom.Gaus()
         t.Fill()
