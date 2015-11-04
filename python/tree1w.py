@@ -139,9 +139,9 @@ def tree3bw():
     # fill the tree
     for branch in branches:
         print "\nbranch"
+        var = array('f', [0])
+        branch.SetAddress(var)
         for i in range(100):
-            var = array('f', [0])
-            branch.SetAddress(var)
             v = gRandom.Gaus()
             var[0] = v
             print v
