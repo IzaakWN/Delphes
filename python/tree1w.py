@@ -93,7 +93,7 @@ def tree2bw():
 
 def addBranch(tree,branch):
 #    var = array('f', [0])
-    b = vector[tree].tree.Branch(branch,0,branch+"/F")
+    b = vector[tree].tree.Branch(branch,array('f', [0]),branch+"/F")
     vector[tree].vars.append(b.GetAddress())
 
 
@@ -124,7 +124,7 @@ def tree3w():
 
 def tree3bw():
 
-    f = TFile("tree3.root","recreate")
+    f = TFile("tree3b.root","recreate")
     t = TTree("t","a simple Tree with simple variables")
     
     px = array('f', [0])
@@ -136,9 +136,11 @@ def tree3bw():
     print "nbranches=", branches.GetEntriesFast()
     
     vars = []
+#    for branch in branches:
+#        vars.append(array('f', [0]))
+#        branch.SetAddress(vars[-1])
     for branch in branches:
-        vars.append(array('f', [0]))
-        branch.SetAddress(vars[-1])
+        vars.append(branch.GetAddress())
     
     # fill the tree
     for i in range(50):
@@ -158,6 +160,7 @@ if __name__ == '__main__':
     tree1w()
     tree2w()
     tree3w()
+    tree3bw()
 
 
 
