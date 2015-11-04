@@ -93,8 +93,8 @@ def tree2bw():
 
 def addBranch(tree,branch):
 #    var = array('f', [0])
-    vector[tree].vars.append(array('f', [0]))
-    vector[tree].tree.Branch(branch,vector[tree].vars[-1],branch+"/F")
+    b = vector[tree].tree.Branch(branch,0,branch+"/F")
+    vector[tree].vars.append(b.GetAddress())
 
 
 
@@ -140,15 +140,12 @@ def tree3bw():
         vars.append(array('f', [0]))
         branch.SetAddress(vars[-1])
     
-    if vars[0] is vars[1]: print "Shit!"
-    if vars[1] is vars[0]: print "Shit!"
-    
     # fill the tree
     for i in range(50):
         for var in vars:
             v = gRandom.Gaus()
             var[0] = v
-            print "i=%s, v=%s" % (i,v)
+#            print "i=%s, v=%s" % (i,v)
         t.Fill()
 
     f.Write()
