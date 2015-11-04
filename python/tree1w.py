@@ -146,7 +146,8 @@ def tree3bw():
     for i in range(50):
         for var in vars:
             v = gRandom.Gaus()
-            var[0] = v
+            var = v
+#            var[0] = v
 #            print "i=%s, v=%s" % (i,v)
         t.Fill()
 
