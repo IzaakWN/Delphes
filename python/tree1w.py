@@ -67,7 +67,7 @@ def tree2w():
 
 
 
-def tree2aw():
+def tree2bw():
 #
 #  NOT WORKING!
 #
@@ -99,6 +99,9 @@ def addBranch(tree,branch):
 
 
 def tree3w():
+#
+#  NOT WORKING!
+#
 
     # create a tree file tree1.root - create the file, the Tree and a few branches
     f = TFile("tree3.root","recreate")
@@ -110,14 +113,37 @@ def tree3w():
     addBranch("tree3","py")
     
     # fill the tree
-    for i in range(100):
+    for i in range(50):
         for var in vector["tree3"].vars:
             var = gRandom.Gaus()
         t.Fill()
 
-    # save the Tree heade the file will be automatically closed
-    # when going out of the function scope
-    #t1.Write()
+    f.Write()
+    f.Close()
+
+
+
+def tree3bw():
+
+    # create a tree file tree1.root - create the file, the Tree and a few branches
+    f = TFile("tree3.root","recreate")
+    t = TTree("t","a simple Tree with simple variables")
+    
+    px = array('f', [0])
+    py = array('f', [0])
+    t.Branch("px",px,"px/F")
+    t.Branch("py",py,"py/F")
+    
+    branches = t.GetListOfBranches()
+    
+    # fill the tree
+    for i in range(50):
+        for branch in branches:
+            var = array('f', [0])
+            branches.SetAddress(var)
+            var[0] = gRandom.Gaus()
+        t.Fill()
+
     f.Write()
     f.Close()
 
@@ -127,7 +153,7 @@ def tree3w():
 if __name__ == '__main__':
     tree1w()
     tree2w()
-    tree3w()
+    tree3bw()
 
 
 
