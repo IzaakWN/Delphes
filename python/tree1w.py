@@ -1,6 +1,9 @@
 #import ROOT
 from ROOT import TFile, TTree, TBranch, TRandom, gRandom
 from array import array
+from collections import namedtuple
+tree = namedtuple("tree", ["label","vars"])
+vector = {}
 
 # http://wlav.web.cern.ch/wlav/pyroot/tpytree.html
 # ftp://root.cern.ch/root/doc/ROOTUsersGuideHTML/ch12s14.html
@@ -88,9 +91,43 @@ def tree2aw():
 
 
 
+def addBranch(tree,branch):
+    var = array('f', [0])
+    vector[tree].tree.Branch(branch,var,branch+"/F")
+    vector[tree].tree.vars.append(var)
+
+
+
+def tree3w():
+
+    # create a tree file tree1.root - create the file, the Tree and a few branches
+    f = TFile("tree3.root","recreate")
+    t = TTree("t","a simple Tree with simple variables")
+    
+    vector["tree3"] = tree(t,[])
+    
+    addBranch("tree3","px")
+    addBranch("tree3","py")
+    
+    # fill the tree
+    for i in range(1000):
+        for var in vector["tree3"].vars:
+            var = gRandom.Gaus()
+        t.Fill()
+
+    # save the Tree heade the file will be automatically closed
+    # when going out of the function scope
+    #t1.Write()
+    f.Write()
+    f.Close()
+
+
+
+
 if __name__ == '__main__':
     tree1w()
     tree2w()
+    tree3w()
 
 
 
