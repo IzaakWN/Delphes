@@ -89,7 +89,6 @@ class BaseControlPlots:
       # this fills a distionnary name <-> histogram
       self._dir.cd()
       self._h_vector[args[0]] = ROOT.TH1F(*args)
-      print "Added branch, type(self._h_vector[args[0]]) = %s" % type(self._h_vector[args[0]])
 
     # IWN
     def addHisto2D(self,*args):
@@ -104,6 +103,7 @@ class BaseControlPlots:
       # this fills a distionnary name <-> namedtuple tree
       self._dir.cd()
       self._t_vector[args[0]] = tree(ROOT.TTree(*args), [])
+      print "Added tree, type(self._t_vector[args[0]].tree[-1]) = %s" % type(self._t_vector[args[0]].tree[-1])
 
     # IWN
     def addBranch(self,*args):
