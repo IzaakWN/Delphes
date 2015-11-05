@@ -4,7 +4,7 @@ from ROOT import TTree, TBranch
 from itertools import combinations # to make jets combinations
 from copy import copy
 from fold import fold
-from reconstruct import max_b2b
+#from reconstruct import max_b2b
 #from reconstruct import reconstructWlnu
 
 # Requirements:
@@ -21,13 +21,15 @@ class CleanUpControlPlots(BaseControlPlots):
     def beginJob(self):
       
       # declare tree and branches
-      self.addT("cleanup","Variables for MVA")
+      self.addTree("cleanup","Variables for MVA")
+      self.addBranch("cleanup","DeltaR_b1l")
+      self.addBranch("cleanup","M_bb_closest")
       #self._h_vector["cleanup"].Branch("DeltaR_j1l",0,"DeltaR_j1l/F")
       #self._h_vector["cleanup"].Branch("DeltaR_j2l",0,"DeltaR_j2l/F")
       #self._h_vector["cleanup"].Branch("DeltaR_bb1",0,"DeltaR_bb1/F")
-      self._h_vector["cleanup"].Branch("DeltaR_b1l",0,"DeltaR_b1l/F")
+      #self._h_vector["cleanup"].Branch("DeltaR_b1l",0,"DeltaR_b1l/F")
       #self._h_vector["cleanup"].Branch("DeltaR_b2l",0,"DeltaR_b2l/F")
-      self._h_vector["cleanup"].Branch("M_bb_closest",0,"M_bb_closest/F")
+      #self._h_vector["cleanup"].Branch("M_bb_closest",0,"M_bb_closest/F")
     
       # declare histograms
       self.add("M_jj","jet-jet combinations Mass",100,0,300)
@@ -94,7 +96,7 @@ class CleanUpControlPlots(BaseControlPlots):
     
         result = { }
 
-        result["cleanup"] = [ ]
+        result["cleanup"] = [ ] # respect the order of branches when adding variables
         
         result["M_jj"] = [ ]
         result["M_jj_cut"] = [ ]
@@ -248,7 +250,7 @@ class CleanUpControlPlots(BaseControlPlots):
             p_bl = [ p for (p,D) in sorted(DeltaR_bl, key=lambda x: x[1])[:2] ] # need closest
             result["M_b1l"] = (p_lepton+p_bl[0]).M()
             result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_bl[0])
-            result["cleanup/DeltaR_b1l"] = result["DeltaR_b1l"]
+            result["cleanup"].append(result["DeltaR_b1l"])
             result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - p_bl[0].Phi()))
             result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_bl[0].Eta()),
                                                 result["DeltaPhi_b1l"] ]]
@@ -278,11 +280,11 @@ class CleanUpControlPlots(BaseControlPlots):
 
             if result["DeltaR_bb"][-1] < DeltaR_bb_closest:
                 result["M_bb_closest"] = p_bb.M()
-                result["cleanup/M_bb_closest"] = result["M_bb_closest"]
                 result["DeltaR_bb1"] = result["DeltaR_bb"][-1]
-                #result["cleanup"].append(result["DeltaR_bb1"])
                 result["DeltaPhi_bb1"] = result["DeltaPhi_bb"][-1]
                 result["DeltaEtaDeltaPhi_bb1"] = result["DeltaEtaDeltaPhi_bb"][-1]
+                #result["cleanup"].append(result["DeltaR_bb1"])
+                result["cleanup"].append(result["M_bb_closest"])
                 DeltaR_bb_closest = result["DeltaR_bb"][-1]
                 if madeCut:
                     result["M_bb_closest_cut"] = p_bb.M()
