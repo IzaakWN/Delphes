@@ -57,6 +57,8 @@ from BaseControlPlots import getArgSet
 import EventSelection
 import cProfile
 
+
+
 def main(options):
   """simplistic program main"""
   # do basic arg checking
@@ -98,6 +100,8 @@ def main(options):
       return
 # if all ok, run the procedure
   runAnalysis(path=options.path,txt=options.txt,outputname=options.outputname, levels=levels, Njobs=options.Njobs, jobNumber=options.jobNumber)
+
+
 
 #######################################################################################
 ### Central Routine: manage input/output, loop on events, manage weights and plots  ###
@@ -224,6 +228,8 @@ def runAnalysis(path, txt, levels, outputname="controlPlots.root", Njobs=1, jobN
 
   print "\nDone. Only took %s!\n" % time.strftime("%M:%S", time.gmtime(time.time()-t0))
 
+
+
 def createDirectory(dirStructure, directory, leafList):
   """Recursively creates the directories for the various stages"""
   for key,item in dirStructure.iteritems():
@@ -231,6 +237,8 @@ def createDirectory(dirStructure, directory, leafList):
       createDirectory(item, directory.mkdir(key), leafList)
     else:
       leafList[item]=directory.mkdir("stage_"+str(item),key)
+
+
 
 #######################################################################################
 ### Program bootstrap  ################################################################
