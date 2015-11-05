@@ -170,7 +170,7 @@ class BaseControlPlots:
               var = array('f', [0])
               branch.SetAddress(var)
               var[0] = val
-            self._t_vector[name].Fill()
+            self._t_vector[name].tree.Fill()
         elif isinstance(value,list):
           for val in value:
             if isinstance(val,list):
