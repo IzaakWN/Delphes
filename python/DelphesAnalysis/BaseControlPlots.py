@@ -89,6 +89,7 @@ class BaseControlPlots:
       # this fills a distionnary name <-> histogram
       self._dir.cd()
       self._h_vector[args[0]] = ROOT.TH1F(*args)
+      print "Added branch, type(self._h_vector[args[0]]) = %s" % type(self._h_vector[args[0]])
 
     # IWN
     def addHisto2D(self,*args):
@@ -112,7 +113,7 @@ class BaseControlPlots:
       self._dir.cd()
       # add branch to branch list             # create branch in tree
       self._t_vector[args[0]].branches.append(ROOT.TBranch(self._t_vector[args[0]].tree,args[1],0,args[1]+"/F"))
-      print "Added branch, type(self._t_vector[args[0]].branches) = %s" % type(self._t_vector[args[0]].branches[-1])
+      print "Added branch, type(self._t_vector[args[0]].branches[-1]) = %s" % type(self._t_vector[args[0]].branches[-1])
 
     def addVariable(self,*args):
       """Add one variable to the list of products. Arguments are as for RooRealVar."""
