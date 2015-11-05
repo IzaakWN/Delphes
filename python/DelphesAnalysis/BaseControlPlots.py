@@ -3,7 +3,7 @@ import ROOT
 from CPconfig import configuration
 from array import array
 from collections import namedtuple
-tree = namedtuple("tree", ["label","vars"])
+tree = namedtuple("tree", ["tree","branches"])
 
 def getArgSet(controlplots):
   assert isinstance(controlplots,list)
@@ -56,6 +56,7 @@ class BaseControlPlots:
           self._f = None
           self._dir = dir
         self._h_vector = { }
+        self._t_vector = { } # IWN: for trees!
       # for ntuples
       if self._mode=="dataset":
         self._obsSet = ROOT.RooArgSet()
@@ -92,16 +93,25 @@ class BaseControlPlots:
     # IWN
     def addHisto2D(self,*args):
       """Add one 2D histograms to the list of products. Arguments are as for TH2F."""
-      # this fills a distionnary name <-> histogram
+      # this fills a distionnary name <-> 2D histogram
       self._dir.cd()
       self._h_vector[args[0]] = ROOT.TH2F(*args)
 
     # IWN
     def addTree(self,*args):
       """Add one TTree to the list of products. Arguments are as for TTree."""
-      # this fills a distionnary name <-> histogram
+      # this fills a distionnary name <-> namedtuple tree
       self._dir.cd()
-      self._h_vector[args[0]] = ROOT.TTree(*args)
+      self._t_vector[args[0]] = tree(ROOT.TTree(*args), [])
+
+    # IWN
+    def addBranch(self,*args):
+      """Add one Branch to the tree in the list of products.
+         Arguments are the tree and branch label."""
+      # this adds a branch
+      self._dir.cd()
+      # add branch to branch list             # create branch in tree
+      self._t_vector[args[0]].branches.append(ROOT.TBranch(self._t_vector[args[0]].tree,args[1],0,args[1]+"/F"))
 
     def addVariable(self,*args):
       """Add one variable to the list of products. Arguments are as for RooRealVar."""
@@ -121,18 +131,9 @@ class BaseControlPlots:
     # IWN
     def add2D(self, *args):
       """Add one item to the list of products. Arguments are as for TH2F."""
-      # TH2(name, title, nbinsx, xbins, nbinsy, ylow, yup)
+      # TH2(name, title, nbinsx, xlow, xup, nbinsy, ylow, yup)
       if self._mode=="plots":
         self.addHisto2D(*args)
-      else:
-        self.addVariable(*[args[i] for i in [0,1,3,4]])
-    
-    # IWN
-    def addT(self, *args):
-      """Add one item to the list of products. Arguments are as for Tree."""
-      # TTree(name, title)
-      if self._mode=="plots":
-        self.addTree(*args)
       else:
         self.addVariable(*[args[i] for i in [0,1,3,4]])
 
@@ -161,14 +162,15 @@ class BaseControlPlots:
     def fillPlots(self, data, weight = 1.):
       """Fills histograms with the data provided as input."""
       for name,value in data.items():
-        if "/" in name: # for TTree
-          [tree,name] = name.split("/")
-          var = array('f', [0])
-          branch = self._h_vector[tree].FindBranch(name)
-          branch.SetAddress(var)
-          var[0] = value
-          branch.Fill()
-          self._h_vector[tree].SetEntries(self._h_vector[tree].GetEntries()+1)
+        if name in self._t_vector: # for TTree:
+        # One variable for each branch per event!
+        # Respect the branch order when adding!
+          if len(value) == len(self._t_vector[name].branches):
+            for val,branch in zip(value,self._t_vector[name].branches):
+              var = array('f', [0])
+              branch.SetAddress(var)
+              var[0] = val
+            self._t_vector[name].Fill()
         elif isinstance(value,list):
           for val in value:
             if isinstance(val,list):

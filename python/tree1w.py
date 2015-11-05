@@ -3,7 +3,7 @@ from ROOT import TFile, TTree, TBranch, TRandom, gRandom
 from array import array
 from collections import namedtuple
 tree = namedtuple("tree", ["tree","vars"])
-vector = {}
+vector = { }
 
 # http://wlav.web.cern.ch/wlav/pyroot/tpytree.html
 # ftp://root.cern.ch/root/doc/ROOTUsersGuideHTML/ch12s14.html
@@ -93,6 +93,8 @@ def tree2bw():
 
 def addBranch(tree,branch):
 #    var = array('f', [0])
+#    vector[tree].tree.Branch(branch,var,branch+"/F")
+#    vector[tree].vars.append(var)
     b = vector[tree].tree.Branch(branch,array('f', [0]),branch+"/F")
     vector[tree].vars.append(b.GetAddress())
 
@@ -136,18 +138,18 @@ def tree3bw():
     print "nbranches=", branches.GetEntriesFast()
     
     vars = []
-#    for branch in branches:
-#        vars.append(array('f', [0]))
-#        branch.SetAddress(vars[-1])
     for branch in branches:
-        vars.append(branch.GetAddress())
-    
+        vars.append(array('f', [0]))
+        branch.SetAddress(vars[-1])
+#    for branch in branches:
+#        vars.append(branch.GetAddress()) # Does not work!?
+
     # fill the tree
     for i in range(50):
         for var in vars:
             v = gRandom.Gaus()
-            var = v
-#            var[0] = v
+#            var = v
+            var[0] = v
 #            print "i=%s, v=%s" % (i,v)
         t.Fill()
 
