@@ -103,7 +103,7 @@ class BaseControlPlots:
       # this fills a distionnary name <-> namedtuple tree
       self._dir.cd()
       self._t_vector[args[0]] = tree(ROOT.TTree(*args), [])
-      print "Added tree, type(self._t_vector[args[0]].tree[-1]) = %s" % type(self._t_vector[args[0]][-1].tree)
+      print "Added tree, type(self._t_vector[args[0]].tree) = %s" % type(self._t_vector[args[0]].tree)
 
     # IWN
     def addBranch(self,*args):
