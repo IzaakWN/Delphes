@@ -138,7 +138,7 @@ class CleanUpControlPlots(BaseControlPlots):
         p_bjets = [ ]
         p_bb_cut = [ ]
         DeltaR_bl = [ ]
-        DeltaR_bb_closest = 4 # > pi
+        DeltaR_bb_closest = 100 # >> pi
         PT_bb_leading = 0
 
         lepton = None
