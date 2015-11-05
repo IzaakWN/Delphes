@@ -103,7 +103,6 @@ class BaseControlPlots:
       # this fills a distionnary name <-> namedtuple tree
       self._dir.cd()
       self._t_vector[args[0]] = tree(ROOT.TTree(*args), [])
-      print "Added tree, type(self._t_vector[args[0]].tree) = %s" % type(self._t_vector[args[0]].tree)
 
     # IWN
     def addBranch(self,*args):
@@ -112,11 +111,7 @@ class BaseControlPlots:
       # this adds a branch
       self._dir.cd()
       self._t_vector[args[0]].tree.Branch(args[1],0,args[1]+"/F")
-      # add branch to branch list             # create branch in tree
-#      self._t_vector[args[0]].branches.append(ROOT.TBranch(self._t_vector[args[0]].tree,args[1],0,args[1]+"/F"))
       self._t_vector[args[0]].branches.append(self._t_vector[args[0]].tree.GetBranch(args[1]))
-#      print "Added branch, type(b) = %s" % type(b)
-      print "Added branch, type(self._t_vector[args[0]].branches[-1]) = %s" % type(self._t_vector[args[0]].branches[-1])
 
     def addVariable(self,*args):
       """Add one variable to the list of products. Arguments are as for RooRealVar."""
