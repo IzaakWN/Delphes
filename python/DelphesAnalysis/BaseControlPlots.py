@@ -171,10 +171,11 @@ class BaseControlPlots:
         # One variable for each branch per event!
         # Respect the branch order when adding!
           if len(value) == len(self._t_vector[name].branches):
+            vars = []
             for val,branch in zip(value,self._t_vector[name].branches):
-              var = array('f', [0])
-              branch.SetAddress(var)
-              var[0] = val
+              vars.append(array('f', [0]))
+              branch.SetAddress(vars[-1])
+              vars[-1][0] = val
             self._t_vector[name].tree.Fill()
         elif isinstance(value,list):
           for val in value:
