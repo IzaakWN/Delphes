@@ -111,11 +111,11 @@ class BaseControlPlots:
          Arguments are the tree and branch label."""
       # this adds a branch
       self._dir.cd()
-      b = ROOT.TBranch(self._t_vector[args[0]].tree,args[1],0,args[1]+"/F")
+      self._t_vector[args[0]].tree.Branch(args[1],0,args[1]+"/F")
       # add branch to branch list             # create branch in tree
 #      self._t_vector[args[0]].branches.append(ROOT.TBranch(self._t_vector[args[0]].tree,args[1],0,args[1]+"/F"))
-      self._t_vector[args[0]].branches.append(b)
-      print "Added branch, type(b) = %s" % type(b)
+      self._t_vector[args[0]].branches.append(self._t_vector[args[0]].tree.GetBranch(args[1]))
+#      print "Added branch, type(b) = %s" % type(b)
       print "Added branch, type(self._t_vector[args[0]].branches[-1]) = %s" % type(self._t_vector[args[0]].branches[-1])
 
     def addVariable(self,*args):
