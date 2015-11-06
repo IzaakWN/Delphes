@@ -32,8 +32,8 @@ def train(treeS, treeB, var_names):
     factory.AddVariable("DeltaR_b1l","F")
     factory.AddVariable("DeltaR_bb1","F")
 
-    factory.AddSignalTree(ntuple)
-    factory.AddBackgroundTree(ntuple)
+    factory.AddSignalTree(treeS)
+    factory.AddBackgroundTree(treeB)
 
     cutS = TCut("signal > 0.5")
     cutB = TCut("signal <= 0.5")
