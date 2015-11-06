@@ -18,7 +18,7 @@ from array import array
 
 def train(treeS, treeB, var_names):
 
-    Tools.Instance()
+    TMVA.Tools.Instance()
     f_out = TFile("testNN.root","RECREATE")
 
     factory = TMVA.Factory( "TMVAClassification", fout,
