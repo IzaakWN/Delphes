@@ -1,3 +1,4 @@
+import ROOT
 from ROOT import TFile, TChain, TMVA, TCut
 from array import array
 
@@ -72,6 +73,24 @@ def examine(var_names):
         reader.AddVariable(name,vars[-1])
 
     reader.BookMVA("BDT","weights/TMVAClassification_BDT.weights.xml")
+
+    # fill histograms for signal and background from the test sample tree
+    ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
+    ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
+     
+    ROOT.hSig.SetLineColor(ROOT.kRed); # signal histogram
+    ROOT.hBg.SetLineColor(ROOT.kBlue); # background histogram
+    ROOT.hSig.SetLineWidth(2)
+    ROOT.hBg.SetLineWidth(2)
+     
+    # use a THStack to show both histograms
+    hs = ROOT.THStack("hs","")
+    hs.Add(ROOT.hSig)
+    hs.Add(ROOT.hBg)
+     
+    # show the histograms
+    gcSaver.append(ROOT.TCanvas())
+    hs.Draw()
 
 
 
