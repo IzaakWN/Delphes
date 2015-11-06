@@ -38,7 +38,7 @@ def train(treeS, treeB, var_names):
     cutS = TCut("signal > 0.5")
     cutB = TCut("signal <= 0.5")
 
-    factory.PrepareTrainingAndTestTree( sigCut, bgCut,
+    factory.PrepareTrainingAndTestTree( cut_S, cut_B,
                                         ":".join([ "nTrain_Signal=0",
                                                    "nTrain_Background=0",
                                                    "SplitMode=Random",
