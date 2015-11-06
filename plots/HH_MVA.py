@@ -21,7 +21,7 @@ def train(treeS, treeB, var_names):
     TMVA.Tools.Instance()
     f_out = TFile("testNN.root","RECREATE")
 
-    factory = TMVA.Factory( "TMVAClassification", fout,
+    factory = TMVA.Factory( "TMVAClassification", f_out,
                             ":".join([ "!V",
                             "!Silent",
                             "Color",
