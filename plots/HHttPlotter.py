@@ -33,7 +33,7 @@ def plotBasic(stage):
         names.append("cleanup/M_"+comb)
 
     for comb in [ "jj","jl","j1l","j2l","jjl",
-                  "bb","bl","b1l","b2l" ]:
+                  "bb","bb1","bl","b1l","b2l" ]:
         names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
     names.append("cleanup/DeltaR_jjbb")
@@ -477,7 +477,7 @@ def plotPie(stage):
 
 def main():
 
-    for stage in ["stage_0/","stage_1/","stage_3/","stage_4/","stage_5/","stage_6/"]:
+    for stage in ["stage_0/","stage_1/","stage_2/","stage_3/","stage_4/"]#,"stage_5/","stage_6/"]:
 #        plotOverlay(stage)
 #        plotExtra(stage)
         plotBasic(stage)
