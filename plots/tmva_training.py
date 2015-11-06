@@ -5,53 +5,26 @@ from ROOT import *
 import os
 import multiprocessing
 import array
- 
+
+
+
 training_vars_float = [
-  "z_ratio",#*(SV_vtx_pt_0+SV_vtx_pt_1)/(SV_mass_0+SV_mass_1)",
-  # "tau_dot",
-  # "SV_mass_0",
-#  "z_ratio1",
-#  "z_ratio2",
-  "SV_vtx_EnergyRatio_0",
-  "SV_vtx_EnergyRatio_1",
- #"SV_vtx_deltaR_0",
-  "PFLepton_ratio",
-  # "PFLepton_ptrel",
-  "PFLepton_IP2D",
-  # "massPruned",
-  # "tau2/tau1",
-  "SV_flight2D_0",
-  # "SV_flight2D_1",
-  # "SV_flight2DErr_0",
-  # "SV_flight2DErr_1",
-  # "SV_totCharge_0",
-  # "SV_totCharge_1",
-  "SV_mass_1",
-# "SV_vtx_pt_0",
- # "SV_vtx_pt_1",
-# "SV_vtx_deltaR_1",
-  "trackSip3dSig_3",
-# "trackPtRel_0",
- # "trackSip3dSig_2",
-  "trackSip3dSig_1",
-  # "trackPtRel_1",
-  "trackSip3dSig_0",
-  # "trackPtRel_0",
-  # "trackPtRel_2",
-  # "trackEtaRel_0",
-  "trackEtaRel_1",
-  # "trackEtaRel_2",
-  # "PFLepton_ratioRel",
-  #"PFLepton_deltaR"
-  ]
- 
+    "z_ratio",
+    "SV_vtx_EnergyRatio_0",
+    "SV_vtx_EnergyRatio_1",
+    "PFLepton_ratio",
+    "PFLepton_IP2D",
+    "SV_flight2D_0",
+    "SV_mass_1",
+    "trackSip3dSig_3",
+    "trackSip3dSig_1",
+    "trackSip3dSig_0",
+    "trackEtaRel_1"
+    ]
+
 training_vars_int = [
-   "nSV",
-   "nSL_3",
-   # "nSL_3",
-  # "SV_nTrk_0",
-  # "SV_nTrk_1",
-   # "jetNTracksEtaRel"
+    "nSV",
+    "nSL_3"
   ]
 
 argv = sys.argv
@@ -70,6 +43,8 @@ parser.add_option("-f", "--file", dest="filename",
                   help="write to FILE", metavar="FILE")                                                                                                                                                                               			      			      			      			      
 (opts, args) = parser.parse_args(argv)  
 
+
+
 def train(bdtoptions):
 
   outFile = TFile('FinalTraining.root', 'RECREATE')
@@ -78,7 +53,6 @@ def train(bdtoptions):
   factory = TMVA.Factory(
                                "TMVAClassification", 
                                outFile, 
-                               # "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;P;G,D:AnalysisType=Classification"
                                "!V:!Silent:Color:DrawProgressBar:Transformations=I:AnalysisType=Classification"
                              )
   
@@ -86,27 +60,6 @@ def train(bdtoptions):
   treeS = TChain('Fjets')
   treeB = TChain('Fjets')
   treelist = []
-  
-  # prefix = 'Spring15/rootfiles/qcd/scaled/'
- #  files = [
- #      'qcd_1000to1400_spring15_forTraining.root',
- #      'qcd_1400to1800_spring15_forTraining.root',
- #      'qcd_300to470_spring15_forTraining.root',
- #      'qcd_470to600_spring15_forTraining.root',
- #      'qcd_600to800_spring15_forTraining.root',
- #      'qcd_800to1000_spring15_forTraining.root'
- #    ]
- #
- #  for f in files:
- #    print 'Opening file %s' %f
- #    filetmp = prefix + f
- #    file = TFile.Open(filetmp, 'READ')
- #    tree = file.Get("Fjets")
- #    weight = tree.GetWeight()
- #    print "weight = %f" %weight
- #    factory.AddBackgroundTree(tree, weight)
- #    treeB.Add(filetmp)
- #    print 'Setting weight to %f' %weight
 
   treeB.Add('/shome/thaarres/HiggsTagger/newSamples/qcd_forTraining.root')
   treeS.Add('/shome/thaarres/HiggsTagger/newSamples/rAll_forTraining.root')
@@ -214,7 +167,8 @@ def train(bdtoptions):
   # TMVAGui('TMVA_classification.root')
   # raw_input("Press Enter to continue...")
 
-# # def read(inDirName, inFileName):
+
+
 def read(inDirName, inFileName):
   print "Reading", inFileName
   print "################################"
@@ -381,6 +335,8 @@ def read(inDirName, inFileName):
     fout.Close()
   print "done", inFileName
 
+
+
 def readParallel():
 
   print "start readParallel()"
@@ -416,18 +372,16 @@ def readParallel():
 if __name__ == '__main__':
   
     bdtoptions = [ "!H",
-                                 "!V",
-                                 "NTrees=750",
-                                 "MinNodeSize=2.5%",
-                                 "BoostType=Grad",
-                                 "Shrinkage=0.20",
-                                 #"UseBaggedBoost",
-                                 #"GradBaggingFraction=0.5",
-                                 "nCuts=20",
-                                 "MaxDepth=4",
-                                 "PruneMethod=CostComplexity",
-                                 "PruneStrength=2"
-                               ]
+                   "!V",
+                   "NTrees=750",
+                   "MinNodeSize=2.5%",
+                   "BoostType=Grad",
+                   "Shrinkage=0.20",
+                   "nCuts=20",
+                   "MaxDepth=4",
+                   "PruneMethod=CostComplexity",
+                   "PruneStrength=2"
+                  ]
  
     # train(bdtoptions)
     # read("/shome/thaarres/HiggsTagger/rootfiles/", "r800_forTraining.root")
