@@ -35,8 +35,8 @@ def train(treeS, treeB, var_names):
     factory.AddSignalTree(treeS)
     factory.AddBackgroundTree(treeB)
 
-    cut_S = TCut("signal > 0.5")
-    cut_B = TCut("signal <= 0.5")
+    cut_S = TCut("")
+    cut_B = TCut("")
 
     factory.PrepareTrainingAndTestTree( cut_S, cut_B,
                                         ":".join([ "nTrain_Signal=0",
