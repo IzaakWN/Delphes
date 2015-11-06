@@ -29,8 +29,8 @@ def train(treeS, treeB, var_names):
                             "Transformations=I;D;P;G,D",
                             "AnalysisType=Classification" ]) )
 
-    factory.AddVariable("DeltaR_b1l","F")
-    factory.AddVariable("DeltaR_bb1","F")
+    for name in var_names:
+        factory.AddVariable(name,"F")
 
     factory.AddSignalTree(treeS)
     factory.AddBackgroundTree(treeB)
@@ -67,9 +67,9 @@ def examine(var_names):
     reader = TMVA.Reader()
     
     vars = [ ]
-    for var in var_names:
+    for name in var_names:
         vars.append(array('f',[0]))
-        reader.AddVariable(var,vars[-1])
+        reader.AddVariable(name,vars[-1])
 
     reader.BookMVA("BDT","weights/TMVAClassification_BDT.weights.xml")
 
