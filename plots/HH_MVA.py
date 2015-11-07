@@ -84,13 +84,13 @@ def examine(var_names):
     ROOT.hBg.SetLineWidth(2)
      
     # use a THStack to show both histograms
-    hs = ROOT.THStack("hs","")
-    hs.Add(ROOT.hSig)
-    hs.Add(ROOT.hBg)
+    hist = ROOT.THStack("hs","")
+    hist.Add(ROOT.hSig)
+    hist.Add(ROOT.hBg)
      
     # show the histograms
-    gcSaver.append(ROOT.TCanvas())
-    hs.Draw()
+    ROOT.gcSaver.append(ROOT.TCanvas())
+    hist.Draw()
 
 
 
