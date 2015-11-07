@@ -84,7 +84,7 @@ def examine(var_names):
     ROOT.hBg.SetLineWidth(2)
      
     # use a THStack to show both histograms
-    hist = ROOT.THStack("hs","")
+    hist = ROOT.THStack("hist","")
     hist.Add(ROOT.hSig)
     hist.Add(ROOT.hBg)
      
@@ -105,7 +105,7 @@ def main():
     
     var_names = [ "DeltaR_b1l", "DeltaR_bb1" ]
 
-#    train(treeS, treeB, var_names)
+    train(treeS, treeB, var_names)
     examine(var_names)
 
 
