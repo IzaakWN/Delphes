@@ -93,10 +93,8 @@ def examine(var_names):
 
     # fill histograms for signal and background from the test sample tree
     c = makeCanvas()
-    hSig = TH1F("hSig", "hSig", 22, -1.1, 1.1)
-    hBg = TH1F("hBg", "hBg", 22, -1.1, 1.1)
-    ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
-    ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
+    TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
+    TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
 
     norm(hSig,hBg)
     hSig.SetLineColor(ROOT.kRed); # signal histogram
@@ -105,8 +103,8 @@ def examine(var_names):
     hBg.SetLineWidth(2)
 
     # draw histograms
-    ROOT.hSig.Draw()
-    ROOT.hBg.Draw("same")
+    hSig.Draw()
+    hBg.Draw("same")
 
 #    # use a THStack to show both histograms
 #    stack = THStack("hist","MVA output, vars: "+", ".join(var_names))
