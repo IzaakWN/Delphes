@@ -76,7 +76,7 @@ class JetControlPlots(BaseControlPlots):
                 for var in vars:
                     result[type+i+var] = [ ]
         
-        jets = event.cleanedJets30[:8]
+        jets = event.cleanedJets30[:]
         result["NUncleanedJets30"]  = len([j for j in event.jets if j.PT>30])
         result["NJets30"]  = len(jets)
         result["NJets15"]  = len([j for j in event.cleanedJets if j.PT>15])
@@ -97,22 +97,22 @@ class JetControlPlots(BaseControlPlots):
             result["jet1Eta"].append(jets[0].Eta)
             result["jet1Phi"].append(jets[0].Phi)
             result["jet1M"].append(jets[0].Mass)
-        if len(jets)>1:
-            result["jet2Pt"].append(jets[1].PT)
-            result["jets"].append(result["jet2Pt"][-1])
-            result["jet2Eta"].append(jets[1].Eta)
-            result["jet2Phi"].append(jets[1].Phi)
-            result["jet2M"].append(jets[1].Mass)
-        if len(jets)>2:
-            result["jet3Pt"].append(jets[2].PT)
-            result["jet3Eta"].append(jets[2].Eta)
-            result["jet3Phi"].append(jets[2].Phi)
-            result["jet3M"].append(jets[2].Mass)
-        if len(jets)>3:
-            result["jet4Pt"].append(jets[3].PT)
-            result["jet4Eta"].append(jets[3].Eta)
-            result["jet4Phi"].append(jets[3].Phi)
-            result["jet4M"].append(jets[3].Mass)
+            if len(jets)>1:
+                result["jet2Pt"].append(jets[1].PT)
+                result["jets"].append(result["jet2Pt"][-1])
+                result["jet2Eta"].append(jets[1].Eta)
+                result["jet2Phi"].append(jets[1].Phi)
+                result["jet2M"].append(jets[1].Mass)
+                if len(jets)>2:
+                    result["jet3Pt"].append(jets[2].PT)
+                    result["jet3Eta"].append(jets[2].Eta)
+                    result["jet3Phi"].append(jets[2].Phi)
+                    result["jet3M"].append(jets[2].Mass)
+                    if len(jets)>3:
+                        result["jet4Pt"].append(jets[3].PT)
+                        result["jet4Eta"].append(jets[3].Eta)
+                        result["jet4Phi"].append(jets[3].Phi)
+                        result["jet4M"].append(jets[3].Mass)
 
         # b-jets
         bjets = event.bjets30
@@ -125,37 +125,39 @@ class JetControlPlots(BaseControlPlots):
             result["bjet1Eta"].append(bjets[0].Eta)
             result["bjet1Phi"].append(bjets[0].Phi)
             result["bjet1M"].append(bjets[0].Mass)
-            jets.remove(bjets[0])
-        if len(bjets)>1:
-            result["bjet2Pt"].append(bjets[1].PT)
-            result["jets"].append(result["bjet2Pt"][-1])
-            result["bjet2Eta"].append(bjets[1].Eta)
-            result["bjet2Phi"].append(bjets[1].Phi)
-            result["bjet2M"].append(bjets[1].Mass)
-            jets.remove(bjets[1])
-        if len(bjets)>2:
-            result["bjet3Pt"].append(bjets[2].PT)
-            result["bjet3Eta"].append(bjets[2].Eta)
-            result["bjet3Phi"].append(bjets[2].Phi)
-            result["bjet3M"].append(bjets[2].Mass)
-        if len(bjets)>3:
-            result["bjet4Pt"].append(bjets[3].PT)
-            result["bjet4Eta"].append(bjets[3].Eta)
-            result["bjet4Phi"].append(bjets[3].Phi)
-            result["bjet4M"].append(bjets[3].Mass)
-            
+            if bjets[0] in jets:
+                jets.remove(bjets[0])
+            if len(bjets)>1:
+                result["bjet2Pt"].append(bjets[1].PT)
+                result["jets"].append(result["bjet2Pt"][-1])
+                result["bjet2Eta"].append(bjets[1].Eta)
+                result["bjet2Phi"].append(bjets[1].Phi)
+                result["bjet2M"].append(bjets[1].Mass)
+                if bjets[1] in jets:
+                    jets.remove(bjets[1])
+                if len(bjets)>2:
+                    result["bjet3Pt"].append(bjets[2].PT)
+                    result["bjet3Eta"].append(bjets[2].Eta)
+                    result["bjet3Phi"].append(bjets[2].Phi)
+                    result["bjet3M"].append(bjets[2].Mass)
+                    if len(bjets)>3:
+                        result["bjet4Pt"].append(bjets[3].PT)
+                        result["bjet4Eta"].append(bjets[3].Eta)
+                        result["bjet4Phi"].append(bjets[3].Phi)
+                        result["bjet4M"].append(bjets[3].Mass)
+
         jets = [ j for j in jets if not j.BTag ]
         if len(jets)>0:
             result["nonbjet1Pt"] = jets[0].PT
             result["nonbjet1Eta"] = jets[0].Eta
             result["nonbjet1Phi"] = jets[0].Phi
             result["nonbjet1M"] = jets[0].Mass
-        if len(jets)>1:
-            result["nonbjet2Pt"] = jets[1].PT
-            result["nonbjet2Eta"] = jets[1].Eta
-            result["nonbjet2Phi"] = jets[1].Phi
-            result["nonbjet2M"] = jets[1].Mass
-        
+            if len(jets)>1:
+                result["nonbjet2Pt"] = jets[1].PT
+                result["nonbjet2Eta"] = jets[1].Eta
+                result["nonbjet2Phi"] = jets[1].Phi
+                result["nonbjet2M"] = jets[1].Mass
+
         return result
 
 
