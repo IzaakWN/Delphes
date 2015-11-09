@@ -98,7 +98,7 @@ def examine(var_names):
     ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
     ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
 
-    norm(hSig,hBg)
+    norm(ROOT.hSig,ROOT.hBg)
     ROOT.hSig.SetLineColor(ROOT.kRed); # signal histogram
     ROOT.hSig.SetLineWidth(2)
     ROOT.hBg.SetLineColor(ROOT.kBlue); # background histogram
