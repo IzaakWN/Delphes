@@ -76,10 +76,11 @@ class JetControlPlots(BaseControlPlots):
                 for var in vars:
                     result[type+i+var] = [ ]
         
-        jets = event.cleanedJets30[:]
-        result["NUncleanedJets30"]  = len([j for j in event.jets if j.PT>30])
+        # TODO: check if sometimes hardest jet has Eta>2.5
+        jets = event.cleanedJets30[:4]
+        result["NUncleanedJets30"]  = len([j for j in event.jets if j.PT>30 and abs(j.Eta<2.5)])
         result["NJets30"]  = len(jets)
-        result["NJets15"]  = len([j for j in event.cleanedJets if j.PT>15])
+        result["NJets15"]  = len(jets = event.cleanedJets15)
         
         result["JetiEta"] = [ ]
         for i in range(len(jets)):
