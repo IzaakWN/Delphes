@@ -23,7 +23,7 @@ from HHPlotterTools import *
 
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-h", "--onlyHist", dest="onlyHist", default=False, action="store_true",
+parser.add_option("-o", "--onlyHist", dest="onlyHist", default=False, action="store_true",
                   help="Only make hist, don't go through training.")
 (opts, args) = parser.parse_args(argv)
 
