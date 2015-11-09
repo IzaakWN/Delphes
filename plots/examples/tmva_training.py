@@ -26,7 +26,7 @@ training_vars_int = [
     "nSV",
     "nSL_3"
   ]
-
+  
 argv = sys.argv
 parser = OptionParser()
 parser.add_option("-c", "--categories", dest="categories", default=False, action="store_true",
