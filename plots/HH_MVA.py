@@ -87,7 +87,6 @@ def examine(var_names):
     reader.BookMVA("BDT","weights/TMVAClassification_BDT.weights.xml")
 
     # fill histograms for signal and background from the test sample tree
-    ROOT.hSig
     ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
     ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
      
