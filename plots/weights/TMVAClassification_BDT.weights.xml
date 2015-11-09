@@ -4,11 +4,11 @@
     <Info name="TMVA Release" value="4.1.2 [262402]"/>
     <Info name="ROOT Release" value="5.32/00 [335872]"/>
     <Info name="Creator" value="ineuteli"/>
-    <Info name="Date" value="Mon Nov  9 11:34:50 2015"/>
+    <Info name="Date" value="Mon Nov  9 12:09:22 2015"/>
     <Info name="Host" value="Linux cmsdev02.cern.ch 2.6.32-431.11.2.el6.x86_64 #1 SMP Wed Mar 26 09:39:43 CET 2014 x86_64 x86_64 x86_64 GNU/Linux"/>
     <Info name="Dir" value="/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/plots"/>
     <Info name="Training events" value="22899"/>
-    <Info name="TrainingTime" value="1.57184260e+01"/>
+    <Info name="TrainingTime" value="1.54655459e+01"/>
     <Info name="AnalysisType" value="Classification"/>
   </GeneralInfo>
   <Options>
