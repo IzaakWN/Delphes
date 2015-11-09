@@ -77,7 +77,10 @@ def train(treeS, treeB, var_names):
 
 
 def examine(var_names):
+
     reader = TMVA.Reader()
+    f = TFile("HH_MVA.root")
+    TestTree = f.Get("TestTree")
     
     vars = [ ]
     for name in var_names:
@@ -88,13 +91,16 @@ def examine(var_names):
 
     # fill histograms for signal and background from the test sample tree
     c = makeCanvas()
-    ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
-    ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
-     
-    ROOT.hSig.SetLineColor(ROOT.kRed); # signal histogram
-    ROOT.hBg.SetLineColor(ROOT.kBlue); # background histogram
-    ROOT.hSig.SetLineWidth(2)
-    ROOT.hBg.SetLineWidth(2)
+    hSig = TH1F("hSig", "hSig", 22, -1.1, 1.1)
+    hBg = TH1F("hBg", "hBg", 22, -1.1, 1.1)
+    TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
+    TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
+
+    norm(hSig,hBg)
+    hSig.SetLineColor(ROOT.kRed); # signal histogram
+    hSig.SetLineWidth(2)
+    hBg.SetLineColor(ROOT.kBlue); # background histogram
+    hBg.SetLineWidth(2)
 
     # draw histograms
     ROOT.hSig.Draw()
@@ -133,4 +139,3 @@ if __name__ == '__main__':
     main()
 
 
-    
