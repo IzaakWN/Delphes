@@ -4,9 +4,12 @@ import ConfigParser
 import ROOT
 from ROOT import TFile, TChain, TMVA, TCut, TCanvas, THStack, TH1F
 from array import array
+import CMS_lumi, tdrstyle
+from HHPlotterTools import *
 
 # http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
 # https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
+# https://indico.cern.ch/event/395374/other-view?view=standard#20151109.detailed
 #
 # AdaBoost
 # https://en.wikipedia.org/wiki/AdaBoost
@@ -20,7 +23,7 @@ from array import array
 
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-o", "--onlyHist", dest="onlyHist", default=False, action="store_true",
+parser.add_option("-h", "--onlyHist", dest="onlyHist", default=False, action="store_true",
                   help="Only make hist, don't go through training.")
 (opts, args) = parser.parse_args(argv)
 
@@ -84,6 +87,7 @@ def examine(var_names):
     reader.BookMVA("BDT","weights/TMVAClassification_BDT.weights.xml")
 
     # fill histograms for signal and background from the test sample tree
+    ROOT.hSig
     ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
     ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
      
@@ -92,15 +96,15 @@ def examine(var_names):
     ROOT.hSig.SetLineWidth(2)
     ROOT.hBg.SetLineWidth(2)
      
-    # use a THStack to show both histograms
-    hist = THStack("hist","")
-    hist.Add(ROOT.hSig)
-    hist.Add(ROOT.hBg)
-     
+#    # use a THStack to show both histograms
+#    stack = THStack("hist","MVA output, vars: "+", ".join(var_names))
+#    hist.Add(ROOT.hSig)
+#    hist.Add(ROOT.hBg)
+
     # show the histograms
-    c = TCanvas()
-    hist.Draw()
-    c.SaveAs("HH_MVA.png")
+#    hist.Draw()
+    CMS_lumi.CMS_lumi(c,14,33)
+    c.SaveAs("MVA/HH_MVA_"+"_".join(var_names)+".png")
     c.Close()
 
 
@@ -123,3 +127,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+    
