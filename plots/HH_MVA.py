@@ -7,7 +7,7 @@ from array import array
 import CMS_lumi, tdrstyle
 from HHPlotterTools import *
 
-# WHY
+# W
 
 # http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
 # https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
