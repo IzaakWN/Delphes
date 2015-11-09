@@ -25,8 +25,8 @@ from HHPlotterTools import *
 
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-o", "--onlyHist", dest="onlyHist", default=False, action="store_true",
-                  help="Only make hist, don't go through training.")
+parser.add_option("-o", "--only2vars", dest="only2vars", default=False, action="store_true",
+                  help="Only train with two variables.")
 (opts, args) = parser.parse_args(argv)
 
 
@@ -93,12 +93,12 @@ def examine(var_names):
 
     # fill histograms for signal and background from the test sample tree
     c = makeCanvas()
-#    hSig = TH1F("hSig", "hSig", 22, -1.1, 1.1)
-#    hBg = TH1F("hBg", "hBg", 22, -1.1, 1.1)
+    ROOT.hSig = TH1F("hSig", "hSig", 22, -1.1, 1.1)
+    ROOT.hBg = TH1F("hBg", "hBg", 22, -1.1, 1.1)
     ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
     ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
 
-#    norm(hSig,hBg)
+    norm(hSig,hBg)
     ROOT.hSig.SetLineColor(ROOT.kRed); # signal histogram
     ROOT.hSig.SetLineWidth(2)
     ROOT.hBg.SetLineColor(ROOT.kBlue); # background histogram
@@ -130,10 +130,12 @@ def main():
     treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
     treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
     
-    var_names = [ "DeltaR_b1l", "DeltaR_bb1" ]
+    var_names = [ "DeltaR_j1l", "DeltaR_j2l", "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1", "M_bb_closest" ]
     
-    if not opts.onlyHist:
-        train(treeS, treeB, var_names)
+    if only2vars:
+        var_names = var_names[:2]
+    
+    train(treeS, treeB, var_names)
     examine(var_names)
 
 
