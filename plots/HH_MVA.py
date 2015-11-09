@@ -2,7 +2,7 @@ from optparse import OptionParser
 import sys
 import ConfigParser
 import ROOT
-from ROOT import TFile, TChain, TMVA, TCut
+from ROOT import TFile, TChain, TMVA, TCut, TCanvas, THStack, TH1F
 from array import array
 
 # http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
@@ -93,14 +93,15 @@ def examine(var_names):
     ROOT.hBg.SetLineWidth(2)
      
     # use a THStack to show both histograms
-    hist = ROOT.THStack("hist","")
+    hist = THStack("hist","")
     hist.Add(ROOT.hSig)
     hist.Add(ROOT.hBg)
      
     # show the histograms
-    gcSaver = []
-    ROOT.gcSaver.append(ROOT.TCanvas())
+    c = TCanvas()
     hist.Draw()
+    c.SaveAs("HH_MVA.png")
+    c.Close()
 
 
 
