@@ -76,7 +76,7 @@ class JetControlPlots(BaseControlPlots):
                 for var in vars:
                     result[type+i+var] = [ ]
         
-        jets = event.cleanedJets30[:6]
+        jets = event.cleanedJets30[:8]
         result["NUncleanedJets30"]  = len([j for j in event.jets if j.PT>30])
         result["NJets30"]  = len(jets)
         result["NJets15"]  = len([j for j in event.cleanedJets if j.PT>15])
