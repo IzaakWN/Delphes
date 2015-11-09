@@ -26,6 +26,14 @@ class JetControlPlots(BaseControlPlots):
 
     def beginJob(self):
         
+        
+        # declare tree and branches
+        self.addTree("jets","Jet variables for MVA")
+        self.addBranch("jets","jet1Pt")
+        self.addBranch("jets","jet2Pt")
+        self.addBranch("jets","bjet1Pt")
+        self.addBranch("jets","bjet2Pt")
+    
         self.add("NUncleanedJets30","uncleaned jets multiplicity (Pt>30 GeV)",12,0,12)
         self.add("NJets30","jets multiplicity (Pt>30 GeV)",12,0,12)
         self.add("NBjets30","b-jets multiplicity (Pt>30 GeV)",8,0,8)
@@ -61,6 +69,8 @@ class JetControlPlots(BaseControlPlots):
         
         result = { }
         
+        result["jets"] = [ ] # respect the order of branches when adding variables
+        
         for type in types:
             for i in n:
                 for var in vars:
@@ -83,11 +93,13 @@ class JetControlPlots(BaseControlPlots):
         # four leading jets
         if len(jets)>0:
             result["jet1Pt"].append(jets[0].PT)
+            result["jets"].append(result["jet1Pt"][-1])
             result["jet1Eta"].append(jets[0].Eta)
             result["jet1Phi"].append(jets[0].Phi)
             result["jet1M"].append(jets[0].Mass)
         if len(jets)>1:
             result["jet2Pt"].append(jets[1].PT)
+            result["jets"].append(result["jet2Pt"][-1])
             result["jet2Eta"].append(jets[1].Eta)
             result["jet2Phi"].append(jets[1].Phi)
             result["jet2M"].append(jets[1].Mass)
@@ -109,12 +121,14 @@ class JetControlPlots(BaseControlPlots):
     
         if len(bjets)>0:
             result["bjet1Pt"].append(bjets[0].PT)
+            result["jets"].append(result["bjet1Pt"][-1])
             result["bjet1Eta"].append(bjets[0].Eta)
             result["bjet1Phi"].append(bjets[0].Phi)
             result["bjet1M"].append(bjets[0].Mass)
             jets.remove(bjets[0])
         if len(bjets)>1:
             result["bjet2Pt"].append(bjets[1].PT)
+            result["jets"].append(result["bjet2Pt"][-1])
             result["bjet2Eta"].append(bjets[1].Eta)
             result["bjet2Phi"].append(bjets[1].Phi)
             result["bjet2M"].append(bjets[1].Mass)
