@@ -32,7 +32,7 @@ parser.add_option("-o", "--onlyHist", dest="onlyHist", default=False, action="st
 def train(treeS, treeB, var_names):
 
     TMVA.Tools.Instance()
-    f_out = TFile("testNN.root","RECREATE")
+    f_out = TFile("HH_MVA.root","RECREATE")
 
     factory = TMVA.Factory( "TMVAClassification", f_out,
                             ":".join([ "!V",
@@ -87,6 +87,7 @@ def examine(var_names):
     reader.BookMVA("BDT","weights/TMVAClassification_BDT.weights.xml")
 
     # fill histograms for signal and background from the test sample tree
+    c = makeCanvas()
     ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
     ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
      
@@ -94,7 +95,11 @@ def examine(var_names):
     ROOT.hBg.SetLineColor(ROOT.kBlue); # background histogram
     ROOT.hSig.SetLineWidth(2)
     ROOT.hBg.SetLineWidth(2)
-     
+
+    # draw histograms
+    ROOT.hSig.Draw()
+    ROOT.hBg.Draw("same")
+
 #    # use a THStack to show both histograms
 #    stack = THStack("hist","MVA output, vars: "+", ".join(var_names))
 #    hist.Add(ROOT.hSig)
