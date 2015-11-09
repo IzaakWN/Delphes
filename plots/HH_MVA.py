@@ -1,3 +1,6 @@
+from optparse import OptionParser
+import sys
+import ConfigParser
 import ROOT
 from ROOT import TFile, TChain, TMVA, TCut
 from array import array
@@ -14,6 +17,12 @@ from array import array
 # used to select the best variable to be used in each tree node
 #
 #
+
+argv = sys.argv
+parser = OptionParser()
+parser.add_option("-h", "--onlyHist", dest="onlyHist", default=False, action="store_true",
+                  help="Only make hist, don't go through training.")
+(opts, args) = parser.parse_args(argv)
 
 
 
@@ -89,6 +98,7 @@ def examine(var_names):
     hist.Add(ROOT.hBg)
      
     # show the histograms
+    gcSaver = []
     ROOT.gcSaver.append(ROOT.TCanvas())
     hist.Draw()
 
@@ -104,10 +114,10 @@ def main():
     treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
     
     var_names = [ "DeltaR_b1l", "DeltaR_bb1" ]
-
-    train(treeS, treeB, var_names)
+    
+    if not opts.onlyHist:
+        train(treeS, treeB, var_names)
     examine(var_names)
-
 
 
 if __name__ == '__main__':
