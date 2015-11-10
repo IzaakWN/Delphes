@@ -22,6 +22,10 @@ class CleanUpControlPlots(BaseControlPlots):
       
       # declare tree and branches
       self.addTree("cleanup","Variables for MVA")
+      self.addBranch("cleanup","jet1Pt")
+      self.addBranch("cleanup","jet2Pt")
+      self.addBranch("cleanup","bjet1Pt")
+      self.addBranch("cleanup","bjet2Pt")
       self.addBranch("cleanup","DeltaR_j1l")
       self.addBranch("cleanup","DeltaR_j2l")
       self.addBranch("cleanup","DeltaR_b1l")
@@ -125,8 +129,22 @@ class CleanUpControlPlots(BaseControlPlots):
         result["DeltaEtaDeltaPhi_bl"] = [ ]
         result["DeltaEtaDeltaPhi_jjbb"] = [ ]
 
-
-        jets = [ j for j in event.cleanedJets30[:8] if not j.BTag ]
+        jets = event.cleanedJets30[:8]
+        bjets = event.bjets30
+        
+        # leading jets
+        if len(jets)>0:
+            result["cleanup"].append(jets[0].PT)
+            if len(jets)>1:
+                result["cleanup"].append(jets[1].PT)
+        
+        # leading bjets
+        if len(bjets)>0:
+            result["cleanup"].append(bjets[0].PT)
+            if len(bjets)>1:
+                result["cleanup"].append(bjets[1].PT)
+        
+        jets = [ j for j in jets if not j.BTag ]
         p_jets = [ ]
         p_jjs = [ ]
         p_jj_cut = [ ]
@@ -134,7 +152,6 @@ class CleanUpControlPlots(BaseControlPlots):
         p_jj_b2b_cut = None
         DeltaPhi_b2b = 0 # < pi
 
-        bjets = event.bjets30
         p_bjets = [ ]
         p_bb_cut = [ ]
         DeltaR_bl = [ ]
@@ -146,6 +163,9 @@ class CleanUpControlPlots(BaseControlPlots):
         if len(event.leadingLeptons):
             lepton = event.leadingLeptons[0]
             p_lepton.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
+
+
+
 
         # jet - jet
         for jet in jets:
