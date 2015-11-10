@@ -93,20 +93,20 @@ def examine(var_names):
 
     # fill histograms for signal and background from the test sample tree
     c = makeCanvas()
-#    ROOT.hSig = TH1F("hSig", "hSig", 22, -1.1, 1.1)
-#    ROOT.hBg = TH1F("hBg", "hBg", 22, -1.1, 1.1)
-    ROOT.TestTree.Draw("BDT>>hSig(22,-1.1,1.1)","classID == 0","goff")  # signal
-    ROOT.TestTree.Draw("BDT>>hBg(22,-1.1,1.1)","classID == 1", "goff")  # background
+    hSig = TH1F("hSig", "hSig", 22, -1.1, 1.1)
+    hBg = TH1F("hBg", "hBg", 22, -1.1, 1.1)
+    ROOT.TestTree.Draw("BDT>>hSig","classID == 0","goff")  # signal
+    ROOT.TestTree.Draw("BDT>>hBg","classID == 1", "goff")  # background
 
-#    norm(ROOT.hSig,ROOT.hBg)
-    ROOT.hSig.SetLineColor(ROOT.kRed); # signal histogram
-    ROOT.hSig.SetLineWidth(2)
-    ROOT.hBg.SetLineColor(ROOT.kBlue); # background histogram
-    ROOT.hBg.SetLineWidth(2)
+    norm(ROOT.hSig,ROOT.hBg)
+    hSig.SetLineColor(ROOT.kRed); # signal histogram
+    hSig.SetLineWidth(2)
+    hBg.SetLineColor(ROOT.kBlue); # background histogram
+    hBg.SetLineWidth(2)
 
     # draw histograms
-    ROOT.hBg.Draw()
-    ROOT.hSig.Draw("same")
+    hBg.Draw()
+    hSig.Draw("same")
 
 #    # use a THStack to show both histograms
 #    stack = THStack("hist","MVA output, vars: "+", ".join(var_names))
@@ -127,11 +127,18 @@ def main():
     f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
     f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
     
+    var_names = [ ]
+    
     treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
     treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
+    var_names.extend[ "DeltaR_j1l", "DeltaR_j2l",
+                      "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1", "M_bb_closest" ]
     
-    var_names = [ "DeltaR_j1l", "DeltaR_j2l", "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1", "M_bb_closest" ]
-    
+#    treeS = f_in_HH.Get("stage_2/jets/jets")
+#    treeB = f_in_tt.Get("stage_2/jets/jets")
+#    var_names.extend[  "jets1Pt",  "jets2Pt",
+#                      "bjets1Pt", "bjets2Pt" ]
+
     if opts.only2vars:
         var_names = var_names[:2]
     
