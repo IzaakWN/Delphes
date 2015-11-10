@@ -100,7 +100,7 @@ def examine(var_names):
     TestTree.Draw("BDT>>hSig","classID == 0","goff")  # signal
     TestTree.Draw("BDT>>hBg","classID == 1", "goff")  # background
 
-    norm(ROOT.hSig,ROOT.hBg)
+    norm(hSig,hBg)
     hSig.SetLineColor(ROOT.kRed)
     hSig.SetLineWidth(2)
     hSig.SetStats(0)
