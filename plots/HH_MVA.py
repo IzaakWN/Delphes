@@ -27,6 +27,8 @@ argv = sys.argv
 parser = OptionParser()
 parser.add_option("-o", "--only2vars", dest="only2vars", default=False, action="store_true",
                   help="Only train with two variables.")
+parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="store_true",
+                  help="Only plot, don't go through training.")
 (opts, args) = parser.parse_args(argv)
 
 
@@ -93,25 +95,29 @@ def examine(var_names):
 
     # fill histograms for signal and background from the test sample tree
     c = makeCanvas()
-    hSig = TH1F("hSig", "hSig", 22, -1.1, 1.1)
-    hBg = TH1F("hBg", "hBg", 22, -1.1, 1.1)
+    hSig = TH1F("hSig", "", 22, -1.1, 1.1)
+    hBg = TH1F("hBg", "", 22, -1.1, 1.1)
     ROOT.TestTree.Draw("BDT>>hSig","classID == 0","goff")  # signal
     ROOT.TestTree.Draw("BDT>>hBg","classID == 1", "goff")  # background
 
     norm(ROOT.hSig,ROOT.hBg)
-    hSig.SetLineColor(ROOT.kRed); # signal histogram
+    hSig.SetLineColor(ROOT.kRed)
     hSig.SetLineWidth(2)
-    hBg.SetLineColor(ROOT.kBlue); # background histogram
+    hSig.SetStats(0)
+    hBg.SetLineColor(ROOT.kBlue)
     hBg.SetLineWidth(2)
+    hBg.SetStats(0)
 
     # draw histograms
     hBg.Draw()
     hSig.Draw("same")
+    legend = makeLegend(hSig,hBg,title="MVA seperation",entries=["signal","background"])
+    legend.Draw()
 
 #    # use a THStack to show both histograms
 #    stack = THStack("hist","MVA output, vars: "+", ".join(var_names))
-#    hist.Add(ROOT.hSig)
-#    hist.Add(ROOT.hBg)
+#    hist.Add(hSig)
+#    hist.Add(hBg)
 
     # show the histograms
 #    hist.Draw()
@@ -142,8 +148,8 @@ def main():
 
     if opts.only2vars:
         var_names = var_names[:2]
-    
-    train(treeS, treeB, var_names)
+    if not opts.onlyPlot:
+        train(treeS, treeB, var_names)
     examine(var_names)
 
 
