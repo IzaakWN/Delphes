@@ -140,7 +140,7 @@ def main():
     var_names = [ "DeltaR_j1l", "DeltaR_j2l",
                   "DeltaR_b1l", "DeltaR_b2l",
                   "DeltaR_bb1", "M_bb_closest",
-                  "jet1Pt",  "jetsPt",
+                  "jet1Pt",  "jet2Pt",
                   "bjet1Pt", "bjet2Pt", ]
 
     if opts.only2vars:
