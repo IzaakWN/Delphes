@@ -96,8 +96,8 @@ def examine(var_names):
 
     # fill histograms for signal and background from the test sample tree
     c = makeCanvas()
-    hSig = TH1F("hSig", "", 40, 0, 1.1)
-    hBg = TH1F("hBg", "", 40, 0, 1.1)
+    hSig = TH1F("hSig", "", 44, -1.1, 1.1)
+    hBg = TH1F("hBg", "", 44, -1.1, 1.1)
     TestTree.Draw("BDT>>hSig","classID == 0","goff")  # signal
     TestTree.Draw("BDT>>hBg","classID == 1", "goff")  # background
 
