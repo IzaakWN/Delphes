@@ -127,12 +127,13 @@ def main():
     f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
     f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
     
-    var_names = [ ]
-    
+#    var_names = [ ]
+
     treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
     treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
-    var_names.extend[ "DeltaR_j1l", "DeltaR_j2l",
-                      "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1", "M_bb_closest" ]
+    var_names = [ "DeltaR_j1l", "DeltaR_j2l",
+                  "DeltaR_b1l", "DeltaR_b2l",
+                  "DeltaR_bb1", "M_bb_closest" ]
     
 #    treeS = f_in_HH.Get("stage_2/jets/jets")
 #    treeB = f_in_tt.Get("stage_2/jets/jets")
