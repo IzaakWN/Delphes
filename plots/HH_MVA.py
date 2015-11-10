@@ -6,6 +6,7 @@ from ROOT import TFile, TChain, TMVA, TCut, TCanvas, THStack, TH1F
 from array import array
 import CMS_lumi, tdrstyle
 from HHPlotterTools import *
+ROOT.gROOT.SetBatch(ROOT.kFALSE)
 
 # W
 
@@ -63,13 +64,13 @@ def train(treeS, treeB, var_names):
                                                    "!V" ]) )
 
     method = factory.BookMethod(TMVA.Types.kBDT, "BDT",
-                                ":".join([ "!H",    # help text
+                                ":".join([ "!H",    # help text, too large mainly costs time
                                            "!V",
-                                           "NTrees=850",
+                                           "NTrees=1000", # ~ number of boost steps
                                            "nEventsMin=150",
-                                           "MaxDepth=3",
+                                           "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
                                            "BoostType=AdaBoost",
-                                           "AdaBoostBeta=0.5",
+                                           "AdaBoostBeta=0.5", # ~ 0.01-0.5
                                            "SeparationType=GiniIndex",
                                            "nCuts=20",
                                            "PruneMethod=NoPruning" ]) )
@@ -95,8 +96,8 @@ def examine(var_names):
 
     # fill histograms for signal and background from the test sample tree
     c = makeCanvas()
-    hSig = TH1F("hSig", "", 22, -1.1, 1.1)
-    hBg = TH1F("hBg", "", 22, -1.1, 1.1)
+    hSig = TH1F("hSig", "", 40, 0, 1.1)
+    hBg = TH1F("hBg", "", 40, 0, 1.1)
     TestTree.Draw("BDT>>hSig","classID == 0","goff")  # signal
     TestTree.Draw("BDT>>hBg","classID == 1", "goff")  # background
 
