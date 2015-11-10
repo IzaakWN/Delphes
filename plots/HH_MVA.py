@@ -84,7 +84,7 @@ def examine(var_names):
 
     reader = TMVA.Reader()
     f = TFile("HH_MVA.root")
-#    TestTree = f.Get("TestTree")
+    TestTree = f.Get("TestTree")
 
     vars = [ ]
     for name in var_names:
@@ -97,8 +97,8 @@ def examine(var_names):
     c = makeCanvas()
     hSig = TH1F("hSig", "", 22, -1.1, 1.1)
     hBg = TH1F("hBg", "", 22, -1.1, 1.1)
-    ROOT.TestTree.Draw("BDT>>hSig","classID == 0","goff")  # signal
-    ROOT.TestTree.Draw("BDT>>hBg","classID == 1", "goff")  # background
+    TestTree.Draw("BDT>>hSig","classID == 0","goff")  # signal
+    TestTree.Draw("BDT>>hBg","classID == 1", "goff")  # background
 
     norm(ROOT.hSig,ROOT.hBg)
     hSig.SetLineColor(ROOT.kRed)
