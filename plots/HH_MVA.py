@@ -137,11 +137,11 @@ def main():
 
     treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
     treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
-    var_names = [ "DeltaR_j1l", "DeltaR_j2l",
+    var_names = [ "jets1Pt",  "jets2Pt",
+                  "bjets1Pt", "bjets2Pt",
+                  "DeltaR_j1l", "DeltaR_j2l",
                   "DeltaR_b1l", "DeltaR_b2l",
-                  "DeltaR_bb1", "M_bb_closest",
-                  "jets1Pt",  "jets2Pt",
-                  "bjets1Pt", "bjets2Pt" ]
+                  "DeltaR_bb1", "M_bb_closest" ]
 
     if opts.only2vars:
         var_names = var_names[:2]
