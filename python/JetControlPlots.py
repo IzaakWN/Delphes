@@ -25,14 +25,6 @@ class JetControlPlots(BaseControlPlots):
 
 
     def beginJob(self):
-        
-        
-        # declare tree and branches
-        self.addTree("jets","Jet variables for MVA")
-        self.addBranch("jets","jet1Pt")
-        self.addBranch("jets","jet2Pt")
-        self.addBranch("jets","bjet1Pt")
-        self.addBranch("jets","bjet2Pt")
     
         self.add("NUncleanedJets30","uncleaned jets multiplicity (Pt>30 GeV)",12,0,12)
         self.add("NJets30","jets multiplicity (Pt>30 GeV)",12,0,12)
