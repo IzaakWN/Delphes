@@ -2,7 +2,7 @@ from optparse import OptionParser
 import sys
 import ConfigParser
 import ROOT
-from ROOT import TFile, TChain, TMVA, TCut, TCanvas, THStack, TH1F
+from ROOT import TFile, gDirectory, TChain, TMVA, TCut, TCanvas, THStack, TH1F
 from array import array
 import CMS_lumi, tdrstyle
 from HHPlotterTools import *
@@ -102,6 +102,7 @@ def train(config):
     factory.TrainAllMethods()
     factory.TestAllMethods()
     factory.EvaluateAllMethods()
+    f.Close()
 
 
 
@@ -109,7 +110,7 @@ def examine(config):
 
     reader = TMVA.Reader()
     f = TFile("HH_MVA_"+config.name+".root")
-    TestTree = f.Get("TestTree")
+    TestTree = gDirectory.Get("TestTree")
 
     vars = [ ]
     for name in config.varNames:
@@ -126,7 +127,8 @@ def examine(config):
         TestTree.Draw("BDT>>hSig","classID == 0","goff") # causes problem when training not run
         TestTree.Draw("BDT>>hBg","classID == 1", "goff")
 #        entries = mychain.GetEntriesFast()
-#        for jentry in xrange( entries ):
+#        for i in xrange( entries ):
+#            j = mychain.LoadTree( i )
 #            if TestTree.classID == 0:
 #                hSig.Fill(TestTree.BDT)
 #            elif TestTree.classID == 1:
@@ -171,10 +173,10 @@ def main():
     configs[2].name = "best"
     configs[2].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l"]
     
-    if opts.test:
-        configs = configs[2]
-    
-    for config in configs:
+#    if opts.test:
+#        configs = configs[2]
+
+    for config in configs[2]:
 #        if not opts.onlyPlot:
         train(config)
         examine(config)
