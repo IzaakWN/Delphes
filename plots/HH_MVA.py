@@ -124,36 +124,37 @@ def examine(config):
 
         # fill histograms for signal and background from the test sample tree
         c = makeCanvas()
-        hSig = TH1F("hSig", "", 44, -1.1, 1.1)
-        hBg = TH1F("hBg", "", 44, -1.1, 1.1)
-        TestTree.Draw("BDT>>hSig","classID == 0","goff") # causes problem when training not run
-        TestTree.Draw("BDT>>hBg","classID == 1", "goff")
+        histS = TH1F("histS", "", 44, -1.1, 1.1)
+        histB = TH1F("histB", "", 44, -1.1, 1.1)
+#        hist_eff = gDirectory.Get(method)
+        TestTree.Draw(method+">>histS","classID == 0","goff") # causes problem when training not run
+        TestTree.Draw(method+">>histB","classID == 1", "goff")
 #        entries = mychain.GetEntriesFast()
 #        for i in xrange( entries ):
 #            j = mychain.LoadTree( i )
 #            if TestTree.classID == 0:
-#                hSig.Fill(TestTree.BDT)
+#                histS.Fill(TestTree.BDT)
 #            elif TestTree.classID == 1:
-#                hBg.Fill(TestTree.BDT)
+#                histB.Fill(TestTree.BDT)
 
-        norm(hSig,hBg)
-        hSig.SetLineColor(ROOT.kRed)
-        hSig.SetLineWidth(2)
-        hSig.SetStats(0)
-        hBg.SetLineColor(ROOT.kBlue)
-        hBg.SetLineWidth(2)
-        hBg.SetStats(0)
+        norm(histS,histB)
+        histS.SetLineColor(ROOT.kRed)
+        histS.SetLineWidth(2)
+        histS.SetStats(0)
+        histB.SetLineColor(ROOT.kBlue)
+        histB.SetLineWidth(2)
+        histB.SetStats(0)
 
-        hBg.Draw()
-        hSig.Draw("same")
-        legend = makeLegend(hSig,hBg,title="MVA seperation",entries=["signal","background"])
+        histB.Draw()
+        histS.Draw("same")
+        legend = makeLegend(histS,histB,title="MVA seperation",entries=["signal","background"])
         legend.Draw()
 
         CMS_lumi.CMS_lumi(c,14,33)
         c.SaveAs("MVA/HH_MVA_"+method+"_"+config.name+".png")
         c.Close()
-        gDirectory.Delete("hSig")
-        gDirectory.Delete("hBg")
+        gDirectory.Delete("histS")
+        gDirectory.Delete("histB")
 
 
 
