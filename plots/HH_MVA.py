@@ -164,7 +164,7 @@ def examine(config):
     hist_effs[0].SetLineWidth(2)
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
-            hist.Draw()
+            hist.Draw("same")
             hist.SetLineWidth(2)
     setLineColor(*hist_effs)
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
