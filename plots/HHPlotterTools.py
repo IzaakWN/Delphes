@@ -228,7 +228,7 @@ def makeLegend(*hists, **kwargs):
             x2 = x1 + width
     
     y1 = y2 - height[len(hists)-1]
-        legend = TLegend(x1,y1,x2,y2)
+    legend = TLegend(x1,y1,x2,y2)
     #legend.SetFillStyle(0) # 0 = transparant
     legend.SetFillColor(kWhite)
     legend.SetBorderSize(0)
