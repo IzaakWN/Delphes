@@ -10,34 +10,41 @@ ROOT.gROOT.SetBatch(ROOT.kFALSE)
 
 # W
 
-# http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
-# https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
-# https://indico.cern.ch/event/395374/other-view?view=standard#20151109.detailed
+# Manual: http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
+# Method ptions: http://tmva.sourceforge.net/optionRef.html
+# Example in python: https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
+# Tutorial: https://indico.cern.ch/event/395374/other-view?view=standard#20151109.detailed
 #
-# AdaBoost
-# https://en.wikipedia.org/wiki/AdaBoost
-#
-#
-# Gini-coefficient
-# https://en.wikipedia.org/wiki/Gini_coefficient
-# used to select the best variable to be used in each tree node
+# AdaBoost: https://en.wikipedia.org/wiki/AdaBoost
+# Gini-coefficient https://en.wikipedia.org/wiki/Gini_coefficient
+#   used to select the best variable to be used in each tree node
 #
 #
 
 argv = sys.argv
 parser = OptionParser()
-parser.add_option("-o", "--only2vars", dest="only2vars", default=False, action="store_true",
-                  help="Only train with two variables.")
+parser.add_option("-t", "--test", dest="test", default=False, action="store_true",
+                  help="Only train one configuration as test.")
 parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="store_true",
                   help="Only plot, don't go through training.")
 (opts, args) = parser.parse_args(argv)
 
 
 
-def train(treeS, treeB, var_names):
+class configuration(object):
+
+    def __init__(self, name="nameless"):
+        self.name = name
+        self.varNames = []
+        self.treeS = treeS
+        self.treeB = treeB
+
+
+
+def train(config):
 
     TMVA.Tools.Instance()
-    f_out = TFile("HH_MVA.root","RECREATE")
+    f_out = TFile("HH_MVA_"+config.name+".root","RECREATE")
 
     factory = TMVA.Factory( "TMVAClassification", f_out,
                             ":".join([ "!V",
@@ -47,11 +54,11 @@ def train(treeS, treeB, var_names):
                             "Transformations=I;D;P;G,D",
                             "AnalysisType=Classification" ]) )
 
-    for name in var_names:
+    for name in config.varNames:
         factory.AddVariable(name,"F")
 
-    factory.AddSignalTree(treeS)
-    factory.AddBackgroundTree(treeB)
+    factory.AddSignalTree(config.treeS)
+    factory.AddBackgroundTree(config.treeB)
 
     cut_S = TCut("")
     cut_B = TCut("")
@@ -74,6 +81,17 @@ def train(treeS, treeB, var_names):
                                            "SeparationType=GiniIndex",
                                            "nCuts=20",
                                            "PruneMethod=NoPruning" ]) )
+                                           
+    method = factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
+                                ":".join([ "!H",
+                                           "!V",
+                                           "NTrees=2000",
+                                           "nEventsMin=200",
+                                           "MaxDepth=5",
+                                           "BoostType=AdaBoost",
+                                           "AdaBoostBeta=0.5",
+                                           "SeparationType=GiniIndex",
+                                           "nCuts=50" ]) )
  
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -81,50 +99,43 @@ def train(treeS, treeB, var_names):
 
 
 
-def examine(var_names):
+def examine(config):
 
     reader = TMVA.Reader()
-    f = TFile("HH_MVA.root")
+    f = TFile("HH_MVA_"+config.name+".root")
     TestTree = f.Get("TestTree")
 
     vars = [ ]
-    for name in var_names:
+    for name in config.varNames:
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-    reader.BookMVA("BDT","weights/TMVAClassification_BDT.weights.xml")
+    for method in [ "DBT", "DBT" ]:
+        reader.BookMVA("BDT","weights/TMVAClassification_"+method+".weights.xml")
 
-    # fill histograms for signal and background from the test sample tree
-    c = makeCanvas()
-    hSig = TH1F("hSig", "", 44, -1.1, 1.1)
-    hBg = TH1F("hBg", "", 44, -1.1, 1.1)
-    TestTree.Draw("BDT>>hSig","classID == 0","goff")  # signal
-    TestTree.Draw("BDT>>hBg","classID == 1", "goff")  # background
+        # fill histograms for signal and background from the test sample tree
+        c = makeCanvas()
+        hSig = TH1F("hSig", "", 44, -1.1, 1.1)
+        hBg = TH1F("hBg", "", 44, -1.1, 1.1)
+        TestTree.Draw("BDT>>hSig","classID == 0","goff") # causes problem when training not run
+        TestTree.Draw("BDT>>hBg","classID == 1", "goff")
 
-    norm(hSig,hBg)
-    hSig.SetLineColor(ROOT.kRed)
-    hSig.SetLineWidth(2)
-    hSig.SetStats(0)
-    hBg.SetLineColor(ROOT.kBlue)
-    hBg.SetLineWidth(2)
-    hBg.SetStats(0)
+        norm(hSig,hBg)
+        hSig.SetLineColor(ROOT.kRed)
+        hSig.SetLineWidth(2)
+        hSig.SetStats(0)
+        hBg.SetLineColor(ROOT.kBlue)
+        hBg.SetLineWidth(2)
+        hBg.SetStats(0)
 
-    # draw histograms
-    hBg.Draw()
-    hSig.Draw("same")
-    legend = makeLegend(hSig,hBg,title="MVA seperation",entries=["signal","background"])
-    legend.Draw()
+        hBg.Draw()
+        hSig.Draw("same")
+        legend = makeLegend(hSig,hBg,title="MVA seperation",entries=["signal","background"])
+        legend.Draw()
 
-#    # use a THStack to show both histograms
-#    stack = THStack("hist","MVA output, vars: "+", ".join(var_names))
-#    hist.Add(hSig)
-#    hist.Add(hBg)
-
-    # show the histograms
-#    hist.Draw()
-    CMS_lumi.CMS_lumi(c,14,33)
-    c.SaveAs("MVA/HH_MVA_"+"_".join(var_names)+".png")
-    c.Close()
+        CMS_lumi.CMS_lumi(c,14,33)
+        c.SaveAs("MVA/HH_MVA_"+method+"_"+config.name+".png")
+        c.Close()
 
 
 
@@ -133,22 +144,41 @@ def main():
     
     f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
     f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
-    
-#    var_names = [ ]
 
     treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
     treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
-    var_names = [ "DeltaR_j1l", "DeltaR_j2l",
-                  "DeltaR_b1l", "DeltaR_b2l",
-                  "DeltaR_bb1", "M_bb_closest",
-                  "jet1Pt",  "jet2Pt",
-                  "bjet1Pt", "bjet2Pt", ]
+    
+    varNames = [ "DeltaR_j1l", "DeltaR_j2l",
+                 "DeltaR_b1l", "DeltaR_b2l",
+                 "DeltaR_bb1", "M_bb_closest",
+                 "jet1Pt",  "jet2Pt",
+                 "bjet1Pt", "bjet2Pt", ]
 
-    if opts.only2vars:
-        var_names = var_names[:2]
-    if not opts.onlyPlot:
-        train(treeS, treeB, var_names)
-    examine(var_names)
+    configs = [ configuration(), configuration("topology"), configuration("best") ]
+
+    congigs[0].name = "everything"
+    configs[0].varNames = varNames[:]
+    configs[0].treeS = treeS
+    configs[0].treeB = treeB
+
+    congigs[1].name = "topology"
+    configs[1].varNames = varNames[:6]
+    configs[1].treeS = treeS
+    configs[1].treeB = treeB
+
+    congigs[2].name = "best"
+    configs[2].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l"]
+    configs[2].treeS = treeS
+    configs[2].treeB = treeB
+    
+    if opts.test:
+        configs = configs[2]
+    
+    for config in configs:
+#        if not opts.onlyPlot:
+        train(config)
+        examine(config)
+
 
 
 if __name__ == '__main__':
