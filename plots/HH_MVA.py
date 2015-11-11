@@ -168,7 +168,7 @@ def examine(config):
             hist.Draw("same")
             hist.SetLineWidth(2)
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
-                                   entries=[method[1] for method in methods], position="RightBottom")
+                                   entries=[method[1] for method in methods], position="RightTop")
     legend.Draw()
     setLineColor(*hist_effs)
     CMS_lumi.CMS_lumi(c,14,33)
