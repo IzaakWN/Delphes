@@ -29,6 +29,13 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
                   help="Only plot, don't go through training.")
 (opts, args) = parser.parse_args(argv)
 
+    
+f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
+f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
+
+treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
+treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
+
 
 
 class configuration(object):
@@ -62,7 +69,6 @@ def train(config):
 
     cut_S = TCut("")
     cut_B = TCut("")
-
     factory.PrepareTrainingAndTestTree( cut_S, cut_B,
                                         ":".join([ "nTrain_Signal=0",
                                                    "nTrain_Background=0",
@@ -142,12 +148,6 @@ def examine(config):
 def main():
     print "Hello, world!"
     
-    f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
-    f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
-
-    treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
-    treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
-    
     varNames = [ "DeltaR_j1l", "DeltaR_j2l",
                  "DeltaR_b1l", "DeltaR_b2l",
                  "DeltaR_bb1", "M_bb_closest",
@@ -158,18 +158,12 @@ def main():
 
     congigs[0].name = "everything"
     configs[0].varNames = varNames[:]
-    configs[0].treeS = treeS
-    configs[0].treeB = treeB
 
     congigs[1].name = "topology"
     configs[1].varNames = varNames[:6]
-    configs[1].treeS = treeS
-    configs[1].treeB = treeB
 
     congigs[2].name = "best"
     configs[2].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l"]
-    configs[2].treeS = treeS
-    configs[2].treeB = treeB
     
     if opts.test:
         configs = configs[2]
