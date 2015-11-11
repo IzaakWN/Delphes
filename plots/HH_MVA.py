@@ -152,8 +152,8 @@ def examine(config):
         CMS_lumi.CMS_lumi(c,14,33)
         c.SaveAs("MVA/HH_MVA_"+method+"_"+config.name+".png")
         c.Close()
-        gDirectory->Delete("hSig")
-        gDirectory->Delete("hBg")
+        gDirectory.Delete("hSig")
+        gDirectory.Delete("hBg")
 
 
 
