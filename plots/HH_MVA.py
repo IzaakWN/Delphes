@@ -176,7 +176,7 @@ def main():
 #    if opts.test:
 #        configs = configs[2]
 
-    for config in configs[2]:
+    for config in [configs[2]]:
 #        if not opts.onlyPlot:
         train(config)
         examine(config)
