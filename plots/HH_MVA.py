@@ -142,11 +142,11 @@ def examine(config):
         norm(histS,histB)
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
-        histS.SetStats(0)
         histB.SetLineColor(ROOT.kBlue)
         histB.SetLineWidth(2)
+        histB.SetStats(0)
 
-        histB.Draw()
+        histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
         legend = makeLegend(histS,histB,title="MVA seperation",entries=["signal","background"])
         legend.Draw()
@@ -167,9 +167,9 @@ def examine(config):
         for hist in hist_effs[1:]:
             hist.Draw("same")
             hist.SetLineWidth(2)
-#    legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
-#                                   entries=[method[1] for method in methods], position="RightBottom")
-#    legend.Draw()
+    legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
+                                   entries=[method[1] for method in methods])#, position="RightBottom")
+    legend.Draw()
     setLineColor(*hist_effs)
     CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/HH_MVA_BrejvsSeff_"+config.name+".png")
