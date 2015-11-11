@@ -49,6 +49,7 @@ class configuration(object):
 
 
 def train(config):
+    print ">>> train with configuration "+config.name
 
     TMVA.Tools.Instance()
     f_out = TFile("HH_MVA_"+config.name+".root","RECREATE")
@@ -107,6 +108,7 @@ def train(config):
 
 
 def examine(config):
+    print ">>> examine training with configuration "+config.name
 
     reader = TMVA.Reader()
     f = TFile("HH_MVA_"+config.name+".root")
@@ -117,7 +119,7 @@ def examine(config):
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-    for method in [ "DBT", "DBT" ]:
+    for method in [ "BDT", "DBTTuned" ]:
         reader.BookMVA("BDT","weights/TMVAClassification_"+method+".weights.xml")
 
         # fill histograms for signal and background from the test sample tree
@@ -154,7 +156,6 @@ def examine(config):
 
 
 def main():
-    print "Hello, world!"
     
     varNames = [ "DeltaR_j1l", "DeltaR_j2l",
                  "DeltaR_b1l", "DeltaR_b2l",
@@ -173,10 +174,10 @@ def main():
     configs[2].name = "best"
     configs[2].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l"]
     
-#    if opts.test:
-#        configs = configs[2]
+    if opts.test:
+        configs = configs[2:3]
 
-    for config in configs[2:3]:
+    for config in configs:
         if not opts.onlyPlot:
             train(config)
         examine(config)
