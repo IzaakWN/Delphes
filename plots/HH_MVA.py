@@ -145,7 +145,6 @@ def examine(config):
         histS.SetStats(0)
         histB.SetLineColor(ROOT.kBlue)
         histB.SetLineWidth(2)
-        histB.SetStats(0)
 
         histB.Draw()
         histS.Draw("same")
@@ -163,13 +162,14 @@ def examine(config):
     hist_effs[0].Draw()
     makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     hist_effs[0].SetLineWidth(2)
+    hist_effs[0].SetStats(0)
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
             hist.SetLineWidth(2)
-    legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
-                                   entries=[method[1] for method in methods], position="RightBottom")
-    legend.Draw()
+#    legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
+#                                   entries=[method[1] for method in methods], position="RightBottom")
+#    legend.Draw()
     setLineColor(*hist_effs)
     CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/HH_MVA_BrejvsSeff_"+config.name+".png")
