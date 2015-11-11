@@ -161,15 +161,16 @@ def examine(config):
 
     c = makeCanvas()
     hist_effs[0].Draw()
+    makeAxes(hist_eff[0],xlabel="signal efficiency",ylabel="background rejection")
     hist_effs[0].SetLineWidth(2)
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
             hist.SetLineWidth(2)
-    setLineColor(*hist_effs)
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=[method[1] for method in methods], position="RightBottom")
     legend.Draw()
+    setLineColor(*hist_effs)
     CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/HH_MVA_BrejvsSeff_"+config.name+".png")
     c.Close()
