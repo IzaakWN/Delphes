@@ -8,6 +8,7 @@ x1 = 0
 x2 = 0
 y2 = 0
 height = [0.07,0.19,0.20]
+colors = [kRed+3,kAzure+4,kOrange-6,kMagenta+3,kGreen+3,kYellow+2,kRed-7]
 
 
 def makeCanvas(square=False):
@@ -392,7 +393,6 @@ def setFillStyle(hist):
 
 def setLineStyle(*hists):
 
-    colors = [kRed+3,kAzure+4,kOrange-6,kMagenta+3]
     line = [1,2,3,4]
     for i in range(len(hists)):
         hists[i].SetLineColor(colors[i%4])

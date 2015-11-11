@@ -119,14 +119,15 @@ def examine(config):
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-    for method in [ "BDT", "BDTTuned" ]:
+    hist_effs = [ ]
+    for Method, method in [ ("BDT","BDT"), ("BDT","BDTTuned") ]:
         reader.BookMVA(method,"weights/TMVAClassification_"+method+".weights.xml")
 
         # fill histograms for signal and background from the test sample tree
         c = makeCanvas()
         histS = TH1F("histS", "", 44, -1.1, 1.1)
         histB = TH1F("histB", "", 44, -1.1, 1.1)
-#        hist_eff = gDirectory.Get(method)
+        hist_effs.append(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS"))
         TestTree.Draw(method+">>histS","classID == 0","goff") # causes problem when training not run
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 #        entries = mychain.GetEntriesFast()
@@ -155,6 +156,18 @@ def examine(config):
         c.Close()
         gDirectory.Delete("histS")
         gDirectory.Delete("histB")
+
+
+    c = makeCanvas()
+    for hist in hist_effs:
+        hist.Draw("same")
+        hist.SetLineWidth(2)
+    legend = makeLegend(hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
+                                  entries=[method[1] for method in methods])
+    legend.Draw()
+    CMS_lumi.CMS_lumi(c,14,33)
+    c.SaveAs("MVA/HH_MVA_BrejvsSeff_"+config.name+".png")
+    c.Close()
 
 
 
