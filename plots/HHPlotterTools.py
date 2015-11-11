@@ -217,6 +217,7 @@ def makeLegend(*hists, **kwargs):
     title = kwargs.get('title', None)
     entries = kwargs.get('entries', None)
     position = kwargs.get('position', "")
+    global x1, x2, y2
     
     if position:
         if position=="RightBottom":
