@@ -215,9 +215,20 @@ def makeLegend(*hists, **kwargs):
     tt = kwargs.get('tt', False) # last hist should be tt-hist!
     title = kwargs.get('title', None)
     entries = kwargs.get('entries', None)
+    position = kwargs.get('position', "")
+    global x1, x2, y2
+    
+    if position:
+        if position=="RightBottom":
+            x1 = 1-x2
+            x2 = x1 + width
+            y2 = 1-y2+height[len(hists)-1]
+        elif position=="RightTop":
+            x1 = 1-x2
+            x2 = x1 + width
     
     y1 = y2 - height[len(hists)-1]
-    legend = TLegend(x1,y1,x2,y2)
+        legend = TLegend(x1,y1,x2,y2)
     #legend.SetFillStyle(0) # 0 = transparant
     legend.SetFillColor(kWhite)
     legend.SetBorderSize(0)
