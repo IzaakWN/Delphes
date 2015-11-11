@@ -161,7 +161,7 @@ def examine(config):
 
     c = makeCanvas()
     hist_effs[0].Draw()
-    makeAxes(hist_eff[0],xlabel="signal efficiency",ylabel="background rejection")
+    makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     hist_effs[0].SetLineWidth(2)
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
