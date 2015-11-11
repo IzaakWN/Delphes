@@ -6,7 +6,7 @@ from ROOT import TFile, gDirectory, TChain, TMVA, TCut, TCanvas, THStack, TH1F
 from array import array
 import CMS_lumi, tdrstyle
 from HHPlotterTools import *
-ROOT.gROOT.SetBatch(ROOT.kFALSE)
+ROOT.gROOT.SetBatch(ROOT.kTRUE)
 
 # W
 
@@ -49,7 +49,7 @@ class configuration(object):
 
 
 def train(config):
-    print ">>> train with configuration "+config.name
+    print "\n>>> train with configuration "+config.name
 
     TMVA.Tools.Instance()
     f_out = TFile("HH_MVA_"+config.name+".root","RECREATE")
@@ -108,7 +108,7 @@ def train(config):
 
 
 def examine(config):
-    print ">>> examine training with configuration "+config.name
+    print "\n>>> examine training with configuration "+config.name
 
     reader = TMVA.Reader()
     f = TFile("HH_MVA_"+config.name+".root")
@@ -120,7 +120,7 @@ def examine(config):
         reader.AddVariable(name,vars[-1])
 
     for method in [ "BDT", "DBTTuned" ]:
-        reader.BookMVA("BDT","weights/TMVAClassification_"+method+".weights.xml")
+        reader.BookMVA(method,"weights/TMVAClassification_"+method+".weights.xml")
 
         # fill histograms for signal and background from the test sample tree
         c = makeCanvas()
