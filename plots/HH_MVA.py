@@ -120,7 +120,8 @@ def examine(config):
         reader.AddVariable(name,vars[-1])
 
     hist_effs = [ ]
-    for Method, method in [ ("BDT","BDT"), ("BDT","BDTTuned") ]:
+    methods = [ ("BDT","BDT"), ("BDT","BDTTuned") ]
+    for Method, method in methods:
         reader.BookMVA(method,"weights/TMVAClassification_"+method+".weights.xml")
 
         # fill histograms for signal and background from the test sample tree
