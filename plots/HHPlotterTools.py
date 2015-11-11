@@ -15,7 +15,7 @@ colors = [kRed+3,kAzure+4,kOrange-6,kMagenta+3,kGreen+3,kYellow+2,kRed-7]
 def makeCanvas(square=False):
     
     # dimensions for the canvas
-    global x1, x2, y1, y2
+    global x1, x2, y1, y2, width
     if square:
         W = 800 # canvas size in pixels along X
         H  = 800 # canvas size in pixels along Y
