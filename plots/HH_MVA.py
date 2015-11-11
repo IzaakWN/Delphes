@@ -125,6 +125,12 @@ def examine(config):
         hBg = TH1F("hBg", "", 44, -1.1, 1.1)
         TestTree.Draw("BDT>>hSig","classID == 0","goff") # causes problem when training not run
         TestTree.Draw("BDT>>hBg","classID == 1", "goff")
+#        entries = mychain.GetEntriesFast()
+#        for jentry in xrange( entries ):
+#            if TestTree.classID == 0:
+#                hSig.Fill(TestTree.BDT)
+#            elif TestTree.classID == 1:
+#                hBg.Fill(TestTree.BDT)
 
         norm(hSig,hBg)
         hSig.SetLineColor(ROOT.kRed)
@@ -156,13 +162,13 @@ def main():
 
     configs = [ configuration(), configuration("topology"), configuration("best") ]
 
-    congigs[0].name = "everything"
+    configs[0].name = "everything"
     configs[0].varNames = varNames[:]
 
-    congigs[1].name = "topology"
+    configs[1].name = "topology"
     configs[1].varNames = varNames[:6]
 
-    congigs[2].name = "best"
+    configs[2].name = "best"
     configs[2].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l"]
     
     if opts.test:
