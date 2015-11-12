@@ -81,7 +81,7 @@ def train(config):
                                                    "NormMode=NumEvents" ]) )
 
     # LD: Linear Classifier
-    factory.BookMethod( TMVA.Types.kLD, "LD", "H:!V" )
+    factory.BookMethod(TMVA.Types.kLD, "LD", "H:!V")
 
     # BDT: Boosted Decision Tree
     factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
@@ -113,8 +113,9 @@ def train(config):
     factory.TestAllMethods()
     factory.EvaluateAllMethods()
     f_out.Close()
-    os.rename("weights/TMVAClassification_"+method+".weights.xml",
-              "weights/TMVAClassification_"+method+"_"+config.name+".weights.xml")
+    for method in methods:
+        os.rename("weights/TMVAClassification_"+method[1]+".weights.xml",
+                  "weights/TMVAClassification_"+method[1]+"_"+config.name+".weights.xml")
 
 
 
