@@ -274,6 +274,7 @@ def makeLabels2D(hist, xaxis=False, yaxis=False):
             label = label.replace("Delta","#Delta")
             label = label.replace("Phi","#phi")
             label = label.replace("Eta","#eta")
+            label = label.replace("_closest","1")
             if "_" in label:
                 label = label[:label.index("_")+1]+"{"+label[label.index("_")+1:]+"}"
             Xaxis.SetBinLabel(i,label)
