@@ -136,8 +136,12 @@ def plot(config):
         reader.BookMVA(method,"weights/TMVAClassification_"+method+"_"+config.name+".weights.xml")
 
         c = makeCanvas()
-        histS = TH1F("histS", "", 48, -1.2, 1.2)
-        histB = TH1F("histB", "", 48, -1.2, 1.2)
+        if Method == "MLP":
+            histS = TH1F("histS", "", 26, -0.2, 1.2)
+            histB = TH1F("histB", "", 26, -0.2, 1.2)
+        else:
+            histS = TH1F("histS", "", 48, -1.2, 1.2)
+            histB = TH1F("histB", "", 48, -1.2, 1.2)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff") # causes problem when training not run
         TestTree.Draw(method+">>histB","classID == 1", "goff")
