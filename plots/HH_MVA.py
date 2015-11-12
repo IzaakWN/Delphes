@@ -36,7 +36,7 @@ f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH
 f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
 treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
 treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
-methods = [ ("LD","LD"), ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLP"), ("MLP","MLPTuned") ]
+methods = [ ("LD","LD"), ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned") ] #, ("MLP","MLP")
 
 
 
@@ -97,8 +97,8 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=20" ]) )
 
-    # MLP: Neutal Network
-    factory.BookMethod( TMVA.Types.kMLP, "MLP", "H:!V:" )
+#    # MLP: Neutal Network
+#    factory.BookMethod( TMVA.Types.kMLP, "MLP", "H:!V:" )
 
     # MLPTuned
     factory.BookMethod( TMVA.Types.kMLP, "MLPTuned",
@@ -116,6 +116,8 @@ def train(config):
     for method in methods:
         os.rename("weights/TMVAClassification_"+method[1]+".weights.xml",
                   "weights/TMVAClassification_"+method[1]+"_"+config.name+".weights.xml")
+#        os.rename("weights/TMVAClassification_"+method[1]+".weights.class.C",
+#                  "weights/TMVAClassification_"+method[1]+"_"+config.name+".weights.class.C")
 
 
 
@@ -218,8 +220,8 @@ def correlation(config):
     histS = f.Get("CorrelationMatrixS")
     histS.Draw("colz")
     makeLabels2D(histS,xaxis=True,yaxis=True)
-    histS.SetLabelSize(0.08,"x")
-    histS.SetLabelSize(0.08,"y")
+    histS.SetLabelSize(0.072,"x")
+    histS.SetLabelSize(0.072,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixS.png")
     c.Close()
@@ -228,8 +230,8 @@ def correlation(config):
     histB = f.Get("CorrelationMatrixB")
     histB.Draw("colz")
     makeLabels2D(histB,xaxis=True,yaxis=True)
-    histB.SetLabelSize(0.08,"x")
-    histB.SetLabelSize(0.08,"y")
+    histB.SetLabelSize(0.72,"x")
+    histB.SetLabelSize(0.72,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixB.png")
     c.Close()
