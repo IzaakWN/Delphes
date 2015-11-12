@@ -168,6 +168,7 @@ def plot(config):
 
 # HISTOGRAMS: compare all methods and variable configurations
 def compare(configs):
+    print "\n>>> compare all methods with all variable configurations"
     
     hist_effs = [ ]
     for config in configs:
@@ -200,6 +201,7 @@ def compare(configs):
 
 # 2D COLOR HISTOGRAM: Correlation matrices
 def correlation(config):
+    print "\n>>> make correlation matrix plots"
 
     reader = TMVA.Reader()
     f = TFile("HH_MVA_"+config.name+".root")
@@ -260,5 +262,85 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+#
+#--- Factory                  : Ranking input variables (method specific)...
+#--- LD                       : Ranking result (top variable is best ranked)
+#--- LD                       : ---------------------------------------
+#--- LD                       : Rank : Variable     : Discr. power
+#--- LD                       : ---------------------------------------
+#--- LD                       :    1 : DeltaR_j1l   : 1.805e-01
+#--- LD                       :    2 : DeltaR_b1l   : 1.188e-01
+#--- LD                       :    3 : DeltaR_bb1   : 1.044e-01
+#--- LD                       :    4 : DeltaR_j2l   : 1.375e-02
+#--- LD                       :    5 : bjet1Pt      : 1.611e-03
+#--- LD                       :    6 : DeltaR_b2l   : 6.553e-04
+#--- LD                       :    7 : jet2Pt       : 6.379e-04
+#--- LD                       :    8 : bjet2Pt      : 6.369e-04
+#--- LD                       :    9 : M_bb_closest : 5.200e-04
+#--- LD                       :   10 : jet1Pt       : 2.463e-04
+#--- LD                       : ---------------------------------------
+#--- BDT                      : Ranking result (top variable is best ranked)
+#--- BDT                      : ----------------------------------------------
+#--- BDT                      : Rank : Variable     : Variable Importance
+#--- BDT                      : ----------------------------------------------
+#--- BDT                      :    1 : DeltaR_b1l   : 1.536e-01
+#--- BDT                      :    2 : DeltaR_j1l   : 1.407e-01
+#--- BDT                      :    3 : DeltaR_j2l   : 1.183e-01
+#--- BDT                      :    4 : jet1Pt       : 1.051e-01
+#--- BDT                      :    5 : M_bb_closest : 1.014e-01
+#--- BDT                      :    6 : DeltaR_bb1   : 9.944e-02
+#--- BDT                      :    7 : DeltaR_b2l   : 8.322e-02
+#--- BDT                      :    8 : bjet2Pt      : 6.784e-02
+#--- BDT                      :    9 : bjet1Pt      : 6.658e-02
+#--- BDT                      :   10 : jet2Pt       : 6.382e-02
+#--- BDT                      : ----------------------------------------------
+#--- BDTTuned                 : Ranking result (top variable is best ranked)
+#--- BDTTuned                 : ----------------------------------------------
+#--- BDTTuned                 : Rank : Variable     : Variable Importance
+#--- BDTTuned                 : ----------------------------------------------
+#--- BDTTuned                 :    1 : DeltaR_j2l   : 1.144e-01
+#--- BDTTuned                 :    2 : DeltaR_j1l   : 1.143e-01
+#--- BDTTuned                 :    3 : DeltaR_b1l   : 1.091e-01
+#--- BDTTuned                 :    4 : DeltaR_bb1   : 1.050e-01
+#--- BDTTuned                 :    5 : M_bb_closest : 1.010e-01
+#--- BDTTuned                 :    6 : bjet2Pt      : 9.433e-02
+#--- BDTTuned                 :    7 : DeltaR_b2l   : 9.308e-02
+#--- BDTTuned                 :    8 : jet2Pt       : 9.258e-02
+#--- BDTTuned                 :    9 : bjet1Pt      : 8.958e-02
+#--- BDTTuned                 :   10 : jet1Pt       : 8.670e-02
+#--- BDTTuned                 : ----------------------------------------------
+#--- MLP                      : Ranking result (top variable is best ranked)
+#--- MLP                      : -------------------------------------
+#--- MLP                      : Rank : Variable     : Importance
+#--- MLP                      : -------------------------------------
+#--- MLP                      :    1 : DeltaR_j1l   : -nan
+#--- MLP                      :    2 : DeltaR_j2l   : -nan
+#--- MLP                      :    3 : DeltaR_b1l   : -nan
+#--- MLP                      :    4 : DeltaR_b2l   : -nan
+#--- MLP                      :    5 : DeltaR_bb1   : -nan
+#--- MLP                      :    6 : M_bb_closest : -nan
+#--- MLP                      :    7 : jet1Pt       : -nan
+#--- MLP                      :    8 : jet2Pt       : -nan
+#--- MLP                      :    9 : bjet1Pt      : -nan
+#--- MLP                      :   10 : bjet2Pt      : -nan
+#--- MLP                      : -------------------------------------
+#--- MLPTuned                 : Ranking result (top variable is best ranked)
+#--- MLPTuned                 : -------------------------------------
+#--- MLPTuned                 : Rank : Variable     : Importance
+#--- MLPTuned                 : -------------------------------------
+#--- MLPTuned                 :    1 : DeltaR_b2l   : 5.444e+01
+#--- MLPTuned                 :    2 : M_bb_closest : 3.649e+01
+#--- MLPTuned                 :    3 : bjet1Pt      : 2.796e+01
+#--- MLPTuned                 :    4 : bjet2Pt      : 2.388e+01
+#--- MLPTuned                 :    5 : jet1Pt       : 2.355e+01
+#--- MLPTuned                 :    6 : jet2Pt       : 1.579e+01
+#--- MLPTuned                 :    7 : DeltaR_j1l   : 1.142e+01
+#--- MLPTuned                 :    8 : DeltaR_bb1   : 8.354e+00
+#--- MLPTuned                 :    9 : DeltaR_b1l   : 1.892e+00
+#--- MLPTuned                 :   10 : DeltaR_j2l   : 1.080e+00
+#--- MLPTuned                 : -------------------------------------
+#
 
 
