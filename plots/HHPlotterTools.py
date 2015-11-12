@@ -8,7 +8,7 @@ x1 = 0
 x2 = 0
 y2 = 0
 width = 0
-height = [0.07,0.19,0.20] + [0.21+0.01*i for i in range(20)]
+height = [0.07,0.19,0.20] + [0.21+0.02*i for i in range(20)]
 colors = [kRed+3,kAzure+4,kOrange-6,kMagenta+3,kGreen+3,kYellow+2,kRed-7]
 
 
@@ -271,9 +271,12 @@ def makeLabels2D(hist, xaxis=False, yaxis=False):
         Xaxis = hist.GetXaxis()
         for i in range(1,Xaxis.GetNbins()+1):
             label = Xaxis.GetBinLabel(i)
+            label = label.replace("Pt"," p_{T}")
             label = label.replace("Delta","#Delta")
             label = label.replace("Phi","#phi")
             label = label.replace("Eta","#eta")
+            label = label.replace("j1","j_{1}")
+            label = label.replace("b1","b_{1}")
             label = label.replace("_closest","1")
             if "_" in label:
                 label = label[:label.index("_")+1]+"{"+label[label.index("_")+1:]+"}"
@@ -283,9 +286,13 @@ def makeLabels2D(hist, xaxis=False, yaxis=False):
         Yaxis = hist.GetYaxis()
         for i in range(1,Yaxis.GetNbins()+1):
             label = Yaxis.GetBinLabel(i)
+            label = label.replace("Pt"," p_{T}")
             label = label.replace("Delta","#Delta")
             label = label.replace("Phi","#phi")
             label = label.replace("Eta","#eta")
+            label = label.replace("j1","j_{1}")
+            label = label.replace("b1","b_{1}")
+            label = label.replace("_closest","1")
             if "_" in label:
                 label = label[:label.index("_")+1]+"{"+label[label.index("_")+1:]+"}"
             Yaxis.SetBinLabel(i,label)

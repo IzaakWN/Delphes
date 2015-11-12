@@ -1,5 +1,6 @@
 from optparse import OptionParser
 import sys
+import os
 import ConfigParser
 import ROOT
 from ROOT import TFile, gDirectory, TChain, TMVA, TCut, TCanvas, THStack, TH1F
@@ -83,18 +84,18 @@ def train(config):
     factory.BookMethod( TMVA.Types.kLD, "LD", "H:!V" )
 
     # BDT: Boosted Decision Tree
-    method = factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
+    factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
 
     # BDTTuned
-    method = factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
-                                ":".join([ "!H","!V",
-                                           "NTrees=2000", # ~ number of boost steps, too large mainly costs time
-                                           "nEventsMin=200",
-                                           "MaxDepth=5", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
-                                           "BoostType=AdaBoost",
-                                           "AdaBoostBeta=0.5", # ~ 0.01-0.5
-                                           "SeparationType=GiniIndex",
-                                           "nCuts=20" ]) )
+    factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
+                       ":".join([ "!H","!V",
+                                  "NTrees=2000", # ~ number of boost steps, too large mainly costs time
+                                  "nEventsMin=200",
+                                  "MaxDepth=5", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.5", # ~ 0.01-0.5
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=20" ]) )
 
     # MLP: Neutal Network
     factory.BookMethod( TMVA.Types.kMLP, "MLP", "H:!V:" )
@@ -112,6 +113,8 @@ def train(config):
     factory.TestAllMethods()
     factory.EvaluateAllMethods()
     f_out.Close()
+    os.rename("weights/TMVAClassification_"+method+".weights.xml",
+              "weights/TMVAClassification_"+method+"_"+config.name+".weights.xml")
 
 
 
@@ -129,7 +132,7 @@ def plot(config):
 
     # HISTOGRAMS: TMVA output
     for Method, method in methods:
-        reader.BookMVA(method,"weights/TMVAClassification_"+method+".weights.xml")
+        reader.BookMVA(method,"weights/TMVAClassification_"+method+"_"+config.name+".weights.xml")
 
         c = makeCanvas()
         histS = TH1F("histS", "", 44, -1.1, 1.1)
@@ -145,17 +148,16 @@ def plot(config):
 #            elif TestTree.classID == 1:
 #                histB.Fill(TestTree.BDT)
 
-        norm(histS,histB)
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
         histB.SetLineColor(ROOT.kBlue)
         histB.SetLineWidth(2)
         histB.SetStats(0)
-        histB.GetXaxis().SetTitle(method+" output")
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
-        legend = makeLegend(histS,histB,title=method+" seperation",entries=["signal","background"])
+        makeAxes(histS,histB,xlabel=method+" response",ylabel="")
+        legend = makeLegend(histS,histB,title=method+" response",entries=["signal","background"])
         legend.Draw()
 
         CMS_lumi.CMS_lumi(c,14,33)
@@ -207,22 +209,22 @@ def correlation(config):
     f = TFile("HH_MVA_"+config.name+".root")
     TestTree = gDirectory.Get("TestTree")
 
-    c = makeCanvas(square=True, scaleleftmargin=1.7, scalerightmargin=3)
+    c = makeCanvas(square=True, scaleleftmargin=1.6, scalerightmargin=3)
     histS = f.Get("CorrelationMatrixS")
     histS.Draw("colz")
     makeLabels2D(histS,xaxis=True,yaxis=True)
-    histS.SetLabelSize(0.085,"x")
-    histS.SetLabelSize(0.085,"y")
+    histS.SetLabelSize(0.08,"x")
+    histS.SetLabelSize(0.08,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixS.png")
     c.Close()
 
-    c = makeCanvas(square=True, scaleleftmargin=1.7, scalerightmargin=3)
+    c = makeCanvas(square=True, scaleleftmargin=1.6, scalerightmargin=3)
     histB = f.Get("CorrelationMatrixB")
     histB.Draw("colz")
     makeLabels2D(histB,xaxis=True,yaxis=True)
-    histB.SetLabelSize(0.085,"x")
-    histB.SetLabelSize(0.085,"y")
+    histB.SetLabelSize(0.08,"x")
+    histB.SetLabelSize(0.08,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixB.png")
     c.Close()
