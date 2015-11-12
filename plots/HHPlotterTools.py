@@ -269,7 +269,7 @@ def makeLabels2D(hist, xaxis=False, yaxis=False):
 
     if xaxis:
         Xaxis = hist.GetXaxis()
-        for i in range(1,Xaxis.GetNbins())
+        for i in range(1,Xaxis.GetNbins()):
             label = Xaxis.GetBinLabel(i)
             label = label.replace("Delta","#Delta")
             label = label.replace("Phi","#phi")
@@ -280,7 +280,7 @@ def makeLabels2D(hist, xaxis=False, yaxis=False):
 
     if yaxis:
         Yaxis = hist.GetXaxis()
-        for i in range(1,Yaxis.GetNbins())
+        for i in range(1,Yaxis.GetNbins()):
             label = Yaxis.GetBinLabel(i)
             label = label.replace("Delta","#Delta")
             label = label.replace("Phi","#phi")
