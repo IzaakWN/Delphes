@@ -134,7 +134,7 @@ def plot(config):
         c = makeCanvas()
         histS = TH1F("histS", "", 44, -1.1, 1.1)
         histB = TH1F("histB", "", 44, -1.1, 1.1)
-        config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")))
+        config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff") # causes problem when training not run
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 #        entries = mychain.GetEntriesFast()
@@ -206,7 +206,7 @@ def correlation(config):
     TestTree = gDirectory.Get("TestTree")
 
     c = makeCanvas(square=True)
-    histS = f.Get("CorrelationMatrixS.png")
+    histS = f.Get("CorrelationMatrixS")
     histS.Draw("colz")
     makeAxes2D(histS)
     CMS_lumi.CMS_lumi(c,14,33)
@@ -214,7 +214,7 @@ def correlation(config):
     c.Close()
 
     c = makeCanvas(square=True)
-    histB = f.Get("CorrelationMatrixB.png")
+    histB = f.Get("CorrelationMatrixB")
     histB.Draw("colz")
     makeAxes2D(histB)
     CMS_lumi.CMS_lumi(c,14,33)
