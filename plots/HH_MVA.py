@@ -34,7 +34,7 @@ f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH
 f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
 treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
 treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
-methods = [ ]
+methods = [ ("BDT","BDT"), ("BDT","BDTTuned") ]
 
 
 
@@ -78,31 +78,34 @@ def train(config):
                                                    "NormMode=NumEvents",
                                                    "!V" ]) )
 
-    method = factory.BookMethod(TMVA.Types.kBDT, "BDT",
-                                ":".join([ "!H",    # help text, too large mainly costs time
-                                           "!V",
-                                           "NTrees=1000", # ~ number of boost steps
-                                           "nEventsMin=150",
-                                           "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
+    # LD: Linear Classifier
+    factory->BookMethod( TMVA::Types::kLD, "LD", "H:!V" )
+
+    # BDT: Boosted Decision Tree
+    method = factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
+
+    # BDTTuned
+    method = factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
+                                ":".join([ "!H","!V",
+                                           "NTrees=2000", # ~ number of boost steps, too large mainly costs time
+                                           "nEventsMin=200",
+                                           "MaxDepth=5", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
                                            "BoostType=AdaBoost",
                                            "AdaBoostBeta=0.5", # ~ 0.01-0.5
                                            "SeparationType=GiniIndex",
-                                           "nCuts=20",
-                                           "PruneMethod=NoPruning" ]) )
-
-    method = factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
-                                ":".join([ "!H",
-                                           "!V",
-                                           "NTrees=2000",
-                                           "nEventsMin=200",
-                                           "MaxDepth=5",
-                                           "BoostType=AdaBoost",
-                                           "AdaBoostBeta=0.5",
-                                           "SeparationType=GiniIndex",
                                            "nCuts=20" ]) )
-    
-    global methods
-    methods = [ ("BDT","BDT"), ("BDT","BDTTuned") ]
+
+    # MLP: Neutal Network
+    factory->BookMethod( TMVA::Types::kMLP, "MLP", "H:!V:" )
+
+    # MLPTuned
+#    factory->BookMethod( TMVA::Types::kMLP, "MLPTuned",
+#                                ":".join([ "!H","!V",
+#                                           "NeuronType=tanh",
+#                                           "VarTransform=N",
+#                                           "HiddenLayers=N+10",
+#                                           "UseRegulator" ]) )
+
  
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -165,11 +168,11 @@ def plot(config):
 # HISTOGRAMS: compare all methods and variable configurations
 def compare(configs):
     
-    hists_effs = [ ]
+    hist_effs = [ ]
     for config in configs:
         hist_effs.extend(config.hist_effs)
     
-    if not hists_effs:
+    if not hist_effs:
         return
     
     c = makeCanvas()
