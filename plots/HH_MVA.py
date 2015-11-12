@@ -155,7 +155,7 @@ def plot(config):
         legend.Draw()
 
         CMS_lumi.CMS_lumi(c,14,33)
-        c.SaveAs("MVA/HH_MVA_"+method+"_"+config.name+".png")
+        c.SaveAs("MVA/"+method+"_"+config.name+".png")
         c.Close()
         gDirectory.Delete("histS")
         gDirectory.Delete("histB")
@@ -183,13 +183,13 @@ def compare(configs):
             hist.SetLineWidth(2)
     labels = [ ]
     for config in configs:
-        labels.extend([config.name", "+method[1] for method in methods])
+        labels.extend([config.name+", "+method[1] for method in methods])
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=labels, position="RightTop")
     legend.Draw()
     setLineColor(*hist_effs)
     CMS_lumi.CMS_lumi(c,14,33)
-    c.SaveAs("MVA/HH_MVA_BrejvsSeffs_"+config.name+".png")
+    c.SaveAs("MVA/BrejvsSeffs_"+config.name+".png")
     c.Close()
 
 
