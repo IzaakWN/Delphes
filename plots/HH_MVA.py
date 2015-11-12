@@ -79,7 +79,7 @@ def train(config):
                                                    "!V" ]) )
 
     # LD: Linear Classifier
-    factory.BookMethod( TMVA::Types::kLD, "LD", "H:!V" )
+    factory.BookMethod( TMVA.Types.kLD, "LD", "H:!V" )
 
     # BDT: Boosted Decision Tree
     method = factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
@@ -96,15 +96,16 @@ def train(config):
                                            "nCuts=20" ]) )
 
     # MLP: Neutal Network
-    factory.BookMethod( TMVA::Types::kMLP, "MLP", "H:!V:" )
+    factory.BookMethod( TMVA.Types.kMLP, "MLP", "H:!V:" )
 
     # MLPTuned
-#    factory.BookMethod( TMVA::Types::kMLP, "MLPTuned",
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPTuned",
 #                        ":".join([ "!H","!V",
 #                                   "NeuronType=tanh",
 #                                   "VarTransform=N",
 #                                   "HiddenLayers=N+10",
-#                                   "UseRegulator" ]) )
+#
+"UseRegulator" ]) )
 
  
     factory.TrainAllMethods()
