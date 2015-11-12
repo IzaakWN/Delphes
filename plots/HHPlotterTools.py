@@ -29,8 +29,8 @@ def makeCanvas(square=False, scaleleftmargin=1, scalerightmargin=1):
     x1 = x2 - width
     T = 0.08*H
     B = 0.12*H
-    L = 0.12*W*leftmargin
-    R = 0.04*W*rightmargin
+    L = 0.12*W*scaleleftmargin
+    R = 0.04*W*scalerightmargin
 
     c1 = TCanvas("c","c",100,100,W,H)
     c1.SetFillColor(0)
