@@ -72,11 +72,11 @@ def train(config):
     cut_S = TCut("")
     cut_B = TCut("")
     factory.PrepareTrainingAndTestTree( cut_S, cut_B,
-                                        ":".join([ "nTrain_Signal=0",
+                                        ":".join([ "!V",
+                                                   "nTrain_Signal=0",
                                                    "nTrain_Background=0",
                                                    "SplitMode=Random",
-                                                   "NormMode=NumEvents",
-                                                   "!V" ]) )
+                                                   "NormMode=NumEvents" ]) )
 
     # LD: Linear Classifier
     factory.BookMethod( TMVA.Types.kLD, "LD", "H:!V" )
@@ -104,8 +104,7 @@ def train(config):
 #                                   "NeuronType=tanh",
 #                                   "VarTransform=N",
 #                                   "HiddenLayers=N+10",
-#
-"UseRegulator" ]) )
+#                                   "UseRegulator" ]) )
 
  
     factory.TrainAllMethods()
