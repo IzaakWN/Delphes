@@ -12,7 +12,7 @@ height = [0.07,0.19,0.20]
 colors = [kRed+3,kAzure+4,kOrange-6,kMagenta+3,kGreen+3,kYellow+2,kRed-7]
 
 
-def makeCanvas(square=False,scale=1):
+def makeCanvas(square=False, scaleleftmargin=1, scalerightmargin=1):
     
     # dimensions for the canvas
     global x1, x2, y1, y2, width
@@ -29,8 +29,8 @@ def makeCanvas(square=False,scale=1):
     x1 = x2 - width
     T = 0.08*H
     B = 0.12*H
-    L = 0.12*W
-    R = 0.04*W
+    L = 0.12*W*leftmargin
+    R = 0.04*W*rightmargin
 
     c1 = TCanvas("c","c",100,100,W,H)
     c1.SetFillColor(0)
