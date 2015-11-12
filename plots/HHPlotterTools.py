@@ -269,18 +269,18 @@ def makeLabels2D(hist, xaxis=False, yaxis=False):
 
     if xaxis:
         Xaxis = hist.GetXaxis()
-        for i in range(1,Xaxis.GetNbins()):
+        for i in range(1,Xaxis.GetNbins()+1):
             label = Xaxis.GetBinLabel(i)
             label = label.replace("Delta","#Delta")
             label = label.replace("Phi","#phi")
             label = label.replace("Eta","#eta")
             if "_" in label:
-                label = label[:label.index("_")+1]+"{"+label[label.index("_"):]+"}"
+                label = label[:label.index("_")+1]+"{"+label[label.index("_")+1:]+"}"
             Xaxis.SetBinLabel(i,label)
 
     if yaxis:
-        Yaxis = hist.GetXaxis()
-        for i in range(1,Yaxis.GetNbins()):
+        Yaxis = hist.GetYaxis()
+        for i in range(1,Yaxis.GetNbins()+1):
             label = Yaxis.GetBinLabel(i)
             label = label.replace("Delta","#Delta")
             label = label.replace("Phi","#phi")
