@@ -4,6 +4,7 @@ import ConfigParser
 import ROOT
 from ROOT import TFile, gDirectory, TChain, TMVA, TCut, TCanvas, THStack, TH1F
 from array import array
+from copy import deepcopy
 import CMS_lumi, tdrstyle
 from HHPlotterTools import *
 ROOT.gROOT.SetBatch(ROOT.kTRUE)
@@ -103,8 +104,8 @@ def train(config):
 #                        ":".join([ "!H","!V",
 #                                   "NeuronType=tanh",
 #                                   "VarTransform=N",
-#                                   "HiddenLayers=N+10",
-#                                   "UseRegulator" ]) )
+#                                   "HiddenLayers=N+10", # number of nodes in NN layers
+#                                   "UseRegulator" ]) ) # L2 norm regulator to avoid overtraining
 
  
     factory.TrainAllMethods()
@@ -133,7 +134,7 @@ def plot(config):
         c = makeCanvas()
         histS = TH1F("histS", "", 44, -1.1, 1.1)
         histB = TH1F("histB", "", 44, -1.1, 1.1)
-        config.hist_effs.append(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS"))
+        config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")))
         TestTree.Draw(method+">>histS","classID == 0","goff") # causes problem when training not run
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 #        entries = mychain.GetEntriesFast()
