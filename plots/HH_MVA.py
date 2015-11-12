@@ -36,7 +36,7 @@ f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH
 f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
 treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
 treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
-methods = [ ("LD","LD"), ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned") ] #, ("MLP","MLP")
+methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned") ] #("LD","LD"), , ("MLP","MLP")
 
 
 
