@@ -12,17 +12,17 @@ height = [0.07,0.19,0.20]
 colors = [kRed+3,kAzure+4,kOrange-6,kMagenta+3,kGreen+3,kYellow+2,kRed-7]
 
 
-def makeCanvas(square=False):
+def makeCanvas(square=False,scale=1):
     
     # dimensions for the canvas
     global x1, x2, y1, y2, width
     if square:
-        W = 800 # canvas size in pixels along X
-        H  = 800 # canvas size in pixels along Y
+        W = 800*scale # canvas size in pixels along X
+        H  = 800*scale # canvas size in pixels along Y
         width = 0.30
     else:
-        W = 800 # canvas size in pixels along X
-        H  = 600 # canvas size in pixels along Y
+        W = 800*scale # canvas size in pixels along X
+        H  = 600*scale # canvas size in pixels along Y
         width = 0.24 # 0.195
     x2 = 0.95
     y2 = 0.76  # y1 determined in makeLegend()
