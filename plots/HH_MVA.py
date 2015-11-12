@@ -205,7 +205,7 @@ def correlation(config):
     f = TFile("HH_MVA_"+config.name+".root")
     TestTree = gDirectory.Get("TestTree")
 
-    c = makeCanvas(square=True, scaleleftmargin=1.93, scalerightmargin=3)
+    c = makeCanvas(square=True, scaleleftmargin=1.7, scalerightmargin=3)
     histS = f.Get("CorrelationMatrixS")
     histS.Draw("colz")
     makeLabels2D(histS,xaxis=True,yaxis=True)
@@ -213,7 +213,7 @@ def correlation(config):
     c.SaveAs("MVA/CorrelationMatrixS.png")
     c.Close()
 
-    c = makeCanvas(square=True, scaleleftmargin=1.93, scalerightmargin=3)
+    c = makeCanvas(square=True, scaleleftmargin=1.7, scalerightmargin=3)
     histB = f.Get("CorrelationMatrixB")
     histB.Draw("colz")
     makeLabels2D(histB,xaxis=True,yaxis=True)
