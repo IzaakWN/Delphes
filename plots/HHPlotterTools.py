@@ -265,6 +265,33 @@ def makeLegend(*hists, **kwargs):
 
 
 
+def makeLabels2D(hist, xaxis=False, yaxis=False):
+
+    if xaxis:
+        Xaxis = hist.GetXaxis()
+        for i in range(1,Xaxis.GetNbins())
+            label = Xaxis.GetBinLabel(i)
+            label = label.replace("Delta","#Delta")
+            label = label.replace("Phi","#phi")
+            label = label.replace("Eta","#eta")
+            if "_" in label:
+                label = label[:label.index["_"]+1]+"{"+label[label.index["_"]:]+"}"
+            Xxaxis.SetBinLabel(i,label)
+
+    if yaxis:
+        Yaxis = hist.GetXaxis()
+        for i in range(1,Yaxis.GetNbins())
+            label = Yaxis.GetBinLabel(i)
+            label = label.replace("Delta","#Delta")
+            label = label.replace("Phi","#phi")
+            label = label.replace("Eta","#eta")
+            if "_" in label:
+                label = label[:label.index["_"]+1]+"{"+label[label.index["_"]:]+"}"
+            Yaxis.SetBinLabel(i,label)
+
+
+
+
 def makeAxes2D(*hists, **kwargs):
 
     hist0 = hists[0]
