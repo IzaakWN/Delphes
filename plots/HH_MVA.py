@@ -116,8 +116,8 @@ def train(config):
     for method in methods:
         os.rename("weights/TMVAClassification_"+method[1]+".weights.xml",
                   "weights/TMVAClassification_"+method[1]+"_"+config.name+".weights.xml")
-#        os.rename("weights/TMVAClassification_"+method[1]+".weights.class.C",
-#                  "weights/TMVAClassification_"+method[1]+"_"+config.name+".weights.class.C")
+        os.rename("weights/TMVAClassification_"+method[1]+".weights.class.C",
+                  "weights/TMVAClassification_"+method[1]+"_"+config.name+".weights.class.C")
 
 
 
