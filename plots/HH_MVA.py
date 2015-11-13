@@ -220,8 +220,8 @@ def correlation(config):
     histS = f.Get("CorrelationMatrixS")
     histS.Draw("colz")
     makeLabels2D(histS,xaxis=True,yaxis=True)
-    histS.SetLabelSize(0.068,"x")
-    histS.SetLabelSize(0.068,"y")
+    histS.SetLabelSize(0.062,"x")
+    histS.SetLabelSize(0.062,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixS.png")
     c.Close()
@@ -230,8 +230,8 @@ def correlation(config):
     histB = f.Get("CorrelationMatrixB")
     histB.Draw("colz")
     makeLabels2D(histB,xaxis=True,yaxis=True)
-    histB.SetLabelSize(0.068,"x")
-    histB.SetLabelSize(0.068,"y")
+    histB.SetLabelSize(0.062,"x")
+    histB.SetLabelSize(0.062,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixB.png")
     c.Close()
@@ -273,23 +273,10 @@ if __name__ == '__main__':
     main()
 
 
-#
+
 #--- Factory                  : Ranking input variables (method specific)...
-#--- LD                       : Ranking result (top variable is best ranked)
-#--- LD                       : ---------------------------------------
-#--- LD                       : Rank : Variable     : Discr. power
-#--- LD                       : ---------------------------------------
-#--- LD                       :    1 : DeltaR_j1l   : 1.805e-01
-#--- LD                       :    2 : DeltaR_b1l   : 1.188e-01
-#--- LD                       :    3 : DeltaR_bb1   : 1.044e-01
-#--- LD                       :    4 : DeltaR_j2l   : 1.375e-02
-#--- LD                       :    5 : bjet1Pt      : 1.611e-03
-#--- LD                       :    6 : DeltaR_b2l   : 6.553e-04
-#--- LD                       :    7 : jet2Pt       : 6.379e-04
-#--- LD                       :    8 : bjet2Pt      : 6.369e-04
-#--- LD                       :    9 : M_bb_closest : 5.200e-04
-#--- LD                       :   10 : jet1Pt       : 2.463e-04
-#--- LD                       : ---------------------------------------
+
+#--- BDT                      : ----------------------------------------------
 #--- BDT                      : Ranking result (top variable is best ranked)
 #--- BDT                      : ----------------------------------------------
 #--- BDT                      : Rank : Variable     : Variable Importance
@@ -304,7 +291,8 @@ if __name__ == '__main__':
 #--- BDT                      :    8 : bjet2Pt      : 6.784e-02
 #--- BDT                      :    9 : bjet1Pt      : 6.658e-02
 #--- BDT                      :   10 : jet2Pt       : 6.382e-02
-#--- BDT                      : ----------------------------------------------
+
+#--- BDTTuned                 : ----------------------------------------------
 #--- BDTTuned                 : Ranking result (top variable is best ranked)
 #--- BDTTuned                 : ----------------------------------------------
 #--- BDTTuned                 : Rank : Variable     : Variable Importance
@@ -319,22 +307,8 @@ if __name__ == '__main__':
 #--- BDTTuned                 :    8 : jet2Pt       : 9.258e-02
 #--- BDTTuned                 :    9 : bjet1Pt      : 8.958e-02
 #--- BDTTuned                 :   10 : jet1Pt       : 8.670e-02
-#--- BDTTuned                 : ----------------------------------------------
-#--- MLP                      : Ranking result (top variable is best ranked)
-#--- MLP                      : -------------------------------------
-#--- MLP                      : Rank : Variable     : Importance
-#--- MLP                      : -------------------------------------
-#--- MLP                      :    1 : DeltaR_j1l   : -nan
-#--- MLP                      :    2 : DeltaR_j2l   : -nan
-#--- MLP                      :    3 : DeltaR_b1l   : -nan
-#--- MLP                      :    4 : DeltaR_b2l   : -nan
-#--- MLP                      :    5 : DeltaR_bb1   : -nan
-#--- MLP                      :    6 : M_bb_closest : -nan
-#--- MLP                      :    7 : jet1Pt       : -nan
-#--- MLP                      :    8 : jet2Pt       : -nan
-#--- MLP                      :    9 : bjet1Pt      : -nan
-#--- MLP                      :   10 : bjet2Pt      : -nan
-#--- MLP                      : -------------------------------------
+
+#--- MLPTuned                 : -------------------------------------
 #--- MLPTuned                 : Ranking result (top variable is best ranked)
 #--- MLPTuned                 : -------------------------------------
 #--- MLPTuned                 : Rank : Variable     : Importance
@@ -349,7 +323,5 @@ if __name__ == '__main__':
 #--- MLPTuned                 :    8 : DeltaR_bb1   : 8.354e+00
 #--- MLPTuned                 :    9 : DeltaR_b1l   : 1.892e+00
 #--- MLPTuned                 :   10 : DeltaR_j2l   : 1.080e+00
-#--- MLPTuned                 : -------------------------------------
-#
 
 

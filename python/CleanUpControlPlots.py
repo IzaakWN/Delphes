@@ -26,6 +26,7 @@ class CleanUpControlPlots(BaseControlPlots):
       self.addBranch("cleanup","jet2Pt")
       self.addBranch("cleanup","bjet1Pt")
       self.addBranch("cleanup","bjet2Pt")
+      self.addBranch("cleanup","DeltaPhi_METl")
       self.addBranch("cleanup","DeltaR_j1l")
       self.addBranch("cleanup","DeltaR_j2l")
       self.addBranch("cleanup","DeltaR_b1l")
@@ -75,6 +76,7 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add("DeltaPhi_bl","bjet-lepton combinations DeltaPhi",100,0,3.5)
       self.add("DeltaPhi_b1l","closest bjet-lepton DeltaPhi",100,0,3.5)
       self.add("DeltaPhi_b2l","2nd closest bjet-lepton DeltaPhi",100,0,3.5)
+      self.add("DeltaPhi_METl","MET-lepton DeltaPhi",100,0,3.5)
 
       self.add2D("DeltaEtaDeltaPhi_jj","jet-jet combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
       self.add2D("DeltaEtaDeltaPhi_jl","jet-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
@@ -129,20 +131,23 @@ class CleanUpControlPlots(BaseControlPlots):
         result["DeltaEtaDeltaPhi_bl"] = [ ]
         result["DeltaEtaDeltaPhi_jjbb"] = [ ]
 
-        jets = event.cleanedJets30[:8]
+        nonbjets = [ j for j in event.cleanedJets20 if not j.BTag ]
         bjets = event.bjets30
         
         # leading jets
-        if len(jets)>0:
-            result["cleanup"].append(jets[0].PT)
-            if len(jets)>1:
-                result["cleanup"].append(jets[1].PT)
+        if len(nonbjets)>0:
+            result["cleanup"].append(nonbjets[0].PT)
+            if len(nonbjets)>1:
+                result["cleanup"].append(nonbjets[1].PT)
         
         # leading bjets
         if len(bjets)>0:
             result["cleanup"].append(bjets[0].PT)
             if len(bjets)>1:
                 result["cleanup"].append(bjets[1].PT)
+
+        # MET - lepton
+        result["DeltaPhi_METl"] = abs(event.met[0].Phi-lepton.Phi)
         
         jets = [ j for j in jets if not j.BTag ]
         p_jets = [ ]
@@ -163,10 +168,9 @@ class CleanUpControlPlots(BaseControlPlots):
         if len(event.leadingLeptons):
             lepton = event.leadingLeptons[0]
             p_lepton.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
-
-
-
-
+        
+        
+        
         # jet - jet
         for jet in jets:
             p_jets.append(TLV())
