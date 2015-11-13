@@ -80,8 +80,8 @@ def train(config):
                                                    "SplitMode=Random",
                                                    "NormMode=NumEvents" ]) )
 
-    # LD: Linear Classifier
-    factory.BookMethod(TMVA.Types.kLD, "LD", "H:!V")
+#    # LD: Linear Classifier
+#    factory.BookMethod(TMVA.Types.kLD, "LD", "H:!V")
 
     # BDT: Boosted Decision Tree
     factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
