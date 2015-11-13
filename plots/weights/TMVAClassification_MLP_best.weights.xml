@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<MethodSetup Method="MLP::MLP">
+  <GeneralInfo>
+    <Info name="TMVA Release" value="4.1.2 [262402]"/>
+    <Info name="ROOT Release" value="5.32/00 [335872]"/>
+    <Info name="Creator" value="ineuteli"/>
+    <Info name="Date" value="Thu Nov 12 18:51:04 2015"/>
+    <Info name="Host" value="Linux cmsdev02.cern.ch 2.6.32-431.11.2.el6.x86_64 #1 SMP Wed Mar 26 09:39:43 CET 2014 x86_64 x86_64 x86_64 GNU/Linux"/>
+    <Info name="Dir" value="/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/plots"/>
+    <Info name="Training events" value="22899"/>
+    <Info name="TrainingTime" value="1.14127318e+02"/>
+    <Info name="AnalysisType" value="Classification"/>
+  </GeneralInfo>
+  <Options>
+    <Option name="NCycles" modified="No">500</Option>
+    <Option name="HiddenLayers" modified="No">N,N-1</Option>
+    <Option name="NeuronType" modified="No">sigmoid</Option>
+    <Option name="RandomSeed" modified="No">1</Option>
+    <Option name="EstimatorType" modified="No">MSE</Option>
+    <Option name="NeuronInputType" modified="No">sum</Option>
+    <Option name="V" modified="Yes">False</Option>
+    <Option name="VerbosityLevel" modified="No">Default</Option>
+    <Option name="VarTransform" modified="No">None</Option>
+    <Option name="H" modified="Yes">True</Option>
+    <Option name="CreateMVAPdfs" modified="No">False</Option>
+    <Option name="IgnoreNegWeightsInTraining" modified="No">False</Option>
+    <Option name="TrainingMethod" modified="No">BP</Option>
+    <Option name="LearningRate" modified="No">2.000000e-02</Option>
+    <Option name="DecayRate" modified="No">1.000000e-02</Option>
+    <Option name="TestRate" modified="No">10</Option>
+    <Option name="EpochMonitoring" modified="No">False</Option>
+    <Option name="Sampling" modified="No">1.000000e+00</Option>
+    <Option name="SamplingEpoch" modified="No">1.000000e+00</Option>
+    <Option name="SamplingImportance" modified="No">1.000000e+00</Option>
+    <Option name="SamplingTraining" modified="No">True</Option>
+    <Option name="SamplingTesting" modified="No">False</Option>
+    <Option name="ResetStep" modified="No">50</Option>
+    <Option name="Tau" modified="No">3.000000e+00</Option>
+    <Option name="BPMode" modified="No">sequential</Option>
+    <Option name="BatchSize" modified="No">-1</Option>
+    <Option name="ConvergenceImprove" modified="No">1.000000e-30</Option>
+    <Option name="ConvergenceTests" modified="No">-1</Option>
+    <Option name="UseRegulator" modified="No">False</Option>
+    <Option name="UpdateLimit" modified="No">10000</Option>
+    <Option name="CalculateErrors" modified="No">False</Option>
+    <Option name="WeightRange" modified="No">1.000000e+00</Option>
+  </Options>
+  <Variables NVar="4">
+    <Variable VarIndex="0" Expression="DeltaR_bb1" Label="DeltaR_bb1" Title="DeltaR_bb1" Unit="" Internal="DeltaR_bb1" Type="F" Min="2.67539859e-01" Max="5.43578577e+00"/>
+    <Variable VarIndex="1" Expression="M_bb_closest" Label="M_bb_closest" Title="M_bb_closest" Unit="" Internal="M_bb_closest" Type="F" Min="1.14437885e+01" Max="3.20542749e+03"/>
+    <Variable VarIndex="2" Expression="DeltaR_b1l" Label="DeltaR_b1l" Title="DeltaR_b1l" Unit="" Internal="DeltaR_b1l" Type="F" Min="3.53569627e-01" Max="4.68913269e+00"/>
+    <Variable VarIndex="3" Expression="DeltaR_j1l" Label="DeltaR_j1l" Title="DeltaR_j1l" Unit="" Internal="DeltaR_j1l" Type="F" Min="3.09844941e-01" Max="5.21059179e+00"/>
+  </Variables>
+  <Spectators NSpec="0"/>
+  <Classes NClass="2">
+    <Class Name="Signal" Index="0"/>
+    <Class Name="Background" Index="1"/>
+  </Classes>
+  <Transformations NTransformations="0"/>
+  <MVAPdfs/>
+  <Weights>
+    <Layout NLayers="4">
+      <Layer Index="0" NNeurons="5">
+        <Neuron NSynapses="4">
+          -nan -nan nan nan 
+        </Neuron>
+        <Neuron NSynapses="4">
+          -nan -nan nan nan 
+        </Neuron>
+        <Neuron NSynapses="4">
+          -nan -nan nan nan 
+        </Neuron>
+        <Neuron NSynapses="4">
+          -nan -nan nan nan 
+        </Neuron>
+        <Neuron NSynapses="4">
+          -nan -nan nan nan 
+        </Neuron>
+      </Layer>
+      <Layer Index="1" NNeurons="5">
+        <Neuron NSynapses="3">
+          nan nan nan 
+        </Neuron>
+        <Neuron NSynapses="3">
+          nan nan nan 
+        </Neuron>
+        <Neuron NSynapses="3">
+          nan nan nan 
+        </Neuron>
+        <Neuron NSynapses="3">
+          nan nan nan 
+        </Neuron>
+        <Neuron NSynapses="3">
+          nan nan nan 
+        </Neuron>
+      </Layer>
+      <Layer Index="2" NNeurons="4">
+        <Neuron NSynapses="1">
+          -nan 
+        </Neuron>
+        <Neuron NSynapses="1">
+          -nan 
+        </Neuron>
+        <Neuron NSynapses="1">
+          -nan 
+        </Neuron>
+        <Neuron NSynapses="1">
+          -nan 
+        </Neuron>
+      </Layer>
+      <Layer Index="3" NNeurons="1">
+        <Neuron NSynapses="0"/>
+      </Layer>
+    </Layout>
+  </Weights>
+</MethodSetup>
