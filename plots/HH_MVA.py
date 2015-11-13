@@ -36,6 +36,8 @@ f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH
 f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
 treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
 treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
+treeS20 = f_in_HH.Get("stage_1/cleanup/cleanup")
+treeB20 = f_in_tt.Get("stage_1/cleanup/cleanup")
 methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned") ] #("LD","LD"), , ("MLP","MLP")
 
 
@@ -45,8 +47,8 @@ class configuration(object):
     def __init__(self, name="nameless"):
         self.name = name
         self.varNames = [ ]
-        self.treeS = treeS
-        self.treeB = treeB
+        self.treeS = None
+        self.treeB = None
         self.hist_effs = [ ]
 
 
@@ -243,19 +245,23 @@ def main():
     varNames = [ "DeltaR_j1l", "DeltaR_j2l",
                  "DeltaR_b1l", "DeltaR_b2l",
                  "DeltaR_bb1", "M_bb_closest",
+                 "DeltaPhi_METl",
                  "jet1Pt",  "jet2Pt",
                  "bjet1Pt", "bjet2Pt", ]
 
-    configs = [ configuration(), configuration("topology"), configuration("best") ]
+    configs = [ configuration("everything"), configuration("topology"), configuration("best") ]
 
-    configs[0].name = "everything"
     configs[0].varNames = varNames[:]
+    configs[0].treeS = treeS
+    configs[0].treeB = treeB
 
-    configs[1].name = "topology"
-    configs[1].varNames = varNames[:6]
+    configs[1].varNames = varNames[:7]
+    configs[1].treeS = treeS
+    configs[1].treeB = treeB
 
-    configs[2].name = "best"
-    configs[2].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l"]
+    configs[2].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
+    configs[2].treeS = treeS
+    configs[2].treeB = treeB
     
     if opts.test:
         configs = configs[2:3]
