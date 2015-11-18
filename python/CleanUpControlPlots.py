@@ -131,10 +131,28 @@ class CleanUpControlPlots(BaseControlPlots):
         result["DeltaEtaDeltaPhi_bl"] = [ ]
         result["DeltaEtaDeltaPhi_jjbb"] = [ ]
 
-        nonbjets = [ j for j in event.cleanedJets20 if not j.BTag ]
+        jets = [ j for j in event.cleanedJets20 if not j.BTag ]
+        p_jets = [ ]
+        p_jjs = [ ]
+        p_jj_cut = [ ]
+        p_jj_b2b = None
+        p_jj_b2b_cut = None
+        DeltaPhi_b2b = 0 # < pi
+
         bjets = event.bjets30
+        p_bjets = [ ]
+        p_bb_cut = [ ]
+        DeltaR_bl = [ ]
+        DeltaR_bb_closest = 100 # >> pi
+        PT_bb_leading = 0
+
+        lepton = None
+        p_lepton = TLV()
+        if len(event.leadingLeptons):
+            lepton = event.leadingLeptons[0]
+            p_lepton.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
         
-        # leading jets
+        # leading non-b-jets
         if len(nonbjets)>0:
             result["cleanup"].append(nonbjets[0].PT)
             if len(nonbjets)>1:
@@ -148,28 +166,6 @@ class CleanUpControlPlots(BaseControlPlots):
 
         # MET - lepton
         result["DeltaPhi_METl"] = abs(event.met[0].Phi-lepton.Phi)
-        
-        jets = [ j for j in jets if not j.BTag ]
-        p_jets = [ ]
-        p_jjs = [ ]
-        p_jj_cut = [ ]
-        p_jj_b2b = None
-        p_jj_b2b_cut = None
-        DeltaPhi_b2b = 0 # < pi
-
-        p_bjets = [ ]
-        p_bb_cut = [ ]
-        DeltaR_bl = [ ]
-        DeltaR_bb_closest = 100 # >> pi
-        PT_bb_leading = 0
-
-        lepton = None
-        p_lepton = TLV()
-        if len(event.leadingLeptons):
-            lepton = event.leadingLeptons[0]
-            p_lepton.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
-        
-        
         
         # jet - jet
         for jet in jets:
