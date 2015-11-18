@@ -31,13 +31,6 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
                   help="Only plot, don't go through training.")
 (opts, args) = parser.parse_args(argv)
 
-    
-f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
-f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
-treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
-treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
-treeS20 = f_in_HH.Get("stage_1/cleanup/cleanup")
-treeB20 = f_in_tt.Get("stage_1/cleanup/cleanup")
 methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned") ] #("LD","LD"), , ("MLP","MLP")
 
 
@@ -225,7 +218,7 @@ def correlation(config):
     histS.SetLabelSize(0.062,"x")
     histS.SetLabelSize(0.062,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
-    c.SaveAs("MVA/CorrelationMatrixS.png")
+    c.SaveAs("MVA/CorrelationMatrixS_"+config.name+".png")
     c.Close()
 
     c = makeCanvas(square=True, scaleleftmargin=1.6, scalerightmargin=3)
@@ -235,36 +228,48 @@ def correlation(config):
     histB.SetLabelSize(0.062,"x")
     histB.SetLabelSize(0.062,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
-    c.SaveAs("MVA/CorrelationMatrixB.png")
+    c.SaveAs("MVA/CorrelationMatrixB_"+config.name+".png")
     c.Close()
 
 
 
 def main():
-    
-    varNames = [ "DeltaR_j1l", "DeltaR_j2l",
-                 "DeltaR_b1l", "DeltaR_b2l",
-                 "DeltaR_bb1", "M_bb_closest",
-                 "DeltaPhi_METl",
-                 "jet1Pt",  "jet2Pt",
-                 "bjet1Pt", "bjet2Pt", ]
 
-    configs = [ configuration("everything"), configuration("best") ]
+    f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
+    f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
+    treeS20 = f_in_HH.Get("stage_1/cleanup/cleanup")
+    treeB20 = f_in_tt.Get("stage_1/cleanup/cleanup")
+    treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
+    treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
+    
+    varNames = [ "jet1Pt", "jet2Pt",
+                 "DeltaPhi_METl",
+                 "bjet1Pt", "bjet2Pt",
+                 "DeltaR_j1l", "DeltaR_j2l",
+                 "DeltaR_b1l", "DeltaR_b2l",
+                 "DeltaR_bb1", "M_bb_closest" ]
+
+    configs = [ configuration("everything20"), configuration("best20"),
+                configuration("everything"), configuration("best") ]
 
     configs[0].varNames = varNames[:]
-    configs[0].treeS = treeS
-    configs[0].treeB = treeB
+    configs[0].treeS = treeS20
+    configs[0].treeB = treeB20
 
-    configs[1].varNames = varNames[:7]
-    configs[1].treeS = treeS
-    configs[1].treeB = treeB
+    configs[1].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
+    configs[1].treeS = treeS20
+    configs[1].treeB = treeB20
 
-    configs[2].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
+    configs[2].varNames = varNames[:]
     configs[2].treeS = treeS
     configs[2].treeB = treeB
+
+    configs[3].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
+    configs[3].treeS = treeS
+    configs[3].treeB = treeB
     
     if opts.test:
-        configs = configs[2:3]
+        configs = [configs[2]]
 
     for config in configs:
         if not opts.onlyPlot:
@@ -272,6 +277,8 @@ def main():
         plot(config)
     compare(configs)
     correlation(configs[0])
+    if not opts.test:
+        correlation(configs[2])
 
 
 
