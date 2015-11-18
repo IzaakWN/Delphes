@@ -325,7 +325,7 @@ class CleanUpControlPlots(BaseControlPlots):
             result["M_bb_leading"] = (p_bjets[0]+p_bjets[1]).M()
 
         if lepton:
-            result["MT_lnu"] = recoWlnu2Mt(lepton,MET)
+            result["MT_lnu"] = recoWlnu2Mt(lepton,event.met[0])
             result["cleanup"].append(result["MT_lnu"])
 
 #        for key, value in result.iteritems():
