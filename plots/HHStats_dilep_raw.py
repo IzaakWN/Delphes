@@ -53,11 +53,11 @@ def main():
     B_semi = [ 164661, 68011, 19401, 8748 ]
 
     # without taus in BR
-#    sigma_S = 40 * 0.0113
-#    sigma_B = 984500 * 0.0453
-    # with taus in BR
-    sigma_S = 40 * 0.0263
-    sigma_B = 984500 * 0.1057
+    sigma_S = 40 * 0.0113
+    sigma_B = 984500 * 0.0453
+#    # with taus in BR
+#    sigma_S = 40 * 0.0263
+#    sigma_B = 984500 * 0.1057
     k = B_di[1]/B_di[0]
     sigma_S_AN = 0.163*2.3
     sigma_B_AN = 9030*1.85/k
@@ -69,11 +69,11 @@ def main():
         print "\n"
 
     # without taus in BR
-#    sigma_S = 40 * 0.0715
-#    sigma_B = 984500 * 0.2873
+    sigma_S = 40 * 0.0715
+    sigma_B = 984500 * 0.2873
 #    # with taus in BR
-    sigma_S = 40 * 0.1093
-    sigma_B = 984500 * 0.4389
+#    sigma_S = 40 * 0.1093
+#    sigma_B = 984500 * 0.4389
     k = B_semi[1]/B_semi[0]
     sigma_S_AN = sigma_S_AN/0.0113*0.0715
     sigma_B_AN = sigma_B_AN/0.0453*0.2873
