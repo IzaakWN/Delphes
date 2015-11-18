@@ -20,6 +20,7 @@ def makeCanvas(square=False, scaleleftmargin=1, scalerightmargin=1):
         W = 800 # canvas size in pixels along X
         H  = 800 # canvas size in pixels along Y
         width = 0.30
+        scalerightmargin = 3*scalerightmargin
     else:
         W = 800 # canvas size in pixels along X
         H  = 600 # canvas size in pixels along Y
