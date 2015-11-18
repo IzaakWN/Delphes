@@ -290,7 +290,7 @@ def main():
     configs[3].treeB = treeB
     
     if opts.test:
-        configs = [configs[1]]
+        configs = [configs[3]]
 
     for config in configs:
         if not opts.onlyPlot:
