@@ -128,8 +128,8 @@ def train(config):
     for Method, method in methods:
         os.rename("weights/TMVAClassification_"+method+".weights.xml",
                   weightsdir+"/TMVAClassification_"+method+".weights.xml")
-        os.rename("weights/TMVAClassification_"+method+".weights.class.C",
-                  weightsdir+"/TMVAClassification_"+method+".weights.class.C")
+        os.rename("weights/TMVAClassification_"+method+".class.C",
+                  weightsdir+"/TMVAClassification_"+method+".class.C")
 
 
 
@@ -331,7 +331,7 @@ def main():
     if opts.test:
         configs = [configs[3]]
 
-    for config in configs:
+    for config in configs[1:]:
         if not opts.onlyPlot:
             train(config)
         plot(config)
