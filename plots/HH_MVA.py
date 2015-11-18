@@ -23,6 +23,7 @@ ROOT.gROOT.SetBatch(ROOT.kTRUE)
 #
 #
 
+# extra options
 argv = sys.argv
 parser = OptionParser()
 parser.add_option("-t", "--test", dest="test", default=False, action="store_true",
@@ -31,8 +32,15 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
                   help="Only plot, don't go through training.")
 (opts, args) = parser.parse_args(argv)
 
+# list of methods
 methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned") ] #("LD","LD"), , ("MLP","MLP")
 
+# yields to calculate significance
+L = 3000 # / fb
+sigma_S = 40 * 0.0715 # fb = sigma_HH * BR_bbWW_bbqqlnu
+sigma_B = 984500 * 0.2873 # fb
+N_S = sigma_S * L # expected number of events
+N_B = sigma_B * L
 
 
 class configuration(object):
@@ -116,6 +124,21 @@ def train(config):
 
 
 
+## SIGNIFICANCE
+#def significance(histS,histS):
+#    
+#    P = 0
+#    S = histS.Integral()
+#    B = histB.Integral()
+#
+#    # loop over all bins, find highest signigicance
+#    for bini in range(1,histS.GetNbinsX):
+#        P.append( N_S *
+
+
+
+
+# HISTOGRAMS: TMVA output
 def plot(config):
     print "\n>>> examine training with configuration "+config.name
 
@@ -128,7 +151,7 @@ def plot(config):
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-    # HISTOGRAMS: TMVA output
+#    significances = [ ]
     for Method, method in methods:
         reader.BookMVA(method,"weights/TMVAClassification_"+method+"_"+config.name+".weights.xml")
 
@@ -140,15 +163,10 @@ def plot(config):
             histS = TH1F("histS", "", 48, -1.2, 1.2)
             histB = TH1F("histB", "", 48, -1.2, 1.2)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
-        TestTree.Draw(method+">>histS","classID == 0","goff") # causes problem when training not run
+        TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
-#        entries = mychain.GetEntriesFast()
-#        for i in xrange( entries ):
-#            j = mychain.LoadTree( i )
-#            if TestTree.classID == 0:
-#                histS.Fill(TestTree.BDT)
-#            elif TestTree.classID == 1:
-#                histB.Fill(TestTree.BDT)
+
+#        significances.append(significance(histS,histB))
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
@@ -200,6 +218,9 @@ def compare(configs):
     CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/BrejvsSeffs_"+config.name+".png")
     c.Close()
+
+
+
 
 
 
@@ -255,6 +276,7 @@ def main():
     configs[0].varNames = varNames[:]
     configs[0].treeS = treeS20
     configs[0].treeB = treeB20
+    
 
     configs[1].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
     configs[1].treeS = treeS20
