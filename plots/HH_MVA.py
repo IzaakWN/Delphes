@@ -125,7 +125,7 @@ def train(config):
     weightsdir = "weights/"+config.name
     if not os.path.exists(weightsdir):
         os.makedirs(weightsdir)
-    for Method, method in methods"
+    for Method, method in methods:
         os.rename("weights/TMVAClassification_"+method+".weights.xml",
                   weightsdir+"/TMVAClassification_"+method+".weights.xml")
         os.rename("weights/TMVAClassification_"+method+".weights.class.C",
