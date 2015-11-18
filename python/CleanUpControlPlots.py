@@ -185,8 +185,8 @@ class CleanUpControlPlots(BaseControlPlots):
         if lepton:
         
             # MET - lepton
-            result["cleanup"] = lepton.PT
-            result["cleanup"] = event.met[0].MET
+            result["cleanup"].append(lepton.PT)
+            result["cleanup"].append(event.met[0].MET)
             result["DeltaPhi_METl"] = abs(event.met[0].Phi-lepton.Phi)
             result["cleanup"].append(result["DeltaPhi_METl"])
         
