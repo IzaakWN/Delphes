@@ -143,11 +143,13 @@ def significance(histS,histB,Seff,Beff):
 
     # loop over all bins, find cut with highest significance
     N = histS.GetNbinsX()
-    for i in range(1,N+1):
-        P = N_S*Seff*histS.Integral(i,N)/S / sqrt(N_B*Beff*histB.Integral(i,N)/B)
-        if Pmax<P:
-            Pmax = P
-            imax = i
+    for i in range(1,N):
+        I = histB.Integral(i,N)
+        if I:
+            P = N_S*Seff*histS.Integral(i,N)/S / sqrt(N_B*Beff*histB.Integral(i,N)/B)
+            if Pmax<P:
+                Pmax = P
+                imax = i
 
     return [Pmax,histS.GetXaxis().GetBinCenter(imax)]
 
