@@ -153,10 +153,10 @@ class CleanUpControlPlots(BaseControlPlots):
             p_lepton.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
         
         # leading non-b-jets
-        if len(nonbjets)>0:
-            result["cleanup"].append(nonbjets[0].PT)
-            if len(nonbjets)>1:
-                result["cleanup"].append(nonbjets[1].PT)
+        if len(jets)>0:
+            result["cleanup"].append(jets[0].PT)
+            if len(jets)>1:
+                result["cleanup"].append(jets[1].PT)
         
         # leading bjets
         if len(bjets)>0:
