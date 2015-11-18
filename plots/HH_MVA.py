@@ -294,10 +294,12 @@ def main():
     
     varNames = [ "jet1Pt", "jet2Pt",
                  "bjet1Pt", "bjet2Pt",
+                 "leptonPt", "MET",
                  "DeltaPhi_METl",
                  "DeltaR_j1l", "DeltaR_j2l",
                  "DeltaR_b1l", "DeltaR_b2l",
-                 "DeltaR_bb1", "M_bb_closest" ]
+                 "DeltaR_bb1",
+                 "M_bb_closest", "MT_lnu" ]
 
     configs = [ configuration("everything20"), configuration("best20"),
                 configuration("everything"), configuration("best") ]
