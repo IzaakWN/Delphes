@@ -277,7 +277,6 @@ def main():
     configs[0].treeS = treeS20
     configs[0].treeB = treeB20
     
-
     configs[1].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
     configs[1].treeS = treeS20
     configs[1].treeB = treeB20
@@ -291,7 +290,7 @@ def main():
     configs[3].treeB = treeB
     
     if opts.test:
-        configs = [configs[2]]
+        configs = [configs[1]]
 
     for config in configs:
         if not opts.onlyPlot:
