@@ -249,7 +249,7 @@ def main():
                  "jet1Pt",  "jet2Pt",
                  "bjet1Pt", "bjet2Pt", ]
 
-    configs = [ configuration("everything"), configuration("topology"), configuration("best") ]
+    configs = [ configuration("everything"), configuration("best") ]
 
     configs[0].varNames = varNames[:]
     configs[0].treeS = treeS
