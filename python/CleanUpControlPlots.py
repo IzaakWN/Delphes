@@ -182,6 +182,7 @@ class CleanUpControlPlots(BaseControlPlots):
         
             # MET - lepton
             result["DeltaPhi_METl"] = abs(event.met[0].Phi-lepton.Phi)
+            result["cleanup"].append(result["DeltaPhi_METl"])
         
             p_ji = sorted(p_jets, key=lambda p: TLV.DeltaR(p,p_lepton))[:3]
             if len(p_ji)>0:
