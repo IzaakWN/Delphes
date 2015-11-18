@@ -301,6 +301,11 @@ def main():
                  "DeltaR_b1l", "DeltaR_b2l",
                  "DeltaR_bb1",
                  "M_bb_closest", "MT_lnu" ]
+                 
+    varNamesBest =[ "bjet1Pt", "jet1Pt",
+                    "DeltaR_b1l", "DeltaR_bb1",
+                    "DeltaR_j1l", "DeltaR_j2l",
+                    "M_bb_closest" ]
 
     configs = [ configuration("everything20"), configuration("best20"),
                 configuration("everything"), configuration("best") ]
@@ -311,7 +316,7 @@ def main():
     configs[0].Seff = S1/S_tot
     configs[0].Beff = B1/B_tot
     
-    configs[1].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
+    configs[1].varNames = varNamesBest
     configs[1].treeS = treeS20
     configs[1].treeB = treeB20
     configs[1].Seff = S1/S_tot
@@ -323,7 +328,7 @@ def main():
     configs[2].Seff = S2/S_tot
     configs[2].Beff = B2/B_tot
 
-    configs[3].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
+    configs[3].varNames = varNamesBest
     configs[3].treeS = treeS
     configs[3].treeB = treeB
     configs[3].Seff = S2/S_tot
