@@ -142,7 +142,7 @@ def significance(histS,histB,Seff,Beff):
     B = histB.Integral()
 
     # loop over all bins, find cut with highest significance
-    N = histS.GetNbinsX
+    N = histS.GetNbinsX()
     for i in range(1,N+1):
         P = N_S*Seff*histS.Integral(i,N)/S / sqrt(N_B*Beff*histB.Integral(i,N)/B)
         if Pmax<P:
@@ -326,9 +326,9 @@ def main():
     configs[3].Beff = B2/B_tot
     
     if opts.test:
-        configs = [configs[3]]
+        configs = [configs[-1]]
 
-    for config in configs[2:]:
+    for config in configs:
         if not opts.onlyPlot:
             train(config)
         plot(config)
