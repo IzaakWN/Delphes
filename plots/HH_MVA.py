@@ -168,7 +168,7 @@ def plot(config):
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-#    significances = [ ]
+    significances = [ ]
     for Method, method in methods:
         reader.BookMVA(method,"weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
 
@@ -183,8 +183,7 @@ def plot(config):
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        [Pmax,Omax] = significance(histS,histB,config.Seff,config.Beff)
-        print "\n  "+config.name+" - "+method+": %.5f significance with a cut at %.5f" % (Pmax,Omax)
+        significances.append(significance(histS,histB,config.Seff,config.Beff))
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
@@ -203,6 +202,9 @@ def plot(config):
         c.Close()
         gDirectory.Delete("histS")
         gDirectory.Delete("histB")
+
+    for Pmax, Omax in significances:
+        print ">>> "+config.name+" - "+method+": %.5f significance with a cut at %.5f" % (Pmax,Omax)
 
 
 
