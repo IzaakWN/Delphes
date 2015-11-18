@@ -168,7 +168,7 @@ def plot(config):
 
 #    significances = [ ]
     for Method, method in methods:
-        reader.BookMVA(method,"weights/"++config.name+"/TMVAClassification_"+method+".weights.xml")
+        reader.BookMVA(method,"weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
 
         c = makeCanvas()
         if Method == "MLP":
@@ -234,9 +234,6 @@ def compare(configs):
     CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/BrejvsSeffs_"+config.name+".png")
     c.Close()
-
-
-
 
 
 
@@ -331,7 +328,7 @@ def main():
     if opts.test:
         configs = [configs[3]]
 
-    for config in configs[1:]:
+    for config in configs[2:]:
         if not opts.onlyPlot:
             train(config)
         plot(config)
