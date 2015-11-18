@@ -248,7 +248,7 @@ def correlation(config):
     f = TFile("HH_MVA_"+config.name+".root")
     TestTree = gDirectory.Get("TestTree")
 
-    c = makeCanvas(square=True, scaleleftmargin=1.6, scalerightmargin=3)
+    c = makeCanvas(square=True, scaleleftmargin=1.6)
     histS = f.Get("CorrelationMatrixS")
     histS.Draw("colz")
     makeLabels2D(histS,xaxis=True,yaxis=True)
@@ -258,7 +258,7 @@ def correlation(config):
     c.SaveAs("MVA/CorrelationMatrixS_"+config.name+".png")
     c.Close()
 
-    c = makeCanvas(square=True, scaleleftmargin=1.6, scalerightmargin=3)
+    c = makeCanvas(square=True, scaleleftmargin=1.6)
     histB = f.Get("CorrelationMatrixB")
     histB.Draw("colz")
     makeLabels2D(histB,xaxis=True,yaxis=True)
@@ -279,8 +279,8 @@ def main():
     treeS = file_HH.Get("stage_2/cleanup/cleanup")
     treeB = file_tt.Get("stage_2/cleanup/cleanup")
     
-    h0_S = file_HH.Get("stage_0/selection/category")
-    h0_B = file_tt.Get("stage_0/selection/category")
+    h0_S = file_HH.Get("stage_0/selection/category") # ~ 166483
+    h0_B = file_tt.Get("stage_0/selection/category") # ~ 164661 
 #    h1_S = file_HH.Get("stage_1/selection/category")
 #    h1_B = file_tt.Get("stage_1/selection/category")
 #    h2_S = file_HH.Get("stage_2/selection/category")
