@@ -48,32 +48,7 @@ def eventCategory(event):
     event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag and abs(jet.Eta) < 2.5 ]
     nonbjets30 = [ jet for jet in event.cleanedJets30 if (not jet.BTag) and abs(jet.Eta) < 2.5 ]
 
-    # 0: at least one muon or electron with Pt > 20 GeV
-    categoryData.append( len(leps) )
-    
-    # 1: exactly one muon or electron with Pt > 20 GeV
-    categoryData.append( len(leps) == 1 )
-    
-    # 2: Pt of leading 4 jets > 20 GeV
-    categoryData.append( len(event.cleanedJets20)>3 )
-#    categoryData.append(len(event.cleanedJets30)>2 and len(event.cleanedJets15)>3)
-
-    # 3: Pt of leading 4 jets > 30 GeV
-    categoryData.append( len(event.cleanedJets30)>3 )
-
-    # 4: at least one b-jet with Pt > 30 GeV
-    categoryData.append( len(event.bjets30)>0 )
-    
-    # 5: at least two b-jet with Pt > 30 GeV
-    categoryData.append( len(event.bjets30)>1 )
-    
-    # 6: MET > 20 GeV cut
-    categoryData.append( event.met[0].MET>20 )
-    
-    # 7: at most 6 jets with Pt > 30 GeV
-    categoryData.append( len(event.cleanedJets30)<6 )
-
-    # 8: generator level: single Wlnu and Hbb
+    # 0: generator level: single Wlnu and Hbb
     nLeptons = 0
     nBquarks = 0
     for particle in event.particles:
@@ -82,9 +57,34 @@ def eventCategory(event):
             if abs(event.particles[D1].PID) in [11,13,15]: # e, mu, tau
                 nLeptons+=1
         if abs(particle.PID) == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
-            if abs(event.particles[D1].PID) in [5]: # b-quark
+            if abs(event.particles[D1].PID) == 5: # b-quark
                 nBquarks+=2
     categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
+
+    # 1: at least one muon or electron with Pt > 20 GeV
+    categoryData.append( len(leps) )
+    
+    # 2: exactly one muon or electron with Pt > 20 GeV
+    categoryData.append( len(leps) == 1 )
+    
+    # 3: Pt of leading 4 jets > 20 GeV
+    categoryData.append( len(event.cleanedJets20)>3 )
+#    categoryData.append(len(event.cleanedJets30)>2 and len(event.cleanedJets15)>3)
+
+    # 4: Pt of leading 4 jets > 30 GeV
+    categoryData.append( len(event.cleanedJets30)>3 )
+
+    # 5: at least one b-jet with Pt > 30 GeV
+    categoryData.append( len(event.bjets30)>0 )
+    
+    # 6: at least two b-jet with Pt > 30 GeV
+    categoryData.append( len(event.bjets30)>1 )
+    
+    # 7: MET > 20 GeV cut
+    categoryData.append( event.met[0].MET>20 )
+    
+    # 8: at most 5 jets with Pt > 30 GeV
+    categoryData.append( len(event.cleanedJets30)<6 )
 
     return categoryData
 
@@ -94,24 +94,24 @@ def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
     if category == 0:
-        return categoryData[1] and categoryData[2] and categoryData[5] and categoryData[8]
+        return categoryData[0] and categoryData[2] and categoryData[3] and categoryData[6]
         #      > signal
     
     if category == 1:
-        return categoryData[1] and categoryData[2] and categoryData[5] and categoryData[8]
-        #      > exact 1 lepton    > 4 jets > 20 GeV   > 2 b-jets          > signal
+        return categoryData[0] and categoryData[2] and categoryData[3] and categoryData[6]
+        #      > signal            > exact 1 lepton    > 4 jets > 20 GeV   > 2 b-jets
 
     if category == 2:
-        return categoryData[1] and categoryData[3] and categoryData[5] and categoryData[8]
-        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > signal
+        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6]
+        #      > signal            > exact 1 lepton    > 4 jets            > 2 b-jets
 
     if category == 3:
-        return categoryData[1] and categoryData[3] and categoryData[5] and categoryData[6] and categoryData[8]
-        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > MET               > signal
-    
+        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7]
+        #      > signal            > exact 1 lepton    > 4 jets            > 2 b-jets          > MET
+
     if category == 4:
-        return categoryData[1] and categoryData[3] and categoryData[5] and categoryData[6] and categoryData[7] and categoryData[8]
-        #      > exact 1 lepton    > 4 jets            > 2 b-jets          > MET               > max 6 jets        > signal
+        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[8]
+        #      > signal            > exact 1 lepton    > 4 jets            > 2 b-jets          > MET               > max 6 jets
         
     else:
         return False
