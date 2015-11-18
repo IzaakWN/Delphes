@@ -26,6 +26,8 @@ class CleanUpControlPlots(BaseControlPlots):
       self.addBranch("cleanup","jet2Pt")
       self.addBranch("cleanup","bjet1Pt")
       self.addBranch("cleanup","bjet2Pt")
+      self.addBranch("cleanup","leptonPt")
+      self.addBranch("cleanup","MET")
       self.addBranch("cleanup","DeltaPhi_METl")
       self.addBranch("cleanup","DeltaR_j1l")
       self.addBranch("cleanup","DeltaR_j2l")
@@ -33,6 +35,7 @@ class CleanUpControlPlots(BaseControlPlots):
       self.addBranch("cleanup","DeltaR_b2l")
       self.addBranch("cleanup","DeltaR_bb1")
       self.addBranch("cleanup","M_bb_closest")
+      self.addBranch("cleanup","MT_lnu")
     
       # declare histograms
       self.add("M_jj","jet-jet combinations Mass",100,0,300)
@@ -49,6 +52,7 @@ class CleanUpControlPlots(BaseControlPlots):
       self.add("M_bb_leading_cut","bjet-bjet (cut) Mass",100,0,300)
       self.add("M_bb_closest_cut","closest bjet-bjet (cut) Mass",100,0,300)
       self.add("M_b1l","closest bjet-lepton Mass",100,0,300)
+      self.add("MT_lnu","Wlnu Mt",100,0,300)
 
       #self.add("DeltaPt_jl","lepton-bjet Mass",100,0,2)
       #self.add2D("DeltaRDeltaPt_jl","lepton-bjet DeltaPt vs. DeltaR",100,0,4.5,100,0,2)
@@ -181,6 +185,8 @@ class CleanUpControlPlots(BaseControlPlots):
         if lepton:
         
             # MET - lepton
+            result["cleanup"] = lepton.PT
+            result["cleanup"] = event.met[0].MET
             result["DeltaPhi_METl"] = abs(event.met[0].Phi-lepton.Phi)
             result["cleanup"].append(result["DeltaPhi_METl"])
         
@@ -317,6 +323,10 @@ class CleanUpControlPlots(BaseControlPlots):
         
         if len(bjets)>1:
             result["M_bb_leading"] = (p_bjets[0]+p_bjets[1]).M()
+
+        if lepton:
+            result["MT_lnu"] = recoWlnu2Mt(lepton,MET)
+            result["cleanup"].append(result["MT_lnu"])
 
 #        for key, value in result.iteritems():
 #            if not isinstance(value, (int, long, float)):

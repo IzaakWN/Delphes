@@ -6,6 +6,7 @@ import ROOT
 from ROOT import TFile, gDirectory, TChain, TMVA, TCut, TCanvas, THStack, TH1F
 from array import array
 from copy import deepcopy
+from math import sqrt
 import CMS_lumi, tdrstyle
 from HHPlotterTools import *
 ROOT.gROOT.SetBatch(ROOT.kTRUE)
@@ -51,6 +52,10 @@ class configuration(object):
         self.treeS = None
         self.treeB = None
         self.hist_effs = [ ]
+        self.Seff = 1
+        self.Beff = 1
+
+
 
 
 
@@ -116,25 +121,35 @@ def train(config):
     factory.TestAllMethods()
     factory.EvaluateAllMethods()
     f_out.Close()
-    for method in methods:
-        os.rename("weights/TMVAClassification_"+method[1]+".weights.xml",
-                  "weights/TMVAClassification_"+method[1]+"_"+config.name+".weights.xml")
-        os.rename("weights/TMVAClassification_"+method[1]+".weights.class.C",
-                  "weights/TMVAClassification_"+method[1]+"_"+config.name+".weights.class.C")
+
+    weightsdir = "weights/"+config.name
+    if not os.path.exists(weightsdir):
+        os.makedirs(weightsdir)
+    for Method, method in methods"
+        os.rename("weights/TMVAClassification_"+method+".weights.xml",
+                  weightsdir+"/TMVAClassification_"+method+".weights.xml")
+        os.rename("weights/TMVAClassification_"+method+".weights.class.C",
+                  weightsdir+"/TMVAClassification_"+method+".weights.class.C")
 
 
 
-## SIGNIFICANCE
-#def significance(histS,histS):
-#    
-#    P = 0
-#    S = histS.Integral()
-#    B = histB.Integral()
-#
-#    # loop over all bins, find highest signigicance
-#    for bini in range(1,histS.GetNbinsX):
-#        P.append( N_S *
+# SIGNIFICANCE
+def significance(histS,histB,Seff,Beff):
+    
+    Pmax = 0
+    imax = 0
+    S = histS.Integral()
+    B = histB.Integral()
 
+    # loop over all bins, find cut with highest significance
+    N = histS.GetNbinsX
+    for i in range(1,N+1):
+        P = N_S*Seff*histS.Integral(i,N)/S / sqrt(N_B*Beff*histB.Integral(i,N)/B)
+        if Pmax<P:
+            Pmax = P
+            imax = i
+
+    return [Pmax,histS.GetXaxis().GetBinCenter(imax)]
 
 
 
@@ -153,7 +168,7 @@ def plot(config):
 
 #    significances = [ ]
     for Method, method in methods:
-        reader.BookMVA(method,"weights/TMVAClassification_"+method+"_"+config.name+".weights.xml")
+        reader.BookMVA(method,"weights/"++config.name+"/TMVAClassification_"+method+".weights.xml")
 
         c = makeCanvas()
         if Method == "MLP":
@@ -166,7 +181,8 @@ def plot(config):
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-#        significances.append(significance(histS,histB))
+        [Pmax,Omax] = significance(histS,histB,config.Seff,config.Beff)
+        print "\n  "+config.name+" - "+method+": %.5f significance with a cut at %.5f" % (Pmax,Omax)
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
@@ -256,16 +272,29 @@ def correlation(config):
 
 def main():
 
-    f_in_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
-    f_in_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
-    treeS20 = f_in_HH.Get("stage_1/cleanup/cleanup")
-    treeB20 = f_in_tt.Get("stage_1/cleanup/cleanup")
-    treeS = f_in_HH.Get("stage_2/cleanup/cleanup")
-    treeB = f_in_tt.Get("stage_2/cleanup/cleanup")
+    file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
+    file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
+    treeS20 = file_HH.Get("stage_1/cleanup/cleanup")
+    treeB20 = file_tt.Get("stage_1/cleanup/cleanup")
+    treeS = file_HH.Get("stage_2/cleanup/cleanup")
+    treeB = file_tt.Get("stage_2/cleanup/cleanup")
+    
+    h0_S = file_HH.Get("stage_0/selection/category")
+    h0_B = file_tt.Get("stage_0/selection/category")
+#    h1_S = file_HH.Get("stage_1/selection/category")
+#    h1_B = file_tt.Get("stage_1/selection/category")
+#    h2_S = file_HH.Get("stage_2/selection/category")
+#    h2_B = file_tt.Get("stage_2/selection/category")
+    S_tot = h0_S.GetBinContent(1)
+    B_tot = h0_B.GetBinContent(1)
+    S1 = h0_S.GetBinContent(2)
+    B1 = h0_B.GetBinContent(2)
+    S2 = h0_S.GetBinContent(3)
+    B2 = h0_B.GetBinContent(3)
     
     varNames = [ "jet1Pt", "jet2Pt",
-                 "DeltaPhi_METl",
                  "bjet1Pt", "bjet2Pt",
+                 "DeltaPhi_METl",
                  "DeltaR_j1l", "DeltaR_j2l",
                  "DeltaR_b1l", "DeltaR_b2l",
                  "DeltaR_bb1", "M_bb_closest" ]
@@ -276,18 +305,26 @@ def main():
     configs[0].varNames = varNames[:]
     configs[0].treeS = treeS20
     configs[0].treeB = treeB20
+    configs[0].Seff = S1/S_tot
+    configs[0].Beff = B1/B_tot
     
     configs[1].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
     configs[1].treeS = treeS20
     configs[1].treeB = treeB20
+    configs[1].Seff = S1/S_tot
+    configs[1].Beff = B1/B_tot
 
     configs[2].varNames = varNames[:]
     configs[2].treeS = treeS
     configs[2].treeB = treeB
+    configs[2].Seff = S2/S_tot
+    configs[2].Beff = B2/B_tot
 
     configs[3].varNames = ["DeltaR_bb1", "M_bb_closest", "DeltaR_b1l", "DeltaR_j1l", "bjet2Pt"]
     configs[3].treeS = treeS
     configs[3].treeB = treeB
+    configs[3].Seff = S2/S_tot
+    configs[3].Beff = B2/B_tot
     
     if opts.test:
         configs = [configs[3]]
