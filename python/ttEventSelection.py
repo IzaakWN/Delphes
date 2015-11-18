@@ -81,7 +81,7 @@ def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
     if category == 0:
-        return True
+        return categoryData[1] and categoryData[2] and categoryData[5]
         #      > signal
     
     if category == 1:
