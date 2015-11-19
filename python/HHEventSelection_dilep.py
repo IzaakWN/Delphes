@@ -74,7 +74,7 @@ def eventCategory(event):
         D2 = particle.D2
         # W, Z -> lv
         if abs(particle.PID) in [23,24] and D1>=0 and D1<len(event.particles) and event.particles[D1]:
-            for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
+            for D in [ event.particles[D1], event.particles[D2] ]:
                 if abs(D.PID) in [11,13]:#,15]: # e, mu, tau
                     if D.PT > 15 and abs(D.Eta) < 2.5:
                         gen_leptons15.append(D)
@@ -82,8 +82,8 @@ def eventCategory(event):
         # H -> bb
         if abs(particle.PID) == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) in [5]: # b-quark
-                if D.PT > 15:
-                  nBquarks15+=1
+#                if D.PT > 15:
+#                  nBquarks15+=1
                 nBquarks+=2
 
     # preparation for gen level cuts
@@ -104,7 +104,7 @@ def eventCategory(event):
         DeltaR_ql_gen = min(TLV.DeltaR(pq,pl) for pq in pqs)
 
     # 0-1: generator level: double Wlnu and Hbb
-    categoryData.append((nLeptons==2 and nBquarks==2) or event.particles.GetEntries()==0)
+    categoryData.append((nLeptons==2 and nBquarks==2)) #or event.particles.GetEntries()==0)
     categoryData.append((len(gen_leptons15)==2 and nBquarks15==2 and DeltaR_ll_gen<2.5) or event.particles.GetEntries()==0)
     
     # 2: two muons or electrons with PT > 20, 25 GeV -> TODO: also check opposite signs?
@@ -119,7 +119,7 @@ def eventCategory(event):
                          event.DeltaR_ll<2 and event.DeltaR_bb<3.1 and event.DeltaPhi_bbll>1.7 )
     
     # 4-5: generator level: single Wlnu, Wjj and Hbb
-    categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
+    categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
     categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ql_gen<2.5) or event.particles.GetEntries()==0)
 
     # 6: one muon or electron with PT > 20, 25 GeV
@@ -150,15 +150,15 @@ def isInCategory(category, categoryData):
         #      > GenLevel
     
     if category == 1:
-        return categoryData[1]
+        return categoryData[0]
         #      > GenLevel with cuts
 
     if category == 2:
-        return categoryData[1] and categoryData[2]
+        return categoryData[0] and categoryData[2]
         #      > GenLevel          > selection
 
     if category == 3:
-        return categoryData[1] and categoryData[2] and categoryData[3]
+        return categoryData[0] and categoryData[2] and categoryData[3]
         #      > GenLevel          > selection         > clean-up
     
     
