@@ -1,8 +1,4 @@
 from BaseControlPlots import BaseControlPlots
-from ROOT import TLorentzVector as TLV
-from math import sqrt, pow, cos
-from operator import attrgetter
-from fold import fold
 
 
 
@@ -26,9 +22,12 @@ class GenControlPlots(BaseControlPlots):
         self.add("NWqq","W->qq multiplicity gen",5,0,5)
         self.add("WMotherPID","PID of W's mother gen",100,0,100)
         
+        self.add("NHqq","H->qq multiplicity gen",5,0,5)
         self.add("NHbb","H->bb multiplicity gen",5,0,5)
-        self.add("NHWW","H->WW multiplicity gen",5,0,5)
+        self.add("NHll","H->ll multiplicity gen",5,0,5)
         self.add("NHZZ","H->ZZ multiplicity gen",5,0,5)
+        self.add("NHWW","H->WW multiplicity gen",5,0,5)
+        self.add("NHHH","H->WW multiplicity gen",5,0,5)
         self.add("NHother","H->other multiplicity gen",5,0,5)
         self.add("NHHbbWW","HH->bbWW multiplicity gen",5,0,5)
         self.add("NHHother","H->other multiplicity gen",5,0,5)
@@ -57,9 +56,12 @@ class GenControlPlots(BaseControlPlots):
         NWlnu = 0
         NWqq = 0
         
+        NHqq = 0
         NHbb = 0
-        NHWW = 0
+        NHll = 0
         NHZZ = 0
+        NHWW = 0
+        NHHH = 0
         NHother = 0
         NHHbbWW = 0
         NHHother = 0
@@ -88,23 +90,35 @@ class GenControlPlots(BaseControlPlots):
             elif PID == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # Higgs
                 result["WMotherPID"].append(abs(event.particles[particle.M1].PID))
                 PID_D1 = abs( event.particles[D1].PID )
-                if PID_D1 == 5: # b
+                if PID_D1 in [1,2,3,4,5]: # d, u, s, c, b
+                    NHqq += 1
+                elif PID_D1 == 5: # b
                     NHbb += 1
+                elif PID_D1 in [11,12,13]: # e, mu, tau
+                    NHll += 1
+                elif PID_D1 == 23: # Z
+                    NHZZ += 1
                 elif PID_D1 == 24: # W
                     NHWW += 1
-                elif PID_D1 == 25: # Z
-                    NHZZ += 1
+                elif PID_D1 == 25: # W
+                    NHHH += 1
                 else:
                     NHother+=1
 
         result["NtauW"] = NtauW
+        
         result["NW"] = NW
         result["NWlnu"] = NWlnu
         result["NWqq"] = NWqq
+        
+        result["NHqq"] = NHqq
+        result["NHll"] = NHll
         result["NHbb"] = NHbb
-        result["NHWW"] = NHWW
         result["NHZZ"] = NHZZ
+        result["NHWW"] = NHWW
+        result["NHHH"] = NHHH
         result["NHother"] = NHother
+        
         if NHbb == 1 and NHWW ==1:
             NHHbbWW = 1
         else:
