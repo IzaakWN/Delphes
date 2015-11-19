@@ -20,7 +20,7 @@ class configuration:
   eventSelection = "HHEventSelection_check"
 
   # control plot classes
-  controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }) ]
+  controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
                    controlPlot("gen","GenControlPlots_check","GenControlPlots", { }) ]
 
   # event content: lists of eventCollection, eventProducer, and eventWeight objects respectively.
