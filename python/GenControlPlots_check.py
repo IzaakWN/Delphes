@@ -92,7 +92,7 @@ class GenControlPlots(BaseControlPlots):
                 PID_D1 = abs( event.particles[D1].PID )
                 if PID_D1 in [1,2,3,4,5]: # d, u, s, c, b
                     NHqq += 1
-                elif PID_D1 == 5: # b
+                if PID_D1 == 5: # b
                     NHbb += 1
                 elif PID_D1 in [11,12,13]: # e, mu, tau
                     NHll += 1
@@ -100,7 +100,7 @@ class GenControlPlots(BaseControlPlots):
                     NHZZ += 1
                 elif PID_D1 == 24: # W
                     NHWW += 1
-                elif PID_D1 == 25: # W
+                elif PID_D1 == 25: # H
                     NHHH += 1
                 else:
                     NHother+=1
@@ -119,7 +119,7 @@ class GenControlPlots(BaseControlPlots):
         result["NHHH"] = NHHH
         result["NHother"] = NHother
         
-        if NHbb == 1 and NHWW ==1:
+        if NHbb == 1 and NHWW == 1:
             NHHbbWW = 1
         else:
             NHHother = 1
