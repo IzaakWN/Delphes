@@ -29,7 +29,7 @@ class configuration:
                        eventCollection("met","MissingET"),
                        eventCollection("jets","Jet"),
                        eventCollection("particles","Particle")]
-  eventProducers   = [ eventProducer("category","HHEventSelection_dilep","eventCategory",{ }) ] 
+  eventProducers   = [ eventProducer("category","HHEventSelection_check","eventCategory",{ }) ] 
   eventWeights     = [ ]
 
 class eventDumpConfig:
