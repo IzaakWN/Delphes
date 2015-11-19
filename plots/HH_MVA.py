@@ -70,21 +70,20 @@ class configuration(object):
         self.name = name
         self.varNames = varNames
         self.hist_effs = [ ]
+        self.treeS = None
+        self.treeB = None
+        self.Seff = 0
+        self.Beff = 0
         if stage==1:
             self.treeS = treeS1
             self.treeB = treeB1
             self.Seff = S1/S_tot
             self.Beff = B1/B_tot
-        if stage==2:
+        elif stage==2:
             self.treeS = treeS2
             self.treeB = treeB2
             self.Seff = S2/S_tot
             self.Beff = B2/B_tot
-        else:
-            self.treeS = None
-            self.treeB = None
-            self.Seff = 1
-            self.Beff = 1
 
 
 
