@@ -67,6 +67,7 @@ class GenControlPlots(BaseControlPlots):
         for particle in event.particles:
             PID = abs(particle.PID)
             D1 = particle.D1
+            D2 = particle.D2
             
             # __tau__
             if PID == 15 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
