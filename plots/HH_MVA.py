@@ -52,6 +52,8 @@ S1 = h0_S.GetBinContent(2)
 B1 = h0_B.GetBinContent(2)
 S2 = h0_S.GetBinContent(3)
 B2 = h0_B.GetBinContent(3)
+print "S_tot = %i, S1 = %i, S2 = %i" % (S_tot,S1,S2)
+print "B_tot = %i, B1 = %i, B2 = %i" % (B_tot,B1,B2)
 
 # yields to calculate significance
 L = 3000 # / fb
@@ -64,26 +66,25 @@ N_B = sigma_B * L
 
 class configuration(object):
 
-    def __init__(self, name="nameless"):
+    def __init__(self, name, varNames, stage):
         self.name = name
-        self.varNames = [ ]
-        self.treeS = None
-        self.treeB = None
+        self.varNames = varNames
         self.hist_effs = [ ]
-        self.Seff = 1
-        self.Beff = 1
-
-    def setStage(self,n):
-        if n == 1:
+        if stage=1:
             self.treeS = treeS1
             self.treeB = treeB1
             self.Seff = S1/S_tot
             self.Beff = B1/B_tot
-        elif n == 2:
+        if stage=2:
             self.treeS = treeS2
             self.treeB = treeB2
             self.Seff = S2/S_tot
             self.Beff = B2/B_tot
+        else:
+            self.treeS = None
+            self.treeB = None
+            self.Seff = 1
+            self.Beff = 1
 
 
 
@@ -202,11 +203,11 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 26, -0.4, 1.4)
-            histB = TH1F("histB", "", 26, -0.4, 1.4)
+            histS = TH1F("histS", "", 30, -0.4, 1.4)
+            histB = TH1F("histB", "", 30, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 48, -1.4, 1.4)
-            histB = TH1F("histB", "", 48, -1.4, 1.4)
+            histS = TH1F("histS", "", 30, -1.4, 1.4)
+            histB = TH1F("histB", "", 30, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
@@ -282,7 +283,7 @@ def correlation(config):
     histS.Draw("colz")
     makeLabels2D(histS,xaxis=True,yaxis=True)
     histS.SetLabelSize(0.062,"x")
-    histS.SetLabelSize(0.062,"y")
+    histS.SetLabelSize(0.052,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixS_"+config.name+".png")
     c.Close()
@@ -292,7 +293,7 @@ def correlation(config):
     histB.Draw("colz")
     makeLabels2D(histB,xaxis=True,yaxis=True)
     histB.SetLabelSize(0.062,"x")
-    histB.SetLabelSize(0.062,"y")
+    histB.SetLabelSize(0.052,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixB_"+config.name+".png")
     c.Close()
@@ -312,32 +313,25 @@ def main():
                  
     varNamesBest =[ "bjet1Pt", "jet1Pt",
                     "DeltaR_b1l", "DeltaR_b2l",
-                    "DeltaR_bb1", "M_bb_closest",
+                    "M_bb_closest",
                     "DeltaR_j1l", "DeltaR_j2l" ]
+
+    varNamesMLPTop5 = [ "bjet1Pt", "bjet2Pt",
+                        "DeltaR_j2l", "DeltaR_b2l",
+                        "M_bb_closest" ]
                  
-    varNamesFavs =[ "DeltaR_b1l", "DeltaR_bb1",
-                    "DeltaR_j1l", "M_bb_closest" ]
+    varNamesFavs = [ "DeltaR_b1l", "DeltaR_bb1",
+                     "DeltaR_j1l", "M_bb_closest" ]
 
-    configs = [ configuration("everything20"), configuration("best20"), configuration("favs20"),
-                configuration("everything"), configuration("best"), configuration("favs") ]
 
-    configs[0].varNames = varNames
-    configs[0].setStage(1)
-    
-    configs[1].varNames = varNamesBest
-    configs[1].setStage(1)
-    
-    configs[2].varNames = varNamesFavs
-    configs[2].setStage(1)
-
-    configs[3].varNames = varNames
-    configs[3].setStage(2)
-
-    configs[4].varNames = varNamesBest
-    configs[4].setStage(2)
-    
-    configs[5].varNames = varNamesFavs
-    configs[5].setStage(2)
+    configs = [ configuration("everything20", varNames, 1),
+                configuration("best20",    varNamesBest, 1),
+                configuration("MLPTop520", varNamesMLPTop5, 1),
+                configuration("favs20",    varNamesFavs, 1),
+                configuration("everything", varNames, 2),
+                configuration("best",    varNamesBest, 2),
+                configuration("MLPTop5", varNamesMLPTop5, 2),
+                configuration("favs",    varNamesFavs, 2), ]
     
     if opts.test:
         configs = [configs[-1]]
@@ -360,57 +354,70 @@ if __name__ == '__main__':
     main()
 
 
+# strong correlations between:
+#    M_bb vs. DeltaR_bb
+#    M_bb vs. bjet1, bjet2 for background
+#
+
 
 #--- Factory                  : Ranking input variables (method specific)...
-
-#--- BDT                      : ----------------------------------------------
 #--- BDT                      : Ranking result (top variable is best ranked)
-#--- BDT                      : ----------------------------------------------
-#--- BDT                      : Rank : Variable     : Variable Importance
-#--- BDT                      : ----------------------------------------------
-#--- BDT                      :    1 : DeltaR_b1l   : 1.536e-01
-#--- BDT                      :    2 : DeltaR_j1l   : 1.407e-01
-#--- BDT                      :    3 : DeltaR_j2l   : 1.183e-01
-#--- BDT                      :    4 : jet1Pt       : 1.051e-01
-#--- BDT                      :    5 : M_bb_closest : 1.014e-01
-#--- BDT                      :    6 : DeltaR_bb1   : 9.944e-02
-#--- BDT                      :    7 : DeltaR_b2l   : 8.322e-02
-#--- BDT                      :    8 : bjet2Pt      : 6.784e-02
-#--- BDT                      :    9 : bjet1Pt      : 6.658e-02
-#--- BDT                      :   10 : jet2Pt       : 6.382e-02
-
-#--- BDTTuned                 : ----------------------------------------------
+#--- BDT                      : -----------------------------------------------
+#--- BDT                      : Rank : Variable      : Variable Importance
+#--- BDT                      : -----------------------------------------------
+#--- BDT                      :    1 : jet1Pt        : 9.931e-02
+#--- BDT                      :    2 : DeltaPhi_METl : 9.459e-02
+#--- BDT                      :    3 : DeltaR_b1l    : 9.376e-02
+#--- BDT                      :    4 : MT_lnu        : 9.331e-02
+#--- BDT                      :    5 : leptonPt      : 8.634e-02
+#--- BDT                      :    6 : DeltaR_b2l    : 7.308e-02
+#--- BDT                      :    7 : DeltaR_j1l    : 7.037e-02
+#--- BDT                      :    8 : DeltaR_j2l    : 6.931e-02
+#--- BDT                      :    9 : M_bb_closest  : 6.519e-02
+#--- BDT                      :   10 : DeltaR_bb1    : 6.223e-02
+#--- BDT                      :   11 : bjet2Pt       : 5.419e-02
+#--- BDT                      :   12 : bjet1Pt       : 5.396e-02
+#--- BDT                      :   13 : MET           : 4.431e-02
+#--- BDT                      :   14 : jet2Pt        : 4.006e-02
+#--- BDT                      : -----------------------------------------------
 #--- BDTTuned                 : Ranking result (top variable is best ranked)
-#--- BDTTuned                 : ----------------------------------------------
-#--- BDTTuned                 : Rank : Variable     : Variable Importance
-#--- BDTTuned                 : ----------------------------------------------
-#--- BDTTuned                 :    1 : DeltaR_j2l   : 1.144e-01
-#--- BDTTuned                 :    2 : DeltaR_j1l   : 1.143e-01
-#--- BDTTuned                 :    3 : DeltaR_b1l   : 1.091e-01
-#--- BDTTuned                 :    4 : DeltaR_bb1   : 1.050e-01
-#--- BDTTuned                 :    5 : M_bb_closest : 1.010e-01
-#--- BDTTuned                 :    6 : bjet2Pt      : 9.433e-02
-#--- BDTTuned                 :    7 : DeltaR_b2l   : 9.308e-02
-#--- BDTTuned                 :    8 : jet2Pt       : 9.258e-02
-#--- BDTTuned                 :    9 : bjet1Pt      : 8.958e-02
-#--- BDTTuned                 :   10 : jet1Pt       : 8.670e-02
-
-#--- MLPTuned                 : -------------------------------------
+#--- BDTTuned                 : -----------------------------------------------
+#--- BDTTuned                 : Rank : Variable      : Variable Importance
+#--- BDTTuned                 : -----------------------------------------------
+#--- BDTTuned                 :    1 : DeltaR_b1l    : 8.847e-02
+#--- BDTTuned                 :    2 : DeltaR_j1l    : 7.976e-02
+#--- BDTTuned                 :    3 : DeltaR_bb1    : 7.546e-02
+#--- BDTTuned                 :    4 : DeltaR_j2l    : 7.392e-02
+#--- BDTTuned                 :    5 : DeltaPhi_METl : 7.371e-02
+#--- BDTTuned                 :    6 : leptonPt      : 7.350e-02
+#--- BDTTuned                 :    7 : MT_lnu        : 7.105e-02
+#--- BDTTuned                 :    8 : bjet1Pt       : 7.099e-02
+#--- BDTTuned                 :    9 : bjet2Pt       : 6.887e-02
+#--- BDTTuned                 :   10 : MET           : 6.884e-02
+#--- BDTTuned                 :   11 : jet1Pt        : 6.694e-02
+#--- BDTTuned                 :   12 : M_bb_closest  : 6.601e-02
+#--- BDTTuned                 :   13 : jet2Pt        : 6.420e-02
+#--- BDTTuned                 :   14 : DeltaR_b2l    : 5.829e-02
+#--- BDTTuned                 : -----------------------------------------------
 #--- MLPTuned                 : Ranking result (top variable is best ranked)
-#--- MLPTuned                 : -------------------------------------
-#--- MLPTuned                 : Rank : Variable     : Importance
-#--- MLPTuned                 : -------------------------------------
-#--- MLPTuned                 :    1 : DeltaR_b2l   : 5.444e+01
-#--- MLPTuned                 :    2 : M_bb_closest : 3.649e+01
-#--- MLPTuned                 :    3 : bjet1Pt      : 2.796e+01
-#--- MLPTuned                 :    4 : bjet2Pt      : 2.388e+01
-#--- MLPTuned                 :    5 : jet1Pt       : 2.355e+01
-#--- MLPTuned                 :    6 : jet2Pt       : 1.579e+01
-#--- MLPTuned                 :    7 : DeltaR_j1l   : 1.142e+01
-#--- MLPTuned                 :    8 : DeltaR_bb1   : 8.354e+00
-#--- MLPTuned                 :    9 : DeltaR_b1l   : 1.892e+00
-#--- MLPTuned                 :   10 : DeltaR_j2l   : 1.080e+00
-
+#--- MLPTuned                 : --------------------------------------
+#--- MLPTuned                 : Rank : Variable      : Importance
+#--- MLPTuned                 : --------------------------------------
+#--- MLPTuned                 :    1 : M_bb_closest  : 6.879e+01
+#--- MLPTuned                 :    2 : DeltaR_j2l    : 6.287e+01
+#--- MLPTuned                 :    3 : bjet1Pt       : 6.040e+01
+#--- MLPTuned                 :    4 : DeltaR_b2l    : 4.892e+01
+#--- MLPTuned                 :    5 : bjet2Pt       : 3.951e+01
+#--- MLPTuned                 :    6 : jet2Pt        : 2.673e+01
+#--- MLPTuned                 :    7 : jet1Pt        : 2.546e+01
+#--- MLPTuned                 :    8 : DeltaR_j1l    : 1.711e+01
+#--- MLPTuned                 :    9 : leptonPt      : 1.664e+01
+#--- MLPTuned                 :   10 : MET           : 1.515e+01
+#--- MLPTuned                 :   11 : MT_lnu        : 1.217e+01
+#--- MLPTuned                 :   12 : DeltaR_bb1    : 5.648e+00
+#--- MLPTuned                 :   13 : DeltaR_b1l    : 2.099e+00
+#--- MLPTuned                 :   14 : DeltaPhi_METl : 5.774e-01
+#--- MLPTuned                 : --------------------------------------
 
 
 #--- Factory                  : Ranking input variables (method specific)...
@@ -471,4 +478,3 @@ if __name__ == '__main__':
 #--- MLPTuned                 :   13 : DeltaR_b1l    : 2.222e+00
 #--- MLPTuned                 :   14 : DeltaPhi_METl : 7.937e-01
 #--- MLPTuned                 : --------------------------------------
-
