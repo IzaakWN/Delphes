@@ -21,9 +21,10 @@ class GenControlPlots(BaseControlPlots):
         
         self.add("NtauW","tau->W multiplicity gen",5,0,5)
         
+        self.add("NW","W multiplicity gen",20,0,20)
         self.add("NWlnu","W->lnu multiplicity gen",5,0,5)
         self.add("NWqq","W->qq multiplicity gen",5,0,5)
-        self.add("WMotherPID","PID of W's mother gen",30,0,30)
+        self.add("WMotherPID","PID of W's mother gen",100,0,100)
         
         self.add("NHbb","H->bb multiplicity gen",5,0,5)
         self.add("NHWW","H->WW multiplicity gen",5,0,5)
@@ -32,7 +33,7 @@ class GenControlPlots(BaseControlPlots):
         self.add("NHHbbWW","HH->bbWW multiplicity gen",5,0,5)
         self.add("NHHother","H->other multiplicity gen",5,0,5)
         
-        self.add("NParticlesGetEntries","HH->bbWW multiplicity gen",5,-2,2)
+        self.add("NParticlesGetEntries","HH->bbWW multiplicity gen",4,-2,2)
 
 
 
@@ -52,6 +53,7 @@ class GenControlPlots(BaseControlPlots):
         
         NtauW = 0
         
+        NW = 0
         NWlnu = 0
         NWqq = 0
         
@@ -73,8 +75,9 @@ class GenControlPlots(BaseControlPlots):
                     NtauW += 1
 
             # __W__
-            if PID == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # W
+            elif PID == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # W
                 PID_D1 = abs( event.particles[D1].PID )
+                NW += 1
                 if PID_D1 in [11,13,15]: # e, mu, tau
                     NWlnu += 1
                 elif PID_D1 in [1,2,3,4,5]: # d, u, s, c, b
@@ -83,7 +86,7 @@ class GenControlPlots(BaseControlPlots):
             # __Higgs__
             elif PID == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # Higgs
                 PID_D1 = abs( event.particles[D1].PID )
-                result["WMotherPID"].append(event.particles[particle.M1].PID)
+                result["WMotherPID"].append(abs(event.particles[particle.M1].PID))
                 if PID_D1 == 5: # b
                     NHbb += 1
                 elif PID_D1 == 24: # W
@@ -94,6 +97,7 @@ class GenControlPlots(BaseControlPlots):
                     NHother+=1
 
         result["NtauW"] = NtauW
+        result["NW"] = NW
         result["NWlnu"] = NWlnu
         result["NWqq"] = NWqq
         result["NHbb"] = NHbb
