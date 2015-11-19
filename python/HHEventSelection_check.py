@@ -28,10 +28,10 @@ def isInCategory(category, categoryData):
     if category == 0:
         return categoryData[0]
     
-    if category == 0:
+    if category == 1:
         return categoryData[1]
     
-    if category == 0:
+    if category == 2:
         return categoryData[0] or categoryData[1]
 
     else:
