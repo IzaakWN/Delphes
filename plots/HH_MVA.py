@@ -73,7 +73,7 @@ class configuration(object):
         self.Seff = 1
         self.Beff = 1
 
-    def setStage(n):
+    def setStage(self,n):
         if n == 1:
             self.treeS = treeS1
             self.treeB = treeB1
