@@ -67,17 +67,17 @@ class GenControlPlots(BaseControlPlots):
         for particle in event.particles:
             PID = abs(particle.PID)
             D1 = particle.D1
-            D2 = particle.D2
             
             # __tau__
             if PID == 15 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
-                if D1.PID == 24:
+                PID_D1 = abs( event.particles[D1].PID )
+                if PID_D1 == 24:
                     NtauW += 1
 
             # __W__
             elif PID == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # W
-                PID_D1 = abs( event.particles[D1].PID )
                 NW += 1
+                PID_D1 = abs( event.particles[D1].PID )
                 if PID_D1 in [11,13,15]: # e, mu, tau
                     NWlnu += 1
                 elif PID_D1 in [1,2,3,4,5]: # d, u, s, c, b
@@ -85,8 +85,8 @@ class GenControlPlots(BaseControlPlots):
         
             # __Higgs__
             elif PID == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # Higgs
-                PID_D1 = abs( event.particles[D1].PID )
                 result["WMotherPID"].append(abs(event.particles[particle.M1].PID))
+                PID_D1 = abs( event.particles[D1].PID )
                 if PID_D1 == 5: # b
                     NHbb += 1
                 elif PID_D1 == 24: # W
