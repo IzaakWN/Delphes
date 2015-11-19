@@ -202,16 +202,18 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 30, -0.4, 1.4)
-            histB = TH1F("histB", "", 30, -0.4, 1.4)
+            histS = TH1F("histS", "", 50, -0.4, 1.4)
+            histB = TH1F("histB", "", 50, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 30, -1.4, 1.4)
-            histB = TH1F("histB", "", 30, -1.4, 1.4)
+            histS = TH1F("histS", "", 50, -1.4, 1.4)
+            histB = TH1F("histB", "", 50, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        significances.append(significance(histS,histB,config.Seff,config.Beff))
+        [Pmax,Omax] = significance(histS,histB,config.Seff,config.Beff)
+        significances.append( ">>> "+config.name+" - "+method+\
+                              ": %.5f significance with a cut at %.5f" % (Pmax,Omax) )
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
@@ -231,8 +233,8 @@ def plot(config):
         gDirectory.Delete("histS")
         gDirectory.Delete("histB")
 
-    for Pmax, Omax in significances:
-        print ">>> "+config.name+" - "+method+": %.5f significance with a cut at %.5f" % (Pmax,Omax)
+    for s in significances:
+        print s
 
 
 
@@ -342,7 +344,8 @@ def main():
         for config in configs:
             train(config)
             plot(config)
-    compare(configs)
+    compare(configs[:4])
+    compare(configs[4:])
     correlation(configs[0])
     if not opts.test:
         correlation(configs[2])
