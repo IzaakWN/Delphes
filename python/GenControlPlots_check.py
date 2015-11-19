@@ -104,6 +104,11 @@ class GenControlPlots(BaseControlPlots):
                     NHHH += 1
                 else:
                     NHother+=1
+        
+        if NHbb == 1 and NHWW == 1:
+            NHHbbWW = 1
+        else:
+            NHHother = 1
 
         result["NtauW"] = NtauW
         
@@ -112,17 +117,12 @@ class GenControlPlots(BaseControlPlots):
         result["NWqq"] = NWqq
         
         result["NHqq"] = NHqq
-        result["NHll"] = NHll
         result["NHbb"] = NHbb
+        result["NHll"] = NHll
         result["NHZZ"] = NHZZ
         result["NHWW"] = NHWW
         result["NHHH"] = NHHH
         result["NHother"] = NHother
-        
-        if NHbb == 1 and NHWW == 1:
-            NHHbbWW = 1
-        else:
-            NHHother = 1
         result["NHHbbWW"] = NHHbbWW
         result["NHHother"] = NHHother
         
