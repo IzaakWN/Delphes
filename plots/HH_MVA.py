@@ -342,10 +342,13 @@ def main():
     if opts.test:
         configs = [configs[-1]]
 
-    for config in configs:
-        if not opts.onlyPlot:
+    if opts.onlyPlot:
+        for config in configs:
+            plot(config)
+    else:
+        for config in configs:
             train(config)
-        plot(config)
+            plot(config)
     compare(configs)
     correlation(configs[0])
     if not opts.test:
