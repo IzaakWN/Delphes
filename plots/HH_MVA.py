@@ -328,11 +328,11 @@ def main():
     configs = [ configuration("everything20", varNames, 1),
                 configuration("best20",    varNamesBest, 1),
                 configuration("MLPTop520", varNamesMLPTop5, 1),
-                configuration("favs20",    varNamesFavs, 1),
-                configuration("everything", varNames, 2),
-                configuration("best",    varNamesBest, 2),
-                configuration("MLPTop5", varNamesMLPTop5, 2),
-                configuration("favs",    varNamesFavs, 2), ]
+                #configuration("favs20",    varNamesFavs, 1),
+                configuration("everything", varNames, 2),]
+                #configuration("best",    varNamesBest, 2),
+                #configuration("MLPTop5", varNamesMLPTop5, 2),
+                #configuration("favs",    varNamesFavs, 2), ]
     
     if opts.test:
         configs = [configs[-1]]
@@ -344,11 +344,11 @@ def main():
         for config in configs:
             train(config)
             plot(config)
-    compare(configs[:4])
-    compare(configs[4:])
+    compare(configs[:len(configs)/2])
+    compare(configs[len(configs)/2:])
     correlation(configs[0])
     if not opts.test:
-        correlation(configs[2])
+        correlation(configuration("test", ["bjet1Pt","jet1Pt"], 1))
 
 
 
