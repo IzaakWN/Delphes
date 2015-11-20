@@ -9,7 +9,7 @@ x2 = 0
 y2 = 0
 width = 0
 height = [0.07,0.19,0.20] + [0.21+0.05*i for i in range(35)]
-colors = [kRed+3,kAzure+4,kOrange-6,kMagenta+3,kGreen+3,kYellow+2,kRed-7]
+colors = [kRed+3,kAzure+4,kOrange-6,kMagenta+3,kGreen+3,kYellow+2,kRed-7, kAzure-4, kOrange+6, kMagenta-3, jYellow-2]
 
 
 def makeCanvas(square=False, scaleleftmargin=1, scalerightmargin=1):

@@ -252,13 +252,13 @@ def compare(configs,stage=""):
     
     c = makeCanvas()
     hist_effs[0].Draw()
-    hist_effs[0].SetLineWidth(2)
+    hist_effs[0].SetLineWidth(0.8)
     hist_effs[0].SetStats(0)
     makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
-            hist.SetLineWidth(2)
+            hist.SetLineWidth(0.8)
     labels = [ ]
     for config in configs:
         labels.extend([config.name+", "+method[1] for method in methods])
@@ -284,7 +284,7 @@ def correlation(config):
     histS = f.Get("CorrelationMatrixS")
     histS.Draw("colz")
     makeLabels2D(histS,xaxis=True,yaxis=True)
-    histS.SetLabelSize(0.052,"x")
+    histS.SetLabelSize(0.048,"x")
     histS.SetLabelSize(0.062,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixS_"+config.name+".png")
@@ -294,7 +294,7 @@ def correlation(config):
     histB = f.Get("CorrelationMatrixB")
     histB.Draw("colz")
     makeLabels2D(histB,xaxis=True,yaxis=True)
-    histB.SetLabelSize(0.052,"x")
+    histB.SetLabelSize(0.048,"x")
     histB.SetLabelSize(0.062,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixB_"+config.name+".png")
