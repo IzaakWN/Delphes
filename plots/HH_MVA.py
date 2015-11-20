@@ -346,7 +346,7 @@ def main():
             plot(config)
     compare(configs,"stage_12")
     compare(configs[:len(configs)/2],"stage_1")
-    compare(configs[len(configs)/2:],"stage_1")
+    compare(configs[len(configs)/2:],"stage_2")
 
     for config in configs:
         if "everything" in config.name:
