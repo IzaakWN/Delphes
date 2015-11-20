@@ -344,6 +344,7 @@ def main():
         for config in configs:
             train(config)
             plot(config)
+    compare(configs,"stage_12")
     compare(configs[:len(configs)/2],"stage_1")
     compare(configs[len(configs)/2:],"stage_1")
 
