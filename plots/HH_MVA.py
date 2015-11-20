@@ -252,13 +252,13 @@ def compare(configs,stage=""):
     
     c = makeCanvas()
     hist_effs[0].Draw()
-    hist_effs[0].SetLineWidth(0.8)
+    hist_effs[0].SetLineWidth(1)
     hist_effs[0].SetStats(0)
     makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
-            hist.SetLineWidth(0.8)
+            hist.SetLineWidth(1)
     labels = [ ]
     for config in configs:
         labels.extend([config.name+", "+method[1] for method in methods])
