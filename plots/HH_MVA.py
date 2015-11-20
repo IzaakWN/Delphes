@@ -324,18 +324,17 @@ def main():
     varNamesFavs = [ "DeltaR_b1l", "DeltaR_bb1",
                      "DeltaR_j1l", "M_bb_closest" ]
 
-
-    configs = [ configuration("everything20", varNames, 1),
-                configuration("best20",    varNamesBest, 1),
-                configuration("MLPTop520", varNamesMLPTop5, 1),
-                #configuration("favs20",    varNamesFavs, 1),
-                configuration("everything", varNames, 2),]
-                #configuration("best",    varNamesBest, 2),
-                #configuration("MLPTop5", varNamesMLPTop5, 2),
-                #configuration("favs",    varNamesFavs, 2), ]
-    
     if opts.test:
-        configs = [configs[-1]]
+        configs = [configuration("test", ["bjet1Pt","jet1Pt"], 1)]
+    else:
+        configs = [ configuration("everything20", varNames, 1),
+                    configuration("best20",    varNamesBest, 1),
+                    configuration("MLPTop520", varNamesMLPTop5, 1),
+                    #configuration("favs20",    varNamesFavs, 1),
+                    configuration("everything", varNames, 2),]
+                    #configuration("best",    varNamesBest, 2),
+                    #configuration("MLPTop5", varNamesMLPTop5, 2),
+                    #configuration("favs",    varNamesFavs, 2), ]
 
     if opts.onlyPlot:
         for config in configs:
@@ -346,9 +345,10 @@ def main():
             plot(config)
     compare(configs[:len(configs)/2])
     compare(configs[len(configs)/2:])
-    correlation(configs[0])
-    if not opts.test:
-        correlation(configuration("test", ["bjet1Pt","jet1Pt"], 1))
+    
+    for config in configs:
+        if "everything" in config.name:
+            correlation(config)
 
 
 
