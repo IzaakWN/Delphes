@@ -252,13 +252,13 @@ def compare(configs,stage=""):
     
     c = makeCanvas()
     hist_effs[0].Draw()
-    hist_effs[0].SetLineWidth(1)
+    hist_effs[0].SetLineWidth(1.2)
     hist_effs[0].SetStats(0)
     makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
-            hist.SetLineWidth(1)
+            hist.SetLineWidth(1.2)
     labels = [ ]
     for config in configs:
         labels.extend([config.name+", "+method[1] for method in methods])
@@ -330,7 +330,7 @@ def main():
     else:
         configs = [ configuration("everything20", varNames, 1),
                     configuration("best20",    varNamesBest, 1),
-                    configuration("MLPTop520", varNamesMLPTop5, 1),
+                    #configuration("MLPTop520", varNamesMLPTop5, 1),
                     #configuration("favs20",    varNamesFavs, 1),
                     configuration("everything", varNames, 2),]
                     #configuration("best",    varNamesBest, 2),
