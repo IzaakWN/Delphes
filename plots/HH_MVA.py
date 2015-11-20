@@ -240,7 +240,7 @@ def plot(config):
 
 
 # HISTOGRAMS: compare all methods and variable configurations
-def compare(configs):
+def compare(configs,stage=""):
     print "\n>>> compare all methods with all variable configurations"
     
     hist_effs = [ ]
@@ -267,7 +267,7 @@ def compare(configs):
     legend.Draw()
     setLineColor(*hist_effs)
     CMS_lumi.CMS_lumi(c,14,33)
-    c.SaveAs("MVA/BrejvsSeffs_"+config.name+".png")
+    c.SaveAs("MVA/BrejvsSeffs_"+stage+".png")
     c.Close()
 
 
@@ -344,8 +344,8 @@ def main():
         for config in configs:
             train(config)
             plot(config)
-    compare(configs[:len(configs)/2])
-    compare(configs[len(configs)/2:])
+    compare(configs[:len(configs)/2],"stage_1")
+    compare(configs[len(configs)/2:],"stage_1")
 
     for config in configs:
         if "everything" in config.name:
