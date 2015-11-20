@@ -69,11 +69,12 @@ class configuration(object):
     def __init__(self, name, varNames, stage):
         self.name = name
         self.varNames = varNames
-        self.hist_effs = [ ]
         self.treeS = None
         self.treeB = None
         self.Seff = 0
         self.Beff = 0
+        self.hist_effs = [ ]
+#        self.significances
         if stage==1:
             self.treeS = treeS1
             self.treeB = treeB1
@@ -345,7 +346,7 @@ def main():
             plot(config)
     compare(configs[:len(configs)/2])
     compare(configs[len(configs)/2:])
-    
+
     for config in configs:
         if "everything" in config.name:
             correlation(config)
