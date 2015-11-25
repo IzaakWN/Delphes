@@ -44,6 +44,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("jet2Pt","jet 2 Pt",100,0,250)
         self.add("bjet1Pt","jet 1 Pt",100,0,250)
         self.add("bjet2Pt","jet 2 Pt",100,0,250)
+        self.add("leptonPt","lepton Pt",100,0,250)
         self.add("MET","MET",100,0,300)
 
         self.add("M_jj","jet-jet combinations Mass",100,0,300)
