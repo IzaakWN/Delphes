@@ -173,7 +173,7 @@ class CleanUpControlPlots(BaseControlPlots):
                         result["M_bb_leading_cut"] = p_bb.Pt()
 
             if DeltaR < DeltaR_bb_closest:
-                bjet_closest = [j1.TLV,j2.TLV]
+                bjet_closest = [j1,j2]
                 result["M_bb_closest"] = p_bb.M()
                 result["cleanup"].append(result["M_bb_closest"])
                 result["DeltaR_bb1"] = TLV.DeltaR(j1.TLV,j2.TLV)
