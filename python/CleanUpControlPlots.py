@@ -284,7 +284,7 @@ class CleanUpControlPlots(BaseControlPlots):
 
         if len(jets)>1:
             result["M_jj_leading"] = (jets[0].TLV + jets[1].TLV).M()
-            if lepton:
+            if len(bl)>1:
                 result["M_jjb2_leading"] = (jets[0].TLV + jets[1].TLV + bl[1].TLV).M()
 
         if p_jj_cut:
