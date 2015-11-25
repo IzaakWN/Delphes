@@ -6,7 +6,7 @@ from ROOT import TLorentzVector as TLV
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Selection20", "Selection30", "MET", "Max5Jets" ]
+categoryNames = [ "GenLevel", "Selection20", "Selection30", "Max5Jets" ]
 
 
 
@@ -96,24 +96,20 @@ def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
     if category == 0:
-        return categoryData[0] #and categoryData[2] and categoryData[3] and categoryData[6]
+        return categoryData[0] and categoryData[2] and categoryData[3] and categoryData[6] and categoryData[7]
         #      > signal
     
     if category == 1:
-        return categoryData[0] and categoryData[2] and categoryData[3] and categoryData[6]
-        #      > signal            > exact 1 lepton    > 4 jets > 20 GeV   > 2 b-jets
+        return categoryData[0] and categoryData[2] and categoryData[3] and categoryData[6] and categoryData[7]
+        #      > signal            > exact 1 lepton    > 4 jets > 20 GeV   > 2 b-jets         > MET
 
     if category == 2:
-        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6]
-        #      > signal            > exact 1 lepton    > 4 jets            > 2 b-jets
+        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7]
+        #      > signal            > exact 1 lepton    > 4 jets            > 2 b-jets         > MET
 
     if category == 3:
-        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7]
-        #      > signal            > exact 1 lepton    > 4 jets            > 2 b-jets          > MET
-
-    if category == 4:
         return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[8]
-        #      > signal            > exact 1 lepton    > 4 jets            > 2 b-jets          > MET               > max 6 jets
+        #      > signal            > exact 1 lepton    > 4 jets            > 2 b-jets          > MET               > max 5 jets
         
     else:
         return False
