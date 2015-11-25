@@ -130,6 +130,8 @@ class CleanUpControlPlots(BaseControlPlots):
         lepton = None
         if len(event.leadingLeptons):
             lepton = event.leadingLeptons[0]
+            lepton.TLV = TLV()
+            lepton.TLV.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
         
         for jet in event.cleanedJets20:
             print "\nBAM!"
