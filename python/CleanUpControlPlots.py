@@ -141,7 +141,7 @@ class CleanUpControlPlots(BaseControlPlots):
         
         # bjet - bjet
         bl = [ ]
-        if lepton:
+        if lepton and bjets:
             bl = sorted( bjets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV), reverse=True ) # need farthest
             result["M_b1l"] = (lepton.TLV+bl[0].TLV).M()
             result["DeltaR_b1l"] = TLV.DeltaR(lepton.TLV,bl[0].TLV)
