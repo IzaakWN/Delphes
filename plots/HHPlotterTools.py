@@ -378,6 +378,8 @@ def makeAxes(*hists, **kwargs):
                 hist0.GetXaxis().SetTitle("#DeltaR_{bl}")
             elif "jet-lepton" in name:
                 hist0.GetXaxis().SetTitle("#DeltaR_{jl}")
+            elif "jet-jet" in name:
+                hist0.GetXaxis().SetTitle("#DeltaR_{jj}")
         elif "DeltaPhi_jjll" in name:
             hist0.GetXaxis().SetTitle("#Delta#phi_{jj,ll}")
             ylabel += "rad"
@@ -399,6 +401,8 @@ def makeAxes(*hists, **kwargs):
                 hist0.GetXaxis().SetTitle("invariant mass M_{bl} [GeV]")
             elif "jet-lepton" in name:
                 hist0.GetXaxis().SetTitle("invariant mass M_{jl} [GeV]")
+            elif "jet-jet" in name:
+                hist0.GetXaxis().SetTitle("invariant mass M_{jj} [GeV]")
             else:
                 hist0.GetXaxis().SetTitle("invariant mass M [GeV]")
         elif " MET" in name:
