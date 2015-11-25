@@ -318,7 +318,7 @@ def plot2D(stage):
         c.Close()
       
     # RECO LEVEL: DeltaPhi vs. DeltaEta
-    names = [ "jj","jl","j1l","j2l","j3l","jjl",
+    names = [ "jj" ,"j1l","j2l","j3l","jjl",
               "bb1","b1l","b2l" ]
 
     for name in names:
