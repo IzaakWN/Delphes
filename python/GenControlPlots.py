@@ -296,7 +296,6 @@ class GenControlPlots(BaseControlPlots):
         result["NWlnu"] = nWlnu
         result["NWjj"] = nWjj
         result["NHbb"] = nHbb
-        result["Nt"] = nt
         result["Ntb"] = ntb
         result["NVirtualWs"] = nVirtualWs
         
