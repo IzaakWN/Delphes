@@ -10,7 +10,7 @@ from fold import fold
 # event.MET
 
 labels = ["Wlnu","Wjj","Wbb","Hbb","HWW","HHbbWW","ttbbWW",\
-          "b1","b2","nu"]#,"q","l","e","mu","tau"] # note "l" is only charged lepton
+          "b1","b2","nu"]#,"q","l"] # note "l" is only charged lepton
 titles = ["Wlnu","Wjj","Wbb","Hbb","HWW","HHbbWW","ttbbWW",\
           "b1","b2","neutrinos"]#,"quarks","leptons","electrons","muons","taus"]
 vars = ["Pt","Eta","Phi","M"]
@@ -48,8 +48,8 @@ class GenControlPlots(BaseControlPlots):
         self.add("DeltaR_q1l","closest quark-lepton DeltaR",100,0,4)
         self.add("DeltaR_q2l","2nd closest quark-lepton DeltaR",100,0,4)
         self.add("DeltaR_bb","bquark-bquark combinations DeltaR",100,0,4)
-        self.add("DeltaR_b1l","closest bquark-lepton DeltaR",100,0,4)
-        self.add("DeltaR_b2l","2nd closest bquark-lepton DeltaR",100,0,4)
+        self.add("DeltaR_b1l","farthest bquark-lepton DeltaR",100,0,4)
+        self.add("DeltaR_b2l","2nd farthest bquark-lepton DeltaR",100,0,4)
         
         self.add("DeltaPhi_qq","coupled quarks DeltaPhi gen",100,0,3.5)
         
@@ -57,10 +57,8 @@ class GenControlPlots(BaseControlPlots):
         self.add2D("DeltaEtaDeltaPhi_bb","bquark-bquark DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
         self.add2D("DeltaEtaDeltaPhi_q1l","closest quark-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
         self.add2D("DeltaEtaDeltaPhi_q2l","2nd closest quark-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
-        self.add2D("DeltaEtaDeltaPhi_qsl","lepton-quarks DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
-        self.add2D("DeltaEtaDeltaPhi_b1l","closest bquark-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
-        self.add2D("DeltaEtaDeltaPhi_b2l","2nd closest bquark-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
-        self.add2D("DeltaEtaDeltaPhi_bsl","lepton-bquarks DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
+        self.add2D("DeltaEtaDeltaPhi_b1l","farthest bquark-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
+        self.add2D("DeltaEtaDeltaPhi_b2l","2nd farthest bquark-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.5)
 
         for i in range(len(labels)):
             label = labels[i]
@@ -113,8 +111,6 @@ class GenControlPlots(BaseControlPlots):
             for var in vars:
                 result[label+var] = [ ]
         result["WlnuMt"] = [ ]
-        result["DeltaEtaDeltaPhi_qsl"] = [ ]
-        result["DeltaEtaDeltaPhi_bsl"] = [ ]
         result["DeltaPhi_qq"] = [ ]
 
         p_Hbb = TLV(0,0,0,0)
@@ -134,21 +130,6 @@ class GenControlPlots(BaseControlPlots):
                 #result["lPhi"].append( particle.Phi )
                 #result["lM"].append( particle.Mass )
                 #nLeptons += 1
-                #if PID == 11:
-                    #result["ePt"].append( particle.PT )
-                    #result["eEta"].append( particle.Eta )
-                    #result["ePhi"].append( particle.Phi )
-                    #result["eM"].append( particle.Mass )
-                #elif PID == 13:
-                    #result["muPt"].append( particle.PT )
-                    #result["muEta"].append( particle.Eta )
-                    #result["muPhi"].append( particle.Phi )
-                    #result["muM"].append( particle.Mass )
-                #elif PID == 15:
-                    #result["tauPt"].append( particle.PT )
-                    #result["tauEta"].append( particle.Eta )
-                    #result["tauPhi"].append( particle.Phi )
-                    #result["tauM"].append( particle.Mass )
                 
                 # top
                 if PID == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2:
@@ -302,21 +283,15 @@ class GenControlPlots(BaseControlPlots):
                                                fold(abs(lepton.Phi - p_q1.Phi())) ]]
                 result["DeltaEtaDeltaPhi_q2l"] = [[ abs(lepton.Eta - p_q2.Eta()),
                                                fold(abs(lepton.Phi - p_q2.Phi())) ]]
-                
-                for quark in quarks:
-                    result["DeltaEtaDeltaPhi_qsl"].append([ abs(lepton.Eta - quark.Eta),
-                                                       fold(abs(lepton.Phi - quark.Phi)) ])
+                                               
             if len(b)>1:
-                [p_b1,p_b2] = sorted(p_b, key = lambda p: TLV.DeltaR(p,p_lepton))[:2]
+                [p_b1,p_b2] = sorted(p_b, key = lambda p: TLV.DeltaR(p,p_lepton), reverse=True)[:2] # farthest
                 result["DeltaR_b1l"] = TLV.DeltaR(p_lepton,p_b1)
                 result["DeltaR_b2l"] = TLV.DeltaR(p_lepton,p_b2)
                 result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - p_b1.Eta()),
                                                fold(abs(lepton.Phi - p_b1.Phi())) ]]
                 result["DeltaEtaDeltaPhi_b2l"] = [[ abs(lepton.Eta - p_b2.Eta()),
                                                fold(abs(lepton.Phi - p_b2.Phi())) ]]
-                for bquark in b:
-                    result["DeltaEtaDeltaPhi_bsl"].append([ abs(lepton.Eta - bquark.Eta),
-                                                            fold(abs(lepton.Phi - bquark.Phi)) ])
 
         result["NWlnu"] = nWlnu
         result["NWjj"] = nWjj
