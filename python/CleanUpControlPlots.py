@@ -158,6 +158,7 @@ class CleanUpControlPlots(BaseControlPlots):
         DeltaR_bb_closest = 100 # >> pi
         PT_bb_leading = 0
         bjet_closest = [ ]
+        madeCut_closest = False
         for j1, j2 in combinations(bjets,2):
             p_bb = j1.TLV + j2.TLV
             DeltaR = TLV.DeltaR(j1.TLV, j2.TLV)
@@ -176,12 +177,14 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["cleanup"].append(result["M_bb_closest"])
                 result["DeltaR_bb1"] = TLV.DeltaR(j1.TLV,j2.TLV)
                 result["cleanup"].append(result["DeltaR_bb1"])
-                result["DeltaPhi_bb1"] = fold(abs(j1.Phi - j2.Phi()))
+                result["DeltaPhi_bb1"] = fold(abs(j1.Phi - j2.Phi))
                 result["DeltaEtaDeltaPhi_bb1"] = [[ abs(j1.Eta - j2.Eta),
                                                     result["DeltaPhi_bb1"] ]]
                 DeltaR_bb_closest = DeltaR
-                if madeCut:
-                    result["M_bb_closest_cut"] = p_bb.M()
+                madeCut_closest = True
+                
+        if madeCut_closest:
+            result["M_bb_closest_cut"] = p_bb.M()
         
         if len(bjets)>1:
             result["M_bb_leading"] = (p_bjets[0]+p_bjets[1]).M()
