@@ -174,7 +174,7 @@ class CleanUpControlPlots(BaseControlPlots):
                 bjet_closest = [j1.TLV,j2.TLV]
                 result["M_bb_closest"] = p_bb.M()
                 result["cleanup"].append(result["M_bb_closest"])
-                result["DeltaR_bb1"] = TLV.DeltaR(lepton, p_bb)
+                result["DeltaR_bb1"] = TLV.DeltaR(lepton.TLV, p_bb)
                 result["cleanup"].append(result["DeltaR_bb1"])
                 result["DeltaPhi_bb1"] = fold(abs(lepton.Phi - p_bb.Phi()))
                 result["DeltaEtaDeltaPhi_bb1"] = [[ abs(lepton.Eta - p_bb.Eta),
