@@ -217,7 +217,7 @@ class CleanUpControlPlots(BaseControlPlots):
 
         # jet i - lepton
         if lepton:
-            jil = sorted(jets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV))[:3]
+            jil = sorted(jets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV))[:3] # closest jets
             if len(jil)>0:
                 result["DeltaR_j1l"] = TLV.DeltaR(lepton.TLV,jil[0].TLV)
                 result["cleanup"].append(result["DeltaR_j1l"])
