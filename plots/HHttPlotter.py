@@ -43,7 +43,7 @@ def plotBasic(stage):
 
 #    names.append("cleanup/DeltaPhi_METl")
     names.append("cleanup/jet1Pt")
-    names.append("cleanup/jetPt")
+    names.append("cleanup/jet2Pt")
     names.append("cleanup/bjet1Pt")
     names.append("cleanup/bjet2Pt")
     names.append("cleanup/leptonPt")
