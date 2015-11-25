@@ -14,7 +14,6 @@ def fold(DeltaPhi):
 def foldObj(p,q):
     
     DeltaPhi = abs( p.Phi - q.Phi )
-
     if DeltaPhi > math.pi:
         DeltaPhi = 2*math.pi - DeltaPhi
 
@@ -25,7 +24,6 @@ def foldObj(p,q):
 def foldTLV(p,q):
     
     DeltaPhi = abs( p.Phi() - q.Phi() )
-
     if DeltaPhi > math.pi:
         DeltaPhi = 2*math.pi - DeltaPhi
 

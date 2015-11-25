@@ -39,10 +39,10 @@ def plotBasic(stage):
     names.append("cleanup/DeltaR_jjbb")
     names.append("cleanup/DeltaPhi_jj_b2b")
 
-    for comb in [ "qq","q1l","q2l",
-                  "bb","b1l","b1l", ]:
-        names.append("gen/DeltaR_"+comb)
-    names.append("gen/DeltaPhi_qq")
+#    for comb in [ "qq","q1l","q2l",
+#                  "bb","b1l","b1l", ]:
+#        names.append("gen/DeltaR_"+comb)
+#    names.append("gen/DeltaPhi_qq")
 
     #for particle in ["b1","b2","q","nu","l","e","mu"]:
         #for var in ["Pt","Eta","M"]:
