@@ -195,7 +195,7 @@ class CleanUpControlPlots(BaseControlPlots):
 
 
         # leading non-b-jets
-        for bjet in bjet_closest: # remove closest bjets pair from jet list
+        for bjet in bjet_closest: # remove closest bjet pair from jet list
             jets.remove(bjet)
         if len(jets)>0:
             result["jet1Pt"] = jets[0].PT
