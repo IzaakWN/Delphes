@@ -133,8 +133,8 @@ class CleanUpControlPlots(BaseControlPlots):
         
         # bjet - bjet
         bl = [ ]
-        if lepton and len(DeltaR_bl):
-            bl = sorted( bjets, key=lambda p: TLV.DeltaR(p,lepton.TLV) )[:2] # need closest
+        if lepton:
+            bl = sorted( bjets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV) )[:2] # need closest
             result["M_b1l"] = (lepton.TLV+bl[0].TLV).M()
             result["DeltaR_b1l"] = TLV.DeltaR(lepton.TLV,bl[0].TLV)
             result["cleanup"].append(result["DeltaR_b1l"])
@@ -153,7 +153,7 @@ class CleanUpControlPlots(BaseControlPlots):
         PT_bb_leading = 0
         bjet_closest = [ ]
         for j1, j2 in combinations(bjets,2):
-            p_bb = j1.TLV + j1.TLV
+            p_bb = j1.TLV + j2.TLV
             DeltaR = TLV.DeltaR(j1.TLV, j2.TLV)
             madeCut = False
             if lepton:
