@@ -290,12 +290,13 @@ class CleanUpControlPlots(BaseControlPlots):
 #                result["M_jj_b2b_cut"] = p_jj_b2b.M()
 
         if len(jets)>1:
-            result["M_jj_leading"] = (jets[0].TLV + jets[1].TLV).M()
+            p_jj = jets[0].TLV + jets[1]
+            result["M_jj_leading"] = p_jj.M()
             if lepton:
-                result["M_jjl_leading"] = (jets[0].TLV + jets[1].TLV + lepton.TLV).M()
-                result["DeltaR_jjl_leading"] = TLV.DeltaR(jets[0].TLV,jets[1].TLV,lepton.TLV)
+                result["M_jjl_leading"] = (p_jj + lepton.TLV).M()
+                result["DeltaR_jjl_leading"] = TLV.DeltaR(p_jj,lepton.TLV)
                 if len(bl)>1: # take bjet second closest to lepton
-                    result["M_jjb_leading"] = (jets[0].TLV + jets[1].TLV + bl[-2].TLV).M()
+                    result["M_jjb_leading"] = (p_jj + bl[-2].TLV).M()
                     result["cleanup"].append(result["M_jjb_leading"])
     
 
