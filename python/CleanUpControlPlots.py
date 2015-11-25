@@ -242,11 +242,11 @@ class CleanUpControlPlots(BaseControlPlots):
 
         # jet comb
         for j1, j2 in combinations(jets,2):
-            p_jj = j1 + j2
+            p_jj = j1.TLV + j2.TLV
             p_jjs.append( p_jj )
             DeltaPhi = fold(abs(j1.Phi - j2.Phi))
             result["M_jj"].append(p_jj.M())
-            result["DeltaR_jj"].append(TLV.DeltaR( j1, j2 ))
+            result["DeltaR_jj"].append(TLV.DeltaR( j1.TLV, j2.TLV ))
             result["DeltaPhi_jj"].append(DeltaPhi)
             result["DeltaEtaDeltaPhi_jj"].append([ abs(j1.Eta - j2.Eta),
                                                    DeltaPhi ])
