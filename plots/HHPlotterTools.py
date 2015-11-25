@@ -371,15 +371,15 @@ def makeAxes(*hists, **kwargs):
             ylabel += "GeV"
         elif "DeltaR" in name:
             if "lepton-lepton" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{ll} [GeV]")
+                hist0.GetXaxis().SetTitle("#DeltaR_{ll}")
             elif "bjet-bjet" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{bb} [GeV]")
+                hist0.GetXaxis().SetTitle("#DeltaR_{bb}")
             elif "bjet-lepton" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{bl} [GeV]")
+                hist0.GetXaxis().SetTitle("#DeltaR_{bl}")
             elif "jet-lepton" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{jl} [GeV]")
+                hist0.GetXaxis().SetTitle("#DeltaR_{jl}")
         elif "DeltaPhi_jjll" in name:
-            hist0.GetXaxis().SetTitle("#Delta#phi_{jj,ll} [GeV]")
+            hist0.GetXaxis().SetTitle("#Delta#phi_{jj,ll}")
             ylabel += "rad"
         elif " Eta" in name and " Eta<" not in name:
             hist0.GetXaxis().SetTitle("pseudorapidity #eta")
@@ -390,15 +390,17 @@ def makeAxes(*hists, **kwargs):
             if "vs." in name:
                 hist0.GetXaxis().SetTitle("W #rightarrow l#nu mass [GeV]")
                 ylabel = "W #rightarrow qq mass [GeV]"
+            ylabel += "GeV"
             elif "lepton-lepton" in name:
                 hist0.GetXaxis().SetTitle("invariant mass M_{ll} [GeV]")
-                ylabel += "GeV"
             elif "bjet-bjet" in name:
                 hist0.GetXaxis().SetTitle("invariant mass M_{bb} [GeV]")
-                ylabel += "GeV"
+            elif "bjet-lepton" in name:
+                hist0.GetXaxis().SetTitle("invariant mass M_{bl} [GeV]")
+            elif "jet-lepton" in name:
+                hist0.GetXaxis().SetTitle("invariant mass M_{jl} [GeV]")
             else:
                 hist0.GetXaxis().SetTitle("invariant mass M [GeV]")
-                ylabel += "GeV"
         elif " MET" in name:
             hist0.GetXaxis().SetTitle("MET [GeV]")
             ylabel += "GeV"
