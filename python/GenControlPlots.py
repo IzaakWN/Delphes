@@ -7,7 +7,7 @@ from fold import fold
 # Requirements:
 # event.Hs
 # event.bHs
-# event.MEt
+# event.MET
 
 labels = ["Wlnu","Wjj","Wbb","Hbb","HWW","HHbbWW","ttbbWW",\
           "b1","b2","nu"]#,"q","l","e","mu","tau"] # note "l" is only charged lepton
