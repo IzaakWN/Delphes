@@ -37,8 +37,8 @@ class CleanUpControlPlots(BaseControlPlots):
         self.addBranch("cleanup","DeltaPhi_METl")
         self.addBranch("cleanup","MT_lnu")
 
-        self.add("Njets20","jets multiplicity (Pt > 20 GeV)",10,0,10)
-        self.add("Njets30","jets multiplicity (Pt > 30 GeV)",10,0,10)
+        self.add("Njets20","jets multiplicity (Pt > 20 GeV)",15,0,15)
+        self.add("Njets30","jets multiplicity (Pt > 30 GeV)",15,0,15)
         self.add("Nbjets30","bjets multiplicity (Pt > 30 GeV)",10,0,10)
         self.add("jet1Pt","jet 1 Pt",100,0,250)
         self.add("jet2Pt","jet 2 Pt",100,0,250)
@@ -53,7 +53,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_jj_leading_cut","leading jet-jet (cut) Mass",100,0,300)
 #        self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
 #        self.add("M_jj_b2b_cut","jet-jet b2b Mass",100,0,300)
-        self.add("M_jjb_leading","leading jet-jet-bjet Mass",100,0,300)
+        self.add("M_jjb_leading","leading jet-jet-bjet Mass",100,0,500)
         self.add("M_jjl","jets-lepton combinations Mass",150,0,450)
         self.add("M_bb_leading","leading bjet-bjet Mass",100,0,300)
         self.add("M_bb_leading_cut","leading bjet-bjet (cut) Mass",100,0,300)
@@ -142,7 +142,7 @@ class CleanUpControlPlots(BaseControlPlots):
         # bjet - bjet
         bl = [ ]
         if lepton and bjets:
-            bl = sorted( bjets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV), reverse=True ) # need farthest
+            bl = sorted( bjets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV), reverse=True ) # farthest->closest
             result["M_b1l"] = (lepton.TLV+bl[0].TLV).M()
             result["DeltaR_b1l"] = TLV.DeltaR(lepton.TLV,bl[0].TLV)
             result["cleanup"].append(result["DeltaR_b1l"])
@@ -177,15 +177,17 @@ class CleanUpControlPlots(BaseControlPlots):
             if DeltaR < DeltaR_bb_closest:
                 bjet_closest = [j1,j2]
                 result["M_bb_closest"] = p_bb.M()
-                result["cleanup"].append(result["M_bb_closest"])
                 result["DeltaR_bb1"] = TLV.DeltaR(j1.TLV,j2.TLV)
-                result["cleanup"].append(result["DeltaR_bb1"])
                 result["DeltaPhi_bb1"] = fold(abs(j1.Phi - j2.Phi))
                 result["DeltaEtaDeltaPhi_bb1"] = [[ abs(j1.Eta - j2.Eta),
                                                     result["DeltaPhi_bb1"] ]]
                 DeltaR_bb_closest = DeltaR
                 madeCut_closest = True
-                
+    
+        if "M_bb_closest" in result:
+            result["cleanup"].append(result["M_bb_closest"])
+            result["cleanup"].append(result["DeltaR_bb1"])
+        
         if madeCut_closest:
             result["M_bb_closest_cut"] = p_bb.M()
         

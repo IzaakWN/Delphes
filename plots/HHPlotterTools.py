@@ -387,10 +387,10 @@ def makeAxes(*hists, **kwargs):
             hist0.GetXaxis().SetTitle("azimuthal angle #phi [rad]")
             ylabel += "rad"
         elif " Mass" in name:
+            ylabel += "GeV"
             if "vs." in name:
                 hist0.GetXaxis().SetTitle("W #rightarrow l#nu mass [GeV]")
                 ylabel = "W #rightarrow qq mass [GeV]"
-            ylabel += "GeV"
             elif "lepton-lepton" in name:
                 hist0.GetXaxis().SetTitle("invariant mass M_{ll} [GeV]")
             elif "bjet-bjet" in name:
