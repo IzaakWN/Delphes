@@ -28,16 +28,26 @@ def plotBasic(stage):
     if stage == "stage_0/":
         names.append("selection/category")
 
-    for comb in [ "jj","jj_cut","jj_leading","jj_leading_cut","jj_b2b","jj_b2b_cut","jjl",
-                  "bb","bb_cut","bb_leading","bb_leading_cut","bb_closest","bb_closest_cut","b1l" ]:
+    for comb in [ "jj","jjl","b1l",
+                  "jjb_leading","bb_farthest",
+                  "jj_cut","jj_leading","jj_leading_cut",
+                  "bb_cut","bb_leading","bb_leading_cut",
+                           "bb_closest","bb_closest_cut" ]:
         names.append("cleanup/M_"+comb)
+    names.append("cleanup/MT_lnu")
 
-    for comb in [ "jj","jl","j1l","j2l","jjl",
-                  "bb","bb1","bl","b1l","b2l" ]:
+    for comb in [ "jj" ,"j1l","j2l","jjl",
+                        "b1l","b2l","bb1" ]:
         names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
-    names.append("cleanup/DeltaR_jjbb")
-    names.append("cleanup/DeltaPhi_jj_b2b")
+    names.append("cleanup/DeltaPhi_METl")
+    names.append("cleanup/jet1Pt")
+    names.append("cleanup/jetPt")
+    names.append("cleanup/bjet1Pt")
+    names.append("cleanup/bjet2Pt")
+    names.append("cleanup/leptonPt")
+    names.append("cleanup/MET")
+
 
 #    for comb in [ "qq","q1l","q2l",
 #                  "bb","b1l","b1l", ]:
