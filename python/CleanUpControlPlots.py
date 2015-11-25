@@ -220,7 +220,7 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["DeltaR_j1l"] = TLV.DeltaR(lepton.TLV,jil[0].TLV)
                 result["cleanup"].append(result["DeltaR_j1l"])
                 result["DeltaPhi_j1l"] = fold(abs(lepton.Phi - jil[0].Phi))
-                result["DeltaEtaDeltaPhi_j1l"] = [[ abs(lepton.Eta - ji[0].Eta),
+                result["DeltaEtaDeltaPhi_j1l"] = [[ abs(lepton.Eta - jil[0].Eta),
                                                     result["DeltaPhi_j1l"] ]]
                 if len(jil)>1:
                     result["DeltaR_j2l"] = TLV.DeltaR(lepton.TLV,jil[1].TLV)
