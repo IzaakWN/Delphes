@@ -134,10 +134,8 @@ class CleanUpControlPlots(BaseControlPlots):
             lepton.TLV.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
         
         for jet in event.cleanedJets20:
-            print "\nBAM!"
             jet.TLV = TLV()
             jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
-            print "j.TLV = %s" % jet.TLV
         
         # bjet - bjet
         bl = [ ]
@@ -176,11 +174,11 @@ class CleanUpControlPlots(BaseControlPlots):
                 bjet_closest = [j1.TLV,j2.TLV]
                 result["M_bb_closest"] = p_bb.M()
                 result["cleanup"].append(result["M_bb_closest"])
-                result["DeltaR_bb1"] = TLV.DeltaR(lepton.TLV, p_bb)
+                result["DeltaR_bb1"] = TLV.DeltaR(j1.TLV,j2.TLV)
                 result["cleanup"].append(result["DeltaR_bb1"])
-                result["DeltaPhi_bb1"] = fold(abs(lepton.Phi - p_bb.Phi()))
-                result["DeltaEtaDeltaPhi_bb1"] = [[ abs(lepton.Eta - p_bb.Eta),
-                                                    fold(abs(lepton.Phi - p_bb.Phi())) ]]
+                result["DeltaPhi_bb1"] = fold(abs(j1.Phi - j2.Phi()))
+                result["DeltaEtaDeltaPhi_bb1"] = [[ abs(j1.Eta - j2.Eta),
+                                                    result["DeltaPhi_bb1"] ]]
                 DeltaR_bb_closest = DeltaR
                 if madeCut:
                     result["M_bb_closest_cut"] = p_bb.M()
