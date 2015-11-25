@@ -131,6 +131,10 @@ class CleanUpControlPlots(BaseControlPlots):
         if len(event.leadingLeptons):
             lepton = event.leadingLeptons[0]
         
+        for j in event.cleanedJets20:
+            print "\nBAM!"
+            print "j.TLV = %s" % j.TLV
+        
         # bjet - bjet
         bl = [ ]
         if lepton:
