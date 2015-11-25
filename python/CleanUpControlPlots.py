@@ -50,15 +50,16 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_jj","jet-jet combinations Mass",100,0,300)
         self.add("M_jj_cut","jet-jet combinations (cut) Mass",100,0,300)
         self.add("M_jj_leading","leading jet-jet Mass",100,0,300)
-        self.add("M_jj_leading_cut","jet-jet (cut) Mass",100,0,300)
+        self.add("M_jj_leading_cut","leading jet-jet (cut) Mass",100,0,300)
 #        self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
 #        self.add("M_jj_b2b_cut","jet-jet b2b Mass",100,0,300)
-        self.add("M_jjb_leading","jet-jet-bjet Mass",100,0,300)
+        self.add("M_jjb_leading","leading jet-jet-bjet Mass",100,0,300)
         self.add("M_jjl","jets-lepton combinations Mass",150,0,450)
-        self.add("M_bb_leading","bjet-bjet Mass",100,0,300)
+        self.add("M_bb_leading","leading bjet-bjet Mass",100,0,300)
+        self.add("M_bb_farthest","farthest bjet-bjet Mass",100,0,300)
         self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
         self.add("M_bb_cut","bjet-bjet combinations (cut) Mass",100,0,300)
-        self.add("M_bb_leading_cut","bjet-bjet (cut) Mass",100,0,300)
+        self.add("M_bb_leading_cut","leading bjet-bjet (cut) Mass",100,0,300)
         self.add("M_bb_closest_cut","closest bjet-bjet (cut) Mass",100,0,300)
         self.add("M_b1l","closest bjet-lepton Mass",100,0,300)
         self.add("MT_lnu","Wlnu Mt",100,0,300)
@@ -286,7 +287,7 @@ class CleanUpControlPlots(BaseControlPlots):
         if len(jets)>1:
             result["M_jj_leading"] = (jets[0].TLV + jets[1].TLV).M()
             if len(bl)>1:
-                result["M_jjb2_leading"] = (jets[0].TLV + jets[1].TLV + bl[-2].TLV).M()
+                result["M_jjb_leading"] = (jets[0].TLV + jets[1].TLV + bl[-2].TLV).M()
                                                                 # take bjet second closest to lepton
 
         if p_jj_cut:
