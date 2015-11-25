@@ -289,7 +289,7 @@ class CleanUpControlPlots(BaseControlPlots):
                                                                 # take bjet second closest to lepton
 
         if p_jj_cut:
-            p = max(p_jj_cut, key=lambda p: p.Pt(),reverse=True)
+            p = max(p_jj_cut, key=lambda p: p.Pt())
             result["M_jj_leading_cut"] = p.M()
 
         # MET - lepton
