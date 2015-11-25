@@ -29,25 +29,10 @@ class GenControlPlots(BaseControlPlots):
 
     def beginJob(self):
         
-        #self.add("NLeptons","leptons multiplicity gen",10,0,10)
-        #self.add("NElectrons","electrons multiplicity gen",10,0,10)
-        #self.add("NMuons","muons multiplicity gen",10,0,10)
-        #self.add("NTaus","taus multiplicity gen",10,0,10)
-        self.add("NHiggs","Higgs multiplicity gen",10,0,10)
-        self.add("NW","W's multiplicity gen",10,0,10)
-        self.add("Nb","bottom quarks multiplicity gen",10,0,10)
-        self.add("Nt","top quarks multiplicity gen",10,0,10)
-        
         self.add("NWlnu","Wlnu multiplicity gen",5,0,5)
         self.add("NWjj","Wjj multiplicity gen",10,0,10)
         self.add("NHbb","Hbb multiplicity gen",10,0,10)
         self.add("Ntb","tb multiplicity gen",10,0,10)
-        
-        self.add("WDPID","W's daughters PID gen",30,0,30)
-        self.add("WMPID","W's mother PID gen",30,0,30)
-        self.add("bMPID","b-quark's mother PID gen",12000,-3000,3000)
-        self.add("qMPID","non b-quark's mother PID gen",12000,-3000,3000)
-        self.add("tDPID","t's daughters PID gen",30,0,30)
         
         self.add("NVirtualWs","virtual W's multiplicity gen",5,0,5)
         
@@ -114,10 +99,6 @@ class GenControlPlots(BaseControlPlots):
         nHiggs = 0
         nt = 0
         nW = 0
-        #nLeptons = 0
-        #nMuons = 0
-        #nElectrons = 0
-        #nTaus = 0
         nWlnu = 0
         nWjj = 0
         nHbb = 0
@@ -132,11 +113,6 @@ class GenControlPlots(BaseControlPlots):
             for var in vars:
                 result[label+var] = [ ]
         result["WlnuMt"] = [ ]
-        result["WDPID"] = [ ]
-        result["WMPID"] = [ ]
-        result["bMPID"] = [ ]
-        result["qMPID"] = [ ]
-        result["tDPID"] = [ ]
         result["DeltaEtaDeltaPhi_qsl"] = [ ]
         result["DeltaEtaDeltaPhi_bsl"] = [ ]
         result["DeltaPhi_qq"] = [ ]
@@ -159,39 +135,25 @@ class GenControlPlots(BaseControlPlots):
                 #result["lM"].append( particle.Mass )
                 #nLeptons += 1
                 #if PID == 11:
-                    #nElectrons += 1
                     #result["ePt"].append( particle.PT )
                     #result["eEta"].append( particle.Eta )
                     #result["ePhi"].append( particle.Phi )
                     #result["eM"].append( particle.Mass )
                 #elif PID == 13:
-                    #nMuons += 1
                     #result["muPt"].append( particle.PT )
                     #result["muEta"].append( particle.Eta )
                     #result["muPhi"].append( particle.Phi )
                     #result["muM"].append( particle.Mass )
                 #elif PID == 15:
-                    #nTaus += 1
                     #result["tauPt"].append( particle.PT )
                     #result["tauEta"].append( particle.Eta )
                     #result["tauPhi"].append( particle.Phi )
                     #result["tauM"].append( particle.Mass )
-
-            # __quark__
-            if PID in [1,2,3,4,6]: # d, u, s, c, t   Note: no b-quark!!!
-                #result["qPt"].append( particle.PT )
-                #result["qEta"].append( particle.Eta )
-                #result["qPhi"].append( particle.Phi )
-                #result["qM"].append( particle.Mass )
-                M1 = particle.M1
-                if M1>=0 and M1<len(event.particles) and event.particles[M1]:
-                    result["qMPID"].append( abs(event.particles[M1].PID) )
                 
                 # top
                 if PID == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2:
                     nt += 1
                     p_t[nt-1].SetPtEtaPhiM(particle.PT, particle.Eta, particle.Phi, particle.Mass)
-                    result["tDPID"].extend( [abs(event.particles[D1].PID), abs(event.particles[D2].PID) ])
                     if abs(event.particles[D2].PID) == 5: # b
                         ntb+=1
                         b.append(event.particles[D2])
@@ -201,21 +163,12 @@ class GenControlPlots(BaseControlPlots):
                         ntb+=1
                         b.append(event.particles[D1])
                         W.append(event.particles[D2])
-            
-            # __b-quark__
-            if PID == 5:
-                nb += 1
-                M1 = particle.M1
-                if M1>=0 and M1<len(event.particles) and event.particles[M1]:
-                    result["bMPID"].append( abs(event.particles[M1].PID) )
 
             # __W__
             if PID == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # W
                 nW += 1
                 PID_D1 = abs( event.particles[D1].PID )
                 PID_D2 = abs( event.particles[D2].PID )
-                result["WDPID"].extend( [PID_D1, PID_D2] ) # all W daughters
-                result["WMPID"].append( event.particles[particle.M1].PID ) # W mother
                 if PID_D1 in [11,13,15]: # e, mu, tau
                     leptons.append(event.particles[D1])
                     neutrinos.append(event.particles[D2])
@@ -365,16 +318,9 @@ class GenControlPlots(BaseControlPlots):
                     result["DeltaEtaDeltaPhi_bsl"].append([ abs(lepton.Eta - bquark.Eta),
                                                             fold(abs(lepton.Phi - bquark.Phi)) ])
 
-        #result["NLeptons"] = nLeptons
-        #result["NElectrons"] = nElectrons
-        #result["NMuons"] = nMuons
-        #result["NTaus"] = nTaus
-        result["NHiggs"] = nHiggs
-        result["NW"] = nW
         result["NWlnu"] = nWlnu
         result["NWjj"] = nWjj
         result["NHbb"] = nHbb
-        result["Nb"] = nb
         result["Nt"] = nt
         result["Ntb"] = ntb
         result["NVirtualWs"] = nVirtualWs
