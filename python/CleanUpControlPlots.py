@@ -285,7 +285,8 @@ class CleanUpControlPlots(BaseControlPlots):
         if len(jets)>1:
             result["M_jj_leading"] = (jets[0].TLV + jets[1].TLV).M()
             if len(bl)>1:
-                result["M_jjb2_leading"] = (jets[0].TLV + jets[1].TLV + bl[1].TLV).M()
+                result["M_jjb2_leading"] = (jets[0].TLV + jets[1].TLV + bl[-2].TLV).M()
+                                                                # take bjet second closest to lepton
 
         if p_jj_cut:
             p = max(p_jj_cut, key=lambda p: p.Pt(),reverse=True)
