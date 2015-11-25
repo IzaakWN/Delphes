@@ -50,8 +50,8 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_jj_cut","jet-jet combinations (cut) Mass",100,0,300)
         self.add("M_jj_leading","leading jet-jet Mass",100,0,300)
         self.add("M_jj_leading_cut","jet-jet (cut) Mass",100,0,300)
-        self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
-        self.add("M_jj_b2b_cut","jet-jet b2b Mass",100,0,300)
+#        self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
+#        self.add("M_jj_b2b_cut","jet-jet b2b Mass",100,0,300)
         self.add("M_jjl","jets-lepton combinations Mass",150,0,450)
         self.add("M_bb_leading","bjet-bjet Mass",100,0,300)
         self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
@@ -91,8 +91,8 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add2D("DeltaEtaDeltaPhi_b1l","closest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_b2l","2nd closest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
 
-        self.add2D("MDeltaPhi_jj_b2b","jet-jet DeltaPhi vs. Mass",100,0,200,50,0,3.2)
-    
+#        self.add2D("MDeltaPhi_jj_b2b","jet-jet DeltaPhi vs. Mass",100,0,200,50,0,3.2)
+
 
 
     # get information
@@ -254,26 +254,26 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["DeltaPhi_jjl"].append( DeltaPhi )
                 result["DeltaEtaDeltaPhi_jjl"].append([ abs(lepton.Eta - p_jj.Eta()),
                                                         DeltaPhi ])
-            # find best b2b comb
-            beta = p_jj.BoostVector()
-            q1 = copy(j1.TLV)
-            q2 = copy(j2.TLV)
-            q1.Boost(-beta)
-            q2.Boost(-beta)
-            DeltaPhi = fold(abs(q1.Phi()-q2.Phi()))
-            if DeltaPhi > DeltaPhi_b2b:
-                p_jj_b2b = copy(p_jj)
-                DeltaPhi_b2b = DeltaPhi
-                if madeCut:
-                    p_jj_b2b_cut = p_jj_b2b
-                    #DeltaPhi_b2b_cut = DeltaPhi
-                    
-        if p_jj_b2b:
-            result["M_jj_b2b"] = p_jj_b2b.M()
-            result["DeltaPhi_jj_b2b"] = DeltaPhi_b2b
-            result["MDeltaPhi_jj_b2b"] = [[ p_jj_b2b.M(), DeltaPhi_b2b ]]            
-            if p_jj_b2b_cut:
-                result["M_jj_b2b_cut"] = p_jj_b2b.M()
+#            # find best b2b comb
+#            beta = p_jj.BoostVector()
+#            q1 = copy(j1.TLV)
+#            q2 = copy(j2.TLV)
+#            q1.Boost(-beta)
+#            q2.Boost(-beta)
+#            DeltaPhi = fold(abs(q1.Phi()-q2.Phi()))
+#            if DeltaPhi > DeltaPhi_b2b:
+#                p_jj_b2b = copy(p_jj)
+#                DeltaPhi_b2b = DeltaPhi
+#                if madeCut:
+#                    p_jj_b2b_cut = p_jj_b2b
+#                    #DeltaPhi_b2b_cut = DeltaPhi
+#
+#        if p_jj_b2b:
+#            result["M_jj_b2b"] = p_jj_b2b.M()
+#            result["DeltaPhi_jj_b2b"] = DeltaPhi_b2b
+#            result["MDeltaPhi_jj_b2b"] = [[ p_jj_b2b.M(), DeltaPhi_b2b ]]            
+#            if p_jj_b2b_cut:
+#                result["M_jj_b2b_cut"] = p_jj_b2b.M()
 
         if len(jets)>1:
             result["M_jj_leading"] = (p_jets[0] + p_jets[1]).M()
