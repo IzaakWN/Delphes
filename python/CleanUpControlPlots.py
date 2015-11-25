@@ -249,8 +249,8 @@ class CleanUpControlPlots(BaseControlPlots):
             # jets comb - lepton
             madeCut = False
             if lepton:
-                if ((TLV.DeltaR(lepton.TLV,j1)<1.5 and TLV.DeltaR(lepton.TLV,j2) < 2) or \
-                    (TLV.DeltaR(lepton.TLV,j1)<2   and TLV.DeltaR(lepton.TLV,j2) < 1.5)) and \
+                if ((TLV.DeltaR(lepton.TLV,j1.TLV)<1.5 and TLV.DeltaR(lepton.TLV,j2.TLV) < 2) or \
+                    (TLV.DeltaR(lepton.TLV,j1.TLV)<2   and TLV.DeltaR(lepton.TLV,j2.TLV) < 1.5)) and \
                      DeltaPhi < 2:
                     madeCut = True
                     p_jj_cut.append(p_jj)
