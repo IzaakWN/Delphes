@@ -147,7 +147,7 @@ class CleanUpControlPlots(BaseControlPlots):
             result["DeltaPhi_b1l"] = fold(abs(lepton.Phi - bl[0].Phi))
             result["DeltaEtaDeltaPhi_b1l"] = [[ abs(lepton.Eta - bl[0].Eta),
                                                 result["DeltaPhi_b1l"] ]]
-            if len(p_bl)>1:
+            if len(bl)>1:
                 result["DeltaR_b2l"] = TLV.DeltaR(lepton.TLV,bl[1].TLV)
                 result["cleanup"].append(result["DeltaR_b2l"])
                 result["DeltaPhi_b2l"] = fold(abs(lepton.Phi - bl[1].Phi))
@@ -211,39 +211,34 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["cleanup"].append(result["bjet2Pt"])
         
         
-        
-        
-        
-        # jet - jet
-        p_jjs = [ ]
-        p_jj_cut = [ ]
-#        p_jj_b2b = None
-#        p_jj_b2b_cut = None
-#        DeltaPhi_b2b = 0 # < pi
+
 
         # jet i - lepton
         if lepton:
             jil = sorted(jets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV))[:3]
-            if len(p_ji)>0:
+            if len(jil)>0:
                 result["DeltaR_j1l"] = TLV.DeltaR(lepton.TLV,jil[0].TLV)
                 result["cleanup"].append(result["DeltaR_j1l"])
                 result["DeltaPhi_j1l"] = fold(abs(lepton.Phi - jil[0].Phi))
                 result["DeltaEtaDeltaPhi_j1l"] = [[ abs(lepton.Eta - ji[0].Eta),
                                                     result["DeltaPhi_j1l"] ]]
-                if len(p_ji)>1:
+                if len(jil)>1:
                     result["DeltaR_j2l"] = TLV.DeltaR(lepton.TLV,ji[1].TLV)
                     result["cleanup"].append(result["DeltaR_j2l"])
                     result["DeltaPhi_j2l"] = fold(abs(lepton.Phi - ji[1].Phi))
                     result["DeltaEtaDeltaPhi_j2l"] = [[ abs(lepton.Eta - ji[1].Eta),
                                                         result["DeltaPhi_j2l"] ]]
-                    if len(p_ji)>2:
+                    if len(jil)>2:
                         result["DeltaEtaDeltaPhi_j3l"] = [[ abs(lepton.Eta - ji[2].Eta),
                                                             fold(abs(lepton.Phi - ji[2].Phi)) ]]
 
         # jet comb
+        p_jj_cut = [ ]
+#        p_jj_b2b = None
+#        p_jj_b2b_cut = None
+#        DeltaPhi_b2b = 0 # < pi
         for j1, j2 in combinations(jets,2):
             p_jj = j1.TLV + j2.TLV
-            p_jjs.append( p_jj )
             DeltaPhi = fold(abs(j1.Phi - j2.Phi))
             result["M_jj"].append(p_jj.M())
             result["DeltaR_jj"].append(TLV.DeltaR( j1.TLV, j2.TLV ))
@@ -293,7 +288,7 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["M_jjb2_leading"] = (jets[0].TLV + jets[1].TLV + bl[1].TLV).M()
 
         if p_jj_cut:
-            p = max(p_jj_cut, key=lambda p: p.Pt())
+            p = max(p_jj_cut, key=lambda p: p.Pt(),reverse=True)
             result["M_jj_leading_cut"] = p.M()
 
         # MET - lepton
