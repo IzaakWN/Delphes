@@ -372,10 +372,12 @@ def makeAxes(*hists, **kwargs):
         elif "DeltaR" in name:
             if "lepton-lepton" in name:
                 hist0.GetXaxis().SetTitle("#DeltaR_{ll} [GeV]")
-                #ylabel += "rad"
             elif "bjet-bjet" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{jj} [GeV]")
-                #ylabel += "rad"
+                hist0.GetXaxis().SetTitle("#DeltaR_{bb} [GeV]")
+            elif "bjet-lepton" in name:
+                hist0.GetXaxis().SetTitle("#DeltaR_{bl} [GeV]")
+            elif "jet-lepton" in name:
+                hist0.GetXaxis().SetTitle("#DeltaR_{jl} [GeV]")
         elif "DeltaPhi_jjll" in name:
             hist0.GetXaxis().SetTitle("#Delta#phi_{jj,ll} [GeV]")
             ylabel += "rad"

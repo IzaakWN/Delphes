@@ -16,30 +16,32 @@ def eventCategory(event):
      to what category an event belong """
     
     categoryData = [ ]
-    l = TLorentzVector()
-    j = TLorentzVector()
     event.cleanedJets = [ jet for jet in event.jets ][:10]
     muons20 = [ m for m in event.muons if m.PT>20 and m.Eta<2.5 ]
     electrons20 = [ e for e in event.electrons if e.PT>20 and e.Eta<2.5 ]
     leps = sorted(muons20+electrons20, key=lambda x: x.PT, reverse=True)
     event.leadingLeptons = leps[:5]
-    #event.leadingLeptons[0].P = TLorentzVector()
-    #event.leadingLeptons[0].P.SetPtEtaPhiM(event.leadingLeptons[0].PT, event.leadingLeptons[0].Eta,
-                                           #event.leadingLeptons[0].Phi, event.leadingLeptons[0].Mass)
+    
     for m in muons20:
         m.Mass = 0.1057
+        m.TLV = TLV()
+        m.TLV.SetPtEtaPhiM(m.PT, m.Eta, m.Phi, m.Mass)
     for e in electrons20:
         e.Mass = 0.000511
+        e.TLV = TLV()
+        e.TLV.SetPtEtaPhiM(e.PT, e.Eta, e.Phi, e.Mass)
     
     event.DeltaPt_jl = [ ]
     event.DeltaR_jl = [ ]
     for lepton in leps: # remove all muons and electrons from jets
-        l.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
         for jet in event.cleanedJets:
-            j.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
-            event.DeltaPt_jl.append(abs(l.Pt()-j.Pt())/l.Pt())
-            event.DeltaR_jl.append(TLorentzVector.DeltaR(l,j))
-            if event.DeltaR_jl[-1] < 0.5 and event.DeltaPt_jl[-1] < 0.2:
+            jet.TLV = TLV()
+            jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
+#            event.DeltaPt_jl.append(abs(lepton.TLV.Pt()-jet.TLV.Pt())/lepton.TLV.Pt())
+#            event.DeltaR_jl.append(TLV.DeltaR(l,jet.TLV))
+#            if event.DeltaR_jl[-1] < 0.5 and event.DeltaPt_jl[-1] < 0.2:
+            if abs(lepton.TLV.Pt()-jet.TLV.Pt())/lepton.TLV.Pt() < 0.5 and \
+               TLV.DeltaR(lepton.TLV,jet.TLV) < 0.2
                 event.cleanedJets.remove(jet)
 
     event.cleanedJets15 = [ jet for jet in event.cleanedJets if jet.PT > 15 and abs(jet.Eta) < 2.5 ]
