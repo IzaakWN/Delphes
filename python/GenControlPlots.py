@@ -131,19 +131,19 @@ class GenControlPlots(BaseControlPlots):
                 #result["lM"].append( particle.Mass )
                 #nLeptons += 1
                 
-                # top
-                if PID == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2:
-                    nt += 1
-                    p_t[nt-1].SetPtEtaPhiM(particle.PT, particle.Eta, particle.Phi, particle.Mass)
-                    if abs(event.particles[D2].PID) == 5: # b
-                        ntb+=1
-                        b.append(event.particles[D2])
-                        W.append(event.particles[D1])
-                    elif abs(event.particles[D1].PID) == 5: # b
-                        print "Warning in GenControlPlots: b is D1!"
-                        ntb+=1
-                        b.append(event.particles[D1])
-                        W.append(event.particles[D2])
+            # top
+            if PID == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2:
+                nt += 1
+                p_t[nt-1].SetPtEtaPhiM(particle.PT, particle.Eta, particle.Phi, particle.Mass)
+                if abs(event.particles[D2].PID) == 5: # b
+                    ntb+=1
+                    b.append(event.particles[D2])
+                    W.append(event.particles[D1])
+                elif abs(event.particles[D1].PID) == 5: # b
+                    print "Warning in GenControlPlots: b is D1!"
+                    ntb+=1
+                    b.append(event.particles[D1])
+                    W.append(event.particles[D2])
 
             # __W__
             if PID == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # W
