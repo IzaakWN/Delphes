@@ -298,7 +298,7 @@ def plot2D(stage):
     #c.Close()
 
     # GEN LEVEL: DeltaPhi vs. DeltaEta
-    names = [ "qq","bb","q1l","q2l","qsl","b1l","b2l","bsl" ]
+    names = [ ]#"qq","bb","q1l","q2l","qsl","b1l","b2l","bsl" ]
 
     for name in names:
         c = makeCanvas(square=True)
@@ -319,7 +319,7 @@ def plot2D(stage):
       
     # RECO LEVEL: DeltaPhi vs. DeltaEta
     names = [ "jj","jl","j1l","j2l","j3l","jjl",
-              "bb","bb1","bl","b1l","b2l","jjbb" ]
+              "bb1","b1l","b2l" ]
 
     for name in names:
         c = makeCanvas(square=True)
