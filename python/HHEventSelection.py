@@ -41,7 +41,7 @@ def eventCategory(event):
 #            event.DeltaR_jl.append(TLV.DeltaR(l,jet.TLV))
 #            if event.DeltaR_jl[-1] < 0.5 and event.DeltaPt_jl[-1] < 0.2:
             if abs(lepton.TLV.Pt()-jet.TLV.Pt())/lepton.TLV.Pt() < 0.5 and \
-               TLV.DeltaR(lepton.TLV,jet.TLV) < 0.2
+               TLV.DeltaR(lepton.TLV,jet.TLV) < 0.2:
                 event.cleanedJets.remove(jet)
 
     event.cleanedJets15 = [ jet for jet in event.cleanedJets if jet.PT > 15 and abs(jet.Eta) < 2.5 ]
