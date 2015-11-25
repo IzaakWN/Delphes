@@ -6,7 +6,7 @@ P_fake = 0.03
 P_no_fake = 1 - P_fake
 
 
-nobtags = 1 - P_no_btag * P_no_btag * P_no_fake * P_no_fake
+no_btags = 1 - P_no_btag * P_no_btag * P_no_fake * P_no_fake
 print "No b-tags out of four jets: %0.001f" % no_btags
 
 one_btags1 = 2 * P_btag    * P_no_btag * P_no_fake * P_no_fake
