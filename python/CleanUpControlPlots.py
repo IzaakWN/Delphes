@@ -52,6 +52,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_jj_leading_cut","jet-jet (cut) Mass",100,0,300)
 #        self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
 #        self.add("M_jj_b2b_cut","jet-jet b2b Mass",100,0,300)
+        self.add("M_jjb_leading","jet-jet-bjet Mass",100,0,300)
         self.add("M_jjl","jets-lepton combinations Mass",150,0,450)
         self.add("M_bb_leading","bjet-bjet Mass",100,0,300)
         self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
@@ -131,6 +132,7 @@ class CleanUpControlPlots(BaseControlPlots):
             lepton = event.leadingLeptons[0]
         
         # bjet - bjet
+        bl = [ ]
         if lepton and len(DeltaR_bl):
             bl = sorted( bjets, key=lambda p: TLV.DeltaR(p,lepton.TLV) )[:2] # need closest
             result["M_b1l"] = (lepton.TLV+bl[0].TLV).M()
@@ -205,9 +207,9 @@ class CleanUpControlPlots(BaseControlPlots):
         # jet - jet
         p_jjs = [ ]
         p_jj_cut = [ ]
-        p_jj_b2b = None
-        p_jj_b2b_cut = None
-        DeltaPhi_b2b = 0 # < pi
+#        p_jj_b2b = None
+#        p_jj_b2b_cut = None
+#        DeltaPhi_b2b = 0 # < pi
 
         # jet i - lepton
         if lepton:
@@ -277,6 +279,8 @@ class CleanUpControlPlots(BaseControlPlots):
 
         if len(jets)>1:
             result["M_jj_leading"] = (p_jets[0] + p_jets[1]).M()
+            if lepton:
+                result["M_jjb_leading"] = (p_jets[0] + p_jets[1] + bl.TLV).M()
 
         if p_jj_cut:
             p = max(p_jj_cut, key=lambda p: p.Pt())
