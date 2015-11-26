@@ -87,9 +87,14 @@ def eventCategory(event):
     categoryData.append( event.met[0].MET>20 )
 
     # 8: clean-up cuts
-    [b1,b2] = min(combinations(event.bjets30,2),key=lambda bb: TLV.DeltaR(bb[0].TLV,bb[1].TLV))
-    categoryData.append( 60<(b1.TLV+b2.TLV).M()<160 and \
-                         TLV.DeltaR(b1.TLV,b2.TLV)<3.1 )
+    M_bb = 0
+    DeltaR_bb = 4
+    if len(event.bjets30)>2:
+        [b1,b2] = min(combinations(event.bjets30,2),key=lambda bb: TLV.DeltaR(bb[0].TLV,bb[1].TLV))
+        M_bb = (b1.TLV+b2.TLV).M()
+        DeltaR_bb = TLV.DeltaR(b1.TLV,b2.TLV)
+    categoryData.append( 60 < M_bb < 160 and \
+                         DeltaR_bb < 3.1 )
     
     # 9: at most 5 jets with Pt > 30 GeV
     categoryData.append( len(event.cleanedJets30)<6 )
