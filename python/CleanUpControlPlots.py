@@ -133,8 +133,8 @@ class CleanUpControlPlots(BaseControlPlots):
         result["DeltaEtaDeltaPhi_jj"] = [ ]
         result["DeltaEtaDeltaPhi_jjl"] = [ ]
 
-        jets = event.cleanedJets20 # remove closest b-jets pair down below
-        bjets = event.bjets30
+        jets = event.cleanedJets20[:] # remove closest b-jets pair down below
+        bjets = event.bjets30[:]
         result["Njets20"] = len(event.cleanedJets20)
         result["Njets30"] = len(event.cleanedJets30)
         result["Nbjets30"] = len(event.bjets30)
@@ -313,7 +313,7 @@ class CleanUpControlPlots(BaseControlPlots):
                     result["M_blnu"] = (bl[-1].TLV + lepton.TLV + recoNeutrino(lepton.TLV,event.met[0])).M()
                     result["cleanup"].append(result["M_blnu"])
                     if len(bl)>1: # take bjet second closest to lepton
-                        jets_tt = event.cleanedJets20
+                        jets_tt = event.cleanedJets20[:]
                         jets_tt.remove(bl[-1])
                         jets_tt.remove(bl[-2])
                         p_jj_tt = jets_tt[0].TLV + jets_tt[1].TLV
