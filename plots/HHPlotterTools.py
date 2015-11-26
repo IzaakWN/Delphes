@@ -83,7 +83,7 @@ def makeTitle(hist):
         if "reco" in title:
             title = title.replace(" reco","")
 
-        if "(" in title:
+        elif "(" in title and "(cut)" not in title:
             title = title[:title.index(" ")] + title[title.index(" ("):] # only take proces and extra note
             if len(title)>25:
                 title = "#splitline{" + title + "}" # make line break
