@@ -351,7 +351,7 @@ def makeAxes2D(*hists, **kwargs):
     hist0.GetYaxis().SetTitle(ylabel)
     hist0.GetXaxis().SetTitleSize(0.051)
     hist0.GetYaxis().SetTitleSize(0.048)
-#    hist0.GetYaxis().SetTitleOffset(1)
+    hist0.GetYaxis().SetTitleOffset(1.15)
 
     # set optimal range
     mins = [ ]
