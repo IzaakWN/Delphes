@@ -308,10 +308,13 @@ def main():
                  "bjet1Pt", "bjet2Pt",
                  "leptonPt", "MET",
                  "DeltaPhi_METl",
+                 "MT_lnu",
                  "DeltaR_j1l", "DeltaR_j2l",
                  "DeltaR_b1l", "DeltaR_b2l",
                  "DeltaR_bb1",
-                 "M_bb_closest", "MT_lnu" ]
+                 "DeltaR_jjl_leading",
+                 "M_bb_closest",
+                 "M_jjb_leading", "M_blnu",  ]
                  
     varNamesBest =[ "bjet1Pt", "jet1Pt",
                     "DeltaR_b1l", "DeltaR_b2l",
@@ -322,8 +325,10 @@ def main():
                         "DeltaR_j2l", "DeltaR_b2l",
                         "M_bb_closest" ]
                  
-    varNamesFavs = [ "DeltaR_b1l", "DeltaR_bb1",
-                     "DeltaR_j1l", "M_bb_closest" ]
+    varNamesFavs = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
+                     "DeltaR_j1l", "DeltaR_j2l",
+                     "M_bb_closest",
+                     "M_jjb_leading", "M_blnu" ]
 
     if opts.test:
         configs = [configuration("test", ["bjet1Pt","jet1Pt"], 1)]
