@@ -367,8 +367,8 @@ def makeAxes(*hists, **kwargs):
     xlabel = kwargs.get('xlabel', "")
     ylabel = kwargs.get('ylabel', "")
     
-    hist0.GetXaxis().SetTitleSize(0.055)
-    hist0.GetYaxis().SetTitleSize(0.05)
+    hist0.GetXaxis().SetTitleSize(0.051)
+    hist0.GetYaxis().SetTitleSize(0.044)
     
     # make correct x-axis labels
     if xlabel + ylabel:
