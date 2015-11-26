@@ -35,7 +35,7 @@ print "    One correct, two fake: %.4f" % (three_btags2/three_btags)
 four_btags = P_btag * P_btag * P_fake * P_fake
 print "Four b-tags out of four jets:  %.4f" % four_btags
 
-min = two_btags+three_btags+four_btags
+min_two_btags = two_btags+three_btags+four_btags
 print "Min two b-tags out of four jets: %.4f" % min_two_btags
 print "    Two b-tags:   %.4f" % (two_btags/min_two_btags)
 print "    Three b-tags: %.4f" % (three_btags/min_two_btags)
