@@ -142,14 +142,13 @@ class CleanUpControlPlots(BaseControlPlots):
         lepton = None
         if len(event.leadingLeptons):
             lepton = event.leadingLeptons[0]
-            print "Lol: lepton.TLV = %s" % lepton.TLV
-            lepton.TLV = TLV()
-            lepton.TLV.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
-        
-        for jet in event.cleanedJets20:
-            jet.TLV = TLV()
-            jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
-        
+#            lepton.TLV = TLV()
+#            lepton.TLV.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
+#        
+#        for jet in event.cleanedJets20:
+#            jet.TLV = TLV()
+#            jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
+
         # bjet - bjet
         bl = [ ]
         if lepton and bjets:
