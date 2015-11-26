@@ -379,16 +379,30 @@ def makeAxes(*hists, **kwargs):
             hist0.GetXaxis().SetTitle("transverse momentum p_{T} [GeV]")
             ylabel += "GeV"
         elif "DeltaR" in name:
-            if "lepton-lepton" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{ll}")
-            elif "bjet-bjet" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{bb}")
-            elif "bjet-lepton" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{bl}")
-            elif "jet-lepton" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{jl}")
-            elif "jet-jet" in name:
-                hist0.GetXaxis().SetTitle("#DeltaR_{jj}")
+            xlabel = ""
+            if "lepton-" in name:
+                xlabel = "#DeltaR_{l"
+            elif "jets-" or "jet-jet-" in name:
+                xlabel = "#DeltaR_{jj,"
+            elif "jet-" in name:
+                xlabel = "#DeltaR_{j"
+            elif "bjet-" or "bquark-" in name:
+                xlabel = "#DeltaR_{b"
+            elif "quark-" in name:
+                xlabel = "#DeltaR_{q"
+            if "-lepton" in name:
+                xlabel += "l}"
+            elif "-jet" in name:
+                xlabel += "j}"
+            elif "-bjet" or "bquark" in name:
+                xlabel += "b}"
+            elif "-quark" in name:
+                xlabel += "q}"
+            elif "-MET" in name:
+                xlabel += ",MET}"
+            elif "-nu" in name:
+                xlabel += ",#nu}"
+            hist0.GetXaxis().SetTitle(xlabel)
         elif "DeltaPhi_jjll" in name:
             hist0.GetXaxis().SetTitle("#Delta#phi_{jj,ll}")
             ylabel += "rad"
@@ -399,19 +413,33 @@ def makeAxes(*hists, **kwargs):
             ylabel += "rad"
         elif " Mass" in name:
             ylabel += "GeV"
+            xlabel = ""
             if "vs." in name:
                 hist0.GetXaxis().SetTitle("W #rightarrow l#nu mass [GeV]")
                 ylabel = "W #rightarrow qq mass [GeV]"
-            elif "lepton-lepton" in name:
-                hist0.GetXaxis().SetTitle("invariant mass M_{ll} [GeV]")
-            elif "bjet-bjet" in name:
-                hist0.GetXaxis().SetTitle("invariant mass M_{bb} [GeV]")
-            elif "bjet-lepton" in name:
-                hist0.GetXaxis().SetTitle("invariant mass M_{bl} [GeV]")
-            elif "jet-lepton" in name:
-                hist0.GetXaxis().SetTitle("invariant mass M_{jl} [GeV]")
-            elif "jet-jet" in name:
-                hist0.GetXaxis().SetTitle("invariant mass M_{jj} [GeV]")
+            elif "lepton-" in name:
+                xlabel = "invariant mass M_{l"
+            elif "jets-" or "jet-jet-" in name:
+                xlabel = "invariant mass M_{jj,"
+            elif "jet-" in name:
+                xlabel = "invariant mass M_{j"
+            elif "bjet-" or "bquark-" in name:
+                xlabel = "invariant mass M_{b"
+            elif "quark-" in name:
+                xlabel = "invariant mass M_{q"
+            if "-lepton" in name:
+                xlabel += "l} [GeV]"
+            elif "-jet" in name:
+                xlabel += "j} [GeV]"
+            elif "-bjet" or "bquark" in name:
+                xlabel += "b} [GeV]"
+            elif "-quark" in name:
+                xlabel += "q} [GeV]"
+            elif "-MET" in name:
+                xlabel += "E^{miss}_{T}} [GeV]"
+            elif "-nu" in name:
+                xlabel += ",#nu} [GeV]"
+            hist0.GetXaxis().SetTitle(xlabel)
             else:
                 hist0.GetXaxis().SetTitle("invariant mass M [GeV]")
         elif " MET" in name:
