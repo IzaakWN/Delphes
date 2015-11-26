@@ -439,9 +439,9 @@ def makeAxes(*hists, **kwargs):
                 xlabel += "E^{miss}_{T}} [GeV]"
             elif "-nu" in name:
                 xlabel += ",#nu} [GeV]"
-            hist0.GetXaxis().SetTitle(xlabel)
             else:
-                hist0.GetXaxis().SetTitle("invariant mass M [GeV]")
+                xlabel = "invariant mass M [GeV]"
+            hist0.GetXaxis().SetTitle(xlabel)
         elif " MET" in name:
             hist0.GetXaxis().SetTitle("MET [GeV]")
             ylabel += "GeV"
