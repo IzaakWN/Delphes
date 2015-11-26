@@ -17,7 +17,7 @@ def eventCategory(event):
      to what category an event belong """
     
     categoryData = [ ]
-    event.cleanedJets = [ jet for jet in event.jets ][:15]
+    event.cleanedJets = [ jet for jet in event.jets ][:10]
     muons20 = [ m for m in event.muons if m.PT>20 and m.Eta<2.5 ]
     electrons20 = [ e for e in event.electrons if e.PT>20 and e.Eta<2.5 ]
     leps = sorted(muons20+electrons20, key=lambda x: x.PT, reverse=True)
@@ -88,10 +88,11 @@ def eventCategory(event):
     # 8: clean-up cuts
     M_bb = 0
     DeltaR_bb = 4
-    if len(event.bjets30)>2:
-        [b1,b2] = min(combinations(event.bjets30,2),key=lambda bb: TLV.DeltaR(bb[0].TLV,bb[1].TLV))
-        M_bb = (b1.TLV+b2.TLV).M()
-        DeltaR_bb = TLV.DeltaR(b1.TLV,b2.TLV)
+    if b1,b2 in combinations(event.bjets30,2):
+        DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
+        if DeltaR < DeltaR_bb
+            DeltaR_bb = DeltaR
+            M_bb = (b1.TLV+b2.TLV).M()
     categoryData.append( 60 < M_bb < 160 and \
                          DeltaR_bb < 3.1 )
     
