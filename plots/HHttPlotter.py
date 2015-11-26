@@ -104,7 +104,7 @@ def plotBasic(stage):
     names.append("cleanup/Nbjets30")
     
     for comb in [ "qq","q1l","q2l",
-                  "bb","b1l","b1l", ]:
+                  "bb","b1l","b2l", ]:
         names.append("gen/DeltaR_"+comb)
     names.append("gen/DeltaPhi_qq")
 
