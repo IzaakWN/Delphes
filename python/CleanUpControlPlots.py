@@ -17,7 +17,7 @@ tree_vars = [ "jet1Pt","jet2Pt",
               "DeltaR_bb1","DeltaPhi_METl",
               "M_bb_closest",
               "M_jjb_leading",
-              "M_blnu","M_jjlnu",
+              "M_blnu",
               "MT_lnu","MT_jjlnu" ]
 
 # Requirements:
@@ -92,6 +92,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("DeltaPhi_b1l","farthest bjet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b2l","2nd farthest bjet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_METl","MET-lepton DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_jjlnu","jet-jet-lepton-MET DeltaPhi",100,0,3.5)
 
         self.add2D("DeltaEtaDeltaPhi_jj","jet-jet combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_j1l","closest jet-lepton combination DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
@@ -130,7 +131,7 @@ class CleanUpControlPlots(BaseControlPlots):
         result["DeltaEtaDeltaPhi_jj"] = [ ]
         result["DeltaEtaDeltaPhi_jjl"] = [ ]
 
-        jets = event.cleanedJets20[:] # remove closest b-jets pair down below
+        jets = event.cleanedJets20[:8] # remove closest b-jets pair down below
         bjets = event.bjets30[:]
         MET = event.met[0]
         result["Njets20"] = len(event.cleanedJets20)
@@ -215,12 +216,16 @@ class CleanUpControlPlots(BaseControlPlots):
             result["bjet1Pt"] = bjet_closest[0].PT
             if len(bjets)>1:
                 result["bjet2Pt"] = bjet_closest[1].PT
-        
-        
 
-
-        # jet i - lepton
         if lepton:
+            
+            # MET - lepton
+            result["leptonPt"] = lepton.PT
+            result["MET"] = MET.MET
+            result["DeltaPhi_METl"] = abs(MET.Phi-lepton.Phi)
+            result["MT_lnu"] = recoWlnu2Mt(lepton,MET)
+        
+            # jet i - lepton
             jil = sorted(jets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV))[:3] # closest jets
             if len(jil)>0:
                 result["DeltaR_j1l"] = TLV.DeltaR(lepton.TLV,jil[0].TLV)
@@ -290,13 +295,14 @@ class CleanUpControlPlots(BaseControlPlots):
             p_jj = jets[0].TLV + jets[1].TLV
             result["M_jj_leading"] = p_jj.M()
             if lepton:
-                p_jjl = p_jj + lepton.TLV
                 result["M_jjl_leading"] = (p_jj + lepton.TLV).M()
-                result["MT_jjlnu"] = sqrt(2 * MET.MET * p_jjl.Pt() * (1-cos( p_jjl.Phi() - MET.Phi)) )
                 result["DeltaR_jjl_leading"] = TLV.DeltaR(p_jj,lepton.TLV)
                 result["DeltaPhi_jjl_leading"] = fold(abs(p_jj.Phi()-lepton.Phi))
                 result["DeltaEtaDeltaPhi_jjl_leading"] = [[ abs(p_jj.Eta() - lepton.Eta),
                                                             result["DeltaPhi_jjl_leading"] ]]
+                p_jjl = p_jj + lepton.TLV
+                result["DeltaPhi_jjlnu"] = fold(abs(p_jjl.Phi()-MET.Phi))
+                result["MT_jjlnu"] = sqrt(2 * MET.MET * p_jjl.Pt() * (1-cos( p_jjl.Phi() - MET.Phi)) )
                 if len(bl): # take bjet closest to lepton
                     result["M_blnu"] = (bl[-1].TLV + lepton.TLV + recoNeutrino(lepton.TLV,MET)).M()
                     if len(bl)>1: # take bjet second closest to lepton
@@ -310,17 +316,10 @@ class CleanUpControlPlots(BaseControlPlots):
         if p_jj_cut:
             p = max(p_jj_cut, key=lambda p: p.Pt())
             result["M_jj_leading_cut"] = p.M()
-
-        # MET - lepton
-        if lepton:
-            result["leptonPt"] = lepton.PT
-            result["MET"] = MET.MET
-            result["DeltaPhi_METl"] = abs(MET.Phi-lepton.Phi)
-            result["MT_lnu"] = recoWlnu2Mt(lepton,MET)
         
         # respect the order of branches when adding variables
 #        result["cleanup"] = [ result[var] for var in result if var in tree_vars ]
-        result["cleanup"] = []
+        result["cleanup"] = [ ]
         for var in tree_vars:
             if var in result:
                 result["cleanup"].append(var)
