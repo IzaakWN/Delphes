@@ -316,9 +316,6 @@ def makeAxes2D(*hists, **kwargs):
     name = hist0.GetTitle()
     xlabel = kwargs.get('xlabel', "")
     ylabel = kwargs.get('ylabel', "")
-    hist0.GetXaxis().SetTitleSize(0.051)
-    hist0.GetYaxis().SetTitleSize(0.048)
-    hist0.GetYaxis().SetTitleOffset(-5)
     
     # make correct x-axis labels
     if xlabel + ylabel:
@@ -352,7 +349,9 @@ def makeAxes2D(*hists, **kwargs):
     # set labels
     hist0.GetXaxis().SetTitle(xlabel)
     hist0.GetYaxis().SetTitle(ylabel)
-    hist0.GetYaxis().SetTitleOffset(1.5)
+    hist0.GetXaxis().SetTitleSize(0.051)
+    hist0.GetYaxis().SetTitleSize(0.048)
+#    hist0.GetYaxis().SetTitleOffset(1)
 
     # set optimal range
     mins = [ ]
