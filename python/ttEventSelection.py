@@ -89,10 +89,11 @@ def eventCategory(event):
     # 8: clean-up cuts
     M_bb = 0
     DeltaR_bb = 4
-    if len(event.bjets30)>2:
-        [b1,b2] = min(combinations(event.bjets30,2),key=lambda bb: TLV.DeltaR(bb[0].TLV,bb[1].TLV))
-        M_bb = (b1.TLV+b2.TLV).M()
-        DeltaR_bb = TLV.DeltaR(b1.TLV,b2.TLV)
+    if b1,b2 in combinations(event.bjets30,2):
+        DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
+        if DeltaR < DeltaR_bb
+            DeltaR_bb = DeltaR
+            M_bb = (b1.TLV+b2.TLV).M()
     categoryData.append( 60 < M_bb < 160 and \
                          DeltaR_bb < 3.1 )
     
