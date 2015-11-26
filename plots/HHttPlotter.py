@@ -29,14 +29,14 @@ def plotBasic(stage):
         names.append("selection/category")
 
     for comb in [ "jj","jjl","b1l",
-                  "jjb_leading","bb_farthest",
+                  "jjb_leading","jjl_leading","bb_farthest",
                   "jj_cut","jj_leading","jj_leading_cut",
                   "bb_cut","bb_leading","bb_leading_cut",
                            "bb_closest","bb_closest_cut" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
 
-    for comb in [ "jj" ,"j1l","j2l","jjl",
+    for comb in [ "jj" ,"j1l","j2l","jjl","jjl_leading"
                         "b1l","b2l","bb1" ]:
         names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
