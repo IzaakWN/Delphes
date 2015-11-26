@@ -9,16 +9,16 @@ from math import sqrt, cos, pi
 from reconstruct import recoNeutrino, recoWlnu2Mt
 
 # variables for in tree
-tree_vars = [ "jet1Pt","jet2Pt",
+tree_vars = [ "Njets20","Nbjets30",
+              "jet1Pt","jet2Pt",
               "bjet1Pt","bjet2Pt",
               "leptonPt","MET",
               "DeltaR_j1l","DeltaR_j2l",
               "DeltaR_b1l","DeltaR_b2l",
-              "DeltaR_bb1","DeltaR_jjl_leading"
+              "DeltaR_bb1","DeltaR_jjl_leading",
               "DeltaPhi_METl",
               "M_bb_closest",
-              "M_jjb_leading",
-              "M_blnu",
+              "M_jjb_leading", "M_blnu",
               "MT_lnu","MT_jjlnu" ]
 
 # Requirements:
