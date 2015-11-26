@@ -155,7 +155,7 @@ class CleanUpControlPlots(BaseControlPlots):
             bl = sorted( bjets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV), reverse=True ) # farthest->closest
             DeltaPhi = fold(abs(lepton.Phi - bl[0].Phi))
             DeltaEta = abs(lepton.Eta - bl[0].Eta)
-            result["M_b1l"] = (lepton.TLV+bl[0].TLV).M()
+            result["M_b1l"] = (lepton.TLV+bl[-1].TLV).M()
             result["DeltaR_b1l"] = TLV.DeltaR(lepton.TLV,bl[0].TLV)
             result["DeltaRi_b1l"] = sqrt( (pi-DeltaPhi)*(pi-DeltaPhi) + DeltaEta*DeltaEta )
             result["cleanup"].append(result["DeltaR_b1l"])
