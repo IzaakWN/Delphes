@@ -229,7 +229,13 @@ def makeLegend(*hists, **kwargs):
         elif position=="RightTop":
             x1 = 1.15-x2
             x2 = x1 + width
-    
+        elif position=="RightTopTop":
+            x1 = 1.15-x2
+            x2 = x1 + width
+            y2 = 0.88
+#    if title == "":
+#        y2 =
+
     y1 = y2 - height[len(hists)-1]
     legend = TLegend(x1,y1,x2,y2)
     if transparant:
