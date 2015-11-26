@@ -86,7 +86,7 @@ def eventCategory(event):
     categoryData.append( event.met[0].MET>20 )
 
     # 8: clean-up cuts
-    [b1,b2] = min(combinations(event.bjets30),key=lambda bb: TLV.DeltaR(bb[0].TLV,bb[1].TLV))
+    [b1,b2] = min(combinations(event.bjets30,2),key=lambda bb: TLV.DeltaR(bb[0].TLV,bb[1].TLV))
     categoryData.append( 60<(b1.TLV+b2.TLV).M()<160 and \
                          TLV.DeltaR(b1.TLV,b2.TLV)<3.1 )
     
