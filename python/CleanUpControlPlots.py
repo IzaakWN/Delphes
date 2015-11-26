@@ -292,7 +292,7 @@ class CleanUpControlPlots(BaseControlPlots):
             if lepton:
                 p_jjl = p_jj + lepton.TLV
                 result["M_jjl_leading"] = (p_jj + lepton.TLV).M()
-                result["MT_jjlnu"] = sqrt(2 * MET.MET * p_jjl.PT() * (1-cos( p_jjl.Phi() - MET.Phi)) )
+                result["MT_jjlnu"] = sqrt(2 * MET.MET * p_jjl.Pt() * (1-cos( p_jjl.Phi() - MET.Phi)) )
                 result["DeltaR_jjl_leading"] = TLV.DeltaR(p_jj,lepton.TLV)
                 result["DeltaPhi_jjl_leading"] = fold(abs(p_jj.Phi()-lepton.Phi))
                 result["DeltaEtaDeltaPhi_jjl_leading"] = [[ abs(p_jj.Eta() - lepton.Eta),
