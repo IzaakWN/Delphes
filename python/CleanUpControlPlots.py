@@ -306,7 +306,7 @@ class CleanUpControlPlots(BaseControlPlots):
             if lepton:
                 result["M_jjl_leading"] = (p_jj + lepton.TLV).M()
                 result["DeltaR_jjl_leading"] = TLV.DeltaR(p_jj,lepton.TLV)
-                result["DeltaPhi_jjl_leading"] = fold(abs(p_jj.Phi()-lepton.Phi)
+                result["DeltaPhi_jjl_leading"] = fold(abs(p_jj.Phi()-lepton.Phi))
                 result["DeltaEtaDeltaPhi_jjl_leading"] = [[ abs(p_jj.Eta() - lepton.Eta),
                                                             result["DeltaPhi_jjl_leading"] ]]
                 if len(bl): # take bjet closest to lepton
