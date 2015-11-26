@@ -53,8 +53,9 @@ def eventCategory(event):
     for l in leps:
         print "\nBAM"
         print "l.TLV = %s" % l.TLV
-    for j in event.cleanedJets:
-        print "j.TLV = %s" % j.TLV
+    if leps:
+        for j in event.cleanedJets:
+            print "j.TLV = %s" % j.TLV
 
     # 0: generator level: single Wlnu and Hbb
     nLeptons = 0
@@ -94,11 +95,12 @@ def eventCategory(event):
     # 8: clean-up cuts
     M_bb = 0
     DeltaR_bb = 4
-    for b1,b2 in combinations(event.bjets30,2):
-        DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
-        if DeltaR < DeltaR_bb:
-            DeltaR_bb = DeltaR
-            M_bb = (b1.TLV+b2.TLV).M()
+    if leps:
+        for b1,b2 in combinations(event.bjets30,2):
+            DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
+            if DeltaR < DeltaR_bb:
+                DeltaR_bb = DeltaR
+                M_bb = (b1.TLV+b2.TLV).M()
     categoryData.append( 60 < M_bb < 160 and \
                          DeltaR_bb < 3.1 )
     
