@@ -104,6 +104,10 @@ def plotBasic(stage):
     names.append("cleanup/leptonPt")
     names.append("cleanup/MET")
 
+    names.append("cleanup/Njets20")
+    names.append("cleanup/Njets30")
+    names.append("cleanup/Nbjets30")
+
     for name in names:
 
         c = makeCanvas()
