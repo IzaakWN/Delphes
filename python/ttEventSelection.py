@@ -7,7 +7,7 @@ from itertools import combinations
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Selection20", "Selection30", "CleanUp", "Max5Jets" ]
+categoryNames = [ "GenLevel", "Selection20", "CleanUp", "Selection30", "Max5Jets" ]
 
 
 
