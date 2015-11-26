@@ -87,6 +87,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("DeltaPhi_j1l","closest jet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_j2l","2nd closest jet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_jjl","jets-lepton combinations DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_jjl_leading","leading jets-lepton combinations DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_bb1","closest bjet-bjet combination DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b1l","farthest bjet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b2l","2nd farthest bjet-lepton DeltaPhi",100,0,3.5)
@@ -97,6 +98,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add2D("DeltaEtaDeltaPhi_j2l","2nd closest jet-lepton combination DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_j3l","3rd closest jet-lepton combination DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_jjl","jets-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_jjl_leading","leading jets-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_bb1","closest bjet-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_b1l","farthest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_b2l","2nd farthest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
@@ -303,6 +305,9 @@ class CleanUpControlPlots(BaseControlPlots):
             if lepton:
                 result["M_jjl_leading"] = (p_jj + lepton.TLV).M()
                 result["DeltaR_jjl_leading"] = TLV.DeltaR(p_jj,lepton.TLV)
+                result["DeltaPhi_jjl_leading"] = fold(abs(p_jj.Phi()-lepton.Phi)
+                result["DeltaEtaDeltaPhi_jjl"] = [[ abs(p_jj.Eta() - lepton.Eta),
+                                                    result["DeltaPhi_jjl_leading"] ])
                 if len(bl): # take bjet closest to lepton
                     result["M_blnu"] = (bl[-1].TLV + lepton.TLV + recoNeutrino(lepton.TLV,event.met[0])).M()
                     if len(bl)>1: # take bjet second closest to lepton
