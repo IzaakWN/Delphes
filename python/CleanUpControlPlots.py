@@ -211,10 +211,10 @@ class CleanUpControlPlots(BaseControlPlots):
         
         # leading bjets
         if len(bjets)>0:
-            result["bjet1Pt"] = bjets[0].PT
+            result["bjet1Pt"] = bjet_closest[0].PT
             result["cleanup"].append(result["bjet1Pt"])
             if len(bjets)>1:
-                result["bjet2Pt"] = bjets[1].PT
+                result["bjet2Pt"] = bjet_closest[1].PT
                 result["cleanup"].append(result["bjet2Pt"])
         
         
@@ -314,18 +314,6 @@ class CleanUpControlPlots(BaseControlPlots):
             result["cleanup"].append(result["DeltaPhi_METl"])
             result["MT_lnu"] = recoWlnu2Mt(lepton,event.met[0])
             result["cleanup"].append(result["MT_lnu"])
-        
-#        for key, value in result.iteritems():
-#            if not isinstance(value, (int, long, float)):
-#                if isinstance(value, list):
-#                    if len(value):
-#                        if not isinstance(value[0], (int, long, float)):
-#                            print ">>> We have a bad list: " + key + ", type" + type(value[0])
-#                    else:
-#                        print ">>> We have an empty list: " + key
-#                
-#                else:
-#                    print ">>> We has it: " + ", type" + type(value[0])
 
         return result
 
