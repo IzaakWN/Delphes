@@ -33,6 +33,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.addBranch("cleanup","bjet2Pt")
         self.addBranch("cleanup","DeltaR_j1l")
         self.addBranch("cleanup","DeltaR_j2l")
+        self.addBranch("cleanup","M_lnu")
         self.addBranch("cleanup","M_jjb_leading")
         self.addBranch("cleanup","leptonPt")
         self.addBranch("cleanup","MET")
@@ -66,7 +67,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_bb_cut","bjet-bjet combinations (cut) Mass",100,0,300)
         self.add("M_b1l","closest bjet-lepton Mass",100,0,300)
         self.add("MT_lnu","Wlnu Mt",100,0,300)
-        self.add("M_blnu","blnu reco Mass",100,0,300)
+        self.add("M_blnu","blnu reco Mass",100,0,500)
 
 #        self.add("DeltaPt_jl","lepton-bjet Mass",100,0,2)
 #        self.add2D("DeltaRDeltaPt_jl","lepton-bjet DeltaPt vs. DeltaR",100,0,4.5,100,0,2)
@@ -74,8 +75,8 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("DeltaR_jj","jet-jet combinations DeltaR",100,0,4)
         self.add("DeltaR_j1l","closest jet-lepton DeltaR",100,0,4)
         self.add("DeltaR_j2l","2nd closest jet-lepton DeltaR",100,0,4)
-        self.add("DeltaR_jjl","jets-lepton combinations DeltaR",100,0,4)
-        self.add("DeltaR_jjl_leading","leading jets-lepton DeltaR",100,0,4)
+        self.add("DeltaR_jjl","jets-lepton combinations DeltaR",100,0,5)
+        self.add("DeltaR_jjl_leading","leading jets-lepton DeltaR",100,0,4.5)
         self.add("DeltaR_bb1","closest bjet-bjet combination DeltaR",100,0,4)
         self.add("DeltaR_b1l","farthest bjet-lepton DeltaR",100,0,4)
         self.add("DeltaR_b2l","2nd farthest bjet-lepton DeltaR",100,0,4)
@@ -198,8 +199,8 @@ class CleanUpControlPlots(BaseControlPlots):
                 madeCut_closest = True
     
         if "M_bb_closest" in result:
-            result["cleanup"].append(result["M_bb_closest"])
             result["cleanup"].append(result["DeltaR_bb1"])
+            result["cleanup"].append(result["M_bb_closest"])
         
         if madeCut_closest:
             result["M_bb_closest_cut"] = p_bb.M()
@@ -310,8 +311,13 @@ class CleanUpControlPlots(BaseControlPlots):
                                                             result["DeltaPhi_jjl_leading"] ])
                 if len(bl): # take bjet closest to lepton
                     result["M_blnu"] = (bl[-1].TLV + lepton.TLV + recoNeutrino(lepton.TLV,event.met[0])).M()
+                    result["cleanup"].append(result["M_blnu"])
                     if len(bl)>1: # take bjet second closest to lepton
-                        result["M_jjb_leading"] = (p_jj + bl[-2].TLV).M()
+                        jets_tt = event.cleanedJets20
+                        jets_tt.remove(bl[-1])
+                        jets_tt.remove(bl[-2])
+                        p_jj_tt = jets_tt[0].TLV + jets_tt[1].TLV
+                        result["M_jjb_leading"] = (p_jj_tt + bl[-2].TLV).M()
                         result["cleanup"].append(result["M_jjb_leading"])
     
 
