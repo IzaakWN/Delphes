@@ -393,17 +393,21 @@ def makeAxes(*hists, **kwargs):
             elif "DeltaEta": var = "#Delta#eta"
             elif "DeltaPt": var = "#Delta p_{T}"
             
-            if "lepton-" in name:
-                xlabel = var+"_{l"
-            elif "bjet-" in name or "bquark-" in name:
+            if "bjet-" in name or "bquark-" in name:
                 xlabel = var+"_{b"
             elif "jets-" in name or "jet-jet-" in name:
                 xlabel = var+"_{jj,"
+            elif "lepton-" in name:
+                xlabel = var+"_{l"
             elif "jet-" in name:
                 xlabel = var+"_{j"
             elif "quark-" in name:
                 xlabel = var+"_{q"
-            if "-lepton" in name:
+            elif "MET-" in name:
+                xlabel = var+"_{E^{miss}_{T}},"
+            if "-lepton-MET" in name:
+                xlabel += "l,E^{miss}_{T}}}}"
+            elif "-lepton" in name:
                 xlabel += "l}"
             elif "-bjet" in name or "bquark" in name:
                 xlabel += "b}"
@@ -412,7 +416,7 @@ def makeAxes(*hists, **kwargs):
             elif "-quark" in name:
                 xlabel += "q}"
             elif "-MET" in name:
-                xlabel += ",MET}"
+                xlabel += ",E^{miss}_{T}}}"
             elif "-nu" in name:
                 xlabel += ",#nu}"
             hist0.GetXaxis().SetTitle(xlabel)
