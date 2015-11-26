@@ -1,5 +1,5 @@
 from ROOT import TLorentzVector as TLV
-#from itertools import combinations
+from itertools import combinations
 
 # requirements:
 #   event.muons
@@ -31,13 +31,14 @@ def eventCategory(event):
         e.Mass = 0.000511
         e.TLV = TLV()
         e.TLV.SetPtEtaPhiM(e.PT, e.Eta, e.Phi, e.Mass)
-    
+    for jet in event.cleanedJets[:10]:
+        jet.TLV = TLV()
+        jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
+
     event.DeltaPt_jl = [ ]
     event.DeltaR_jl = [ ]
     for lepton in leps: # remove all muons and electrons from jets
         for jet in event.cleanedJets:
-            jet.TLV = TLV()
-            jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
 #            event.DeltaPt_jl.append(abs(lepton.TLV.Pt()-jet.TLV.Pt())/lepton.TLV.Pt())
 #            event.DeltaR_jl.append(TLV.DeltaR(l,jet.TLV))
 #            if event.DeltaR_jl[-1] < 0.5 and event.DeltaPt_jl[-1] < 0.2:
