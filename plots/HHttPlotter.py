@@ -25,34 +25,6 @@ def plotBasic(stage):
 
     names = [ ]
 
-    if stage == "stage_0/":
-        names.append("selection/category")
-
-    for comb in [ "jj","jjl","b1l","blnu",
-                  "jjb_leading","bb_farthest","jjl_leading",
-                  "jj_cut","jj_leading","jj_leading_cut",
-                  "bb_cut","bb_leading","bb_leading_cut",
-                           "bb_closest","bb_closest_cut" ]:
-        names.append("cleanup/M_"+comb)
-    names.append("cleanup/MT_lnu")
-    names.append("cleanup/MT_jjlnu")
-
-    for comb in [ "jj" ,"j1l","j2l","jjl","jjl_leading",
-                        "b1l","b2l","bb1" ]:
-        names.append("cleanup/DeltaR_"+comb)
-        names.append("cleanup/DeltaPhi_"+comb)
-    names.append("cleanup/DeltaRi_b1l")
-    names.append("cleanup/DeltaRi_b2l")
-
-#    names.append("cleanup/DeltaPhi_METl")
-    names.append("cleanup/jet1Pt")
-    names.append("cleanup/jet2Pt")
-    names.append("cleanup/bjet1Pt")
-    names.append("cleanup/bjet2Pt")
-    names.append("cleanup/leptonPt")
-    names.append("cleanup/MET")
-
-
 #    for comb in [ "qq","q1l","q2l",
 #                  "bb","b1l","b1l", ]:
 #        names.append("gen/DeltaR_"+comb)
@@ -103,6 +75,35 @@ def plotBasic(stage):
     #names.append("reco/Hbb_a1M")
     #names.append("reco/Hbb_a1Eta")
 
+    if stage == "stage_0/":
+        names.append("selection/category")
+
+    for comb in [ "jj","jjl","b1l","blnu",
+                  "jjb_leading","bb_farthest","jjl_leading",
+                  "jj_cut","jj_leading","jj_leading_cut",
+                  "bb_cut","bb_leading","bb_leading_cut",
+                           "bb_closest","bb_closest_cut" ]:
+        names.append("cleanup/M_"+comb)
+    names.append("cleanup/MT_lnu")
+    names.append("cleanup/MT_jjlnu")
+
+    for comb in [ "jj","j1l","j2l","jjl","jjl_leading",
+                        "b1l","b2l","bb1" ]:
+        names.append("cleanup/DeltaR_"+comb)
+        names.append("cleanup/DeltaPhi_"+comb)
+    names.append("cleanup/DeltaPhi_METl"
+    names.append("cleanup/DeltaPhi_jjlnu")
+    names.append("cleanup/DeltaRi_b1l")
+    names.append("cleanup/DeltaRi_b2l")
+
+#    names.append("cleanup/DeltaPhi_METl")
+    names.append("cleanup/jet1Pt")
+    names.append("cleanup/jet2Pt")
+    names.append("cleanup/bjet1Pt")
+    names.append("cleanup/bjet2Pt")
+    names.append("cleanup/leptonPt")
+    names.append("cleanup/MET")
+
     for name in names:
 
         c = makeCanvas()
@@ -120,8 +121,11 @@ def plotBasic(stage):
             hist_S.Scale(1./hist_S.GetBinContent(1))
             hist_tt.Scale(1./hist_tt.GetBinContent(1))
 
-        if "a1" in name:
-            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
+#        if "a1" in name:
+#            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
+#            legend.Draw()
+        if "DeltaPhi_b1l" in name:
+            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop")
             legend.Draw()
         else:
             legend = makeLegend(hist_S,hist_tt,tt=True)

@@ -218,6 +218,7 @@ def makeLegend(*hists, **kwargs):
     title = kwargs.get('title', None)
     entries = kwargs.get('entries', None)
     position = kwargs.get('position', "")
+    transparant = kwargs.get('transparant', False)
     global x1, x2, y2
     
     if position:
@@ -231,8 +232,10 @@ def makeLegend(*hists, **kwargs):
     
     y1 = y2 - height[len(hists)-1]
     legend = TLegend(x1,y1,x2,y2)
-    #legend.SetFillStyle(0) # 0 = transparant
-    legend.SetFillColor(kWhite)
+    if transparant:
+        legend.SetFillStyle(0) # 0 = transparant
+    else:
+        legend.SetFillColor(kWhite)
     legend.SetBorderSize(0)
     legend.SetTextSize(legendTextSize)
 
