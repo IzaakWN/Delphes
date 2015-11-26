@@ -4,9 +4,21 @@ from ROOT import TTree, TBranch
 from itertools import combinations # to make jets combinations
 from copy import copy
 from fold import fold
-from math import sqrt, pi
+from math import sqrt, cos, pi
 #from reconstruct import max_b2b
 from reconstruct import recoNeutrino, recoWlnu2Mt
+
+# variables for in tree
+tree_vars = [ "jet1Pt","jet2Pt",
+              "bjet1Pt","bjet2Pt",
+              "leptonPt","MET",
+              "DeltaR_j1l","DeltaR_j2l",
+              "DeltaR_b1l","DeltaR_b2l",
+              "DeltaR_bb1","DeltaPhi_METl",
+              "M_bb_closest",
+              "M_jjb_leading",
+              "M_blnu","M_jjlnu",
+              "MT_lnu","MT_jjlnu" )
 
 # Requirements:
 # event.muons
@@ -23,22 +35,8 @@ class CleanUpControlPlots(BaseControlPlots):
       
         # declare tree and branches
         self.addTree("cleanup","Variables for MVA")
-        self.addBranch("cleanup","DeltaR_b1l")
-        self.addBranch("cleanup","DeltaR_b2l")
-        self.addBranch("cleanup","DeltaR_bb1")
-        self.addBranch("cleanup","M_bb_closest")
-        self.addBranch("cleanup","jet1Pt")
-        self.addBranch("cleanup","jet2Pt")
-        self.addBranch("cleanup","bjet1Pt")
-        self.addBranch("cleanup","bjet2Pt")
-        self.addBranch("cleanup","DeltaR_j1l")
-        self.addBranch("cleanup","DeltaR_j2l")
-        self.addBranch("cleanup","M_lnu")
-        self.addBranch("cleanup","M_jjb_leading")
-        self.addBranch("cleanup","leptonPt")
-        self.addBranch("cleanup","MET")
-        self.addBranch("cleanup","DeltaPhi_METl")
-        self.addBranch("cleanup","MT_lnu")
+        for var in tree_vars:
+            self.addBranch("cleanup",var)
 
         self.add("Njets20","jets multiplicity (Pt > 20 GeV)",15,0,15)
         self.add("Njets30","jets multiplicity (Pt > 30 GeV)",15,0,15)
@@ -67,6 +65,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_bb_cut","bjet-bjet combinations (cut) Mass",100,0,300)
         self.add("M_b1l","closest bjet-lepton Mass",100,0,300)
         self.add("MT_lnu","Wlnu Mt",100,0,300)
+        self.add("MT_jjlnu","Wlnu Mt",100,0,300)
         self.add("M_blnu","blnu reco Mass",100,0,500)
 
 #        self.add("DeltaPt_jl","lepton-bjet Mass",100,0,2)
@@ -112,8 +111,6 @@ class CleanUpControlPlots(BaseControlPlots):
     def process(self, event):
     
         result = { }
-
-        result["cleanup"] = [ ] # respect the order of branches when adding variables
         
         result["M_jj"] = [ ]
         result["M_jj_cut"] = [ ]
@@ -135,6 +132,7 @@ class CleanUpControlPlots(BaseControlPlots):
 
         jets = event.cleanedJets20[:] # remove closest b-jets pair down below
         bjets = event.bjets30[:]
+        MET = event.met[0]
         result["Njets20"] = len(event.cleanedJets20)
         result["Njets30"] = len(event.cleanedJets30)
         result["Nbjets30"] = len(event.bjets30)
@@ -158,7 +156,6 @@ class CleanUpControlPlots(BaseControlPlots):
             result["M_b1l"] = (lepton.TLV+bl[-1].TLV).M()
             result["DeltaR_b1l"] = TLV.DeltaR(lepton.TLV,bl[0].TLV)
             result["DeltaRi_b1l"] = sqrt( (pi-DeltaPhi)*(pi-DeltaPhi) + DeltaEta*DeltaEta )
-            result["cleanup"].append(result["DeltaR_b1l"])
             result["DeltaPhi_b1l"] = DeltaPhi
             result["DeltaEtaDeltaPhi_b1l"] = [[ DeltaEta, DeltaPhi ]]
             if len(bl)>1:
@@ -167,7 +164,6 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["M_bb_farthest"] = (bl[0].TLV+bl[1].TLV).M()
                 result["DeltaR_b2l"] = TLV.DeltaR(lepton.TLV,bl[1].TLV)
                 result["DeltaRi_b2l"] = sqrt( (pi-DeltaPhi)*(pi-DeltaPhi) + DeltaEta*DeltaEta )
-                result["cleanup"].append(result["DeltaR_b2l"])
                 result["DeltaPhi_b2l"] = DeltaPhi
                 result["DeltaEtaDeltaPhi_b2l"] = [[ DeltaEta, DeltaPhi ]]
         
@@ -197,10 +193,6 @@ class CleanUpControlPlots(BaseControlPlots):
                                                     result["DeltaPhi_bb1"] ]]
                 DeltaR_bb_closest = DeltaR
                 madeCut_closest = True
-    
-        if "M_bb_closest" in result:
-            result["cleanup"].append(result["DeltaR_bb1"])
-            result["cleanup"].append(result["M_bb_closest"])
         
         if madeCut_closest:
             result["M_bb_closest_cut"] = p_bb.M()
@@ -215,18 +207,14 @@ class CleanUpControlPlots(BaseControlPlots):
             jets.remove(bjet)
         if len(jets)>0:
             result["jet1Pt"] = jets[0].PT
-            result["cleanup"].append(result["jet1Pt"])
             if len(jets)>1:
                 result["jet2Pt"] = jets[1].PT
-                result["cleanup"].append(result["jet2Pt"])
         
         # leading bjets
         if len(bjets)>0:
             result["bjet1Pt"] = bjet_closest[0].PT
-            result["cleanup"].append(result["bjet1Pt"])
             if len(bjets)>1:
                 result["bjet2Pt"] = bjet_closest[1].PT
-                result["cleanup"].append(result["bjet2Pt"])
         
         
 
@@ -236,13 +224,11 @@ class CleanUpControlPlots(BaseControlPlots):
             jil = sorted(jets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV))[:3] # closest jets
             if len(jil)>0:
                 result["DeltaR_j1l"] = TLV.DeltaR(lepton.TLV,jil[0].TLV)
-                result["cleanup"].append(result["DeltaR_j1l"])
                 result["DeltaPhi_j1l"] = fold(abs(lepton.Phi - jil[0].Phi))
                 result["DeltaEtaDeltaPhi_j1l"] = [[ abs(lepton.Eta - jil[0].Eta),
                                                     result["DeltaPhi_j1l"] ]]
                 if len(jil)>1:
                     result["DeltaR_j2l"] = TLV.DeltaR(lepton.TLV,jil[1].TLV)
-                    result["cleanup"].append(result["DeltaR_j2l"])
                     result["DeltaPhi_j2l"] = fold(abs(lepton.Phi - jil[1].Phi))
                     result["DeltaEtaDeltaPhi_j2l"] = [[ abs(lepton.Eta - jil[1].Eta),
                                                         result["DeltaPhi_j2l"] ]]
@@ -304,21 +290,21 @@ class CleanUpControlPlots(BaseControlPlots):
             p_jj = jets[0].TLV + jets[1].TLV
             result["M_jj_leading"] = p_jj.M()
             if lepton:
+                p_jjl = p_jj + lepton.TLV
                 result["M_jjl_leading"] = (p_jj + lepton.TLV).M()
+                result["MT_jjlnu"] = sqrt(2 * MET.MET * p_jjl.PT() * (1-cos( p_jjl.Phi() - MET.Phi)) )
                 result["DeltaR_jjl_leading"] = TLV.DeltaR(p_jj,lepton.TLV)
                 result["DeltaPhi_jjl_leading"] = fold(abs(p_jj.Phi()-lepton.Phi))
                 result["DeltaEtaDeltaPhi_jjl_leading"] = [[ abs(p_jj.Eta() - lepton.Eta),
                                                             result["DeltaPhi_jjl_leading"] ]]
                 if len(bl): # take bjet closest to lepton
-                    result["M_blnu"] = (bl[-1].TLV + lepton.TLV + recoNeutrino(lepton.TLV,event.met[0])).M()
-                    result["cleanup"].append(result["M_blnu"])
+                    result["M_blnu"] = (bl[-1].TLV + lepton.TLV + recoNeutrino(lepton.TLV,MET)).M()
                     if len(bl)>1: # take bjet second closest to lepton
                         jets_tt = event.cleanedJets20[:]
                         jets_tt.remove(bl[-1])
                         jets_tt.remove(bl[-2])
                         p_jj_tt = jets_tt[0].TLV + jets_tt[1].TLV
                         result["M_jjb_leading"] = (p_jj_tt + bl[-2].TLV).M()
-                        result["cleanup"].append(result["M_jjb_leading"])
     
 
         if p_jj_cut:
@@ -328,13 +314,19 @@ class CleanUpControlPlots(BaseControlPlots):
         # MET - lepton
         if lepton:
             result["leptonPt"] = lepton.PT
-            result["cleanup"].append(result["leptonPt"])
-            result["MET"] = event.met[0].MET
-            result["cleanup"].append(result["MET"])
-            result["DeltaPhi_METl"] = abs(event.met[0].Phi-lepton.Phi)
-            result["cleanup"].append(result["DeltaPhi_METl"])
-            result["MT_lnu"] = recoWlnu2Mt(lepton,event.met[0])
-            result["cleanup"].append(result["MT_lnu"])
+            result["MET"] = MET.MET
+            result["DeltaPhi_METl"] = abs(MET.Phi-lepton.Phi)
+            result["MT_lnu"] = recoWnu2Mt(lepton,MET)
+        
+        # respect the order of branches when adding variables
+#        result["cleanup"] = [ result[var] for var in result if var in tree_vars ]
+        result["cleanup"] = []
+        for var in tree_vars:
+            if var in result:
+                result["cleanup"].append(var)
+            else: # if one variable does not exist for this event, no tree
+                del result["cleanup"]
+                break
 
         return result
 
