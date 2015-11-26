@@ -14,7 +14,8 @@ tree_vars = [ "jet1Pt","jet2Pt",
               "leptonPt","MET",
               "DeltaR_j1l","DeltaR_j2l",
               "DeltaR_b1l","DeltaR_b2l",
-              "DeltaR_bb1","DeltaPhi_METl",
+              "DeltaR_bb1","DeltaR_jjl_leading"
+              "DeltaPhi_METl",
               "M_bb_closest",
               "M_jjb_leading",
               "M_blnu",
@@ -54,7 +55,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_jj_leading_cut","leading jet-jet (cut) Mass",100,0,300)
 #        self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
 #        self.add("M_jj_b2b_(cut)","jet-jet b2b Mass",100,0,300)
-        self.add("M_jjb_leading","leading jet-jet-bjet Mass",100,0,500)
+        self.add("M_jjb_leading","leading jet-jet-bjet Mass",200,0,700)
         self.add("M_jjl","jets-lepton combinations Mass",150,0,450)
         self.add("M_jjl_leading","leading jets-lepton combinations Mass",150,0,450)
         self.add("M_bb_leading","leading bjet-bjet Mass",100,0,300)
