@@ -351,7 +351,7 @@ def makeAxes2D(*hists, **kwargs):
     hist0.GetYaxis().SetTitle(ylabel)
     hist0.GetXaxis().SetTitleSize(0.051)
     hist0.GetYaxis().SetTitleSize(0.048)
-    hist0.GetYaxis().SetTitleOffset(1.15)
+    hist0.GetYaxis().SetTitleOffset(1.2)
 
     # set optimal range
     mins = [ ]
@@ -368,11 +368,6 @@ def makeAxes(*hists, **kwargs):
     hist0 = hists[0]
     xlabel = kwargs.get('xlabel', "")
     ylabel = kwargs.get('ylabel', "")
-    
-    hist0.SetLabelSize(0.044,"x")
-    hist0.SetLabelSize(0.042,"y")
-    hist0.GetXaxis().SetTitleSize(0.051)
-    hist0.GetYaxis().SetTitleSize(0.044)
     
     # make correct x-axis labels
     if xlabel + ylabel:
@@ -404,9 +399,9 @@ def makeAxes(*hists, **kwargs):
             elif "quark-" in name:
                 xlabel = var+"_{q"
             elif "MET-" in name:
-                xlabel = var+"_{E^{miss}_{T}},"
+                xlabel = var+"_{E^{miss}_{T},"
             if "-lepton-MET" in name:
-                xlabel += "l,E^{miss}_{T}}}}"
+                xlabel += "l,E^{miss}_{T}}"
             elif "-lepton" in name:
                 xlabel += "l}"
             elif "-bjet" in name or "bquark" in name:
@@ -436,7 +431,7 @@ def makeAxes(*hists, **kwargs):
                 ylabel = "W #rightarrow qq mass [GeV]"
             elif "lepton-" in name:
                 xlabel = "invariant mass M_{l"
-            elif "bjet-" or "bquark-" in name:
+            elif "bjet-" in name or "bquark-" in name:
                 xlabel = "invariant mass M_{b"
             elif "jets-" in name or "jet-jet-" in name:
                 xlabel = "invariant mass M_{jj,"
@@ -446,7 +441,7 @@ def makeAxes(*hists, **kwargs):
                 xlabel = "invariant mass M_{q"
             if "-lepton" in name:
                 xlabel += "l} [GeV]"
-            elif "-bjet" or "bquark" in name:
+            elif "-bjet" in name or "bquark" in name:
                 xlabel += "b} [GeV]"
             elif "-jet" in name:
                 xlabel += "j} [GeV]"
@@ -471,6 +466,10 @@ def makeAxes(*hists, **kwargs):
 
     # make correct y-axis labels
     hist0.GetYaxis().SetTitle(ylabel)
+    hist0.SetLabelSize(0.044,"x")
+    hist0.SetLabelSize(0.042,"y")
+    hist0.GetXaxis().SetTitleSize(0.051)
+    hist0.GetYaxis().SetTitleSize(0.044)
     hist0.GetYaxis().SetTitleOffset(1.5)
 
     # set optimal range
