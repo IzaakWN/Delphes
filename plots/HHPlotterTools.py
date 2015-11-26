@@ -381,24 +381,30 @@ def makeAxes(*hists, **kwargs):
         elif " Pt" in name:
             hist0.GetXaxis().SetTitle("transverse momentum p_{T} [GeV]")
             ylabel += "GeV"
-        elif "DeltaR" in name:
+        elif "Delta" in name:
             xlabel = ""
+            var = ""
+            if "DeltaR" in name: var = "#DeltaR"
+            elif "DeltaPhi": var = "#Delta#phi"
+            elif "DeltaEta": var = "#Delta#eta"
+            elif "DeltaPt": var = "#Delta p_{T}"
+            
             if "lepton-" in name:
-                xlabel = "#DeltaR_{l"
-            elif "jets-" or "jet-jet-" in name:
-                xlabel = "#DeltaR_{jj,"
+                xlabel = var+"_{l"
+            elif "bjet-" in name or "bquark-" in name:
+                xlabel = var+"_{b"
+            elif "jets-" in name or "jet-jet-" in name:
+                xlabel = var+"_{jj,"
             elif "jet-" in name:
-                xlabel = "#DeltaR_{j"
-            elif "bjet-" or "bquark-" in name:
-                xlabel = "#DeltaR_{b"
+                xlabel = var+"_{j"
             elif "quark-" in name:
-                xlabel = "#DeltaR_{q"
+                xlabel = var+"_{q"
             if "-lepton" in name:
                 xlabel += "l}"
+            elif "-bjet" in name or "bquark" in name:
+                xlabel += "b}"
             elif "-jet" in name:
                 xlabel += "j}"
-            elif "-bjet" or "bquark" in name:
-                xlabel += "b}"
             elif "-quark" in name:
                 xlabel += "q}"
             elif "-MET" in name:
@@ -422,20 +428,20 @@ def makeAxes(*hists, **kwargs):
                 ylabel = "W #rightarrow qq mass [GeV]"
             elif "lepton-" in name:
                 xlabel = "invariant mass M_{l"
-            elif "jets-" or "jet-jet-" in name:
+            elif "bjet-" or "bquark-" in name:
+                xlabel = "invariant mass M_{b"
+            elif "jets-" in name or "jet-jet-" in name:
                 xlabel = "invariant mass M_{jj,"
             elif "jet-" in name:
                 xlabel = "invariant mass M_{j"
-            elif "bjet-" or "bquark-" in name:
-                xlabel = "invariant mass M_{b"
             elif "quark-" in name:
                 xlabel = "invariant mass M_{q"
             if "-lepton" in name:
                 xlabel += "l} [GeV]"
-            elif "-jet" in name:
-                xlabel += "j} [GeV]"
             elif "-bjet" or "bquark" in name:
                 xlabel += "b} [GeV]"
+            elif "-jet" in name:
+                xlabel += "j} [GeV]"
             elif "-quark" in name:
                 xlabel += "q} [GeV]"
             elif "-MET" in name:
