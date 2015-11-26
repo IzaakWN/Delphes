@@ -316,7 +316,7 @@ class CleanUpControlPlots(BaseControlPlots):
             result["leptonPt"] = lepton.PT
             result["MET"] = MET.MET
             result["DeltaPhi_METl"] = abs(MET.Phi-lepton.Phi)
-            result["MT_lnu"] = recoWnu2Mt(lepton,MET)
+            result["MT_lnu"] = recoWlnu2Mt(lepton,MET)
         
         # respect the order of branches when adding variables
 #        result["cleanup"] = [ result[var] for var in result if var in tree_vars ]
