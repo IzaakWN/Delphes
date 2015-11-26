@@ -50,7 +50,10 @@ def eventCategory(event):
     event.cleanedJets30 = [ jet for jet in event.cleanedJets20 if jet.PT > 30 and abs(jet.Eta) < 2.5 ]
     event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag and abs(jet.Eta) < 2.5 ]
 
-    for j in event.bjets30:
+    for l in leps:
+        print "\nBAM"
+        print "l.TLV = %s" % l.TLV
+    for j in event.cleanedJets:
         print "j.TLV = %s" % j.TLV
 
     # 0: generator level: single Wlnu and Hbb
