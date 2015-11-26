@@ -351,7 +351,7 @@ def makeAxes2D(*hists, **kwargs):
     hist0.GetYaxis().SetTitle(ylabel)
     hist0.GetXaxis().SetTitleSize(0.051)
     hist0.GetYaxis().SetTitleSize(0.048)
-    hist0.GetYaxis().SetTitleOffset(1.2)
+    hist0.GetYaxis().SetTitleOffset(1.25)
 
     # set optimal range
     mins = [ ]
@@ -401,7 +401,7 @@ def makeAxes(*hists, **kwargs):
             elif "MET-" in name:
                 xlabel = var+"_{E^{miss}_{T},"
             if "-lepton-MET" in name:
-                xlabel += "l,E^{miss}_{T}}"
+                xlabel += "l#nu}"
             elif "-lepton" in name:
                 xlabel += "l}"
             elif "-bjet" in name or "bquark" in name:
@@ -439,6 +439,10 @@ def makeAxes(*hists, **kwargs):
                 xlabel = "invariant mass M_{j"
             elif "quark-" in name:
                 xlabel = "invariant mass M_{q"
+            elif "hadronic top" in name:
+                xlabel = "invariant mass M_{jj,b}"
+            elif "leptonic top" in name:
+                xlabel = "invariant mass M_{b,l#nu}"
             if "-lepton" in name:
                 xlabel += "l} [GeV]"
             elif "-bjet" in name or "bquark" in name:
