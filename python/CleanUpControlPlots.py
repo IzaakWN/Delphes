@@ -43,8 +43,8 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("Nbjets30","bjets multiplicity (Pt > 30 GeV)",10,0,10)
         self.add("jet1Pt","jet 1 Pt",100,0,250)
         self.add("jet2Pt","jet 2 Pt",100,0,250)
-        self.add("bjet1Pt","jet 1 Pt",100,0,250)
-        self.add("bjet2Pt","jet 2 Pt",100,0,250)
+        self.add("bjet1Pt","bjet 1 Pt",100,0,250)
+        self.add("bjet2Pt","bjet 2 Pt",100,0,250)
         self.add("leptonPt","lepton Pt",100,0,250)
         self.add("MET","MET",100,0,300)
 
