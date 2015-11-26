@@ -35,6 +35,7 @@ def plotBasic(stage):
                            "bb_closest","bb_closest_cut" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
+    names.append("cleanup/MT_jjlnu")
 
     for comb in [ "jj" ,"j1l","j2l","jjl","jjl_leading",
                         "b1l","b2l","bb1" ]:
