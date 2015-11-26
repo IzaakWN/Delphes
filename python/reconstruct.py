@@ -36,7 +36,7 @@ def index_min(list):
 
 
 # note: assumption W is on-shell
-def recoNeutrino(p, MET, METphi, M):
+def recoNeutrino(p, MET, M=MW):
     """ Reconstruction of neutrino from Wlnu with lepton and MET
         by imposing the W mass constrain M. Helpfunction for recoWlnu1. """
     
@@ -46,8 +46,8 @@ def recoNeutrino(p, MET, METphi, M):
     py = p.Py()
     pz = p.Pz()
     
-    kx = MET*cos(METphi)
-    ky = MET*sin(METphi)
+    kx = MET.MET*cos(MET.Phi)
+    ky = MET.MET*sin(MET.Phi)
 
     a = M*M - m*m + 2*px*kx + 2*py*ky
     A = 4*(E*E - pz*pz)
@@ -89,7 +89,7 @@ def recoWlnu1(lepton,MET,M=MW):
     p = TLorentzVector()
     p.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
 
-    return p + recoNeutrino(p,MET.MET,MET.Phi,M)
+    return p + recoNeutrino(p,MET,M)
 
 
 
