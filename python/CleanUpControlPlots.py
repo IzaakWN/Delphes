@@ -18,7 +18,7 @@ tree_vars = [ "jet1Pt","jet2Pt",
               "M_bb_closest",
               "M_jjb_leading",
               "M_blnu","M_jjlnu",
-              "MT_lnu","MT_jjlnu" )
+              "MT_lnu","MT_jjlnu" ]
 
 # Requirements:
 # event.muons
