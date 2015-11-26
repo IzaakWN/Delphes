@@ -36,11 +36,10 @@ def plotBasic(stage):
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
 
-    for comb in [ "jj" ,"j1l","j2l","jjl",#"jjl_leading",
+    for comb in [ "jj" ,"j1l","j2l","jjl","jjl_leading",
                         "b1l","b2l","bb1" ]:
         names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
-    names.append("cleanup/DeltaR_jjl_leading")
     names.append("cleanup/DeltaRi_b1l")
     names.append("cleanup/DeltaRi_b2l")
 
@@ -301,7 +300,7 @@ def plot2D(stage):
     #c.Close()
 
     # GEN LEVEL: DeltaPhi vs. DeltaEta
-    names = [ ]#"qq","bb","q1l","q2l","qsl","b1l","b2l","bsl" ]
+    names = [ "qq","bb","q1l","q2l","b1l","b2l" ]
 
     for name in names:
         c = makeCanvas(square=True)
@@ -321,7 +320,7 @@ def plot2D(stage):
         c.Close()
       
     # RECO LEVEL: DeltaPhi vs. DeltaEta
-    names = [ "jj" ,"j1l","j2l","j3l","jjl",
+    names = [ "jj" ,"j1l","j2l","j3l","jjl","jjl_leading",
               "bb1","b1l","b2l" ]
 
     for name in names:
