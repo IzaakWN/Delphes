@@ -31,13 +31,14 @@ def eventCategory(event):
         e.Mass = 0.000511
         e.TLV = TLV()
         e.TLV.SetPtEtaPhiM(e.PT, e.Eta, e.Phi, e.Mass)
-    
+    for jet in event.cleanedJets[:10]:
+        jet.TLV = TLV()
+        jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
+
     event.DeltaPt_jl = [ ]
     event.DeltaR_jl = [ ]
     for lepton in leps: # remove all muons and electrons from jets
         for jet in event.cleanedJets:
-            jet.TLV = TLV()
-            jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
 #            event.DeltaPt_jl.append(abs(lepton.TLV.Pt()-jet.TLV.Pt())/lepton.TLV.Pt())
 #            event.DeltaR_jl.append(TLV.DeltaR(l,jet.TLV))
 #            if event.DeltaR_jl[-1] < 0.5 and event.DeltaPt_jl[-1] < 0.2:
@@ -49,13 +50,6 @@ def eventCategory(event):
     event.cleanedJets20 = [ jet for jet in event.cleanedJets15 if jet.PT > 20 and abs(jet.Eta) < 2.5 ]
     event.cleanedJets30 = [ jet for jet in event.cleanedJets20 if jet.PT > 30 and abs(jet.Eta) < 2.5 ]
     event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag and abs(jet.Eta) < 2.5 ]
-
-    for l in leps:
-        print "\nBAM"
-        print "l.TLV = %s" % l.TLV
-    if leps:
-        for j in event.cleanedJets:
-            print "j.TLV = %s" % j.TLV
 
     # 0: generator level: single Wlnu and Hbb
     nLeptons = 0
@@ -95,12 +89,11 @@ def eventCategory(event):
     # 8: clean-up cuts
     M_bb = 0
     DeltaR_bb = 4
-    if leps:
-        for b1,b2 in combinations(event.bjets30,2):
-            DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
-            if DeltaR < DeltaR_bb:
-                DeltaR_bb = DeltaR
-                M_bb = (b1.TLV+b2.TLV).M()
+    for b1,b2 in combinations(event.bjets30,2):
+        DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
+        if DeltaR < DeltaR_bb:
+            DeltaR_bb = DeltaR
+            M_bb = (b1.TLV+b2.TLV).M()
     categoryData.append( 60 < M_bb < 160 and \
                          DeltaR_bb < 3.1 )
     
