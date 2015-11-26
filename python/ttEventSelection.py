@@ -91,7 +91,7 @@ def eventCategory(event):
     DeltaR_bb = 4
     for b1,b2 in combinations(event.bjets30,2):
         DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
-        if DeltaR < DeltaR_bb
+        if DeltaR < DeltaR_bb:
             DeltaR_bb = DeltaR
             M_bb = (b1.TLV+b2.TLV).M()
     categoryData.append( 60 < M_bb < 160 and \
