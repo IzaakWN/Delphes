@@ -43,6 +43,8 @@ treeS1 = file_HH.Get("stage_1/cleanup/cleanup")
 treeB1 = file_tt.Get("stage_1/cleanup/cleanup")
 treeS2 = file_HH.Get("stage_2/cleanup/cleanup")
 treeB2 = file_tt.Get("stage_2/cleanup/cleanup")
+treeS3 = file_HH.Get("stage_3/cleanup/cleanup")
+treeB3 = file_tt.Get("stage_3/cleanup/cleanup")
 
 h0_S = file_HH.Get("stage_0/selection/category") # ~ 166483
 h0_B = file_tt.Get("stage_0/selection/category") # ~ 164661
@@ -52,8 +54,10 @@ S1 = h0_S.GetBinContent(2)
 B1 = h0_B.GetBinContent(2)
 S2 = h0_S.GetBinContent(3)
 B2 = h0_B.GetBinContent(3)
-print "S_tot = %i, S1 = %i, S2 = %i" % (S_tot,S1,S2)
-print "B_tot = %i, B1 = %i, B2 = %i" % (B_tot,B1,B2)
+S3 = h0_S.GetBinContent(4)
+B3 = h0_B.GetBinContent(4)
+print "S_tot = %i, S1 = %i, S2 = %i, S3 = %i" % (S_tot,S1,S2,S3)
+print "B_tot = %i, B1 = %i, B2 = %i, B3 = %i" % (B_tot,B1,B2,B3)
 
 # yields to calculate significance
 L = 3000 # / fb
@@ -85,6 +89,11 @@ class configuration(object):
             self.treeB = treeB2
             self.Seff = S2/S_tot
             self.Beff = B2/B_tot
+        elif stage==3:
+            self.treeS = treeS3
+            self.treeB = treeB3
+            self.Seff = S3/S_tot
+            self.Beff = B3/B_tot
 
 
 
@@ -304,27 +313,28 @@ def correlation(config):
 
 def main():
     
-    varNames = [ "jet1Pt", "jet2Pt",
-                 "bjet1Pt", "bjet2Pt",
-                 "leptonPt", "MET",
+    varNames = [ "Njets20","Nbjets30",
+                 "jet1Pt","jet2Pt",
+                 "bjet1Pt","bjet2Pt",
+                 "leptonPt","MET",
+                 "DeltaR_j1l","DeltaR_j2l",
+                 "DeltaR_b1l","DeltaR_b2l",
+                 "DeltaR_bb1","DeltaR_jjl_leading",
                  "DeltaPhi_METl",
-                 "MT_lnu",
-                 "DeltaR_j1l", "DeltaR_j2l",
-                 "DeltaR_b1l", "DeltaR_b2l",
-                 "DeltaR_bb1",
-                 "DeltaR_jjl_leading",
                  "M_bb_closest",
-                 "M_jjb_leading", "M_blnu",  ]
+                 "M_jjb_leading", "M_blnu",
+                 "MT_lnu","MT_jjlnu" ]
                  
-    varNamesBest =[ "bjet1Pt", "jet1Pt",
-                    "DeltaR_b1l", "DeltaR_b2l",
-                    "M_bb_closest",
-                    "DeltaR_j1l", "DeltaR_j2l" ]
+                 
+#    varNamesBest =[ "bjet1Pt", "jet1Pt",
+#                    "DeltaR_b1l", "DeltaR_b2l",
+#                    "M_bb_closest",
+#                    "DeltaR_j1l", "DeltaR_j2l" ]
+#
+#    varNamesMLPTop5 = [ "bjet1Pt", "bjet2Pt",
+#                        "DeltaR_j2l", "DeltaR_b2l",
+#                        "M_bb_closest" ]
 
-    varNamesMLPTop5 = [ "bjet1Pt", "bjet2Pt",
-                        "DeltaR_j2l", "DeltaR_b2l",
-                        "M_bb_closest" ]
-                 
     varNamesFavs = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
                      "DeltaR_j1l", "DeltaR_j2l",
                      "M_bb_closest",
@@ -334,13 +344,13 @@ def main():
         configs = [configuration("test", ["bjet1Pt","jet1Pt"], 1)]
     else:
         configs = [ configuration("everything20", varNames, 1),
-                    configuration("best20",    varNamesBest, 1),
-                    #configuration("MLPTop520", varNamesMLPTop5, 1),
-                    #configuration("favs20",    varNamesFavs, 1),
-                    configuration("everything", varNames, 2),]
-                    #configuration("best",    varNamesBest, 2),
-                    #configuration("MLPTop5", varNamesMLPTop5, 2),
-                    #configuration("favs",    varNamesFavs, 2), ]
+#                    configuration("best20",    varNamesBest, 1),
+#                    configuration("MLPTop520", varNamesMLPTop5, 1),
+                    configuration("favs20",    varNamesFavs, 1),
+                    configuration("everythingCleanUp", varNames, 2),
+                    configuration("favsCleanUp",    varNamesFavs, 2),
+                    configuration("everything30", varNames, 3),
+                    configuration("favs30", varNamesFavs, 3),]
 
     if opts.onlyPlot:
         for config in configs:

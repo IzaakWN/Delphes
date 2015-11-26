@@ -55,9 +55,9 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_jj_leading_cut","leading jet-jet (cut) Mass",100,0,300)
 #        self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
 #        self.add("M_jj_b2b_(cut)","jet-jet b2b Mass",100,0,300)
-        self.add("M_jjb_leading","leading jet-jet-bjet Mass",200,0,700)
-        self.add("M_jjl","jets-lepton combinations Mass",150,0,450)
-        self.add("M_jjl_leading","leading jets-lepton combinations Mass",150,0,450)
+        self.add("M_jjb_leading","leading jet-jet-bjet Mass",100,0,700)
+        self.add("M_jjl","jets-lepton combinations Mass",100,0,450)
+        self.add("M_jjl_leading","leading jets-lepton combinations Mass",100,0,450)
         self.add("M_bb_leading","leading bjet-bjet Mass",100,0,300)
         self.add("M_bb_leading_cut","leading bjet-bjet (cut) Mass",100,0,300)
         self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
@@ -179,7 +179,7 @@ class CleanUpControlPlots(BaseControlPlots):
             DeltaR = TLV.DeltaR(j1.TLV, j2.TLV)
             madeCut = False
             if lepton:
-                if DeltaR <2.5 and fold(abs(lepton.Phi - j1.Phi))>1 and \
+                if DeltaR < 2.5 and fold(abs(lepton.Phi - j1.Phi))>1 and \
                                    fold(abs(lepton.Phi - j2.Phi))>1 :
                     madeCut = True
                     result["M_bb_cut"].append(p_bb.M())
