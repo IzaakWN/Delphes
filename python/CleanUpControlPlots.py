@@ -305,8 +305,8 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["MT_jjlnu"] = sqrt(2 * MET.MET * p_jjl.Pt() * (1-cos( p_jjl.Phi() - MET.Phi)) )
                 if len(bl): # take bjet closest to lepton
                     result["M_blnu"] = (bl[-1].TLV + lepton.TLV + recoNeutrino(lepton.TLV,MET)).M()
-                    if len(bl)>1: # take bjet second closest to lepton
-                        jets_tt = event.cleanedJets20[:]
+                    if len(bl)>1 and len(event.cleanedJets20)>3: # take bjet second closest to lepton
+                        jets_tt = event.cleanedJets20[:4]
                         jets_tt.remove(bl[-1])
                         jets_tt.remove(bl[-2])
                         p_jj_tt = jets_tt[0].TLV + jets_tt[1].TLV
@@ -322,7 +322,7 @@ class CleanUpControlPlots(BaseControlPlots):
         result["cleanup"] = [ ]
         for var in tree_vars:
             if var in result:
-                result["cleanup"].append(var)
+                result["cleanup"].append(result[var])
             else: # if one variable does not exist for this event, no tree
                 del result["cleanup"]
                 break
