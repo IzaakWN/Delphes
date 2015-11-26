@@ -28,7 +28,7 @@ def plotBasic(stage):
     if stage == "stage_0/":
         names.append("selection/category")
 
-    for comb in [ "jj","jjl","b1l","blnu"
+    for comb in [ "jj","jjl","b1l","blnu",
                   "jjb_leading","jjl_leading","bb_farthest",
                   "jj_cut","jj_leading","jj_leading_cut",
                   "bb_cut","bb_leading","bb_leading_cut",
