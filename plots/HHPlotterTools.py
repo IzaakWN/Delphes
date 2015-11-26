@@ -74,7 +74,7 @@ def makeTitle(hist):
     elif " DeltaR" in title:
         title = title.replace(" DeltaR","")
     elif " DeltaPhi" in title:
-        title = title.replace(" DeltaR","")
+        title = title.replace(" DeltaPhi","")
     elif "MW" in title:
         title = title.replace("MW","M")#_{W}")
     
