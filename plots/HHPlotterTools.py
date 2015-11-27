@@ -322,7 +322,6 @@ def makeAxes2D(*hists, **kwargs):
         hist0.GetXaxis().SetTitle(xlabel)
     elif " DeltaPhi vs. DeltaEta" in name:
         name.replace(" DeltaPhi vs. DeltaEta","")
-        print "name = " + name
         var = ""
         if "bjet-" in name or "bquark-" in name:
             var = "_{b"
