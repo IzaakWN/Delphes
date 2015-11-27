@@ -322,8 +322,36 @@ def makeAxes2D(*hists, **kwargs):
         hist0.GetXaxis().SetTitle(xlabel)
     elif "DeltaPhi vs. DeltaEta" in name:
         name.replace(" DeltaPhi vs. DeltaEta","")
-        xlabel = "#Delta#eta"
-        ylabel = "#Delta#phi [rad]"
+        var = ""
+        if ("bjet-" or "bquark-") in name:
+            var = var+"_{b"
+        elif ("jets-" or "jet-jet-") in name:
+            var = var+"_{jj,"
+        elif "lepton-" in name:
+            var = var+"_{l"
+        elif "jet-" in name:
+            var = var+"_{j"
+        elif "quark-" in name:
+            var = var+"_{q"
+        elif "MET-" in name:
+            var = var+"_{E^{miss}_{T},"
+        if "-lepton-MET" in name:
+            var += "l#nu}"
+        elif "-lepton" in name:
+            var += "l}"
+        elif ("-bjet" or "bquark") in name:
+            var += "b}"
+        elif "-jet" in name:
+            var += "j}"
+        elif "-quark" in name:
+            var += "q}"
+        elif "-MET" in name:
+            var += ",E^{miss}_{T}}}"
+        elif "-nu" in name:
+            var += "#nu}"
+        hist0.GetXaxis().SetTitle(xlabel)
+        xlabel = "#Delta#eta" + var
+        ylabel = "#Delta#phi [rad]" + var
     elif " vs. " in name:
         xlabel = name[name.index(" vs. ")+5:].replace(" gen","")
         ylabel = name[:name.index(" vs. ")]
@@ -388,9 +416,9 @@ def makeAxes(*hists, **kwargs):
             elif "DeltaEta": var = "#Delta#eta"
             elif "DeltaPt": var = "#Delta p_{T}"
             
-            if "bjet-" in name or "bquark-" in name:
+            if ("bjet-" or "bquark-") in name:
                 xlabel = var+"_{b"
-            elif "jets-" in name or "jet-jet-" in name:
+            elif ("jets-" or "jet-jet-") in name:
                 xlabel = var+"_{jj,"
             elif "lepton-" in name:
                 xlabel = var+"_{l"
@@ -404,7 +432,7 @@ def makeAxes(*hists, **kwargs):
                 xlabel += "l#nu}"
             elif "-lepton" in name:
                 xlabel += "l}"
-            elif "-bjet" in name or "bquark" in name:
+            elif ("-bjet" or "bquark") in name:
                 xlabel += "b}"
             elif "-jet" in name:
                 xlabel += "j}"
