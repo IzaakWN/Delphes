@@ -31,7 +31,7 @@ def eventCategory(event):
         e.Mass = 0.000511
         e.TLV = TLV()
         e.TLV.SetPtEtaPhiM(e.PT, e.Eta, e.Phi, e.Mass)
-    for jet in event.cleanedJets[:10]:
+    for jet in event.cleanedJets:
         jet.TLV = TLV()
         jet.TLV.SetPtEtaPhiM(jet.PT, jet.Eta, jet.Phi, jet.Mass)
 
