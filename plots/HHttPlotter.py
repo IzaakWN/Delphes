@@ -73,13 +73,13 @@ def plotBasic(stage):
     if stage == "stage_0/":
         names.append("selection/category")
 
-    for comb in [ "jj","jjl","b1l",
+    for comb in [ "jj",
                   "jj_cut","jj_leading","jj_leading_cut",
                   "bb_cut","bb_leading","bb_leading_cut",
                            "bb_closest","bb_closest_cut",
                            "bb_farthest",
-                  "jjl_leading","jjlnu_leading",
-                  "jjb_leading","blnu" ]:
+                  "jjl","jjl_leading","jjlnu_leading",
+                  "jjb_leading","b1l","blnu" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
     names.append("cleanup/MT_jjlnu")
@@ -95,7 +95,7 @@ def plotBasic(stage):
     names.append("cleanup/DeltaPhi_lMET")
     names.append("cleanup/DeltaPhi_jjlnu")
 
-#    names.append("cleanup/DeltaPhi_METl")
+    names.append("cleanup/DeltaPhi_lMET")
     names.append("cleanup/jet1Pt")
     names.append("cleanup/jet2Pt")
     names.append("cleanup/bjet1Pt")
