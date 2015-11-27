@@ -79,25 +79,17 @@ class configuration(object):
         self.varNames = varNames
         self.treeS = None
         self.treeB = None
-        self.Seff = 0
-        self.Beff = 0
         self.hist_effs = [ ]
 #        self.significances
         if stage==1:
             self.treeS = treeS1
             self.treeB = treeB1
-            self.Seff = S1/S_tot
-            self.Beff = B1/B_tot
         elif stage==2:
             self.treeS = treeS2
             self.treeB = treeB2
-            self.Seff = S2/S_tot
-            self.Beff = B2/B_tot
         elif stage==3:
             self.treeS = treeS3
             self.treeB = treeB3
-            self.Seff = S3/S_tot
-            self.Beff = B3/B_tot
 
 
 
