@@ -320,7 +320,7 @@ def makeAxes2D(*hists, **kwargs):
     # make correct axis labels
     if xlabel + ylabel:
         hist0.GetXaxis().SetTitle(xlabel)
-    elif "DeltaPhi vs. DeltaEta" in name:
+    elif " DeltaPhi vs. DeltaEta" in name:
         name.replace(" DeltaPhi vs. DeltaEta","")
         print "name = " + name
         var = ""
@@ -379,7 +379,7 @@ def makeAxes2D(*hists, **kwargs):
     hist0.GetYaxis().SetTitle(ylabel)
     hist0.GetXaxis().SetTitleSize(0.051)
     hist0.GetYaxis().SetTitleSize(0.048)
-    hist0.GetYaxis().SetTitleOffset(1.25)
+    hist0.GetYaxis().SetTitleOffset(1.2)
 
     # set optimal range
     mins = [ ]
@@ -466,6 +466,8 @@ def makeAxes(*hists, **kwargs):
             elif "jet-" in name:
                 xlabel = "invariant mass M_{j"
             elif "quark-" in name:
+                xlabel = "invariant mass M_{b"
+            elif "quark-" in name:
                 xlabel = "invariant mass M_{q"
             elif "hadronic top" in name:
                 xlabel = "invariant mass M_{jj,b}"
@@ -477,6 +479,8 @@ def makeAxes(*hists, **kwargs):
                 xlabel += "b} [GeV]"
             elif "-jet" in name:
                 xlabel += "j} [GeV]"
+            elif "-bquark" in name:
+                xlabel += "b} [GeV]"
             elif "-quark" in name:
                 xlabel += "q} [GeV]"
             elif "-MET" in name:
