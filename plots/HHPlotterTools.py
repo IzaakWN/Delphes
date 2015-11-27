@@ -350,7 +350,6 @@ def makeAxes2D(*hists, **kwargs):
             var += ",E^{miss}_{T}}}"
         elif "-nu" in name:
             var += "#nu}"
-        hist0.GetXaxis().SetTitle(xlabel)
         xlabel = "#Delta#eta" + var
         ylabel = "#Delta#phi" + var +" [rad]"
     elif " vs. " in name:
