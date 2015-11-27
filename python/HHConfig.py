@@ -22,7 +22,7 @@ class configuration:
 
   # control plot classes
   controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
-                   controlPlot("gen","GenControlPlots","GenControlPlots", { }),
+                   controlPlot("gen","GenControlPlots_topo","GenControlPlots", { }),
                    controlPlot("cleanup","CleanUpControlPlots","CleanUpControlPlots", { }), ]
                    #controlPlot("jets","JetControlPlots","JetControlPlots", { }),
                    #controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),

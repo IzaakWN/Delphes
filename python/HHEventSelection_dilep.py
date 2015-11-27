@@ -73,14 +73,14 @@ def eventCategory(event):
         D1 = particle.D1
         D2 = particle.D2
         # W, Z -> lv
-        if abs(particle.PID) in [23,24] and D1>=0 and D1<len(event.particles) and event.particles[D1]:
+        if abs(particle.PID) in [23,24] and 0 <= D1 < len(event.particles) and event.particles[D1]:
             for D in [ event.particles[D1], event.particles[D2] ]:
                 if abs(D.PID) in [11,13]:#,15]: # e, mu, tau
                     if D.PT > 15 and abs(D.Eta) < 2.5:
                         gen_leptons15.append(D)
                     nLeptons+=1
         # H -> bb
-        if abs(particle.PID) == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
+        if abs(particle.PID) == 25 and 0 <= D1 < len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) in [5]: # b-quark
 #                if D.PT > 15:
 #                  nBquarks15+=1
