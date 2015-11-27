@@ -459,13 +459,13 @@ def makeAxes(*hists, **kwargs):
                 ylabel = "W #rightarrow qq mass [GeV]"
             elif "lepton-" in name:
                 xlabel = "invariant mass M_{l"
-            elif "bjet-" in name or "bquark-" in name:
+            elif ("bjet-" or "bquark-") in name:
                 xlabel = "invariant mass M_{b"
             elif "jets-" in name or "jet-jet-" in name:
                 xlabel = "invariant mass M_{jj,"
             elif "jet-" in name:
                 xlabel = "invariant mass M_{j"
-            elif "quark-" in name:
+            elif "bquark-" in name:
                 xlabel = "invariant mass M_{b"
             elif "quark-" in name:
                 xlabel = "invariant mass M_{q"
@@ -475,12 +475,10 @@ def makeAxes(*hists, **kwargs):
                 xlabel = "invariant mass M_{b,l#nu}"
             if "-lepton" in name:
                 xlabel += "l} [GeV]"
-            elif "-bjet" in name or "bquark" in name:
+            elif ("-bjet" or "-bquark") in name:
                 xlabel += "b} [GeV]"
             elif "-jet" in name:
                 xlabel += "j} [GeV]"
-            elif "-bquark" in name:
-                xlabel += "b} [GeV]"
             elif "-quark" in name:
                 xlabel += "q} [GeV]"
             elif "-MET" in name:
