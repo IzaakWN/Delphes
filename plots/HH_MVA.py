@@ -61,10 +61,10 @@ print "B_tot = %i, B1 = %i, B2 = %i, B3 = %i" % (B_tot,B1,B2,B3)
 
 # yields to calculate significance
 L = 3000 # / fb
-sigma_S = 40 * 0.0715 # fb = sigma_HH * BR_bbWW_bbqqlnu
-sigma_B = 984500 * 0.2873 # fb
-N_S = sigma_S * L # expected number of events
-N_B = sigma_B * L
+sigma_S = 40 # fb
+sigma_B = 984500 # fb
+N_S = sigma_S * L * 0.0715 # expected number of events
+N_B = sigma_B * L * 0.2873
 
 
 
@@ -172,26 +172,28 @@ def train(config):
 
 
 # SIGNIFICANCE
-def significance(histS,histB,Seff,Beff):
+def significance(histS,histB):
     
     Pmax = 0
+    Smax = 0
+    Bmax = 0
     imax = 0
-    S = histS.Integral()
-    B = histB.Integral()
 
     # loop over all bins, find cut with highest significance
     N = histS.GetNbinsX()
     for i in range(1,N):
         I = histB.Integral(i,N)
         if I:
-#            S = N_S*Seff*histS.Integral(i,N)/S
-#            B = sqrt(N_B*Beff*histB.Integral(i,N)/B)
-            P = N_S*Seff*histS.Integral(i,N)/S / sqrt(N_B*Beff*histB.Integral(i,N)/B)
+            S = N_S*histS.Integral(i,N)/S_tot
+            B = N_B*histB.Integral(i,N)/B_tot
+            P = S / sqrt(1+B)
             if Pmax<P:
                 Pmax = P
+                Smax = S
+                Bmax = B
                 imax = i
 
-    return [Pmax,histS.GetXaxis().GetBinCenter(imax)]
+    return [Pmax,Smax,Bmax,histS.GetXaxis().GetBinCenter(imax)]
 
 
 
@@ -223,9 +225,10 @@ def plot(config):
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        [Pmax,cut] = significance(histS,histB,config.Seff,config.Beff)
+        [Pmax,Smax,Bmax,cut] = significance(histS,histB,config.Seff,config.Beff)
         significances.append( ">>> "+config.name+" - "+method+\
-                              ": %.5f significance with a cut at %.5f" % (Pmax,cut) )
+                              ": %.4f significance, yields S = %.1f, B = %.1f with a cut at %.4f" % \
+                              (Pmax,Smax,Bmax,cut) )
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
