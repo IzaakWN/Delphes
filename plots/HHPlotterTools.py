@@ -432,7 +432,7 @@ def makeAxes(*hists, **kwargs):
                 xlabel += "l#nu}"
             elif "-lepton" in name:
                 xlabel += "l}"
-            elif ("-bjet" or "bquark") in name:
+            elif ("-bjet" or "-bquark") in name:
                 xlabel += "b}"
             elif "-jet" in name:
                 xlabel += "j}"
@@ -441,7 +441,7 @@ def makeAxes(*hists, **kwargs):
             elif "-MET" in name:
                 xlabel += ",E^{miss}_{T}}}"
             elif "-nu" in name:
-                xlabel += ",#nu}"
+                xlabel += "#nu}"
             hist0.GetXaxis().SetTitle(xlabel)
         elif "DeltaPhi_jjll" in name:
             hist0.GetXaxis().SetTitle("#Delta#phi_{jj,ll}")
