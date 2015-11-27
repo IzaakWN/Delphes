@@ -18,7 +18,7 @@ tree_vars = [ "Njets20","Nbjets30",
               "DeltaR_bb1","DeltaR_jj_leading",
               "DeltaR_jjl_leading","DeltaR_jjb_leading",
               "DeltaPhi_lnu",
-              "M_bb_closest",
+              "M_bb_closest", "M_jjlnu_leading"
               "M_jjb_leading", "M_blnu",
               "MT_lnu","MT_jjlnu" ]
 
@@ -164,7 +164,7 @@ class CleanUpControlPlots(BaseControlPlots):
             DeltaEta = abs(lepton.Eta - bl[0].Eta)
             result["M_bl"] = (lepton.TLV+bl[-1].TLV).M()
             result["DeltaR_b1l"] = TLV.DeltaR(lepton.TLV,bl[0].TLV)
-            result["DeltaRi_b1l"] = sqrt( (pi-DeltaPhi)*(pi-DeltaPhi) + DeltaEta*DeltaEta )
+            result["DeltaR_b1l_i"] = sqrt( (pi-DeltaPhi)*(pi-DeltaPhi) + DeltaEta*DeltaEta )
             result["DeltaPhi_b1l"] = DeltaPhi
             result["DeltaEtaDeltaPhi_b1l"] = [[ DeltaEta, DeltaPhi ]]
             if len(bl)>1:
@@ -172,7 +172,7 @@ class CleanUpControlPlots(BaseControlPlots):
                 DeltaEta = abs(lepton.Eta - bl[1].Eta)
                 result["M_bb_farthest"] = (bl[0].TLV+bl[1].TLV).M()
                 result["DeltaR_b2l"] = TLV.DeltaR(lepton.TLV,bl[1].TLV)
-                result["DeltaRi_b2l"] = sqrt( (pi-DeltaPhi)*(pi-DeltaPhi) + DeltaEta*DeltaEta )
+                result["DeltaR_b2l_i"] = sqrt( (pi-DeltaPhi)*(pi-DeltaPhi) + DeltaEta*DeltaEta )
                 result["DeltaPhi_b2l"] = DeltaPhi
                 result["DeltaEtaDeltaPhi_b2l"] = [[ DeltaEta, DeltaPhi ]]
         
