@@ -131,11 +131,11 @@ def train(config):
     # BDTTuned
     factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps, too large mainly costs time
+                                  "NTrees=1500", # ~ number of boost steps, too large mainly costs time
                                   "nEventsMin=200",
-                                  "MaxDepth=5", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
+                                  "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.5", # ~ 0.01-0.5
+                                  "AdaBoostBeta=0.2", # ~ 0.01-0.5
                                   "SeparationType=GiniIndex",
                                   "nCuts=20" ]) )
 
@@ -321,7 +321,7 @@ def main():
                  "DeltaR_j1l","DeltaR_j2l",
                  "DeltaR_b1l","DeltaR_b2l",
                  "DeltaR_bb1","DeltaR_jjl_leading",
-                 "DeltaPhi_METl",
+                 "DeltaPhi_lMET",
                  "M_bb_closest",
                  "M_jjb_leading", "M_blnu",
                  "MT_lnu","MT_jjlnu" ]
@@ -386,7 +386,7 @@ if __name__ == '__main__':
 #--- BDT                      : Rank : Variable      : Variable Importance
 #--- BDT                      : -----------------------------------------------
 #--- BDT                      :    1 : jet1Pt        : 9.931e-02
-#--- BDT                      :    2 : DeltaPhi_METl : 9.459e-02
+#--- BDT                      :    2 : DeltaPhi_lMET : 9.459e-02
 #--- BDT                      :    3 : DeltaR_b1l    : 9.376e-02
 #--- BDT                      :    4 : MT_lnu        : 9.331e-02
 #--- BDT                      :    5 : leptonPt      : 8.634e-02
@@ -408,7 +408,7 @@ if __name__ == '__main__':
 #--- BDTTuned                 :    2 : DeltaR_j1l    : 7.976e-02
 #--- BDTTuned                 :    3 : DeltaR_bb1    : 7.546e-02
 #--- BDTTuned                 :    4 : DeltaR_j2l    : 7.392e-02
-#--- BDTTuned                 :    5 : DeltaPhi_METl : 7.371e-02
+#--- BDTTuned                 :    5 : DeltaPhi_lMET : 7.371e-02
 #--- BDTTuned                 :    6 : leptonPt      : 7.350e-02
 #--- BDTTuned                 :    7 : MT_lnu        : 7.105e-02
 #--- BDTTuned                 :    8 : bjet1Pt       : 7.099e-02
@@ -436,7 +436,7 @@ if __name__ == '__main__':
 #--- MLPTuned                 :   11 : MT_lnu        : 1.217e+01
 #--- MLPTuned                 :   12 : DeltaR_bb1    : 5.648e+00
 #--- MLPTuned                 :   13 : DeltaR_b1l    : 2.099e+00
-#--- MLPTuned                 :   14 : DeltaPhi_METl : 5.774e-01
+#--- MLPTuned                 :   14 : DeltaPhi_lMET : 5.774e-01
 #--- MLPTuned                 : --------------------------------------
 
 
@@ -458,7 +458,7 @@ if __name__ == '__main__':
 #--- BDT                      :   11 : DeltaR_j2l    : 5.946e-02
 #--- BDT                      :   12 : M_bb_closest  : 5.882e-02
 #--- BDT                      :   13 : jet2Pt        : 4.845e-02
-#--- BDT                      :   14 : DeltaPhi_METl : 4.703e-02
+#--- BDT                      :   14 : DeltaPhi_lMET : 4.703e-02
 #--- BDT                      : -----------------------------------------------
 #--- BDTTuned                 : Ranking result (top variable is best ranked)
 #--- BDTTuned                 : -----------------------------------------------
@@ -469,7 +469,7 @@ if __name__ == '__main__':
 #--- BDTTuned                 :    3 : DeltaR_j2l    : 7.829e-02
 #--- BDTTuned                 :    4 : DeltaR_bb1    : 7.710e-02
 #--- BDTTuned                 :    5 : bjet2Pt       : 7.440e-02
-#--- BDTTuned                 :    6 : DeltaPhi_METl : 7.394e-02
+#--- BDTTuned                 :    6 : DeltaPhi_lMET : 7.394e-02
 #--- BDTTuned                 :    7 : leptonPt      : 7.200e-02
 #--- BDTTuned                 :    8 : jet1Pt        : 7.158e-02
 #--- BDTTuned                 :    9 : MT_lnu        : 7.104e-02
@@ -496,5 +496,5 @@ if __name__ == '__main__':
 #--- MLPTuned                 :   11 : MT_lnu        : 1.102e+01
 #--- MLPTuned                 :   12 : DeltaR_bb1    : 4.222e+00
 #--- MLPTuned                 :   13 : DeltaR_b1l    : 2.222e+00
-#--- MLPTuned                 :   14 : DeltaPhi_METl : 7.937e-01
+#--- MLPTuned                 :   14 : DeltaPhi_lMET : 7.937e-01
 #--- MLPTuned                 : --------------------------------------
