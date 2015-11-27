@@ -66,6 +66,8 @@ sigma_B = 984500 # fb
 N_S = sigma_S * L * 0.0715 # expected number of events
 N_B = sigma_B * L * 0.2873
 print "P_initial = %.4f, S = %.1f, B = %.1f" % (N_S/sqrt(1+N_B),N_S,N_B)
+print "P1 = %.4f, S = %.1f, B = %.1f" % (N_S*S1/S_tot/sqrt(1+N_B*B1/B_tot),N_S*S1/S_tot,N_B*B1/B_tot)
+print "P2 = %.4f, S = %.1f, B = %.1f" % (N_S*S2/S_tot/sqrt(1+N_B*B2/B_tot),N_S*S2/S_tot,N_B*B2/B_tot)
 
 
 
