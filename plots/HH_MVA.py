@@ -225,7 +225,7 @@ def plot(config):
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        [Pmax,Smax,Bmax,cut] = significance(histS,histB,config.Seff,config.Beff)
+        [Pmax,Smax,Bmax,cut] = significance(histS,histB)
         significances.append( ">>> "+config.name+" - "+method+\
                               ": %.4f significance, yields S = %.1f, B = %.1f with a cut at %.4f" % \
                               (Pmax,Smax,Bmax,cut) )
