@@ -79,7 +79,7 @@ def plotBasic(stage):
                            "bb_closest","bb_closest_cut",
                            "bb_farthest",
                   "jjl","jjl_leading","jjlnu_leading",
-                  "jjb_leading","b1l","blnu" ]:
+                  "jjb_leading","bl","blnu" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
     names.append("cleanup/MT_jjlnu")
