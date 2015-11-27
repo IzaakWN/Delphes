@@ -44,10 +44,10 @@ class GenControlPlots(BaseControlPlots):
         self.add2D("HHM","Hbb Mass vs. HWW Mass gen",100,0,150,100,0,150)
         self.add2D("bbWWM","bb Mass vs. WW Mass gen",100,0,250,100,0,250)
         
-        self.add("DeltaR_qq","quark-quark combinations DeltaR",100,0,4)
+        self.add("DeltaR_qq","quark-quark DeltaR",100,0,4)
         self.add("DeltaR_q1l","closest quark-lepton DeltaR",100,0,4)
         self.add("DeltaR_q2l","2nd closest quark-lepton DeltaR",100,0,4)
-        self.add("DeltaR_bb","bquark-bquark combinations DeltaR",100,0,4)
+        self.add("DeltaR_bb","bquark-bquark DeltaR",100,0,4)
         self.add("DeltaR_b1l","farthest bquark-lepton DeltaR",100,0,4)
         self.add("DeltaR_b2l","2nd farthest bquark-lepton DeltaR",100,0,4)
         

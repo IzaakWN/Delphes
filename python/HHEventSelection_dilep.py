@@ -8,7 +8,7 @@ from fold import fold
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel_dilep", "GenLevelCuts_dilep","Cuts_dilep", "CleanUp_dilep",
+categoryNames = [ "GenLevel_dilep", "GenLevelCuts_dilep", "Selection_dilep", "CleanUp_dilep", "StrictSelection_dilep",
                   "GenLevel", "GenLevelCuts","Cuts", "CleanUp" ]
 
 
@@ -16,7 +16,7 @@ categoryNames = [ "GenLevel_dilep", "GenLevelCuts_dilep","Cuts_dilep", "CleanUp_
 def eventCategory(event):
     """Check analysis requirements for various steps
      and return a tuple of data used to decide 
-     to what category an event belong """
+     to what category an event belong"""
     
     categoryData = [ ]
     
@@ -25,7 +25,7 @@ def eventCategory(event):
     electrons25 = [ e for e in event.electrons if e.PT>25 and abs(e.Eta) < 2.5 ]
     leps = sorted(muons20+electrons25, key=lambda x: x.PT, reverse=True)
     event.leadingLeptons = leps[:5]
-    event.jets20 = [ j for j in event.jets if j.PT > 20 and abs(j.Eta) < 2.5 and not j.BTag ]
+    event.jets20 = [ j for j in event.jets if j.PT > 20 and abs(j.Eta) < 2.5 ]
     event.bjets30 = [ j for j in event.jets if j.PT > 30 and abs(j.Eta) < 2.5 and j.BTag ]
     for m in muons20:
         m.Mass = 0.1057
@@ -107,31 +107,38 @@ def eventCategory(event):
     categoryData.append((nLeptons==2 and nBquarks==2)) #or event.particles.GetEntries()==0)
     categoryData.append((len(gen_leptons15)==2 and nBquarks15==2 and DeltaR_ll_gen<2.5) or event.particles.GetEntries()==0)
     
-    # 2: two muons or electrons with PT > 20, 25 GeV -> TODO: also check opposite signs?
+    # 2: two muons or electrons with PT > 20, 25 GeV
+    #    MET > 20 GeV
+    #    at least 2 b-jets with PT > 30 GeV
+    categoryData.append( len(leps)>1 and \
+                         event.met[0].MET>20 and \
+                         len(event.bjets30)>1 )
+    
+    # 3: two muons or electrons with PT > 20, 25 GeV
     #    MET > 20 GeV
     #    2 b-jets with PT > 30 GeV
     categoryData.append( len(leps)>1 and \
                          event.met[0].MET>20 and \
-                         len(event.bjets30)>1 )
+                         len(event.bjets30)==2 )
 
-    # 3: clean-up cuts
+    # 4: clean-up cuts
     categoryData.append( event.M_ll<85 and 60<event.M_bb<160 and \
                          event.DeltaR_ll<2 and event.DeltaR_bb<3.1 and event.DeltaPhi_bbll>1.7 )
     
-    # 4-5: generator level: single Wlnu, Wjj and Hbb
+    # 5-6: generator level: single Wlnu, Wjj and Hbb
     categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
     categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ql_gen<2.5) or event.particles.GetEntries()==0)
 
-    # 6: one muon or electron with PT > 20, 25 GeV
+    # 7: one muon or electron with PT > 20, 25 GeV
     #    MET > 20 GeV
     #    2 jets
     #    2 b-jets with PT > 30 GeV
     categoryData.append( len(leps)>0 and \
                          event.met[0].MET>20 and \
-                         len(event.jets20)>1 and \
+                         len(event.jets20)>3 and \
                          len(event.bjets30)>1 )
 
-    # 7: clean-up cuts
+    # 8: clean-up cuts
     categoryData.append( 60<event.M_bb<160 and \
                          event.DeltaR_bb<3.1 )
     
@@ -150,34 +157,38 @@ def isInCategory(category, categoryData):
         #      > GenLevel
     
     if category == 1:
-        return categoryData[0]
+        return categoryData[1]
         #      > GenLevel with cuts
 
     if category == 2:
-        return categoryData[0] and categoryData[2]
+        return categoryData[1] and categoryData[2]
         #      > GenLevel          > selection
 
     if category == 3:
-        return categoryData[0] and categoryData[2] and categoryData[3]
+        return categoryData[1] and categoryData[2] and categoryData[4]
         #      > GenLevel          > selection         > clean-up
+
+    if category == 4:
+        return categoryData[1] and categoryData[3] and categoryData[4]
+        #      > GenLevel          > strict selection  > clean-up
     
     
     # semileptonic final state
     
-    if category == 4:
-        return categoryData[4]
-        #      > GenLevel
-    
     if category == 5:
         return categoryData[5]
+        #      > GenLevel
+    
+    if category == 6:
+        return categoryData[6]
         #      > GenLevel with cuts
 
-    if category == 6:
-        return categoryData[5] and categoryData[6]
+    if category == 7:
+        return categoryData[6] and categoryData[7]
         #      > GenLevel          > selection
 
-    if category == 7:
-        return categoryData[5] and categoryData[6] and categoryData[7]
+    if category == 8:
+        return categoryData[6] and categoryData[7] and categoryData[8]
         #      > GenLevel          > selection         > clean-up
 
 
