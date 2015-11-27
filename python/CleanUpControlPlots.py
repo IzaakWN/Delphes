@@ -97,7 +97,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("DeltaPhi_bb1","closest bjet-bjet pair DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b1l","farthest bjet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b2l","2nd farthest bjet-lepton DeltaPhi",100,0,3.5)
-        self.add("DeltaPhi_lnu","lepton-MET DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_lMET","lepton-MET DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_jjlnu","jets-lepton-MET DeltaPhi",100,0,3.5)
 
         self.add2D("DeltaEtaDeltaPhi_jj","jet-jet combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
@@ -232,7 +232,7 @@ class CleanUpControlPlots(BaseControlPlots):
             # MET - lepton
             result["leptonPt"] = lepton.PT
             result["MET"] = MET.MET
-            result["DeltaPhi_METl"] = abs(MET.Phi-lepton.Phi)
+            result["DeltaPhi_lMET"] = abs(MET.Phi-lepton.Phi)
             result["MT_lnu"] = recoWlnu2Mt(lepton,MET)
         
             # jet i - lepton
