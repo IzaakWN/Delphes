@@ -65,6 +65,8 @@ sigma_S = 40 # fb
 sigma_B = 984500 # fb
 N_S = sigma_S * L * 0.0715 # expected number of events
 N_B = sigma_B * L * 0.2873
+print "P_initial = %.4f, S = %.1f, B = %.1f" % (N_S/sqrt(1+N_B),N_S,N_B)
+
 
 
 
@@ -185,7 +187,7 @@ def significance(histS,histB):
         I = histB.Integral(i,N)
         if I:
             S = N_S*histS.Integral(i,N)/S_tot
-            B = N_B*histB.Integral(i,N)/B_tot
+            B = N_B * I /B_tot
             P = S / sqrt(1+B)
             if Pmax<P:
                 Pmax = P
