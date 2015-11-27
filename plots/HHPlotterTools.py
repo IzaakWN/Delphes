@@ -324,9 +324,9 @@ def makeAxes2D(*hists, **kwargs):
         name.replace(" DeltaPhi vs. DeltaEta","")
         print "name = " + name
         var = ""
-        if ("bjet-" or "bquark-") in name:
+        if "bjet-" in name or "bquark-" in name:
             var = "_{b"
-        elif ("jets-" or "jet-jet-") in name:
+        elif "jets-" in name "jet-jet-") in name:
             var = "_{jj,"
         elif "lepton-" in name:
             var = "_{l"
@@ -340,7 +340,7 @@ def makeAxes2D(*hists, **kwargs):
             var += "l#nu}"
         elif "-lepton" in name:
             var += "l}"
-        elif ("-bjet" or "-bquark") in name:
+        elif "-bjet" in name or "-bquark" in name:
             var += "b}"
         elif "-jet" in name:
             var += "j}"
@@ -416,9 +416,9 @@ def makeAxes(*hists, **kwargs):
             elif "DeltaEta": var = "#Delta#eta"
             elif "DeltaPt": var = "#Delta p_{T}"
             
-            if ("bjet-" or "bquark-") in name:
+            if "bjet-" in name or "bquark-" in name:
                 xlabel = var+"_{b"
-            elif ("jets-" or "jet-jet-") in name:
+            elif "jets-" in name or "jet-jet-" in name:
                 xlabel = var+"_{jj,"
             elif "lepton-" in name:
                 xlabel = var+"_{l"
@@ -432,7 +432,7 @@ def makeAxes(*hists, **kwargs):
                 xlabel += "l#nu}"
             elif "-lepton" in name:
                 xlabel += "l}"
-            elif ("-bjet" or "-bquark") in name:
+            elif "-bjet" in name or "-bquark" in name:
                 xlabel += "b}"
             elif "-jet" in name:
                 xlabel += "j}"
@@ -459,7 +459,7 @@ def makeAxes(*hists, **kwargs):
                 ylabel = "W #rightarrow qq mass [GeV]"
             elif "lepton-" in name:
                 xlabel = "invariant mass M_{l"
-            elif ("bjet-" or "bquark-") in name:
+            elif "bjet-" in name or "bquark-" in name:
                 xlabel = "invariant mass M_{b"
             elif "jets-" in name or "jet-jet-" in name:
                 xlabel = "invariant mass M_{jj,"
@@ -475,7 +475,7 @@ def makeAxes(*hists, **kwargs):
                 xlabel = "invariant mass M_{b,l#nu}"
             if "-lepton" in name:
                 xlabel += "l} [GeV]"
-            elif ("-bjet" or "-bquark") in name:
+            elif "-bjet" in name or "-bquark" in name:
                 xlabel += "b} [GeV]"
             elif "-jet" in name:
                 xlabel += "j} [GeV]"
@@ -484,7 +484,7 @@ def makeAxes(*hists, **kwargs):
             elif "-MET" in name:
                 xlabel += "E^{miss}_{T}} [GeV]"
             elif "-nu" in name:
-                xlabel += ",#nu} [GeV]"
+                xlabel += "#nu} [GeV]"
             else:
                 xlabel = "invariant mass M [GeV]"
             hist0.GetXaxis().SetTitle(xlabel)
