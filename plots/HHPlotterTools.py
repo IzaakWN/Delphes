@@ -339,7 +339,7 @@ def makeAxes2D(*hists, **kwargs):
             var += "l#nu}"
         elif "-lepton" in name:
             var += "l}"
-        elif ("-bjet" or "bquark") in name:
+        elif ("-bjet" or "-bquark") in name:
             var += "b}"
         elif "-jet" in name:
             var += "j}"
@@ -351,7 +351,7 @@ def makeAxes2D(*hists, **kwargs):
             var += "#nu}"
         hist0.GetXaxis().SetTitle(xlabel)
         xlabel = "#Delta#eta" + var
-        ylabel = "#Delta#phi [rad]" + var
+        ylabel = "#Delta#phi " + var +" [rad]"
     elif " vs. " in name:
         xlabel = name[name.index(" vs. ")+5:].replace(" gen","")
         ylabel = name[:name.index(" vs. ")]
