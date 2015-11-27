@@ -132,7 +132,7 @@ def plotBasic(stage):
 #        if "a1" in name:
 #            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
 #            legend.Draw()
-        if name[name.index("/")+1:] in [ "DeltaPhi_b1l", "DeltaR_b1l", "M_jjnu_leading" ] :
+        if name[name.index("/")+1:] in [ "DeltaPhi_b1l", "DeltaR_b1l", "M_jjlnu_leading" ] :
             legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop")
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_q2l" ] :
@@ -336,7 +336,8 @@ def plot2D(stage):
         c.Close()
       
     # RECO LEVEL: DeltaPhi vs. DeltaEta
-    names = [ "jj" ,"j1l","j2l","j3l","jjl","jjl_leading",
+    names = [ "jj","jj_leading","j1l","j2l","j3l","jjl",
+              "jjl_leading","jjb_leading",
               "bb1","b1l","b2l" ]
 
     for name in names:
