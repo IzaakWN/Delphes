@@ -326,7 +326,7 @@ def makeAxes2D(*hists, **kwargs):
         var = ""
         if "bjet-" in name or "bquark-" in name:
             var = "_{b"
-        elif "jets-" in name "jet-jet-" in name:
+        elif "jets-" in name or "jet-jet-" in name:
             var = "_{jj,"
         elif "lepton-" in name:
             var = "_{l"
