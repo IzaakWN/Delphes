@@ -35,11 +35,11 @@ def punzi(stage):
           "\n  -------------------------------------------------------------"
     
     M = [ ("jj",0,0),
-          ("jj_cut",0,0),
+#          ("jj_cut",0,0),
           ("jj_leading",0,0),
           ("jj_leading_cut",0,0),
-          ("jj_b2b",0,0),
-          ("jj_b2b_cut",0,0),
+#          ("jj_b2b",0,0),
+#          ("jj_b2b_cut",0,0),
           ("jjl",0,160),
           ("bb",60,140),
           ("bb_cut",80,140),
@@ -80,7 +80,7 @@ def punzi(stage):
 
 def main():
 
-    for stageN in ["0","1","2","3","4","5","6"]:
+    for stageN in ["0","1","2","3"]:
         punzi("stage_"+stageN)
 
     print "\nDone!\n"
