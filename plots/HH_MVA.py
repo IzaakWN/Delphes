@@ -48,8 +48,8 @@ treeB3 = file_tt.Get("stage_3/cleanup/cleanup")
 
 h0_S = file_HH.Get("stage_0/selection/category") # ~ 166483
 h0_B = file_tt.Get("stage_0/selection/category") # ~ 164661
-S_tot = h0_S.GetBinContent(1)
-B_tot = h0_B.GetBinContent(1)
+S_tot = 166483 #h0_S.GetBinContent(1)
+B_tot = 164661 #h0_B.GetBinContent(1)
 S1 = h0_S.GetBinContent(2)
 B1 = h0_B.GetBinContent(2)
 S2 = h0_S.GetBinContent(3)
@@ -184,6 +184,8 @@ def significance(histS,histB,Seff,Beff):
     for i in range(1,N):
         I = histB.Integral(i,N)
         if I:
+#            S = N_S*Seff*histS.Integral(i,N)/S
+#            B = sqrt(N_B*Beff*histB.Integral(i,N)/B)
             P = N_S*Seff*histS.Integral(i,N)/S / sqrt(N_B*Beff*histB.Integral(i,N)/B)
             if Pmax<P:
                 Pmax = P
@@ -221,9 +223,9 @@ def plot(config):
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        [Pmax,Omax] = significance(histS,histB,config.Seff,config.Beff)
+        [Pmax,cut] = significance(histS,histB,config.Seff,config.Beff)
         significances.append( ">>> "+config.name+" - "+method+\
-                              ": %.5f significance with a cut at %.5f" % (Pmax,Omax) )
+                              ": %.5f significance with a cut at %.5f" % (Pmax,cut) )
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)

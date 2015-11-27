@@ -17,7 +17,7 @@ def eventCategory(event):
      to what category an event belong """
     
     categoryData = [ ]
-    event.cleanedJets = [ jet for jet in event.jets ][:10]
+    event.cleanedJets = [ jet for jet in event.jets ][:15]
     muons20 = [ m for m in event.muons if m.PT>20 and m.Eta<2.5 ]
     electrons20 = [ e for e in event.electrons if e.PT>20 and e.Eta<2.5 ]
     leps = sorted(muons20+electrons20, key=lambda x: x.PT, reverse=True)
