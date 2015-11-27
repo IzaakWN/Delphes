@@ -73,23 +73,26 @@ def plotBasic(stage):
     if stage == "stage_0/":
         names.append("selection/category")
 
-    for comb in [ "jj","jjl","b1l","blnu",
-                  "jjb_leading","bb_farthest","jjl_leading",
+    for comb in [ "jj","jjl","b1l",
                   "jj_cut","jj_leading","jj_leading_cut",
                   "bb_cut","bb_leading","bb_leading_cut",
-                           "bb_closest","bb_closest_cut" ]:
+                           "bb_closest","bb_closest_cut",
+                           "bb_farthest",
+                  "jjl_leading","jjlnu_leading",
+                  "jjb_leading","blnu" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
     names.append("cleanup/MT_jjlnu")
 
-    for comb in [ "jj","j1l","j2l","jjl","jjl_leading",
-                        "b1l","b2l","bb1" ]:
+    for comb in [ "j1l","j2l","jj","jj_leading",
+                  "b1l","b2l","bb1",
+                  "b1l_i","b2l_i".
+                  "jjl","jjl_leading",
+                        "jjb_leading" ]:
         names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
-    names.append("cleanup/DeltaPhi_METl")
+    names.append("cleanup/DeltaPhi_lMET")
     names.append("cleanup/DeltaPhi_jjlnu")
-    names.append("cleanup/DeltaRi_b1l")
-    names.append("cleanup/DeltaRi_b2l")
 
 #    names.append("cleanup/DeltaPhi_METl")
     names.append("cleanup/jet1Pt")
