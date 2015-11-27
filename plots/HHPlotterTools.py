@@ -317,7 +317,7 @@ def makeAxes2D(*hists, **kwargs):
     xlabel = kwargs.get('xlabel', "")
     ylabel = kwargs.get('ylabel', "")
     
-    # make correct x-axis labels
+    # make correct axis labels
     if xlabel + ylabel:
         hist0.GetXaxis().SetTitle(xlabel)
     elif "DeltaPhi vs. DeltaEta" in name:
