@@ -86,7 +86,7 @@ def plotBasic(stage):
 
     for comb in [ "j1l","j2l","jj","jj_leading",
                   "b1l","b2l","bb1",
-                  "b1l_i","b2l_i".
+                  "b1l_i","b2l_i",
                   "jjl","jjl_leading",
                         "jjb_leading" ]:
         names.append("cleanup/DeltaR_"+comb)
