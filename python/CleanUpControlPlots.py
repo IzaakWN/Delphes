@@ -177,7 +177,7 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["DeltaEtaDeltaPhi_b2l"] = [[ DeltaEta, DeltaPhi ]]
         
         # bjet comb
-        DeltaR_bb_closest = 100 # >> pi
+        DeltaR_bb_closest = 1000 # >> pi
         PT_bb_leading = 0
         bjet_closest = [ ]
         madeCut_closest = False
@@ -220,10 +220,12 @@ class CleanUpControlPlots(BaseControlPlots):
                 result["jet2Pt"] = jets[1].PT
         
         # leading bjets
-        if len(bjets)>0:
+        if len(bjets)>1:
             result["bjet1Pt"] = bjet_closest[0].PT
-            if len(bjets)>1:
-                result["bjet2Pt"] = bjet_closest[1].PT
+            result["bjet2Pt"] = bjet_closest[1].PT
+        elif len(bjets):
+            result["bjet1Pt"] = bjets[0].PT
+
 
         if lepton:
             
