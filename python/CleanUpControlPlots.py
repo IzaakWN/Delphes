@@ -18,7 +18,7 @@ tree_vars = [ "Njets20","Nbjets30",
               "DeltaR_bb1","DeltaR_jj_leading",
               "DeltaR_jjl_leading","DeltaR_jjb_leading",
               "DeltaPhi_lnu",
-              "M_bb_closest", "M_jjlnu_leading"
+              "M_bb_closest", "M_jjlnu_leading",
               "M_jjb_leading", "M_blnu",
               "MT_lnu","MT_jjlnu" ]
 
