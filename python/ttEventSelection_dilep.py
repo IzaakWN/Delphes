@@ -72,7 +72,7 @@ def eventCategory(event):
     for particle in event.particles:
         D1 = particle.D1
         # W, Z -> e, mu, tau
-        if abs(particle.PID) == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
+        if abs(particle.PID) == 24 and 0 <= D1 < len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
                 if abs(D.PID) in [11,13]:#,15]: # e, mu, tau
                     if D.PT > 15 and abs(D.Eta) < 2.5:
@@ -82,7 +82,7 @@ def eventCategory(event):
                     if D.PT > 15 and abs(D.Eta) < 2.5:
                         gen_quarks15.append(D)
         # t -> bW
-        if abs(particle.PID) == 6 and D1>=0 and D1<len(event.particles) and event.particles[D1]:
+        if abs(particle.PID) == 6 and 0 <= D1 < len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
                 if abs(D.PID) == 5: # b-quark
                     if D.PT > 15:
