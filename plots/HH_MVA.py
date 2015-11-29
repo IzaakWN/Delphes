@@ -175,21 +175,35 @@ def significance(histS,histB):
     Bmax = 0
     imax = 0
 
-    # loop over all bins, find cut with highest significance
+    # scan cut over all bins, find cut with highest significance
     N = histS.GetNbinsX()
     for i in range(1,N):
-        I = histB.Integral(i,N)
-        if I:
-            S = N_S*histS.Integral(i,N)/S_tot
-            B = N_B * I /B_tot
-            P = S / sqrt(1+B)
-            if Pmax<P:
-                Pmax = P
-                Smax = S
-                Bmax = B
-                imax = i
+        S = N_S * histS.Integral(i,N)/ S_tot
+        B = N_B * histB.Integral(i,N) /B_tot
+        P = S / sqrt(1+B)
+        if Pmax<P:
+            Pmax = P
+            Smax = S
+            Bmax = B
+            imax = i
 
     return [Pmax,Smax,Bmax,histS.GetXaxis().GetBinCenter(imax)]
+
+
+
+# SIGNIFICANCE
+def significanceBins(histS,histB):
+    
+    sd = 0
+
+    # calculate significance per bin and add using: sigma^2 = sum(sigma_i^2)
+    N = histS.GetNbinsX()
+    for i in range(1,N):
+        S = N_S * histS.GetXaxis().GetBinCenter(i) / S_tot
+        B = N_B * histB.GetXaxis().GetBinCenter(i) / B_tot
+        P2 += S*S/(1+B)
+
+    return sqrt(P2)
 
 
 
@@ -212,11 +226,11 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 50, -0.4, 1.4)
-            histB = TH1F("histB", "", 50, -0.4, 1.4)
+            histS = TH1F("histS", "", 100, -0.4, 1.4)
+            histB = TH1F("histB", "", 100, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 50, -1.4, 1.4)
-            histB = TH1F("histB", "", 50, -1.4, 1.4)
+            histS = TH1F("histS", "", 100, -1.4, 1.4)
+            histB = TH1F("histB", "", 100, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
@@ -320,12 +334,12 @@ def main():
                  "leptonPt","MET",
                  "DeltaR_j1l","DeltaR_j2l",
                  "DeltaR_b1l","DeltaR_b2l",
-                 "DeltaR_bb1","DeltaR_jjl_leading",
+                 "DeltaR_bb1","DeltaR_jj",
+                 "DeltaR_jjl","DeltaR_jjb",
                  "DeltaPhi_lMET",
-                 "M_bb_closest",
-                 "M_jjb_leading", "M_blnu",
+                 "M_bb_closest", "M_jjlnu",
+                 "M_jjb", "M_blnu",
                  "MT_lnu","MT_jjlnu" ]
-                 
                  
 #    varNamesBest =[ "bjet1Pt", "jet1Pt",
 #                    "DeltaR_b1l", "DeltaR_b2l",
@@ -338,16 +352,17 @@ def main():
 
     varNamesFavs = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
                      "DeltaR_j1l", "DeltaR_j2l",
-                     "M_bb_closest",
-                     "M_jjb_leading", "M_blnu" ]
+                     "M_bb_closest", "M_jjlnu"
+                     "M_jjb", "M_blnu" ]
 
     if opts.test:
         configs = [configuration("test", ["bjet1Pt","jet1Pt"], 1)]
     else:
-        configs = [ configuration("everything20", varNames, 1),
+        configs = [
+#                    configuration("everything20", varNames, 1),
 #                    configuration("best20",    varNamesBest, 1),
 #                    configuration("MLPTop520", varNamesMLPTop5, 1),
-                    configuration("favs20",    varNamesFavs, 1),
+#                    configuration("favs20",    varNamesFavs, 1),
                     configuration("everythingCleanUp", varNames, 2),
                     configuration("favsCleanUp",    varNamesFavs, 2),
 #                    configuration("everything30", varNames, 3),

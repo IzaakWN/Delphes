@@ -15,11 +15,11 @@ tree_vars = [ "Njets20","Nbjets30",
               "leptonPt","MET",
               "DeltaR_j1l","DeltaR_j2l",
               "DeltaR_b1l","DeltaR_b2l",
-              "DeltaR_bb1","DeltaR_jj_leading",
-              "DeltaR_jjl_leading","DeltaR_jjb_leading",
-              "DeltaPhi_lnu",
-              "M_bb_closest", "M_jjlnu_leading",
-              "M_jjb_leading", "M_blnu",
+              "DeltaR_bb1","DeltaR_jj",
+              "DeltaR_jjl","DeltaR_jjb",
+              "DeltaPhi_lMET",
+              "M_bb_closest", "M_jjlnu",
+              "M_jjb", "M_blnu",
               "MT_lnu","MT_jjlnu" ]
 
 # Requirements:
@@ -50,16 +50,16 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("leptonPt","lepton Pt",100,0,250)
         self.add("MET","MET",100,0,300)
 
-        self.add("M_jj","jet-jet combinations Mass",100,0,300)
-        self.add("M_jj_cut","jet-jet combinations (cut) Mass",100,0,300)
-        self.add("M_jj_leading","leading jet-jet Mass",100,0,300)
-        self.add("M_jj_leading_cut","leading jet-jet (cut) Mass",100,0,300)
+        self.add("M_jj_all","jet-jet combinations Mass",100,0,300)
+        self.add("M_jj_all_cut","jet-jet combinations (cut) Mass",100,0,300)
+        self.add("M_jj","leading jet-jet Mass",100,0,300)
+        self.add("M_jj_cut","leading jet-jet (cut) Mass",100,0,300)
 #        self.add("M_jj_b2b","jet-jet b2b Mass",100,0,300)
 #        self.add("M_jj_b2b_(cut)","jet-jet b2b Mass",100,0,300)
-        self.add("M_jjb_leading","hadronic top reco Mass",100,0,700)
-        self.add("M_jjl","jets-lepton combinations Mass",100,0,450)
-        self.add("M_jjl_leading","leading jets-lepton Mass",100,0,450)
-        self.add("M_jjlnu_leading","leading jets-lepton-MET Mass",100,0,450)
+        self.add("M_jjb","hadronic top reco Mass",100,0,700)
+        self.add("M_jjl_all","jets-lepton combinations Mass",100,0,450)
+        self.add("M_jjl","leading jets-lepton Mass",100,0,450)
+        self.add("M_jjlnu","leading jets-lepton-MET Mass",100,0,450)
         self.add("M_bb_leading","leading bjet-bjet Mass",100,0,300)
         self.add("M_bb_leading_cut","leading bjet-bjet (cut) Mass",100,0,300)
         self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
@@ -68,46 +68,46 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_bb_cut","bjet-bjet (cut) Mass",100,0,300)
         self.add("M_bl","closest bjet-lepton Mass",100,0,300)
         self.add("MT_lnu","Wlnu Mt",100,0,300)
-        self.add("MT_jjlnu","Wlnu Mt",100,0,300)
+        self.add("MT_jjlnu","HWW Mt",100,0,300)
         self.add("M_blnu","leptonic top reco Mass",100,0,500)
 
 #        self.add("DeltaPt_jl","lepton-bjet Mass",100,0,2)
 #        self.add2D("DeltaRDeltaPt_jl","lepton-bjet DeltaPt vs. DeltaR",100,0,4.5,100,0,2)
 
-        self.add("DeltaR_jj","jet-jet combinations DeltaR",100,0,4)
-        self.add("DeltaR_jj_leading","leading jet-jet DeltaR",100,0,4)
+        self.add("DeltaR_jj_all","jet-jet combinations DeltaR",100,0,4)
+        self.add("DeltaR_jj","leading jet-jet DeltaR",100,0,4)
         self.add("DeltaR_j1l","closest jet-lepton DeltaR",100,0,4)
         self.add("DeltaR_j2l","2nd closest jet-lepton DeltaR",100,0,4)
-        self.add("DeltaR_jjl","jets-lepton combinations DeltaR",100,0,5)
-        self.add("DeltaR_jjl_leading","leading jets-lepton DeltaR",100,0,4.5)
-        self.add("DeltaR_jjb_leading","leading jets-bjet DeltaR",100,0,4.5)
+        self.add("DeltaR_jjl_all","jets-lepton combinations DeltaR",100,0,5)
+        self.add("DeltaR_jjl","leading jets-lepton DeltaR",100,0,4.5)
+        self.add("DeltaR_jjb","leading jets-bjet DeltaR",100,0,4.5)
         self.add("DeltaR_bb1","closest bjet-bjet pair DeltaR",100,0,4)
         self.add("DeltaR_b1l","farthest bjet-lepton DeltaR",100,0,4)
         self.add("DeltaR_b2l","2nd farthest bjet-lepton DeltaR",100,0,4)
         self.add("DeltaR_b1l_i","farthest bjet-lepton DeltaRi",100,0,4)
         self.add("DeltaR_b2l_i","2nd farthest bjet-lepton DeltaRi",100,0,4)
 
-        self.add("DeltaPhi_jj","jet-jet combinations DeltaPhi",100,0,3.5)
-        self.add("DeltaPhi_jj_leading","leading jet-jet DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_jj_all","jet-jet combinations DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_jj","leading jet-jet DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_j1l","closest jet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_j2l","2nd closest jet-lepton DeltaPhi",100,0,3.5)
-        self.add("DeltaPhi_jjl","jets-lepton combinations DeltaPhi",100,0,3.5)
-        self.add("DeltaPhi_jjl_leading","leading jets-lepton DeltaPhi",100,0,3.5)
-        self.add("DeltaPhi_jjb_leading","leading jets-bjet DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_jjl_all","jets-lepton combinations DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_jjl","leading jets-lepton DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_jjb","leading jets-bjet DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_bb1","closest bjet-bjet pair DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b1l","farthest bjet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b2l","2nd farthest bjet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_lMET","lepton-MET DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_jjlnu","jets-lepton-MET DeltaPhi",100,0,3.5)
 
-        self.add2D("DeltaEtaDeltaPhi_jj","jet-jet combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
-        self.add2D("DeltaEtaDeltaPhi_jj_leading","leading jet-jet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_jj_all","jet-jet combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_jj","leading jet-jet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_j1l","closest jet-lepton combination DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_j2l","2nd closest jet-lepton combination DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_j3l","3rd closest jet-lepton combination DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
-        self.add2D("DeltaEtaDeltaPhi_jjl","jets-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
-        self.add2D("DeltaEtaDeltaPhi_jjl_leading","leading jets-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
-        self.add2D("DeltaEtaDeltaPhi_jjb_leading","leading jets-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_jjl_all","jets-lepton combinations DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_jjl","leading jets-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_jjb","leading jets-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_bb1","closest bjet-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_b1l","farthest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_b2l","2nd farthest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
@@ -119,33 +119,33 @@ class CleanUpControlPlots(BaseControlPlots):
     
         result = { }
         
-        result["M_jj"] = [ ]
-        result["M_jj_cut"] = [ ]
-        result["M_jjl"] = [ ]
+        result["M_jj_all"] = [ ]
+        result["M_jj_all_cut"] = [ ]
+        result["M_jjl_all"] = [ ]
         result["M_bb_cut"] = [ ]
 
         #result["DeltaPt_jl"] = event.DeltaPt_jl
         #result["DeltaRDeltaPt_jl"] = map(lambda R,Pt: [R,Pt], event.DeltaR_jl,event.DeltaPt_jl)
 
-        result["DeltaR_jj"] = [ ]
-        result["DeltaR_jjl"] = [ ]
+        result["DeltaR_jj_all"] = [ ]
+        result["DeltaR_jjl_all"] = [ ]
         result["DeltaR_jjbb"] = [ ]
 
-        result["DeltaPhi_jj"] = [ ]
-        result["DeltaPhi_jjl"] = [ ]
+        result["DeltaPhi_jj_all"] = [ ]
+        result["DeltaPhi_jjl_all"] = [ ]
 
-        result["DeltaEtaDeltaPhi_jj"] = [ ]
-        result["DeltaEtaDeltaPhi_jjl"] = [ ]
+        result["DeltaEtaDeltaPhi_jj_all"] = [ ]
+        result["DeltaEtaDeltaPhi_jjl_all"] = [ ]
 
         jets = event.cleanedJets20[:] # remove closest b-jets pair down below
         bjets = event.bjets30[:]
-        MET = event.met[0]
         result["Njets20"] = len(event.cleanedJets20)
         result["Njets30"] = len(event.cleanedJets30)
         result["Nbjets30"] = len(event.bjets30)
 
         lepton = None
         p_neutrino = None
+        MET = event.met[0]
         if len(event.leadingLeptons):
             lepton = event.leadingLeptons[0]
             p_neutrino = recoNeutrino(lepton.TLV,MET)
@@ -162,7 +162,7 @@ class CleanUpControlPlots(BaseControlPlots):
             bl = sorted( bjets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV), reverse=True ) # farthest->closest
             DeltaPhi = fold(abs(lepton.Phi - bl[0].Phi))
             DeltaEta = abs(lepton.Eta - bl[0].Eta)
-            result["M_bl"] = (lepton.TLV+bl[-1].TLV).M()
+            result["M_bl"] = (lepton.TLV+bl[-1].TLV).M() # closest b-jet with lepton
             result["DeltaR_b1l"] = TLV.DeltaR(lepton.TLV,bl[0].TLV)
             result["DeltaR_b1l_i"] = sqrt( (pi-DeltaPhi)*(pi-DeltaPhi) + DeltaEta*DeltaEta )
             result["DeltaPhi_b1l"] = DeltaPhi
@@ -259,10 +259,10 @@ class CleanUpControlPlots(BaseControlPlots):
         for j1, j2 in combinations(jets,2):
             p_jj = j1.TLV + j2.TLV
             DeltaPhi = fold(abs(j1.Phi - j2.Phi))
-            result["M_jj"].append(p_jj.M())
-            result["DeltaR_jj"].append(TLV.DeltaR( j1.TLV, j2.TLV ))
-            result["DeltaPhi_jj"].append(DeltaPhi)
-            result["DeltaEtaDeltaPhi_jj"].append([ abs(j1.Eta - j2.Eta),
+            result["M_jj_all"].append(p_jj.M())
+            result["DeltaR_jj_all"].append(TLV.DeltaR( j1.TLV, j2.TLV ))
+            result["DeltaPhi_jj_all"].append(DeltaPhi)
+            result["DeltaEtaDeltaPhi_jj_all"].append([ abs(j1.Eta - j2.Eta),
                                                    DeltaPhi ])
             
             # jets comb - lepton
@@ -273,12 +273,12 @@ class CleanUpControlPlots(BaseControlPlots):
                      DeltaPhi < 2:
                     madeCut = True
                     p_jj_cut.append(p_jj)
-                    result["M_jj_cut"].append(p_jj.M())
+                    result["M_jj_all_cut"].append(p_jj.M())
                 DeltaPhi = fold(abs(lepton.Phi - p_jj.Phi()))
-                result["M_jjl"].append( (lepton.TLV+p_jj).M() )
-                result["DeltaR_jjl"].append( TLV.DeltaR(lepton.TLV,p_jj) )
-                result["DeltaPhi_jjl"].append( DeltaPhi )
-                result["DeltaEtaDeltaPhi_jjl"].append([ abs(lepton.Eta - p_jj.Eta()),
+                result["M_jjl_all"].append( (lepton.TLV+p_jj).M() )
+                result["DeltaR_jjl_all"].append( TLV.DeltaR(lepton.TLV,p_jj) )
+                result["DeltaPhi_jjl_all"].append( DeltaPhi )
+                result["DeltaEtaDeltaPhi_jjl_all"].append([ abs(lepton.Eta - p_jj.Eta()),
                                                         DeltaPhi ])
 #            # find best b2b comb
 #            beta = p_jj.BoostVector()
@@ -303,18 +303,18 @@ class CleanUpControlPlots(BaseControlPlots):
 
         if len(jets)>1:
             p_jj = jets[0].TLV + jets[1].TLV
-            result["M_jj_leading"] = p_jj.M()
-            result["DeltaR_jj_leading"] = TLV.DeltaR(jets[0].TLV, jets[1].TLV)
-            result["DeltaPhi_jj_leading"] = fold(abs(jets[0].Phi - jets[1].Phi))
-            result["DeltaEtaDeltaPhi_jj_leading"] = [[ abs(jets[0].Eta - jets[1].Eta),
-                                                       result["DeltaPhi_jj_leading"] ]]
+            result["M_jj"] = p_jj.M()
+            result["DeltaR_jj"] = TLV.DeltaR(jets[0].TLV, jets[1].TLV)
+            result["DeltaPhi_jj"] = fold(abs(jets[0].Phi - jets[1].Phi))
+            result["DeltaEtaDeltaPhi_jj"] = [[ abs(jets[0].Eta - jets[1].Eta),
+                                                       result["DeltaPhi_jj"] ]]
             if lepton:
-                result["M_jjl_leading"] = (p_jj + lepton.TLV).M()
-                result["M_jjlnu_leading"] = (p_jj + lepton.TLV + p_neutrino).M()
-                result["DeltaR_jjl_leading"] = TLV.DeltaR(p_jj,lepton.TLV)
-                result["DeltaPhi_jjl_leading"] = fold(abs(p_jj.Phi()-lepton.Phi))
-                result["DeltaEtaDeltaPhi_jjl_leading"] = [[ abs(p_jj.Eta() - lepton.Eta),
-                                                            result["DeltaPhi_jjl_leading"] ]]
+                result["M_jjl"] = (p_jj + lepton.TLV).M()
+                result["M_jjlnu"] = (p_jj + lepton.TLV + p_neutrino).M()
+                result["DeltaR_jjl"] = TLV.DeltaR(p_jj,lepton.TLV)
+                result["DeltaPhi_jjl"] = fold(abs(p_jj.Phi()-lepton.Phi))
+                result["DeltaEtaDeltaPhi_jjl"] = [[ abs(p_jj.Eta() - lepton.Eta),
+                                                            result["DeltaPhi_jjl"] ]]
                 p_jjl = p_jj + lepton.TLV
                 result["DeltaPhi_jjlnu"] = fold(abs(p_jjl.Phi()-MET.Phi))
                 result["MT_jjlnu"] = sqrt(2 * MET.MET * p_jjl.Pt() * (1-cos( p_jjl.Phi() - MET.Phi)) )
@@ -325,16 +325,16 @@ class CleanUpControlPlots(BaseControlPlots):
                         jets_tt.remove(bl[-1])
                         jets_tt.remove(bl[-2])
                         p_jj_tt = jets_tt[0].TLV + jets_tt[1].TLV
-                        result["M_jjb_leading"] = (p_jj_tt + bl[-2].TLV).M()
-                        result["DeltaR_jjb_leading"] = TLV.DeltaR(p_jj,bl[-2].TLV)
-                        result["DeltaPhi_jjb_leading"] = fold(abs(p_jj.Phi()-bl[-2].Phi))
-                        result["DeltaEtaDeltaPhi_jjb_leading"] = [[ abs(p_jj.Eta() - bl[-2].Eta),
-                                                                    result["DeltaPhi_jjb_leading"] ]]
+                        result["M_jjb"] = (p_jj_tt + bl[-2].TLV).M()
+                        result["DeltaR_jjb"] = TLV.DeltaR(p_jj,bl[-2].TLV)
+                        result["DeltaPhi_jjb"] = fold(abs(p_jj.Phi()-bl[-2].Phi))
+                        result["DeltaEtaDeltaPhi_jjb"] = [[ abs(p_jj.Eta() - bl[-2].Eta),
+                                                                    result["DeltaPhi_jjb"] ]]
     
 
         if p_jj_cut:
             p = max(p_jj_cut, key=lambda p: p.Pt())
-            result["M_jj_leading_cut"] = p.M()
+            result["M_jj_cut"] = p.M()
         
         # respect the order of branches when adding variables
 #        result["cleanup"] = [ result[var] for var in result if var in tree_vars ]
