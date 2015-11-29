@@ -194,7 +194,7 @@ def significance(histS,histB):
 # SIGNIFICANCE
 def significanceBins(histS,histB):
     
-    sd = 0
+    P2 = 0
 
     # calculate significance per bin and add using: sigma^2 = sum(sigma_i^2)
     N = histS.GetNbinsX()
@@ -236,9 +236,11 @@ def plot(config):
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
         [Pmax,Smax,Bmax,cut] = significance(histS,histB)
-        significances.append( ">>> "+config.name+" - "+method+\
+        Pbins = significanceBins(histS, histB)
+        significances.append( ">>> "+config.name+" - "+method + \
                               ": %.4f significance, yields S = %.1f, B = %.1f with a cut at %.4f" % \
-                              (Pmax,Smax,Bmax,cut) )
+                              (Pmax,Smax,Bmax,cut) + \
+                              "\n: %.4f significance with bins" % Pbins  )
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
@@ -341,11 +343,14 @@ def main():
                  "M_jjb", "M_blnu",
                  "MT_lnu","MT_jjlnu" ]
                  
-#    varNamesBest =[ "bjet1Pt", "jet1Pt",
-#                    "DeltaR_b1l", "DeltaR_b2l",
-#                    "M_bb_closest",
-#                    "DeltaR_j1l", "DeltaR_j2l" ]
-#
+    varNamesBest = [ "jet1Pt","jet2Pt",
+                     "bjet1Pt","bjet2Pt",
+                     "leptonPt","MET",
+                     "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
+                     "DeltaR_j1l", "DeltaR_j2l",
+                     "M_bb_closest", "M_jjlnu"
+                     "M_jjb", "M_blnu" ]
+                 
 #    varNamesMLPTop5 = [ "bjet1Pt", "bjet2Pt",
 #                        "DeltaR_j2l", "DeltaR_b2l",
 #                        "M_bb_closest" ]
