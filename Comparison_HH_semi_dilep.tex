@@ -1,6 +1,6 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[toc,page]{appendix}
-\usepackage[margin=2.5cm]{geometry} % margins
+\usepackage[margin=2.4cm]{geometry} % margins
 \usepackage{amsmath}
 \usepackage{bm} % for bold math
 \usepackage{textgreek}
@@ -9,14 +9,15 @@
 \usepackage{subcaption} % for subfigs
 \usepackage{hyperref} % hyperlinks [colorlinks=true]
 \usepackage{booktabs} % spaces between columns
+\usepackage{cancel} % MET: $\cancel{\it{E}}_{T}$
 \setlength{\tabcolsep}{7pt}
 
 \newcommand{\levels}[1]{ \multicolumn{2}{l}{\hspace{-1em}\textbf{#1}}}
 \newcommand{\level}[1]{ \multicolumn{5}{l}{\hspace{-1em}\textbf{#1}}}
 \newcommand{\T}{\rule{0pt}{2.9ex}}       % Top strut
 \newcommand{\B}{\rule[-1.3ex]{0pt}{0pt}} % Bottom strut
-\newcommand{\ww}{7.5cm} % width for two figures next to each other
-\newcommand{\hh}{5mm} % height between figures above each other
+\newcommand{\ww}{7.6cm} % width for two figures next to each other
+\newcommand{\hh}{1mm} % height between figures above each other
 \newcommand{\dd}{-2mm} % distance reduction between one-lined caption and their figure below
 
 \renewcommand{\tt}{$\text{t}\bar{\text{t}}$}
@@ -31,6 +32,7 @@
 \newcommand{\sAN}{$\sigma_1$}
 \newcommand{\BR}{\mathcal{B}}
 \newcommand{\etal}{\emph{et al.}}
+\newcommand{\MET}{$\cancel{\it{E}}_{T}$}
 
 \title{Report on comparison between analyses for semi- and dileptonic channel HH production at HL-LHC}
 \author{Izaak Neutelings (University of Zurich)}
@@ -325,46 +327,146 @@ Results are summarized in Table \ref{comparison}. To compare the dileptonic to t
 \end{thebibliography}
 
 
-\section*{Appendix A: Preliminary results on HH\semi}
+\section*{Appendix A: Preliminary results on multivariate analysis of\\ \mbox{$\bm{\text{HH} \rightarrow \text{bbWW} \rightarrow \text{bb} qq\ell\nu}$}}
 
-% FIGURE - frequency domain
-\begin{figure*}[p]
+The multilayer perceptron (MLP) from the TMVA class in ROOT is used as neural network. The following variables are input for the NN: $p_T$ of the two leading b-jets, $p_T$ of the two leading light jets, $p_T$ of the leading lepton, missing transverse momentum \MET, $\Delta R_{j_1\ell}$, $\Delta R_{j_1\ell}$, $\Delta R_{\text{b}_1\ell}$, $\Delta R_{\text{b}_2\ell}$, $\Delta R_{\bb}$, $M_{\bb}$, $M_{jj,\text{b}}$ and $M_{\text{b,\lnu}}$. Here $j_1$ denotes the light jet closest to the lepton, and $j_2$ the second closest, while $\text{b}_1$ denotes the b-tagged jet farthest to the lepton and $\text{b}_2$ the second farthest. In case of more than 2 b-jets, the b-jets pair closest in $\Delta R_{\bb}$ is used for $M_{\bb}$ and other b-tagged jets are then regarded as light jets. The other two invariant masses reconstruct a leptonic and hadronic top as follows: % To exploit the top mass
+the two leading jets and closest b-jet second closest to the lepton form $M_{jj,\text{b}}$ and the lepton, reconstructed neutrino and b-jet closest to the lepton make $M_{\text{b,\lnu}}$. The neutrino is reconstructed assuming its transverse momentum $p^\nu_T$ is given by the missing transverse and its longitudinal component $p^\nu_z$ is the real solution of $M_\text{W}^2 = (p_\ell + p_\nu)^2$.
+
+ All variables are shown Figs. \ref{vars1}-\ref{vars3}.
+
+%[ "jet1Pt","jet2Pt",
+%  "bjet1Pt","bjet2Pt",
+%  "leptonPt","MET",
+%  "DeltaR_j1l","DeltaR_j2l",
+%  "DeltaR_b1l","DeltaR_b2l",
+%  "DeltaR_bb1","DeltaPhi_METl",
+%  "M_bb_closest",
+%  "M_jjb_leading",
+%  "M_blnu",
+%  "MT_lnu","MT_jjlnu" ]
+
+
+% FIGURE
+\begin{figure*}[h]
 	
-  % SUBFIGURES - amplitude vs. radius
+  % SUBFIGURES
   \begin{subfigure}[b]{17cm}
-    % fig1a
+    % fig a
     \begin{minipage}[h!]{\ww}
       \centering
-      \includegraphics[width=\ww]{figs/DeltaR_b1l.png}
+      \includegraphics[width=\ww]{figs/jet1Pt.png}
     \end{minipage}
 %    \hspace{\w}
-    % fig1b
+    % fig b
     \begin{minipage}[h!]{\ww}
       \centering
-      \includegraphics[width=\ww]{figs/DeltaR_b1l.png}
+      \includegraphics[width=\ww]{figs/jet2Pt.png}
     \end{minipage}
   \end{subfigure}
   \vspace{\hh}
 
-  % SUBFIGURES - phase vs. radius
+  % SUBFIGURES
   \begin{subfigure}[b]{17cm}
-    % fig1a
+    % fig a
+    \begin{minipage}[h!]{\ww}
+      \centering
+      \includegraphics[width=\ww]{figs/bjet1Pt.png}
+    \end{minipage}
+%    \hspace{\wb}
+    % fig b
+    \begin{minipage}[h!]{\ww}
+      \centering
+      \includegraphics[width=\ww]{figs/bjet2Pt.png}
+    \end{minipage}
+    \hspace{9mm}
+  \end{subfigure}	
+  \vspace{\dd}
+  \caption{Variables distribution of HH (red) and \tt\ (blue) for the neural network: transverse momentum $p_T$ for the two leading jets and two leading b-jets.} \label{vars1}
+%	\vspace{\hh}
+
+\end{figure*}
+
+
+
+% FIGURE
+\begin{figure*}[h]
+	
+  % SUBFIGURES
+  \begin{subfigure}[b]{17cm}
+    % fig a
+    \begin{minipage}[h!]{\ww}
+      \centering
+      \includegraphics[width=\ww]{figs/leptonPt.png}
+    \end{minipage}
+%    \hspace{\w}
+    % fig b
+    \begin{minipage}[h!]{\ww}
+      \centering
+      \includegraphics[width=\ww]{figs/MET.png}
+    \end{minipage}
+  \end{subfigure}
+  \vspace{\hh}
+
+  % SUBFIGURES
+  \begin{subfigure}[b]{17cm}
+    % fig a
+    \begin{minipage}[h!]{\ww}
+      \centering
+      \includegraphics[width=\ww]{figs/M_bb_closest.png}
+    \end{minipage}
+%    \hspace{\wb}
+    % fig b
+    \begin{minipage}[h!]{\ww}
+      \centering
+      \includegraphics[width=\ww]{figs/M_jjb_leading.png}
+    \end{minipage}
+    \hspace{9mm}
+  \end{subfigure}	
+  \vspace{\dd}
+  \caption{Variables distribution of HH (red) and \tt\ (blue) for the neural network: $p_t$ of the leading lepton, \MET, $M_{\bb}$ and $M_{jj,\text{b}}$.} \label{vars2}
+%	\vspace{\hh}
+
+\end{figure*}
+
+
+
+% FIGURE
+\begin{figure*}[h]
+	
+  % SUBFIGURES
+  \begin{subfigure}[b]{17cm}
+    % fig a
+    \begin{minipage}[h!]{\ww}
+      \centering
+      \includegraphics[width=\ww]{figs/DeltaR_j1l.png}
+    \end{minipage}
+%    \hspace{\w}
+    % fig b
+    \begin{minipage}[h!]{\ww}
+      \centering
+      \includegraphics[width=\ww]{figs/DeltaR_j2l.png}
+    \end{minipage}
+  \end{subfigure}
+  \vspace{\hh}
+
+  % SUBFIGURES
+  \begin{subfigure}[b]{17cm}
+    % fig a
     \begin{minipage}[h!]{\ww}
       \centering
       \includegraphics[width=\ww]{figs/DeltaR_b1l.png}
     \end{minipage}
 %    \hspace{\wb}
-    % fig1b
+    % fig b
     \begin{minipage}[h!]{\ww}
       \centering
-      \includegraphics[width=\ww]{figs/DeltaR_b1l.png}
+      \includegraphics[width=\ww]{figs/DeltaR_b2l.png}
     \end{minipage}
     \hspace{9mm}
   \end{subfigure}	
   \vspace{\dd}
-  \caption{Lala.} \label{lala}
-	
-	\vspace{\hh}
+  \caption{Variables distribution of HH (red) and \tt\ (blue) for the neural network: $\Delta R$ between the lepton and the two closest light jets and between the lepton and two farthest b-jets.} \label{vars3}
+%	\vspace{\hh}
 
 \end{figure*}
 

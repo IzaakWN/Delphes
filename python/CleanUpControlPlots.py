@@ -59,7 +59,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_jjb","hadronic top reco Mass",100,0,700)
         self.add("M_jjl_all","jets-lepton combinations Mass",100,0,450)
         self.add("M_jjl","leading jets-lepton Mass",100,0,450)
-        self.add("M_jjlnu","leading jets-lepton-MET Mass",100,0,450)
+        self.add("M_jjlnu","leading jets-lepton-MET Mass",100,0,700)
         self.add("M_bb_leading","leading bjet-bjet Mass",100,0,300)
         self.add("M_bb_leading_cut","leading bjet-bjet (cut) Mass",100,0,300)
         self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
