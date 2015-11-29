@@ -503,3 +503,9 @@ B_tot = 164661
   stage_7	0.17029	1143	45080697
 
 
+
+
+11/29/15 - 21:37:33
+
+# Comments:
+Strict selection
