@@ -73,21 +73,22 @@ def plotBasic(stage):
     if stage == "stage_0/":
         names.append("selection/category")
 
-    for comb in [ "jj",
-                  "jj_cut","jj_leading","jj_leading_cut",
-                  "bb_cut","bb_leading","bb_leading_cut",
-                           "bb_closest","bb_closest_cut",
-                           "bb_farthest",
-                  "jjl","jjl_leading","jjlnu_leading",
-                  "jjb_leading","bl","blnu" ]:
+    for comb in [ "jj","jj_cut",
+                  "jj_all","jj_all_cut",
+                  "bb_cut",
+                  "bb_leading","bb_leading_cut",
+                  "bb_closest","bb_closest_cut",
+                  "bb_farthest",
+                  "jjl_all","jjl","jjlnu_leading",
+                  "jjb","bl","blnu" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
     names.append("cleanup/MT_jjlnu")
 
-    for comb in [ "j1l","j2l","jj","jj_leading",
+    for comb in [ "j1l","j2l","jj_all","jj",
                   "b1l","b2l","bb1",
-                  "jjl","jjl_leading",
-                        "jjb_leading" ]:
+                  "jjl_all","jjl",
+                        "jjb" ]:
         names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
     names.append("cleanup/DeltaR_b1l_i")
@@ -133,7 +134,7 @@ def plotBasic(stage):
 #            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
 #            legend.Draw()
         if name[name.index("/")+1:] in [ "DeltaPhi_b1l", "DeltaR_b1l", "M_jjlnu_leading" ] :
-            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop")
+            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_q2l" ] :
             legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTopTop")
@@ -336,8 +337,8 @@ def plot2D(stage):
         c.Close()
       
     # RECO LEVEL: DeltaPhi vs. DeltaEta
-    names = [ "jj","jj_leading","j1l","j2l","j3l","jjl",
-              "jjl_leading","jjb_leading",
+    names = [ "jj_all","jj","j1l","j2l","j3l","jjl_all",
+              "jjl","jjb",
               "bb1","b1l","b2l" ]
 
     for name in names:

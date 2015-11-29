@@ -88,7 +88,7 @@ def eventCategory(event):
 
     # 8: clean-up cuts
     M_bb = 0
-    DeltaR_bb = 4
+    DeltaR_bb = 100
     for b1,b2 in combinations(event.bjets30,2):
         DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
         if DeltaR < DeltaR_bb:
