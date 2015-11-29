@@ -384,10 +384,11 @@ def main():
 #                    configuration("MLPTop520", varNamesMLPTop5, 1),
 #                    configuration("favs20",    varNamesFavs, 1),
                     configuration("everythingCleanUp", varNames, 2),
-                    configuration("bestCleanUp",    varNamesBest, 2)
-                    configuration("favsCleanUp",    varNamesFavs, 2),]
+                    configuration("bestCleanUp",       varNamesBest, 2),
+                    configuration("favsCleanUp",       varNamesFavs, 2),
 #                    configuration("everything30", varNames, 3),
-#                    configuration("favs30", varNamesFavs, 3),]
+#                    configuration("favs30", varNamesFavs, 3),
+                   ]
 
     if opts.onlyPlot:
         for config in configs:
