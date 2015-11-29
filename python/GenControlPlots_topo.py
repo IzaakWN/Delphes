@@ -100,10 +100,10 @@ class GenControlPlots(BaseControlPlots):
         else: return { } # make code faster by ignoring uninteresting events
 
         if len(leptons) == 1:
-            lepton = leptons
+            lepton = leptons[0]
             p_l = TLV()
             p_l.SetPtEtaPhiM(lepton.PT, lepton.Eta, lepton.Phi, lepton.Mass)
-
+            
             if quarks:
                 [p_q1,p_q2] = sorted(p_q, key = lambda p: TLV.DeltaR(p,p_l))[:2]
                 result["DeltaR_q1l"] = TLV.DeltaR(p_l,p_q1)
@@ -112,7 +112,6 @@ class GenControlPlots(BaseControlPlots):
                                                fold(abs(lepton.Phi - p_q1.Phi())) ]]
                 result["DeltaEtaDeltaPhi_q2l"] = [[ abs(lepton.Eta - p_q2.Eta()),
                                                fold(abs(lepton.Phi - p_q2.Phi())) ]]
-        else: return { } # make code faster by ignoring uninteresting events
                                                
             if bquarks:
                 [p_b1,p_b2] = sorted(p_b, key = lambda p: TLV.DeltaR(p,p_l), reverse=True)[:2] # farthest
