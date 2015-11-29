@@ -101,7 +101,7 @@ def train(config):
     print "\n>>> train with configuration "+config.name
 
     TMVA.Tools.Instance()
-    f_out = TFile("HH_MVA_"+config.name+".root","RECREATE")
+    f_out = TFile("MVA/trees/HH_MVA_"+config.name+".root","RECREATE")
 
     factory = TMVA.Factory( "TMVAClassification", f_out,
                             ":".join([ "!V",
@@ -171,7 +171,7 @@ def train(config):
     factory.EvaluateAllMethods()
     f_out.Close()
 
-    weightsdir = "weights/"+config.name
+    weightsdir = "MVA/weights/"+config.name
     if not os.path.exists(weightsdir):
         os.makedirs(weightsdir)
     for Method, method in methods:
@@ -227,7 +227,7 @@ def plot(config):
     print "\n>>> examine training with configuration "+config.name
 
     reader = TMVA.Reader()
-    f = TFile("HH_MVA_"+config.name+".root")
+    f = TFile("MVA/HH_MVA_"+config.name+".root")
     TestTree = gDirectory.Get("TestTree")
 
     vars = [ ]
@@ -237,15 +237,15 @@ def plot(config):
 
     significances = [ ]
     for Method, method in methods:
-        reader.BookMVA(method,"weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
+        reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 60, -0.4, 1.4)
-            histB = TH1F("histB", "", 60, -0.4, 1.4)
+            histS = TH1F("histS", "", 80, -0.4, 1.4)
+            histB = TH1F("histB", "", 80, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 60, -1.4, 1.4)
-            histB = TH1F("histB", "", 60, -1.4, 1.4)
+            histS = TH1F("histS", "", 80, -1.4, 1.4)
+            histB = TH1F("histB", "", 80, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
@@ -318,7 +318,7 @@ def correlation(config):
     print "\n>>> make correlation matrix plots"
 
     reader = TMVA.Reader()
-    f = TFile("HH_MVA_"+config.name+".root")
+    f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
     TestTree = gDirectory.Get("TestTree")
 
     c = makeCanvas(square=True, scaleleftmargin=1.5)
@@ -384,6 +384,7 @@ def main():
 #                    configuration("MLPTop520", varNamesMLPTop5, 1),
 #                    configuration("favs20",    varNamesFavs, 1),
                     configuration("everythingCleanUp", varNames, 2),
+                    configuration("bestCleanUp",    varNamesBest, 2)
                     configuration("favsCleanUp",    varNamesFavs, 2),]
 #                    configuration("everything30", varNames, 3),
 #                    configuration("favs30", varNamesFavs, 3),]
@@ -413,6 +414,41 @@ if __name__ == '__main__':
 #    M_bb vs. DeltaR_bb
 #    M_bb vs. bjet1, bjet2 for background
 #
+
+
+
+#--- IdTransformation         : --------------------------------------
+#--- IdTransformation         : Rank : Variable      : Separation
+#--- IdTransformation         : --------------------------------------
+#--- IdTransformation         :    1 : DeltaR_j1l    : 1.530e-01
+#--- IdTransformation         :    2 : DeltaR_bb1    : 1.303e-01
+#--- IdTransformation         :    3 : bjet1Pt       : 1.233e-01
+#--- IdTransformation         :    4 : DeltaR_b2l    : 1.131e-01
+#--- IdTransformation         :    5 : DeltaR_jjl    : 1.130e-01
+#--- IdTransformation         :    6 : DeltaR_j2l    : 8.637e-02
+#--- IdTransformation         :    7 : M_bb_closest  : 7.855e-02
+#--- IdTransformation         :    8 : DeltaR_b1l    : 5.833e-02
+#--- IdTransformation         :    9 : bjet2Pt       : 5.642e-02
+#--- IdTransformation         :   10 : DeltaR_jjb    : 5.408e-02
+#--- IdTransformation         :   11 : M_blnu        : 4.708e-02
+#--- IdTransformation         :   12 : M_jjb         : 3.911e-02
+#--- IdTransformation         :   13 : M_jjlnu       : 2.649e-02
+#--- IdTransformation         :   14 : Nbjets30      : 1.182e-02
+#--- IdTransformation         :   15 : MT_lnu        : 8.814e-03
+#--- IdTransformation         :   16 : jet1Pt        : 8.477e-03
+#--- IdTransformation         :   17 : MET           : 6.357e-03
+#--- IdTransformation         :   18 : jet2Pt        : 6.074e-03
+#--- IdTransformation         :   19 : MT_jjlnu      : 5.273e-03
+#--- IdTransformation         :   20 : leptonPt      : 5.226e-03
+#--- IdTransformation         :   21 : DeltaPhi_lMET : 4.939e-03
+#--- IdTransformation         :   22 : DeltaR_jj     : 3.855e-03
+#--- IdTransformation         :   23 : Njets20       : 3.173e-03
+#--- IdTransformation         : --------------------------------------
+
+
+
+
+
 
 
 #--- Factory                  : Ranking input variables (method specific)...
