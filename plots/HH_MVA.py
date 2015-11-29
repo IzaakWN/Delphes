@@ -50,8 +50,8 @@ treeB3 = file_tt.Get("stage_3/cleanup/cleanup")
 
 h0_S = file_HH.Get("stage_0/selection/category") # ~ 166483
 h0_B = file_tt.Get("stage_0/selection/category") # ~ 164661
-print h0S
-print h0B
+print h0_S.GetBinContent(1)
+print h0_B.GetBinContent(1)
 S_tot = 166483 #h0_S.GetBinContent(1)
 B_tot = 164661 #h0_B.GetBinContent(1)
 S1 = h0_S.GetBinContent(2)
