@@ -348,7 +348,7 @@ def main():
                      "leptonPt","MET",
                      "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
                      "DeltaR_j1l", "DeltaR_j2l",
-                     "M_bb_closest", "M_jjlnu"
+                     "M_bb_closest", "M_jjlnu",
                      "M_jjb", "M_blnu" ]
                  
 #    varNamesMLPTop5 = [ "bjet1Pt", "bjet2Pt",
@@ -357,7 +357,7 @@ def main():
 
     varNamesFavs = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
                      "DeltaR_j1l", "DeltaR_j2l",
-                     "M_bb_closest", "M_jjlnu"
+                     "M_bb_closest", "M_jjlnu",
                      "M_jjb", "M_blnu" ]
 
     if opts.test:
