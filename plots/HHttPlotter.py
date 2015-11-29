@@ -111,7 +111,6 @@ def plotBasic(stage):
     for comb in [ "qq","q1l","q2l",
                   "bb","b1l","b2l", ]:
         names.append("gen/DeltaR_"+comb)
-    names.append("gen/DeltaPhi_qq")
 
     for name in names:
 
