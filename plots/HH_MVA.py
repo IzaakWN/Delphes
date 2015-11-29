@@ -214,8 +214,8 @@ def significanceBins(histS,histB):
     # calculate significance per bin and add using: sigma^2 = sum(sigma_i^2)
     N = histS.GetNbinsX()
     for i in range(1,N):
-        S = N_S * histS.GetXaxis().GetBinContent(i) / S_tot
-        B = N_B * histB.GetXaxis().GetBinContent(i) / B_tot
+        S = N_S * histS.GetBinContent(i) / S_tot
+        B = N_B * histB.GetBinContent(i) / B_tot
         P2 += S*S/(1+B)
 
     return sqrt(P2)
