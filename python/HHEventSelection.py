@@ -57,7 +57,7 @@ def eventCategory(event):
     for particle in event.particles:
         D1 = particle.D1
         if abs(particle.PID) == 24 and 0 <= D1 < len(event.particles) and event.particles[D1]:
-            if abs(event.particles[D1].PID) in [11,13,15]: # e, mu, tau
+            if abs(event.particles[D1].PID) in [11,13]: # e, mu
                 nLeptons+=1
         if abs(particle.PID) == 25 and 0 <= D1 < len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) == 5: # b-quark
