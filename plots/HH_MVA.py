@@ -196,7 +196,7 @@ def significance(histS,histB):
         S = N_S * histS.Integral(i,N)/ S_tot
         B = N_B * histB.Integral(i,N) /B_tot
         P = S / sqrt(1+B)
-        if Pmax<P:
+        if Pmax<P and S > 10 and B > 10:
             Pmax = P
             Smax = S
             Bmax = B
@@ -241,11 +241,11 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 100, -0.4, 1.4)
-            histB = TH1F("histB", "", 100, -0.4, 1.4)
+            histS = TH1F("histS", "", 60, -0.4, 1.4)
+            histB = TH1F("histB", "", 60, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 100, -1.4, 1.4)
-            histB = TH1F("histB", "", 100, -1.4, 1.4)
+            histS = TH1F("histS", "", 60, -1.4, 1.4)
+            histB = TH1F("histB", "", 60, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
