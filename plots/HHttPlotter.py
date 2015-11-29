@@ -79,7 +79,7 @@ def plotBasic(stage):
                   "bb_leading","bb_leading_cut",
                   "bb_closest","bb_closest_cut",
                   "bb_farthest",
-                  "jjl_all","jjl","jjlnu_leading",
+                  "jjl_all","jjl","jjlnu",
                   "jjb","bl","blnu" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
@@ -133,7 +133,7 @@ def plotBasic(stage):
 #        if "a1" in name:
 #            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
 #            legend.Draw()
-        if name[name.index("/")+1:] in [ "DeltaPhi_b1l", "DeltaR_b1l", "M_jjlnu_leading" ] :
+        if name[name.index("/")+1:] in [ "DeltaPhi_b1l", "DeltaR_b1l", "M_jjlnu" ] :
             legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_q2l" ] :
