@@ -34,7 +34,7 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 (opts, args) = parser.parse_args(argv)
 
 # list of methods
-methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned") ] #("LD","LD"), , ("MLP","MLP")
+methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned"), ("MLP","MLPTunedSigmoid") ] #("LD","LD"), , ("MLP","MLP")
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -132,7 +132,7 @@ def train(config):
     factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                        ":".join([ "!H","!V",
                                   "NTrees=1500", # ~ number of boost steps, too large mainly costs time
-                                  "nEventsMin=200",
+#                                  "nEventsMin=200",
                                   "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.2", # ~ 0.01-0.5
@@ -147,7 +147,14 @@ def train(config):
                         ":".join([ "!H","!V",
                                    "NeuronType=tanh",
                                    "VarTransform=N",
-                                   "HiddenLayers=N+10", # number of nodes in NN layers
+                                   "HiddenLayers=N+5", # number of nodes in NN layers
+                                   "UseRegulator" ]) ) # L2 norm regulator to avoid overtraining
+    # MLPTuned
+    factory.BookMethod( TMVA.Types.kMLP, "MLPTunedSigmoid",
+                        ":".join([ "!H","!V",
+                                   "NeuronType=sigmoid",
+                                   "VarTransform=N",
+                                   "HiddenLayers=N+5", # number of nodes in NN layers
                                    "UseRegulator" ]) ) # L2 norm regulator to avoid overtraining
 
  
@@ -369,7 +376,7 @@ def main():
 #                    configuration("MLPTop520", varNamesMLPTop5, 1),
 #                    configuration("favs20",    varNamesFavs, 1),
                     configuration("everythingCleanUp", varNames, 2),
-                    configuration("favsCleanUp",    varNamesFavs, 2),
+                    configuration("favsCleanUp",    varNamesFavs, 2),]
 #                    configuration("everything30", varNames, 3),
 #                    configuration("favs30", varNamesFavs, 3),]
 
