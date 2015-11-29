@@ -22,6 +22,8 @@ ROOT.gROOT.SetBatch(ROOT.kTRUE)
 # Gini-coefficient https://en.wikipedia.org/wiki/Gini_coefficient
 #   used to select the best variable to be used in each tree node
 #
+# MLP parameters to tune: number of neurons on each hidden layer, learning rate, activation function
+# BDT parameters to tune: number of cycles, tree depth, ...
 #
 
 # extra options
@@ -145,15 +147,19 @@ def train(config):
     # MLPTuned
     factory.BookMethod( TMVA.Types.kMLP, "MLPTuned",
                         ":".join([ "!H","!V",
+#                                   "N:TestRate=5",
+#                                   "NCycles=200",
                                    "NeuronType=tanh",
-                                   "VarTransform=N",
+                                   "VarTransform=N", # normalise variables
                                    "HiddenLayers=N+5", # number of nodes in NN layers
                                    "UseRegulator" ]) ) # L2 norm regulator to avoid overtraining
     # MLPTuned
     factory.BookMethod( TMVA.Types.kMLP, "MLPTunedSigmoid",
                         ":".join([ "!H","!V",
+#                                   "N:TestRate=5",
+#                                   "NCycles=200",
                                    "NeuronType=sigmoid",
-                                   "VarTransform=N",
+                                   "VarTransform=N", # normalise variables
                                    "HiddenLayers=N+5", # number of nodes in NN layers
                                    "UseRegulator" ]) ) # L2 norm regulator to avoid overtraining
 
@@ -208,8 +214,13 @@ def significanceBins(histS,histB):
     for i in range(1,N):
         S = N_S * histS.GetXaxis().GetBinCenter(i) / S_tot
         B = N_B * histB.GetXaxis().GetBinCenter(i) / B_tot
+        if S<0:
+            print "Negative S=",S
+        if B<0:
+            print "Negative B=",B
         P2 += S*S/(1+B)
 
+    print P2
     return sqrt(P2)
 
 
