@@ -487,7 +487,7 @@ def makeAxes(*hists, **kwargs):
             else:
                 xlabel = "invariant mass M [GeV]"
             hist0.GetXaxis().SetTitle(xlabel)
-        elif " MET" in name:
+        elif "MET" in name:
             hist0.GetXaxis().SetTitle("MET [GeV]")
             ylabel += "GeV"
         elif " PID" in name:
