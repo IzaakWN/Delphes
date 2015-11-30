@@ -18,12 +18,19 @@ ROOT.gROOT.SetBatch(ROOT.kTRUE)
 # Example in python: https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
 # Tutorial: https://indico.cern.ch/event/395374/other-view?view=standard#20151109.detailed
 #
-# AdaBoost: https://en.wikipedia.org/wiki/AdaBoost
-# Gini-coefficient https://en.wikipedia.org/wiki/Gini_coefficient
-#   used to select the best variable to be used in each tree node
+# BDT parameters to tune: number of cycles, tree depth, ...
+# - AdaBoost:         https://en.wikipedia.org/wiki/AdaBoost
+# - Gini-coefficient: https://en.wikipedia.org/wiki/Gini_coefficient
+#                     used to select the best variable to be used in each tree node
+# - nTrees:    number of boost steps, too large mainly costs time or cause overtraining
+# - MaxDepth:  ~ 2-5, maximum tree depth (depends on the interaction of variables)
+# - nCuts=20:  grid points in variable range to find optimal cut in node splitting
 #
 # MLP parameters to tune: number of neurons on each hidden layer, learning rate, activation function
-# BDT parameters to tune: number of cycles, tree depth, ...
+# - VarTransform=N: normalize variables
+# - HiddenLayers: number of nodes in NN layers
+#       N    =  one hidden layer with N nodes (N = number of variables)
+#       N,N  =  two hidden layers
 #
 
 # extra options
@@ -38,6 +45,7 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 # list of methods
 methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("BDT","BDTCuts"), ("BDT","BDTBoost"),
             ("MLP","MLPTanh"), ("MLP","MLPNodes"), ("MLP","MLPSigmoid") ] #("LD","LD"), , ("MLP","MLP")
+methods1 = [ method[1] for method in methods ]
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -136,21 +144,23 @@ def train(config):
     # BDTTuned
     factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps, too large mainly costs time
+                                  "NTrees=2000", # ~ number of boost steps
+#                                  "MinNodeSize=1.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables)
+                                  "MaxDepth=3", #  ~ 2-5s maximum tree depth
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.3", # ~ 0.01-0.5
                                   "SeparationType=GiniIndex",
-                                  "nCuts=20" # ~ grid points in variable range to find optimal cut in node splitting
+                                  "nCuts=20"
                                  ]) )
 
     # BDTTuned
     factory.BookMethod(TMVA.Types.kBDT, "BDTCuts",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps, too large mainly costs time
+                                  "NTrees=2000", # ~ number of boost steps
+#                                  "MinNodeSize=1.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables)
+                                  "MaxDepth=3", #  ~ 2-5s maximum tree depth
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.3", # ~ 0.01-0.5
                                   "SeparationType=GiniIndex",
@@ -160,13 +170,14 @@ def train(config):
     # BDTTuned
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps, too large mainly costs time
+                                  "NTrees=2000", # ~ number of boost steps
+#                                  "MinNodeSize=1.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables)
+                                  "MaxDepth=3", #  ~ 2-5, maximum tree depth
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.5", # ~ 0.01-0.5
                                   "SeparationType=GiniIndex",
-                                  "nCuts=50"
+                                  "nCuts=20"
                                  ]) )
 
 
@@ -177,7 +188,7 @@ def train(config):
 #                                   "NCycles=200",
                                    "NeuronType=tanh",
                                    "VarTransform=N", # normalise variables
-                                   "HiddenLayers=N,N+5", # number of nodes in NN layers
+                                   "HiddenLayers=N+5,N", # number of nodes in NN layers
                                    "UseRegulator" # L2 norm regulator to avoid overtraining
                                   ]) )
 
@@ -189,7 +200,7 @@ def train(config):
 #                                   "NCycles=200",
                                    "NeuronType=tanh",
                                    "VarTransform=N", # normalise variables
-                                   "HiddenLayers=N,N+10", # number of nodes in NN layers
+                                   "HiddenLayers=N+10,N", # number of nodes in NN layers
                                    "UseRegulator" # L2 norm regulator to avoid overtraining
                                   ]) )
                                    
@@ -200,7 +211,7 @@ def train(config):
 #                                   "NCycles=200",
                                    "NeuronType=sigmoid",
                                    "VarTransform=N", # normalise variables
-                                   "HiddenLayers=N,N+5", # number of nodes in NN layers
+                                   "HiddenLayers=N+5,N", # number of nodes in NN layers
                                    "UseRegulator" # L2 norm regulator to avoid overtraining
                                   ]) )
 
@@ -321,13 +332,14 @@ def plot(config):
 
 
 # HISTOGRAMS: compare all methods and variable configurations
-def compare(configs,stage=""):
+def compare(configs,stage="",methods0=methods1):
     print "\n>>> compare all methods with all variable configurations"
     
     hist_effs = [ ]
     for config in configs:
-        hist_effs.extend(config.hist_effs)
-    
+        for hist in config.hist_effs:
+            if hist.GetTitle().replace("MVA_","") in methods0:
+                hist_effs.append(hist)
     if not hist_effs:
         return
     
@@ -342,7 +354,7 @@ def compare(configs,stage=""):
             hist.SetLineWidth(1.2)
     labels = [ ]
     for config in configs:
-        labels.extend([config.name+", "+method[1] for method in methods])
+        labels.extend([config.name+", "+method for method in methods1])
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=labels, position="RightTop")
     legend.Draw()
@@ -432,11 +444,11 @@ def main():
         configs = [configuration("test", ["bjet1Pt","jet1Pt"], 1)]
     else:
         configs = [
-                    configuration("everything20", varNames, 1),
+#                    configuration("everything20", varNames, 1),
                     configuration("better20", varNamesBetter, 1),
                     configuration("best20",   varNamesBest, 1),
                     configuration("favs20",   varNamesFavs, 1),
-                    configuration("everythingCleanUp", varNames, 2),
+#                    configuration("everythingCleanUp", varNames, 2),
                     configuration("betterCleanUp", varNamesBetter, 2),
                     configuration("bestCleanUp",   varNamesBest, 2),
                     configuration("favsCleanUp",   varNamesFavs, 2)
@@ -447,9 +459,10 @@ def main():
             train(config)
     for config in configs:
         plot(config)
-    compare(configs,"stage_12")
-    compare(configs[:len(configs)/2],"stage_1")
-    compare(configs[len(configs)/2:],"stage_2")
+    compare(configs[:len(configs)/2],stage="stage_1")
+    compare(configs[len(configs)/2:],stage="stage_2")
+    compare(configs[:len(configs)/2],stage="stage_1_DBT",methods0=[method for method in methods1 if "BDT" in method])
+    compare(configs[:len(configs)/2],stage="stage_1_MLP",methods0=[method for method in methods1 if "MLP" in method])
 
     for config in configs:
         if "everything" in config.name:
