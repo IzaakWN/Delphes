@@ -439,7 +439,7 @@ def main():
                         "M_jjb", "M_blnu" ]
 
     if opts.test:
-        configs = [configuration("test", ["bjet1Pt","jet1Pt"], 1)]
+        configs = [configuration("test", ["M_bb_closest"], 1)]
     else:
         configs = [
 #                    configuration("everything20", varNames, 1),
