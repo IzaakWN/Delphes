@@ -193,8 +193,8 @@ def significance(histS,histB):
     # scan cut over all bins, find cut with highest significance
     N = histS.GetNbinsX()
     for i in range(1,N):
-        S = N_S * histS.Integral(i,N)/ S_tot
-        B = N_B * histB.Integral(i,N) /B_tot
+        S = N_S * histS.Integral(i,N) / S_tot
+        B = N_B * histB.Integral(i,N) / B_tot
         P = S / sqrt(1+B)
         if Pmax<P and S > 10 and B > 10:
             Pmax = P
@@ -265,7 +265,7 @@ def plot(config):
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
-        makeAxes(histS,histB,xlabel=method+" response",ylabel="")
+        makeAxes(histB,histS,xlabel=(method+" response"),ylabel="")
         legend = makeLegend(histS,histB,title=method+" response",entries=["signal","background"])
         legend.Draw()
 
@@ -390,13 +390,11 @@ def main():
 #                    configuration("favs30", varNamesFavs, 3),
                    ]
 
-    if opts.onlyPlot:
-        for config in configs:
-            plot(config)
-    else:
+    if not opts.onlyPlot:
         for config in configs:
             train(config)
-            plot(config)
+    for config in configs:
+        plot(config)
     compare(configs,"stage_12")
     compare(configs[:len(configs)/2],"stage_1")
     compare(configs[len(configs)/2:],"stage_2")
