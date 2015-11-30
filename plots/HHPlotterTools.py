@@ -506,7 +506,7 @@ def makeAxes(*hists, **kwargs):
     hist0.GetYaxis().SetTitleOffset(1.5)
 
     # set optimal range
-    mins = []
+    mins = [0]
     maxs = []
     for hist in hists: #(hist0,) + hists:
         mins.append(hist.GetMinimum())
