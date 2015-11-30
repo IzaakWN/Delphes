@@ -456,7 +456,7 @@ def main():
     if opts.onlyPlot:
         print ">>> plots only"
     else:
-        for config in configs:
+        for config in reversed(configs):
             train(config)
     for config in configs:
         plot(config)
