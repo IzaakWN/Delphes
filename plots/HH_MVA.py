@@ -439,7 +439,8 @@ def main():
                         "M_jjb", "M_blnu" ]
 
     if opts.test:
-        configs = [configuration("test", ["M_bb_closest"], 1)]
+        print ">>> test mode"
+        configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
 #                    configuration("everything20", varNames, 1),
@@ -452,7 +453,9 @@ def main():
                     configuration("favsCleanUp",   varNamesFavs, 2)
                    ]
 
-    if not opts.onlyPlot:
+    if opts.onlyPlot:
+        print ">>> plots only"
+    else:
         for config in configs:
             train(config)
     for config in configs:
