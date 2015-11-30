@@ -193,7 +193,7 @@ def significance(histS,histB):
     # scan cut over all bins, find cut with highest significance
     N = histS.GetNbinsX()
     for i in range(1,N):
-        S = N_S * histS.Integral(i,N) / S_tot
+        S = N_S * histS.Integral(i,N) / S_tot # yield
         B = N_B * histB.Integral(i,N) / B_tot
         P = S / sqrt(1+B)
         if Pmax<P and S > 10 and B > 10:
@@ -214,9 +214,9 @@ def significanceBins(histS,histB):
     # calculate significance per bin and add using: sigma^2 = sum(sigma_i^2)
     N = histS.GetNbinsX()
     for i in range(1,N):
-        S = N_S * histS.GetBinContent(i) / S_tot
+        S = N_S * histS.GetBinContent(i) / S_tot # yield for bin i
         B = N_B * histB.GetBinContent(i) / B_tot
-        P2 += S*S/(1+B)
+        P2 += S*S/(1+B) # P_i^2
 
     return sqrt(P2)
 
