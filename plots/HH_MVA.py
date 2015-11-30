@@ -36,7 +36,8 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 (opts, args) = parser.parse_args(argv)
 
 # list of methods
-methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTanh"), ("MLP","MLPSigmoid") ] #("LD","LD"), , ("MLP","MLP")
+methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("BDT","BDTCuts"), ("BDT","BDTBoost"),
+            ("MLP","MLPTanh"), ("MLP","MLPNodes"), ("MLP","MLPSigmoid") ] #("LD","LD"), , ("MLP","MLP")
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -135,35 +136,73 @@ def train(config):
     # BDTTuned
     factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                        ":".join([ "!H","!V",
-                                  "NTrees=1500", # ~ number of boost steps, too large mainly costs time
+                                  "NTrees=2000", # ~ number of boost steps, too large mainly costs time
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables
+                                  "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables)
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.2", # ~ 0.01-0.5
+                                  "AdaBoostBeta=0.3", # ~ 0.01-0.5
                                   "SeparationType=GiniIndex",
-                                  "nCuts=20" ]) )
+                                  "nCuts=20" # ~ grid points in variable range to find optimal cut in node splitting
+                                 ]) )
 
-#    # MLP: Neutal Network
-#    factory.BookMethod( TMVA.Types.kMLP, "MLP", "H:!V:" )
+    # BDTTuned
+    factory.BookMethod(TMVA.Types.kBDT, "BDTCuts",
+                       ":".join([ "!H","!V",
+                                  "NTrees=2000", # ~ number of boost steps, too large mainly costs time
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables)
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.3", # ~ 0.01-0.5
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
+
+    # BDTTuned
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
+                       ":".join([ "!H","!V",
+                                  "NTrees=2000", # ~ number of boost steps, too large mainly costs time
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3", #  ~ 2-5 maximum tree depth (depends on the interaction of variables)
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.5", # ~ 0.01-0.5
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
+
 
     # MLPTuned
     factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
                         ":".join([ "!H","!V",
-#                                   "TestRate=5",
+#                                   "LearningRate=5",
 #                                   "NCycles=200",
                                    "NeuronType=tanh",
                                    "VarTransform=N", # normalise variables
-                                   "HiddenLayers=N+5", # number of nodes in NN layers
-                                   "UseRegulator" ]) ) # L2 norm regulator to avoid overtraining
+                                   "HiddenLayers=N,N+5", # number of nodes in NN layers
+                                   "UseRegulator" # L2 norm regulator to avoid overtraining
+                                  ]) )
+
+
+    # MLPTuned
+    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes",
+                        ":".join([ "!H","!V",
+#                                   "LearningRate=5",
+#                                   "NCycles=200",
+                                   "NeuronType=tanh",
+                                   "VarTransform=N", # normalise variables
+                                   "HiddenLayers=N,N+10", # number of nodes in NN layers
+                                   "UseRegulator" # L2 norm regulator to avoid overtraining
+                                  ]) )
+                                   
     # MLPTuned
     factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
                         ":".join([ "!H","!V",
-#                                   "TestRate=5",
+#                                   "LearningRate=5",
 #                                   "NCycles=200",
                                    "NeuronType=sigmoid",
                                    "VarTransform=N", # normalise variables
-                                   "HiddenLayers=N+5", # number of nodes in NN layers
-                                   "UseRegulator" ]) ) # L2 norm regulator to avoid overtraining
+                                   "HiddenLayers=N,N+5", # number of nodes in NN layers
+                                   "UseRegulator" # L2 norm regulator to avoid overtraining
+                                  ]) )
 
  
     factory.TrainAllMethods()
@@ -211,12 +250,13 @@ def significanceBins(histS,histB):
     
     P2 = 0
 
-    # calculate significance per bin and add using: sigma^2 = sum(sigma_i^2)
+    # calculate significance per bin and add
+    # using variance addition law: sigma^2 = sum(sigma_i^2)
     N = histS.GetNbinsX()
     for i in range(1,N):
         S = N_S * histS.GetBinContent(i) / S_tot # yield for bin i
         B = N_B * histB.GetBinContent(i) / B_tot
-        P2 += S*S/(1+B) # P_i^2
+        P2 += S*S/(1+B) # P^2 += P_i^2
 
     return sqrt(P2)
 
@@ -266,7 +306,7 @@ def plot(config):
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
         makeAxes(histB,histS,xlabel=(method+" response"),ylabel="")
-        legend = makeLegend(histS,histB,title=method+" response",entries=["signal","background"])
+        legend = makeLegend(histS,histB,title=method+" response",entries=["signal","background"],position="RightTopTop")
         legend.Draw()
 
         CMS_lumi.CMS_lumi(c,14,33)
@@ -354,40 +394,52 @@ def main():
                  "DeltaR_bb1","DeltaR_jj",
                  "DeltaR_jjl","DeltaR_jjb",
                  "DeltaPhi_lMET",
-                 "M_bb_closest", "M_jjlnu",
-                 "M_jjb", "M_blnu",
+                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
+                 "M_jjb", "M_blnu",         # top reconstruction
                  "MT_lnu","MT_jjlnu" ]
                  
-    varNamesBest = [ "jet1Pt","jet2Pt",
-                     "bjet1Pt","bjet2Pt",
-                     "leptonPt","MET",
-                     "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
-                     "DeltaR_j1l", "DeltaR_j2l",
-                     "M_bb_closest", "M_jjlnu",
-                     "M_jjb", "M_blnu" ]
+    varNamesBetter = [  "Nbjets30",
+                        "jet1Pt","jet2Pt",
+                        "bjet1Pt","bjet2Pt",
+                        "leptonPt","MET",
+                        "DeltaR_j1l","DeltaR_j2l",
+                        "DeltaR_b1l","DeltaR_b2l",
+                        "DeltaR_bb1",
+                        "DeltaR_jjl","DeltaR_jjb",
+                        "M_bb_closest", "M_jjlnu",
+                        "M_jjb", "M_blnu" ]
+                 
+    varNamesBest = [    "Nbjets30",
+                        "bjet1Pt","bjet2Pt",
+                        "leptonPt",
+                        "DeltaR_j1l","DeltaR_j2l",
+                        "DeltaR_b1l","DeltaR_b2l",
+                        "DeltaR_bb1",
+                        "DeltaR_jjl","DeltaR_jjb",
+                        "M_bb_closest", "M_jjlnu",
+                        "M_jjb", "M_blnu" ]
                  
 #    varNamesMLPTop5 = [ "bjet1Pt", "bjet2Pt",
 #                        "DeltaR_j2l", "DeltaR_b2l",
 #                        "M_bb_closest" ]
 
-    varNamesFavs = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
-                     "DeltaR_j1l", "DeltaR_j2l",
-                     "M_bb_closest", "M_jjlnu",
-                     "M_jjb", "M_blnu" ]
+    varNamesFavs = [    "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
+                        "DeltaR_j1l", "DeltaR_j2l",
+                        "M_bb_closest", "M_jjlnu",
+                        "M_jjb", "M_blnu" ]
 
     if opts.test:
         configs = [configuration("test", ["bjet1Pt","jet1Pt"], 1)]
     else:
         configs = [
-#                    configuration("everything20", varNames, 1),
-#                    configuration("best20",    varNamesBest, 1),
-#                    configuration("MLPTop520", varNamesMLPTop5, 1),
-#                    configuration("favs20",    varNamesFavs, 1),
+                    configuration("everything20", varNames, 1),
+                    configuration("better20", varNamesBetter, 1),
+                    configuration("best20",   varNamesBest, 1),
+                    configuration("favs20",   varNamesFavs, 1),
                     configuration("everythingCleanUp", varNames, 2),
-                    configuration("bestCleanUp",       varNamesBest, 2),
-                    configuration("favsCleanUp",       varNamesFavs, 2),
-#                    configuration("everything30", varNames, 3),
-#                    configuration("favs30", varNamesFavs, 3),
+                    configuration("betterCleanUp", varNamesBetter, 2),
+                    configuration("bestCleanUp",   varNamesBest, 2),
+                    configuration("favsCleanUp",   varNamesFavs, 2)
                    ]
 
     if not opts.onlyPlot:
