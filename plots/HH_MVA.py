@@ -36,7 +36,7 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 (opts, args) = parser.parse_args(argv)
 
 # list of methods
-methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTuned"), ("MLP","MLPTunedSigmoid") ] #("LD","LD"), , ("MLP","MLP")
+methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("MLP","MLPTanh"), ("MLP","MLPSigmoid") ] #("LD","LD"), , ("MLP","MLP")
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -147,18 +147,18 @@ def train(config):
 #    factory.BookMethod( TMVA.Types.kMLP, "MLP", "H:!V:" )
 
     # MLPTuned
-    factory.BookMethod( TMVA.Types.kMLP, "MLPTuned",
+    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
                         ":".join([ "!H","!V",
-#                                   "N:TestRate=5",
+#                                   "TestRate=5",
 #                                   "NCycles=200",
                                    "NeuronType=tanh",
                                    "VarTransform=N", # normalise variables
                                    "HiddenLayers=N+5", # number of nodes in NN layers
                                    "UseRegulator" ]) ) # L2 norm regulator to avoid overtraining
     # MLPTuned
-    factory.BookMethod( TMVA.Types.kMLP, "MLPTunedSigmoid",
+    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
                         ":".join([ "!H","!V",
-#                                   "N:TestRate=5",
+#                                   "TestRate=5",
 #                                   "NCycles=200",
                                    "NeuronType=sigmoid",
                                    "VarTransform=N", # normalise variables
@@ -227,7 +227,7 @@ def plot(config):
     print "\n>>> examine training with configuration "+config.name
 
     reader = TMVA.Reader()
-    f = TFile("MVA/HH_MVA_"+config.name+".root")
+    f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
     TestTree = gDirectory.Get("TestTree")
 
     vars = [ ]
