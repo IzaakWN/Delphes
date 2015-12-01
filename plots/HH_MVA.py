@@ -433,9 +433,13 @@ def main():
                         "M_bb_closest", "M_jjlnu",
                         "M_jjb", "M_blnu" ]
                  
-#    varNamesMLPTop5 = [ "bjet1Pt", "bjet2Pt",
-#                        "DeltaR_j2l", "DeltaR_b2l",
-#                        "M_bb_closest" ]
+    varNamesMLPTop10 = [ "Nbjets30",
+                         "jet1Pt","jet2Pt",
+                         "bjet1Pt","bjet2Pt",
+                         "leptonPt","MET",
+                         "DeltaR_bb1",
+                         "M_bb_closest", "M_jjlnu",
+                         "M_jjb", "M_blnu" ]
 
     varNamesFavs = [    "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
                         "DeltaR_j1l", "DeltaR_j2l",
@@ -453,8 +457,8 @@ def main():
                     configuration("favs20",   varNamesFavs, 1),
 #                    configuration("everythingCleanUp", varNames, 2),
                     configuration("betterCleanUp", varNamesBetter, 2),
-#                    configuration("bestCleanUp",   varNamesBest, 2),
-#                    configuration("favsCleanUp",   varNamesFavs, 2)
+                    configuration("bestCleanUp",   varNamesBest, 2),
+                    configuration("favsCleanUp",   varNamesFavs, 2)
                    ]
 
     if opts.onlyPlot:
