@@ -198,7 +198,6 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=20"
                                  ]) )
-                                 ]) )
     # BDTNodeSize
     factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
                        ":".join([ "!H","!V",
