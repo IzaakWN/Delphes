@@ -176,7 +176,7 @@ def train(config):
                                   "nCuts=20"
                                  ]) )
     # BDTBoost
-    factory.BookMethod(TMVA.Types.kBDT, "BDTMaxDepth",
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
                        ":".join([ "!H","!V",
                                   "NTrees=2000",
 #                                  "MinNodeSize=1.%",
