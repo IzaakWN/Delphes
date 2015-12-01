@@ -333,13 +333,13 @@ def plot(config):
 
 # HISTOGRAMS: compare all methods and variable configurations
 def compare(configs,stage="",methods0=methods1):
-    print "\n>>> compare methods with "+",".join([c.name for c in configs])
+    print "\n>>> compare methods with "+", ".join([c.name for c in configs])
     
     hist_effs = [ ]
     for config in configs:
         for hist in config.hist_effs:
             if hist.GetTitle().replace("MVA_","") in methods0:
-                print "type(hist) = %s" % type(hist)
+#                print "type(hist) = %s" % type(hist)
                 hist_effs.append(hist)
     if not hist_effs:
         print ">>> No histograms!"
@@ -347,7 +347,7 @@ def compare(configs,stage="",methods0=methods1):
     
     c = makeCanvas()
     hist_effs[0].Draw()
-    hist_effs[0].SetLineWidth(1.2)
+    hist_effs[0].SetLineWidth(1)
     hist_effs[0].SetStats(0)
     makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     if len(hist_effs)>1:
