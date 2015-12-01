@@ -17,6 +17,7 @@ ROOT.gROOT.SetBatch(ROOT.kTRUE)
 # Method ptions: http://tmva.sourceforge.net/optionRef.html
 # Example in python: https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
 # Tutorial: https://indico.cern.ch/event/395374/other-view?view=standard#20151109.detailed
+# Warning: use ROOT 34 or newer for larger buffer for the xml reader!
 #
 # BDT parameters to tune: number of cycles, tree depth, ...
 # - AdaBoost:         https://en.wikipedia.org/wiki/AdaBoost
@@ -177,10 +178,10 @@ def train(config):
                                   "nCuts=20"
                                  ]) )
                                  
-    factory.TrainAllMethods()
-    factory.TestAllMethods()
-    factory.EvaluateAllMethods()
-    factory.DeleteAllMethods()
+#    factory.TrainAllMethods()
+#    factory.TestAllMethods()
+#    factory.EvaluateAllMethods()
+#    factory.DeleteAllMethods()
 
     # MLPTanh
     factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
@@ -193,6 +194,7 @@ def train(config):
                                    "UseRegulator" # L2 norm regulator to avoid overtraining
                                   ]) )
     # MLPNodes
+    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
     factory.BookMethod( TMVA.Types.kMLP, "MLPNodes",
                         ":".join([ "!H","!V",
 #                                   "LearningRate=5",
@@ -302,9 +304,9 @@ def plot(config):
         [Pmax,Smax,Bmax,cut] = significance(histS,histB)
         Pbins = significanceBins(histS, histB)
         significances.append( ">>> "+config.name+" - "+method + \
-                              ": %.4f significance, yields S = %.1f, B = %.1f with a cut at %.4f" % \
+                              ":\n>>>\t%.4f significance, yields S = %.1f, B = %.1f with a cut at %.4f" % \
                               (Pmax,Smax,Bmax,cut) + \
-                              "\n: %.4f significance with bins" % Pbins  )
+                              "\n>>>\t%.4f significance with bins" % Pbins  )
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
