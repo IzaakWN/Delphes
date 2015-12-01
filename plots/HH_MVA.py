@@ -14,24 +14,25 @@ ROOT.gROOT.SetBatch(ROOT.kTRUE)
 # W
 
 # Manual: http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
-# Method ptions: http://tmva.sourceforge.net/optionRef.html
+# Method options: http://tmva.sourceforge.net/optionRef.html
 # Example in python: https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
 # Tutorial: https://indico.cern.ch/event/395374/other-view?view=standard#20151109.detailed
-# Warning: use ROOT 34 or newer for larger buffer for the xml reader!
+# Warning: use ROOT 34.0.0 or newer for larger buffer for the xml reader!
 #
 # BDT parameters to tune: number of cycles, tree depth, ...
-# - AdaBoost:         https://en.wikipedia.org/wiki/AdaBoost
-# - Gini-coefficient: https://en.wikipedia.org/wiki/Gini_coefficient
-#                     used to select the best variable to be used in each tree node
-# - nTrees:    number of boost steps, too large mainly costs time or cause overtraining
-# - MaxDepth:  ~ 2-5, maximum tree depth (depends on the interaction of variables)
-# - nCuts=20:  grid points in variable range to find optimal cut in node splitting
+#   - AdaBoost:         https://en.wikipedia.org/wiki/AdaBoost
+#   - Gini-coefficient: https://en.wikipedia.org/wiki/Gini_coefficient
+#                       used to select the best variable to be used in each tree node
+#   - nTrees:    number of boost steps, too large mainly costs time or cause overtraining
+#   - MaxDepth:  ~ 2-5, maximum tree depth (depends on the interaction of variables)
+#   - nCuts:  grid points in variable range to find optimal cut in node splitting
 #
 # MLP parameters to tune: number of neurons on each hidden layer, learning rate, activation function
-# - VarTransform=N: normalize variables
-# - HiddenLayers: number of nodes in NN layers
-#       N    =  one hidden layer with N nodes (N = number of variables)
-#       N,N  =  two hidden layers
+#   - VarTransform=N: normalize variables
+#   - HiddenLayers: number of nodes in NN layers
+#         N     = one hidden layer with N nodes (N = number of variables)
+#         N,N   = two hidden layers
+#         N+2,N = two hidden layers with the N+2 nodes in the first hidden layer
 #
 
 # extra options
@@ -44,9 +45,17 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 (opts, args) = parser.parse_args(argv)
 
 # list of methods
-methods = [ ("BDT","BDT"), ("BDT","BDTTuned"), ("BDT","BDTCuts"), ("BDT","BDTBoost"),
-            ("MLP","MLPTanh"), ("MLP","MLPNodes"), ("MLP","MLPSigmoid") ] #("LD","LD"), , ("MLP","MLP")
-methods1 = [ method[1] for method in methods ]
+Methods = [ ("BDT","BDT"),
+            ("BDT","BDTTuned"),
+            ("BDT","BDTMaxDepth"),
+            ("BDT","BDTCuts"),
+            ("BDT","BDTBoost"),
+            ("BDT","BDTNodeSize"),
+            ("MLP","MLPTanh"),
+            ("MLP","MLPLearningRate"),
+            ("MLP","MLPNodes"),
+            ("MLP","MLPSigmoid") ]
+methods = [ method[1] for method in Methods ]
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -153,6 +162,18 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=20"
                                  ]) )
+    # BDTMaxDepth
+    factory.BookMethod(TMVA.Types.kBDT, "BDTMaxDepth",
+                       ":".join([ "!H","!V",
+                                  "NTrees=2000", # ~ number of boost steps
+#                                  "MinNodeSize=1.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=5", #  ~ 2-5s maximum tree depth
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.3", # ~ 0.01-0.5
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=20"
+                                 ]) )
     # BDTCuts
     factory.BookMethod(TMVA.Types.kBDT, "BDTCuts",
                        ":".join([ "!H","!V",
@@ -163,7 +184,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.3", # ~ 0.01-0.5
                                   "SeparationType=GiniIndex",
-                                  "nCuts=50"
+                                  "nCuts=100"
                                  ]) )
     # BDTBoost
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
@@ -173,7 +194,20 @@ def train(config):
 #                                  "nEventsMin=200",
                                   "MaxDepth=3", #  ~ 2-5, maximum tree depth
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.5", # ~ 0.01-0.5
+                                  "AdaBoostBeta=0.1", # ~ 0.01-0.5
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=20"
+                                 ]) )
+                                 ]) )
+    # BDTNodeSize
+    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
+                       ":".join([ "!H","!V",
+                                  "NTrees=2000", # ~ number of boost steps
+                                  "MinNodeSize=10.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3", #  ~ 2-5, maximum tree depth
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.1", # ~ 0.01-0.5
                                   "SeparationType=GiniIndex",
                                   "nCuts=20"
                                  ]) )
@@ -186,7 +220,17 @@ def train(config):
     # MLPTanh
     factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
                         ":".join([ "!H","!V",
-#                                   "LearningRate=5",
+#                                   "LearningRate=0.02",
+#                                   "NCycles=200",
+                                   "NeuronType=tanh",
+                                   "VarTransform=N", # normalise variables
+                                   "HiddenLayers=N+5,N", # number of nodes in NN layers
+                                   "UseRegulator" # L2 norm regulator to avoid overtraining
+                                  ]) )
+    # MLPLearningRate
+    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
+                        ":".join([ "!H","!V",
+                                   "LearningRate=0.8",
 #                                   "NCycles=200",
                                    "NeuronType=tanh",
                                    "VarTransform=N", # normalise variables
@@ -197,17 +241,17 @@ def train(config):
     # Warning: use ROOT 34 or newer for larger buffer for the xml reader
     factory.BookMethod( TMVA.Types.kMLP, "MLPNodes",
                         ":".join([ "!H","!V",
-#                                   "LearningRate=5",
+#                                   "LearningRate=0.02",
 #                                   "NCycles=200",
                                    "NeuronType=tanh",
                                    "VarTransform=N", # normalise variables
-                                   "HiddenLayers=N+10,N", # number of nodes in NN layers
+                                   "HiddenLayers=N+8,N", # number of nodes in NN layers
                                    "UseRegulator" # L2 norm regulator to avoid overtraining
                                   ]) )
     # MLPSigmoid
     factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
                         ":".join([ "!H","!V",
-#                                   "LearningRate=5",
+#                                   "LearningRate=0.02",
 #                                   "NCycles=200",
                                    "NeuronType=sigmoid",
                                    "VarTransform=N", # normalise variables
@@ -224,7 +268,7 @@ def train(config):
     weightsdir = "MVA/weights/"+config.name
     if not os.path.exists(weightsdir):
         os.makedirs(weightsdir)
-    for Method, method in methods:
+    for method in methods:
         os.rename("weights/TMVAClassification_"+method+".weights.xml",
                   weightsdir+"/TMVAClassification_"+method+".weights.xml")
         os.rename("weights/TMVAClassification_"+method+".class.C",
@@ -287,7 +331,7 @@ def plot(config):
         reader.AddVariable(name,vars[-1])
 
     significances = [ ]
-    for Method, method in methods:
+    for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
 
         c = makeCanvas()
@@ -304,9 +348,9 @@ def plot(config):
         [Pmax,Smax,Bmax,cut] = significance(histS,histB)
         Pbins = significanceBins(histS, histB)
         significances.append( ">>> "+config.name+" - "+method + \
-                              ":\n>>>\t%.4f significance, yields S = %.1f, B = %.1f with a cut at %.4f" % \
+                              ":\n>>>\t\t%.4f significance, yields S = %.1f, B = %.1f with a cut at %.4f" % \
                               (Pmax,Smax,Bmax,cut) + \
-                              "\n>>>\t%.4f significance with bins" % Pbins  )
+                              "\n>>>\t\t%.4f significance with bins" % Pbins  )
 
         histS.SetLineColor(ROOT.kRed)
         histS.SetLineWidth(2)
@@ -332,7 +376,7 @@ def plot(config):
 
 
 # HISTOGRAMS: compare all methods and variable configurations
-def compare(configs,stage="",methods0=methods1):
+def compare(configs,stage="",methods0=methods):
     print "\n>>> compare methods with "+", ".join([c.name for c in configs])
     
     hist_effs = [ ]
@@ -356,7 +400,7 @@ def compare(configs,stage="",methods0=methods1):
             hist.SetLineWidth(2)
     labels = [ ]
     for config in configs:
-        labels.extend([config.name+", "+method for method in methods1])
+        labels.extend([config.name+", "+method for method in methods])
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=labels, position="RightTop")
     legend.Draw()
@@ -423,42 +467,44 @@ def main():
                         "M_bb_closest", "M_jjlnu",
                         "M_jjb", "M_blnu" ]
                  
-    varNamesBest = [    "Nbjets30",
-                        "bjet1Pt","bjet2Pt",
-                        "leptonPt",
-                        "DeltaR_j1l","DeltaR_j2l",
-                        "DeltaR_b1l","DeltaR_b2l",
-                        "DeltaR_bb1",
-                        "DeltaR_jjl","DeltaR_jjb",
-                        "M_bb_closest", "M_jjlnu",
-                        "M_jjb", "M_blnu" ]
+#    varNamesBest = [    "Nbjets30",
+#                        "bjet1Pt","bjet2Pt",
+#                        "leptonPt",
+#                        "DeltaR_j1l","DeltaR_j2l",
+#                        "DeltaR_b1l","DeltaR_b2l",
+#                        "DeltaR_bb1",
+#                        "DeltaR_jjl","DeltaR_jjb",
+#                        "M_bb_closest", "M_jjlnu",
+#                        "M_jjb", "M_blnu" ]
                  
     varNamesMLPTop10 = [ "Nbjets30",
                          "jet1Pt","jet2Pt",
                          "bjet1Pt","bjet2Pt",
-                         "leptonPt","MET",
-                         "DeltaR_bb1",
+                         "leptonPt",
+#                         "DeltaR_bb1",
                          "M_bb_closest", "M_jjlnu",
                          "M_jjb", "M_blnu" ]
 
-    varNamesFavs = [    "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
-                        "DeltaR_j1l", "DeltaR_j2l",
-                        "M_bb_closest", "M_jjlnu",
-                        "M_jjb", "M_blnu" ]
+#    varNamesFavs = [    "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
+#                        "DeltaR_j1l", "DeltaR_j2l",
+#                        "M_bb_closest", "M_jjlnu",
+#                        "M_jjb", "M_blnu" ]
 
     if opts.test:
         print ">>> test mode"
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
-#                    configuration("everything20", varNames, 1),
+                    configuration("everything20", varNames, 1),
                     configuration("better20", varNamesBetter, 1),
-                    configuration("best20",   varNamesBest, 1),
-                    configuration("favs20",   varNamesFavs, 1),
-#                    configuration("everythingCleanUp", varNames, 2),
+#                    configuration("best20",   varNamesBest, 1),
+                    configuration("MLPTop20", varNamesMLPTop10, 1),
+#                    configuration("favs20",   varNamesFavs, 1),
+                    configuration("everythingCleanUp", varNames, 2),
                     configuration("betterCleanUp", varNamesBetter, 2),
-                    configuration("bestCleanUp",   varNamesBest, 2),
-                    configuration("favsCleanUp",   varNamesFavs, 2)
+#                    configuration("bestCleanUp",   varNamesBest, 2),
+                    configuration("MLPTopCleanUp", varNamesMLPTop10, 2),
+#                    configuration("favsCleanUp",   varNamesFavs, 2)
                    ]
 
     if opts.onlyPlot:
@@ -470,8 +516,8 @@ def main():
         plot(config)
     compare(configs[:len(configs)/2],stage="stage_1")
     compare(configs[len(configs)/2:],stage="stage_2")
-    compare(configs[:len(configs)/2],stage="stage_1_DBT",methods0=[method for method in methods1 if "BDT" in method])
-    compare(configs[:len(configs)/2],stage="stage_1_MLP",methods0=[method for method in methods1 if "MLP" in method])
+    compare(configs[:len(configs)/2],stage="stage_1_DBT",methods0=[m for m in methods if "BDT" in m])
+    compare(configs[:len(configs)/2],stage="stage_1_MLP",methods0=[m for m in methods if "MLP" in m])
 
     for config in configs:
         if "everything" in config.name:
