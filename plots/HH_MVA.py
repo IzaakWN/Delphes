@@ -11,8 +11,6 @@ import CMS_lumi, tdrstyle
 from HHPlotterTools import *
 ROOT.gROOT.SetBatch(ROOT.kTRUE)
 
-# W
-
 # Manual: http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
 # Method options: http://tmva.sourceforge.net/optionRef.html
 # Example in python: https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
@@ -21,11 +19,12 @@ ROOT.gROOT.SetBatch(ROOT.kTRUE)
 #
 # BDT parameters to tune: number of cycles, tree depth, ...
 #   - AdaBoost:         https://en.wikipedia.org/wiki/AdaBoost
+#   - AdaBoostBeta=0.5: learning rate
 #   - Gini-coefficient: https://en.wikipedia.org/wiki/Gini_coefficient
 #                       used to select the best variable to be used in each tree node
-#   - nTrees:    number of boost steps, too large mainly costs time or cause overtraining
-#   - MaxDepth:  ~ 2-5, maximum tree depth (depends on the interaction of variables)
-#   - nCuts:  grid points in variable range to find optimal cut in node splitting
+#   - nTrees=800:    number of boost steps, too large mainly costs time or cause overtraining
+#   - MaxDepth=3:  ~ 2-5, maximum tree depth (depends on the interaction of variables)
+#   - nCuts=20:  grid points in variable range to find optimal cut in node splitting
 #
 # MLP parameters to tune: number of neurons on each hidden layer, learning rate, activation function
 #   - VarTransform=N: normalize variables
@@ -33,6 +32,7 @@ ROOT.gROOT.SetBatch(ROOT.kTRUE)
 #         N     = one hidden layer with N nodes (N = number of variables)
 #         N,N   = two hidden layers
 #         N+2,N = two hidden layers with the N+2 nodes in the first hidden layer
+#   - LearningRate=0.02
 #
 
 # extra options
@@ -153,60 +153,60 @@ def train(config):
     # BDTTuned
     factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps
+                                  "NTrees=2000",
 #                                  "MinNodeSize=1.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3", #  ~ 2-5s maximum tree depth
+                                  "MaxDepth=3",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.3", # ~ 0.01-0.5
+                                  "AdaBoostBeta=0.3",
                                   "SeparationType=GiniIndex",
                                   "nCuts=20"
                                  ]) )
     # BDTMaxDepth
     factory.BookMethod(TMVA.Types.kBDT, "BDTMaxDepth",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps
+                                  "NTrees=2000",
 #                                  "MinNodeSize=1.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=5", #  ~ 2-5s maximum tree depth
+                                  "MaxDepth=5",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.3", # ~ 0.01-0.5
+                                  "AdaBoostBeta=0.3",
                                   "SeparationType=GiniIndex",
                                   "nCuts=20"
                                  ]) )
     # BDTCuts
     factory.BookMethod(TMVA.Types.kBDT, "BDTCuts",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps
+                                  "NTrees=2000",
 #                                  "MinNodeSize=1.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3", #  ~ 2-5s maximum tree depth
+                                  "MaxDepth=3",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.3", # ~ 0.01-0.5
+                                  "AdaBoostBeta=0.3",
                                   "SeparationType=GiniIndex",
-                                  "nCuts=100"
+                                  "nCuts=100" # 50 -> 100
                                  ]) )
     # BDTBoost
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps
+                                  "NTrees=2000",
 #                                  "MinNodeSize=1.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3", #  ~ 2-5, maximum tree depth
+                                  "MaxDepth=3",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.1", # ~ 0.01-0.5
+                                  "AdaBoostBeta=0.1", # 0.5 -> 0.1
                                   "SeparationType=GiniIndex",
                                   "nCuts=20"
                                  ]) )
     # BDTNodeSize
     factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000", # ~ number of boost steps
+                                  "NTrees=2000",
                                   "MinNodeSize=10.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3", #  ~ 2-5, maximum tree depth
+                                  "MaxDepth=3",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.1", # ~ 0.01-0.5
+                                  "AdaBoostBeta=0.1", # !!!
                                   "SeparationType=GiniIndex",
                                   "nCuts=20"
                                  ]) )
