@@ -495,10 +495,10 @@ def main():
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
-                    configuration("everything20", varNames, 1),
-                    configuration("better20", varNamesBetter, 1),
+#                    configuration("everything20", varNames, 1),
+#                    configuration("better20", varNamesBetter, 1),
 #                    configuration("best20",   varNamesBest, 1),
-                    configuration("MLPTop20", varNamesMLPTop10, 1),
+#                    configuration("MLPTop20", varNamesMLPTop10, 1),
 #                    configuration("favs20",   varNamesFavs, 1),
                     configuration("everythingCleanUp", varNames, 2),
                     configuration("betterCleanUp", varNamesBetter, 2),
