@@ -339,8 +339,10 @@ def compare(configs,stage="",methods0=methods1):
     for config in configs:
         for hist in config.hist_effs:
             if hist.GetTitle().replace("MVA_","") in methods0:
+                print "type(hist) = %s" % type(hist)
                 hist_effs.append(hist)
     if not hist_effs:
+        print ">>> No histograms!"
         return
     
     c = makeCanvas()
