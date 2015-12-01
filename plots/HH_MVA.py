@@ -55,7 +55,8 @@ Methods = [ ("BDT","BDT"),
             ("MLP","MLPTanh"),
             ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
-            ("MLP","MLPSigmoid") ]
+            ("MLP","MLPSigmoid"),
+          ]
 methods = [ method[1] for method in Methods ]
 
 # file with trees
