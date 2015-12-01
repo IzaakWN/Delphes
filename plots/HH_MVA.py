@@ -333,7 +333,7 @@ def plot(config):
 
 # HISTOGRAMS: compare all methods and variable configurations
 def compare(configs,stage="",methods0=methods1):
-    print "\n>>> compare all methods with all variable configurations"
+    print "\n>>> compare methods with "+",".join([c.name for c in configs])
     
     hist_effs = [ ]
     for config in configs:
