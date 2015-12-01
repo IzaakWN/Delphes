@@ -449,8 +449,8 @@ def main():
                     configuration("favs20",   varNamesFavs, 1),
 #                    configuration("everythingCleanUp", varNames, 2),
                     configuration("betterCleanUp", varNamesBetter, 2),
-                    configuration("bestCleanUp",   varNamesBest, 2),
-                    configuration("favsCleanUp",   varNamesFavs, 2)
+#                    configuration("bestCleanUp",   varNamesBest, 2),
+#                    configuration("favsCleanUp",   varNamesFavs, 2)
                    ]
 
     if opts.onlyPlot:
