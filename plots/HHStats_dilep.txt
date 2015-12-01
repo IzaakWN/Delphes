@@ -509,3 +509,42 @@ B_tot = 164661
 
 # Comments:
 Strict selection
+
+11/30/15 - 15:19:48
+
+# Comments:
+Strict selection
+
+# Dileptonic channel
+
+# expected number of events
+N_S = 1355
+N_B = 133793550
+
+# total number of MC events run on
+S_tot = 22812
+B_tot = 22546
+
+ Punzi significance
+  ---------------------------------------
+   stage	P     	S 	B
+  ---------------------------------------
+  stage_1	0.0	0	49485692
+  stage_2	0.0	0	10414604
+  stage_3	0.0	0	1756537
+
+
+# Semileptonic channel
+
+# expected number of events
+N_S = 8580
+N_B = 848540549
+
+# total number of MC events run on
+S_tot = 0
+B_tot = 280
+
+ Punzi significance
+  ---------------------------------------
+   stage	P     	S 	B
+  ---------------------------------------
