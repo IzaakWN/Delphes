@@ -48,7 +48,7 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 # list of methods
 Methods = [ ("BDT","BDT"),
             ("BDT","BDTTuned"),
-            ("BDT","BDTNTrees")
+            ("BDT","BDTNTrees"),
             ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
             ("BDT","BDTBoost"),
@@ -58,7 +58,7 @@ Methods = [ ("BDT","BDT"),
             ("MLP","MLPNodes"),
             ("MLP","MLPNodes1"),
             ("MLP","MLPNodes2"),
-            ("MLP","MLPSigmoid"),
+            ("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
 
