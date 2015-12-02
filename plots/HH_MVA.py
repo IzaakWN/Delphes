@@ -162,7 +162,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.1", # 0.3 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=70" # 20 -> 70
+                                  "nCuts=100" # 20 -> 70 -> 100
                                  ]) )
     # BDTMaxDepth
     factory.BookMethod(TMVA.Types.kBDT, "BDTMaxDepth",
