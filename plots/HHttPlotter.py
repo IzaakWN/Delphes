@@ -79,7 +79,7 @@ def plotBasic(stage):
                   "bb_leading","bb_leading_cut",
                   "bb_closest","bb_closest_cut",
                   "bb_farthest",
-                  "bl","j1l","j2l",
+                  "bl","j1l",#"j2l",
                   "jjl_all","jjl","jjlnu",
                   "jjb","bl","blnu" ]:
         names.append("cleanup/M_"+comb)
@@ -113,9 +113,9 @@ def plotBasic(stage):
     names.append("cleanup/Pt_bl")
     names.append("cleanup/Pt_j1l")
 
-    for comb in [ "qq","q1l","q2l",
-                  "bb","b1l","b2l", ]:
-        names.append("gen/DeltaR_"+comb)
+#    for comb in [ "qq","q1l","q2l",
+#                  "bb","b1l","b2l", ]:
+#        names.append("gen/DeltaR_"+comb)
 
     for name in names:
 
@@ -321,25 +321,25 @@ def plot2D(stage):
     #c.Close()
 
     # GEN LEVEL: DeltaPhi vs. DeltaEta
-    names = [ "qq","bb","q1l","q2l","b1l","b2l" ]
+#    names = [ "qq","bb","q1l","q2l","b1l","b2l" ]
+#
+#    for name in names:
+#        c = makeCanvas(square=True)
+#        hist = file.Get(stage+"gen/DeltaEtaDeltaPhi_"+name)
+#        hist.Draw("colz")
+#        makeAxes2D(hist)
+#        CMS_lumi.CMS_lumi(c,14,33)
+#        c.SaveAs("cleanup/"+stage+"DeltaEtaDeltaPhi_"+name+"_gen.png")
+#        c.Close()
+#
+#        c = makeCanvas(square=True)
+#        hist_tt = file_tt.Get(stage+"gen/DeltaEtaDeltaPhi_"+name)
+#        hist_tt.Draw("colz")
+#        makeAxes2D(hist_tt)
+#        CMS_lumi.CMS_lumi(c,14,33)
+#        c.SaveAs("cleanup/"+stage+"DeltaEtaDeltaPhi_"+name+"_gen_tt.png")
+#        c.Close()
 
-    for name in names:
-        c = makeCanvas(square=True)
-        hist = file.Get(stage+"gen/DeltaEtaDeltaPhi_"+name)
-        hist.Draw("colz")
-        makeAxes2D(hist)
-        CMS_lumi.CMS_lumi(c,14,33)
-        c.SaveAs("cleanup/"+stage+"DeltaEtaDeltaPhi_"+name+"_gen.png")
-        c.Close()
-
-        c = makeCanvas(square=True)
-        hist_tt = file_tt.Get(stage+"gen/DeltaEtaDeltaPhi_"+name)
-        hist_tt.Draw("colz")
-        makeAxes2D(hist_tt)
-        CMS_lumi.CMS_lumi(c,14,33)
-        c.SaveAs("cleanup/"+stage+"DeltaEtaDeltaPhi_"+name+"_gen_tt.png")
-        c.Close()
-      
     # RECO LEVEL: DeltaPhi vs. DeltaEta
     names = [ "jj_all","jj","j1l","j2l","j3l","jjl_all",
               "jjl","jjb","jjlbb",
