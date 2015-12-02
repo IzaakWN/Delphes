@@ -158,9 +158,9 @@ def train(config):
                                   "NTrees=2000",
                                   "MinNodeSize=10.%", # 2 ->
 #                                  "nEventsMin=200",
-                                  "MaxDepth=3",
+                                  "MaxDepth=5",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.1", # 0.3 -> 0.1
+                                  "AdaBoostBeta=0.05", # 0.3 -> 0.1
                                   "SeparationType=GiniIndex",
                                   "nCuts=100" # 20 -> 70 -> 100
                                  ]) )
@@ -182,9 +182,9 @@ def train(config):
                                   "NTrees=2000",
 #                                  "MinNodeSize=1.%",
 #                                  "nEventsMin=200",
-                                  "MaxDepth=5",
+                                  "MaxDepth=10",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.05", # 0.1 -> 0.05
+                                  "AdaBoostBeta=0.01", # 0.1 -> 0.05
                                   "SeparationType=GiniIndex",
                                   "nCuts=20"
                                  ]) )
@@ -383,7 +383,7 @@ def compare(configs,stage="",methods0=methods):
             hist.SetLineWidth(2)
     labels = [ ]
     for config in configs:
-        labels.extend([config.name+", "+method for method in methods])
+        labels.extend([config.name+", "+method for method in methods0])
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=labels, position="RightTop")
     legend.Draw()
