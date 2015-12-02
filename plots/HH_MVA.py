@@ -319,11 +319,11 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 100, -0.4, 1.4)
-            histB = TH1F("histB", "", 100, -0.4, 1.4)
+            histS = TH1F("histS", "", 150, -0.4, 1.4)
+            histB = TH1F("histB", "", 150, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 100, -1.4, 1.4)
-            histB = TH1F("histB", "", 100, -1.4, 1.4)
+            histS = TH1F("histS", "", 150, -1.4, 1.4)
+            histB = TH1F("histB", "", 150, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
@@ -499,8 +499,8 @@ def main():
         plot(config)
     compare(configs[:len(configs)/2],stage="stage_1")
     compare(configs[len(configs)/2:],stage="stage_2")
-    compare(configs[:len(configs)/2],stage="stage_1_DBT",methods0=[m for m in methods if "BDT" in m])
-    compare(configs[:len(configs)/2],stage="stage_1_MLP",methods0=[m for m in methods if "MLP" in m])
+    compare(configs[:],stage="stage_1_DBT",methods0=[m for m in methods if "BDT" in m])
+    compare(configs[:],stage="stage_1_MLP",methods0=[m for m in methods if "MLP" in m])
 
     for config in configs:
         if "everything" in config.name:
