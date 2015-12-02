@@ -507,7 +507,7 @@ def plotPie(stage):
 
 def main():
 
-    for stage in ["stage_0/","stage_1/","stage_2/","stage_3/"]:#,"stage_4/","stage_5/","stage_6/"]:
+    for stage in ["stage_1/","stage_2/","stage_3/"]:#,"stage_4/","stage_5/","stage_6/"]:
 #        plotOverlay(stage)
 #        plotExtra(stage)
         plotBasic(stage)
