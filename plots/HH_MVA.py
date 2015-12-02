@@ -207,7 +207,7 @@ def train(config):
     factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
                        ":".join([ "!H","!V",
                                   "NTrees=2000",
-                                  "MinNodeSize=1.%", # 10.% -> 20.% -> 1.%
+                                  "MinNodeSize=1%", # 10.% -> 20.% -> 1.%
 #                                  "nEventsMin=200",
                                   "MaxDepth=3",
                                   "BoostType=AdaBoost",
