@@ -466,26 +466,30 @@ def main():
     allVars = [ "Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
                 "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
                 "leptonPt","MET",
                 "DeltaR_j1l","DeltaR_j2l",
                 "DeltaR_b1l","DeltaR_b2l",
                 "DeltaR_bb1","DeltaR_jj",
                 "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_lMET",
+                "DeltaPhi_lMET","DeltaPhi_jjlbb",
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
                 "M_jjb", "M_blnu",         # top reconstruction
+                "M_bl", "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
 
     betterVars = [  "Nbjets30",
                     "jet1Pt","jet2Pt",
                     "bjet1Pt","bjet2Pt",
+                    "Pt_bb","Pt_bl","Pt_j1l",
                     "leptonPt","MET",
                     "DeltaR_j1l","DeltaR_j2l",
                     "DeltaR_b1l","DeltaR_b2l",
                     "DeltaR_bb1",
                     "DeltaR_jjl","DeltaR_jjb",
                     "M_bb_closest", "M_jjlnu",
-                    "M_jjb", "M_blnu" ]
+                    "M_jjb", "M_blnu",
+                    "M_j1l" ]
 
 #    bestVars = [    "Nbjets30",
 #                    "bjet1Pt","bjet2Pt",
@@ -515,7 +519,7 @@ def main():
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
-                    configuration("everything20", allVars, 1),
+#                    configuration("everything20", allVars, 1),
                     configuration("better20", betterVars, 1),
 #                    configuration("best20",   bestVars, 1),
 #                    configuration("MLPTop20", MLPTop10Vars, 1),
