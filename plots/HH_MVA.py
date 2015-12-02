@@ -108,6 +108,7 @@ class configuration(object):
         self.treeS = None
         self.treeB = None
         self.hist_effs = [ ]
+        self.stage = stage
 #        self.significances
         if stage==1:
             self.treeS = treeS1
@@ -533,9 +534,9 @@ def main():
         configs = [
                     configuration("everything20", allVars, 1),
                     configuration("better20", betterVars, 1),
-                    configuration("MLPTop20", MLPTopVars, 1),
-                    configuration("AN20",     ANVars, 1),
-                    configuration("favs20",   favVars, 1)
+#                    configuration("MLPTop20", MLPTopVars, 1),
+#                    configuration("AN20",     ANVars, 1),
+#                    configuration("favs20",   favVars, 1)
                     configuration("everythingCleanUp", allVars, 2),
                     configuration("betterCleanUp", betterVars, 2),
                     configuration("MLPTopCleanUp", MLPTopVars, 2),
@@ -551,10 +552,11 @@ def main():
             train(config)
     for config in configs:
         plot(config)
-    compare(configs[:len(configs)/2],stage="stage_1")
-    compare(configs[len(configs)/2:],stage="stage_2")
-    compare(configs[:],stage="stage_1_DBT",methods0=[m for m in methods if "BDT" in m])
-    compare(configs[:],stage="stage_1_MLP",methods0=[m for m in methods if "MLP" in m])
+    compare([c.stage for c in configs if c.stage==1],stage="stage_1")
+    compare([c.stage for c in configs if c.stage==2],stage="stage_2")
+    compare([c.stage for c in configs if c.stage==3],stage="stage_3")
+    compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
+    compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
     for config in configs:
         if "everything" in config.name:
