@@ -48,8 +48,8 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 # list of methods
 Methods = [ ("BDT","BDT"),
             ("BDT","BDTTuned"),
-            ("BDT","BDTNTrees"),
-            ("BDT","BDTMaxDepth"),
+#            ("BDT","BDTNTrees"),
+#            ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
             ("BDT","BDTBoost"),
 #            ("BDT","BDTNodeSize"),
@@ -57,8 +57,8 @@ Methods = [ ("BDT","BDT"),
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
 #            ("MLP","MLPNodes1"),
-#            ("MLP","MLPNodes2"),
-#            ("MLP","MLPSigmoid")
+            ("MLP","MLPNodes2"),
+            ("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
 
@@ -163,34 +163,34 @@ def train(config):
 #                                  "nEventsMin=200",
                                   "MaxDepth=3", # 3 -> 5 -> 3
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.04", # 0.1 -> 0.05
+                                  "AdaBoostBeta=0.05", # 0.1 -> 0.05
                                   "SeparationType=GiniIndex",
                                   "nCuts=100" # 20 -> 70 -> 100
                                  ]) )
-    # BDTNTrees
-    factory.BookMethod(TMVA.Types.kBDT, "BDTNTrees",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500", # 2000 -> 1500
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.04",
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=100"
-                                 ]) )
-    # BDTMaxDepth
-    factory.BookMethod(TMVA.Types.kBDT, "BDTMaxDepth",
-                       ":".join([ "!H","!V",
-                                  "NTrees=2000",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=2", # 3 -> 5 -> 2
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.04",
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=100"
-                                 ]) )
+#    # BDTNTrees
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTNTrees",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500", # 2000 -> 1500
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.05",
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=100"
+#                                 ]) )
+#    # BDTMaxDepth
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTMaxDepth",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=2000",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=2", # 3 -> 5 -> 2
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.05",
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=100"
+#                                 ]) )
     # BDTBoost
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
                        ":".join([ "!H","!V",
@@ -199,7 +199,7 @@ def train(config):
 #                                  "nEventsMin=200",
                                   "MaxDepth=3",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.01", # 0.1 -> 0.05 -> 0.01
+                                  "AdaBoostBeta=0.1", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
                                   "nCuts=100"
                                  ]) )
@@ -222,7 +222,7 @@ def train(config):
 #                                   "NCycles=200",
                                    "NeuronType=tanh",
                                    "VarTransform=N",
-                                   "HiddenLayers=N,N+2",
+                                   "HiddenLayers=N,N",
                                    "UseRegulator"
                                   ]) )
 ##    # MLPLearningRate
@@ -257,27 +257,27 @@ def train(config):
 #                                   "HiddenLayers=N",
 #                                   "UseRegulator"
 #                                  ]) )
-#    # MLPNodes2
-#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes2",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=tanh",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N,N+4",
-#                                   "UseRegulator"
-#                                  ]) )
-#    # MLPSigmoid
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=sigmoid",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N,N",
-#                                   "UseRegulator"
-#                                  ]) )
+    # MLPNodes2
+    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
+    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes2",
+                        ":".join([ "!H","!V",
+                                   "LearningRate=0.01",
+#                                   "NCycles=200",
+                                   "NeuronType=sigmoid",
+                                   "VarTransform=N",
+                                   "HiddenLayers=N,N+4",
+                                   "UseRegulator"
+                                  ]) )
+    # MLPSigmoid
+    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
+                        ":".join([ "!H","!V",
+                                   "LearningRate=0.01",
+#                                   "NCycles=200",
+                                   "NeuronType=sigmoid",
+                                   "VarTransform=N",
+                                   "HiddenLayers=N,N",
+                                   "UseRegulator"
+                                  ]) )
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -486,6 +486,7 @@ def main():
                     "DeltaR_j1l","DeltaR_j2l",
                     "DeltaR_b1l","DeltaR_b2l",
                     "DeltaR_bb1",
+                    "DeltaPhi_jjlbb",
                     "DeltaR_jjl","DeltaR_jjb",
                     "M_bb_closest", "M_jjlnu",
                     "M_jjb", "M_bl",
@@ -501,34 +502,46 @@ def main():
 #                    "M_bb_closest", "M_jjlnu",
 #                    "M_jjb", "M_blnu" ]
 
-#    MLPTop10Vars = [ "Nbjets30",
-#                     "jet1Pt","jet2Pt",
-#                     "bjet1Pt","bjet2Pt",
-#                     "leptonPt",
-##                     "DeltaR_bb1",
-#                     "M_bb_closest", "M_jjlnu",
-#                     "M_jjb", "M_blnu" ]
+    MLPTopVars = [  "Njet20",
+                    "jet1Pt","jet2Pt",
+                    "bjet1Pt","bjet2Pt",
+                    "Pt_bb","Pt_bl","Pt_j1l",
+                    "leptonPt","MET",
+                    "DeltaR_j1l",
+                    "M_jjlnu", "M_jjb",
+                    "M_bl", "M_j1l" ]
 
-#    favVars = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
-#                "DeltaR_j1l", "DeltaR_j2l",
-#                "M_bb_closest", "M_jjlnu",
-#                "M_jjb", "M_blnu" ]
+    ANVars = [  "Njets20",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_b1l",
+                "DeltaR_bb1","DeltaPhi_jjlbb",
+                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
+                "M_jjb", "M_blnu",         # top reconstruction
+                "M_bl", "M_j1l" ]
+
+    favVars = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
+                "DeltaR_j1l", "DeltaR_j2l", "DeltaR_jjl"
+                "Pt_bb", "Pt_bl"
+                "M_bb_closest", "M_jjlnu",
+                "M_jjb", "M_bl", "M_j1l" ]
 
     if opts.test:
         print ">>> test mode"
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
-#                    configuration("everything20", allVars, 1),
-#                    configuration("better20", betterVars, 1),
-#                    configuration("best20",   bestVars, 1),
-#                    configuration("MLPTop20", MLPTop10Vars, 1),
-#                    configuration("favs20",   favVars, 1),
-#                    configuration("everythingCleanUp", allVars, 2),
+                    configuration("everything20", allVars, 1),
+                    configuration("better20", betterVars, 1),
+                    configuration("MLPTop20", MLPTopVars, 1),
+                    configuration("AN20",     ANVars, 1),
+                    configuration("favs20",   favVars, 1)
+                    configuration("everythingCleanUp", allVars, 2),
                     configuration("betterCleanUp", betterVars, 2),
-#                    configuration("bestCleanUp",   bestVars, 2),
-#                    configuration("MLPTopCleanUp", MLPTop10Vars, 2),
-#                    configuration("favsCleanUp",   favVars, 2)
+                    configuration("MLPTopCleanUp", MLPTopVars, 2),
+                    configuration("ANCleanUp",     ANVars, 2),
+                    configuration("favsCleanUp",   favVars, 2)
+                    configuration("everythingCleanUp", allVars, 3)
                    ]
 
     if opts.onlyPlot:
@@ -541,7 +554,7 @@ def main():
     compare(configs[:len(configs)/2],stage="stage_1")
     compare(configs[len(configs)/2:],stage="stage_2")
     compare(configs[:],stage="stage_1_DBT",methods0=[m for m in methods if "BDT" in m])
-#    compare(configs[:],stage="stage_1_MLP",methods0=[m for m in methods if "MLP" in m])
+    compare(configs[:],stage="stage_1_MLP",methods0=[m for m in methods if "MLP" in m])
 
     for config in configs:
         if "everything" in config.name:
