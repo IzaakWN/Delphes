@@ -37,12 +37,12 @@ def eventCategory(event):
             break
     
     # preparation for clean-up
-    event.M_ll = 100
+    event.M_ll = 0
     event.M_bb = 0
-    event.DeltaR_ll = 4 # > pi
-    event.DeltaR_bb = 4 # > pi
+    event.DeltaR_ll = 100 # > pi
+    event.DeltaR_bb = 100 # > pi
     event.DeltaPhi_bbll = 0
-    phi_ll = 0
+    p_ll = None
     if len(leps)>1:
         p_l1 = TLV(0,0,0,0)
         p_l2 = TLV(0,0,0,0)
@@ -50,7 +50,6 @@ def eventCategory(event):
         p_l2.SetPtEtaPhiM(leps[1].PT,leps[1].Eta,leps[1].Phi,leps[1].Mass)
         p_ll = p_l1 + p_l2
         event.M_ll = p_ll.M()
-        phi_ll = p_ll.Phi()
         event.DeltaR_ll = TLV.DeltaR(p_l1,p_l2)
     if len(event.bjets30)>1:
         p_b1 = TLV(0,0,0,0)
@@ -60,8 +59,8 @@ def eventCategory(event):
         p_bb = p_b1 + p_b2
         event.M_bb = p_bb.M()
         event.DeltaR_bb = TLV.DeltaR(p_b1,p_b2)
-        if phi_ll:
-            event.DeltaPhi_bbll = fold( abs(phi_ll - (p_bb).Phi()) )
+        if p_ll:
+            event.DeltaPhi_bbll = fold( abs(p_ll.Phi() - (p_bb).Phi()) )
 
     # preparation for gen level selection
     nLeptons = 0
@@ -82,13 +81,13 @@ def eventCategory(event):
         # H -> bb
         if abs(particle.PID) == 25 and 0 <= D1 < len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) in [5]: # b-quark
-#                if D.PT > 15:
-#                  nBquarks15+=1
+                if D.PT > 15:
+                  nBquarks15+=1
                 nBquarks+=2
 
     # preparation for gen level cuts
-    DeltaR_ll_gen = 4
-    DeltaR_ql_gen = 4
+    DeltaR_ll_gen = 100
+    DeltaR_ql_gen = 100
     if len(gen_leptons15)==2:
         p1 = TLV(0,0,0,0)
         p2 = TLV(0,0,0,0)
