@@ -73,6 +73,7 @@ def makeTitle(hist):
         title = title.replace(" Mt","")
     elif " DeltaR" in title:
         title = title.replace(" DeltaR","")
+        title = title.replace(" DeltaRi","")
     elif " DeltaPhi" in title:
         title = title.replace(" DeltaPhi","")
     elif "MW" in title:
