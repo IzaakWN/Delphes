@@ -53,12 +53,12 @@ Methods = [ ("BDT","BDT"),
 #            ("BDT","BDTCuts"),
             ("BDT","BDTBoost"),
             ("BDT","BDTNodeSize"),
-            ("MLP","MLPTanh"),
+#            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
-            ("MLP","MLPNodes"),
-            ("MLP","MLPNodes1"),
-            ("MLP","MLPNodes2"),
-            ("MLP","MLPSigmoid")
+#            ("MLP","MLPNodes"),
+#            ("MLP","MLPNodes1"),
+#            ("MLP","MLPNodes2"),
+#            ("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
 
@@ -215,69 +215,69 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=100"
                                  ]) )
-    # MLPTanh
-    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=tanh",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N,N",
-                                   "UseRegulator"
-                                  ]) )
-#    # MLPLearningRate
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
+#    # MLPTanh
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
 #                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01", # 0.8 -> 0.1 -> ...
+#                                   "LearningRate=0.01",
 ##                                   "NCycles=200",
 #                                   "NeuronType=tanh",
 #                                   "VarTransform=N",
 #                                   "HiddenLayers=N,N",
 #                                   "UseRegulator"
 #                                  ]) )
-    # MLPNodes
-    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=tanh",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N+4,N",
-                                   "UseRegulator"
-                                  ]) )
-    # MLPNodes1
-    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes1",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=tanh",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N",
-                                   "UseRegulator"
-                                  ]) )
-    # MLPNodes2
-    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes2",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=tanh",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N,N+4",
-                                   "UseRegulator"
-                                  ]) )
-    # MLPSigmoid
-    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=sigmoid",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N,N",
-                                   "UseRegulator"
-                                  ]) )
+##    # MLPLearningRate
+##    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
+##                        ":".join([ "!H","!V",
+##                                   "LearningRate=0.01", # 0.8 -> 0.1 -> ...
+###                                   "NCycles=200",
+##                                   "NeuronType=tanh",
+##                                   "VarTransform=N",
+##                                   "HiddenLayers=N,N",
+##                                   "UseRegulator"
+##                                  ]) )
+#    # MLPNodes
+#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.01",
+##                                   "NCycles=200",
+#                                   "NeuronType=tanh",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N+4,N",
+#                                   "UseRegulator"
+#                                  ]) )
+#    # MLPNodes1
+#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes1",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.01",
+##                                   "NCycles=200",
+#                                   "NeuronType=tanh",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N",
+#                                   "UseRegulator"
+#                                  ]) )
+#    # MLPNodes2
+#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes2",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.01",
+##                                   "NCycles=200",
+#                                   "NeuronType=tanh",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N,N+4",
+#                                   "UseRegulator"
+#                                  ]) )
+#    # MLPSigmoid
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.01",
+##                                   "NCycles=200",
+#                                   "NeuronType=sigmoid",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N,N",
+#                                   "UseRegulator"
+#                                  ]) )
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -488,7 +488,7 @@ def main():
                     "DeltaR_bb1",
                     "DeltaR_jjl","DeltaR_jjb",
                     "M_bb_closest", "M_jjlnu",
-                    "M_jjb", "M_blnu",
+                    "M_jjb", "M_bl",
                     "M_j1l" ]
 
 #    bestVars = [    "Nbjets30",
@@ -520,11 +520,11 @@ def main():
     else:
         configs = [
 #                    configuration("everything20", allVars, 1),
-                    configuration("better20", betterVars, 1),
+#                    configuration("better20", betterVars, 1),
 #                    configuration("best20",   bestVars, 1),
 #                    configuration("MLPTop20", MLPTop10Vars, 1),
 #                    configuration("favs20",   favVars, 1),
-                    configuration("everythingCleanUp", allVars, 2),
+#                    configuration("everythingCleanUp", allVars, 2),
                     configuration("betterCleanUp", betterVars, 2),
 #                    configuration("bestCleanUp",   bestVars, 2),
 #                    configuration("MLPTopCleanUp", MLPTop10Vars, 2),
@@ -541,7 +541,7 @@ def main():
     compare(configs[:len(configs)/2],stage="stage_1")
     compare(configs[len(configs)/2:],stage="stage_2")
     compare(configs[:],stage="stage_1_DBT",methods0=[m for m in methods if "BDT" in m])
-    compare(configs[:],stage="stage_1_MLP",methods0=[m for m in methods if "MLP" in m])
+#    compare(configs[:],stage="stage_1_MLP",methods0=[m for m in methods if "MLP" in m])
 
     for config in configs:
         if "everything" in config.name:
