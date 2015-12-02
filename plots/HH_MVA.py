@@ -52,7 +52,7 @@ Methods = [ ("BDT","BDT"),
             ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
             ("BDT","BDTBoost"),
-            ("BDT","BDTNodeSize"),
+#            ("BDT","BDTNodeSize"),
             ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
@@ -203,18 +203,18 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=100"
                                  ]) )
-    # BDTNodeSize
-    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
-                       ":".join([ "!H","!V",
-                                  "NTrees=2000",
-                                  "MinNodeSize=1%", # 10.% -> 20.% -> 1.%
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.04",
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=100"
-                                 ]) )
+#    # BDTNodeSize
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=2000",
+#                                  "MinNodeSize=1.%", # 10.% -> 20.% -> 1.%
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.04",
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=100"
+#                                 ]) )
     # MLPTanh
     factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
                         ":".join([ "!H","!V",
