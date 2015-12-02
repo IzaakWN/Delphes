@@ -79,6 +79,7 @@ def plotBasic(stage):
                   "bb_leading","bb_leading_cut",
                   "bb_closest","bb_closest_cut",
                   "bb_farthest",
+                  "bl","j1l","j2l",
                   "jjl_all","jjl","jjlnu",
                   "jjb","bl","blnu" ]:
         names.append("cleanup/M_"+comb)
@@ -88,7 +89,7 @@ def plotBasic(stage):
     for comb in [ "j1l","j2l","jj_all","jj",
                   "b1l","b2l","bb1",
                   "jjl_all","jjl",
-                        "jjb" ]:
+                  "jjlbb","jjb" ]:
         names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
     names.append("cleanup/DeltaR_b1l_i")
@@ -107,7 +108,11 @@ def plotBasic(stage):
     names.append("cleanup/Njets20")
     names.append("cleanup/Njets30")
     names.append("cleanup/Nbjets30")
-    
+
+    names.append("cleanup/Pt_bb")
+    names.append("cleanup/Pt_bl")
+    names.append("cleanup/Pt_j1l")
+
     for comb in [ "qq","q1l","q2l",
                   "bb","b1l","b2l", ]:
         names.append("gen/DeltaR_"+comb)
@@ -337,7 +342,7 @@ def plot2D(stage):
       
     # RECO LEVEL: DeltaPhi vs. DeltaEta
     names = [ "jj_all","jj","j1l","j2l","j3l","jjl_all",
-              "jjl","jjb",
+              "jjl","jjb","jjlbb",
               "bb1","b1l","b2l" ]
 
     for name in names:
