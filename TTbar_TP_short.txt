@@ -1,0 +1,8 @@
+TTbar_4_TP/TTbar_4_TP.root
+TTbar_13_TP/TTbar_13_TP.root
+TTbar_28_TP/TTbar_28_TP.root
+TTbar_41_TP/TTbar_41_TP.root
+TTbar_56_TP/TTbar_56_TP.root
+TTbar_93_TP/TTbar_93_TP.root
+TTbar_178_TP/TTbar_178_TP.root
+TTbar_192_TP/TTbar_192_TP.root

@@ -21,9 +21,9 @@ class configuration:
 
   # control plot classes
   controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
-                   controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
-                   controlPlot("jets","JetControlPlots","JetControlPlots", { }),
-                   controlPlot("top","TopControlPlots","TopControlPlots", { }) 
+#                   controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
+#                   controlPlot("jets","JetControlPlots","JetControlPlots", { }),
+                   controlPlot("top","TopControlPlots","TopControlPlots", { })
                  ]
 
   # event content: lists of eventCollection, eventProducer, and eventWeight objects respectively.
