@@ -1,6 +1,9 @@
 #! /usr/bin/env python
 import ROOT 
 from CPconfig import configuration
+from array import array
+from collections import namedtuple
+tree = namedtuple("tree", ["tree","branches"])
 
 def getArgSet(controlplots):
   assert isinstance(controlplots,list)
@@ -53,6 +56,7 @@ class BaseControlPlots:
           self._f = None
           self._dir = dir
         self._h_vector = { }
+        self._t_vector = { } # IWN: for trees!
       # for ntuples
       if self._mode=="dataset":
         self._obsSet = ROOT.RooArgSet()
@@ -86,6 +90,29 @@ class BaseControlPlots:
       self._dir.cd()
       self._h_vector[args[0]] = ROOT.TH1F(*args)
 
+    # IWN
+    def addHisto2D(self,*args):
+      """Add one 2D histograms to the list of products. Arguments are as for TH2F."""
+      # this fills a distionnary name <-> 2D histogram
+      self._dir.cd()
+      self._h_vector[args[0]] = ROOT.TH2F(*args)
+
+    # IWN
+    def addTree(self,*args):
+      """Add one TTree in a namedtuple to the list of products. Arguments are as for TTree."""
+      # this fills a distionnary name <-> namedtuple tree
+      self._dir.cd()
+      self._t_vector[args[0]] = tree(ROOT.TTree(*args), [])
+
+    # IWN
+    def addBranch(self,*args):
+      """Add one Branch to the tree in the list of products.
+         Arguments are the tree and branch label."""
+      # this adds a branch
+      self._dir.cd()
+      self._t_vector[args[0]].tree.Branch(args[1],0,args[1]+"/F")
+      self._t_vector[args[0]].branches.append(self._t_vector[args[0]].tree.GetBranch(args[1]))
+
     def addVariable(self,*args):
       """Add one variable to the list of products. Arguments are as for RooRealVar."""
       # this fills a distionnary name <-> RooRealVar
@@ -95,8 +122,18 @@ class BaseControlPlots:
     
     def add(self, *args):
       """Add one item to the list of products. Arguments are as for TH1F."""
+      # TH1(name, title, nbinsx, xlow, xup)
       if self._mode=="plots":
         self.addHisto(*args)
+      else:
+        self.addVariable(*[args[i] for i in [0,1,3,4]])
+    
+    # IWN
+    def add2D(self, *args):
+      """Add one item to the list of products. Arguments are as for TH2F."""
+      # TH2(name, title, nbinsx, xlow, xup, nbinsy, ylow, yup)
+      if self._mode=="plots":
+        self.addHisto2D(*args)
       else:
         self.addVariable(*[args[i] for i in [0,1,3,4]])
 
@@ -125,10 +162,24 @@ class BaseControlPlots:
     def fillPlots(self, data, weight = 1.):
       """Fills histograms with the data provided as input."""
       for name,value in data.items():
-        if isinstance(value,list):
-          for val in value: self._h_vector[name].Fill(val,weight)
+        if name in self._t_vector: # for TTree:
+        # One variable for each branch per event!
+        # Respect the branch order when adding!
+          if len(value) == len(self._t_vector[name].branches):
+            vars = []
+            for val,branch in zip(value,self._t_vector[name].branches):
+              vars.append(array('f', [0]))
+              branch.SetAddress(vars[-1])
+              vars[-1][0] = val
+            self._t_vector[name].tree.Fill()
+        elif isinstance(value,list):
+          for val in value:
+            if isinstance(val,list):
+              self._h_vector[name].Fill(val[0],val[1],weight) # for TH2
+            else:
+              self._h_vector[name].Fill(val,weight) # for TH1
         else:
-          self._h_vector[name].Fill(value,weight)
+          self._h_vector[name].Fill(value,weight) # for TH1
 
     def fillRDS(self, data):
       """Fills roodataset with the data provided as input."""
@@ -152,11 +203,15 @@ class BaseControlPlots:
       else:
         self.fillRDS(data)
 
-    def endJob(self):
+    def endJob(self,level=""):
       """Save and close."""
       if self._mode=="plots":
         self._dir.cd()
         self._dir.Write()
+        #c=ROOT.TCanvas("c","c",200,200)
+	#for h in self._h_vector.values():
+	#    h.Draw()
+	#    c.SaveAs(configuration.defaultFilename+"_"+str(level)+"_"+self._dir.GetName()+"_"+h.GetName()+".pdf")
         if not self._f is None:
           self._f.Close()
       else:

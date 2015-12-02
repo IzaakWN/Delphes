@@ -53,6 +53,7 @@ void ConvertInput(fwlite::Event &event, Long64_t eventCounter, ExRootTreeBranch 
 
     lheEvtInfo.getByLabel(event, "source");
 
+<<<<<<< HEAD
     if (lheEvtInfo.isValid()) {
       lheEvt->Number = eventCounter;
       lheEvt->Weight = lheEvtInfo->originalXWGTUP();
@@ -69,6 +70,15 @@ void ConvertInput(fwlite::Event &event, Long64_t eventCounter, ExRootTreeBranch 
       lheEvt->AlphaQED = 0;
       lheEvt->AlphaQCD = 0;
     }
+=======
+    lheEvt->Number = eventCounter;
+    //lheEvt->Weight = lheEvtInfo->originalXWGTUP();
+    lheEvt->Weight = 1.0;
+    lheEvt->ProcessID = ((lhef::HEPEUP)lheEvtInfo->hepeup()).IDPRUP;
+    lheEvt->ScalePDF = ((lhef::HEPEUP)lheEvtInfo->hepeup()).IDPRUP;
+    lheEvt->AlphaQED = ((lhef::HEPEUP)lheEvtInfo->hepeup()).SCALUP;
+    lheEvt->AlphaQCD = ((lhef::HEPEUP)lheEvtInfo->hepeup()).AQCDUP;
+>>>>>>> ea9793db921e59635faf0667b883c32dd196eb92
 
     fwlite::Handle< vector< reco::GenParticle > > handleParticle;
     vector< reco::GenParticle >::const_iterator itParticle;
@@ -134,8 +144,9 @@ void ConvertInput(fwlite::Event &event, Long64_t eventCounter, ExRootTreeBranch 
 
         candidate->Momentum.SetPxPyPzE(px, py, pz, e);
 
-        candidate->Position.SetXYZT(x, y, z, 0.0);
-
+        //candidate->Position.SetXYZT(x, y, z, 0.0);
+	candidate->Position.SetXYZT(x*10, y*10, z*10, 0.0); ////test yong
+ 
         allParticleOutputArray->Add(candidate);
 
         if(!pdgParticle) continue;
@@ -200,7 +211,7 @@ int main(int argc, char *argv[])
   
   try
     {
-      outputFile = TFile::Open(argv[2], "CREATE");
+      outputFile = TFile::Open(argv[2], "RECREATE");
       
       if(outputFile == NULL)
         {
