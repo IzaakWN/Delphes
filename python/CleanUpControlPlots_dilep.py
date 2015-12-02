@@ -30,9 +30,9 @@ class CleanUpControlPlots(BaseControlPlots):
             result["M_ll"] = event.M_ll
         if event.M_bb:
             result["M_bb"] = event.M_bb
-        if event.DeltaR_ll:
+        if event.DeltaR_ll<100:
             result["DeltaR_ll"] = event.DeltaR_ll
-        if event.DeltaR_bb:
+        if event.DeltaR_bb<100:
             result["DeltaR_bb"] = event.DeltaR_bb
         if event.DeltaPhi_bbll:
             result["DeltaPhi_bbll"] = event.DeltaPhi_bbll
