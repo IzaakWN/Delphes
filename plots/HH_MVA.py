@@ -53,7 +53,7 @@ Methods = [ ("BDT","BDT"),
 #            ("BDT","BDTCuts"),
             ("BDT","BDTBoost"),
             ("BDT","BDTNodeSize"),
-#            ("MLP","MLPTanh"),
+            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
 #            ("MLP","MLPNodes1"),
@@ -215,16 +215,16 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=100"
                                  ]) )
-#    # MLPTanh
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=tanh",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N,N",
-#                                   "UseRegulator"
-#                                  ]) )
+    # MLPTanh
+    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
+                        ":".join([ "!H","!V",
+                                   "LearningRate=0.01",
+#                                   "NCycles=200",
+                                   "NeuronType=tanh",
+                                   "VarTransform=N",
+                                   "HiddenLayers=N,N+2",
+                                   "UseRegulator"
+                                  ]) )
 ##    # MLPLearningRate
 ##    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
 ##                        ":".join([ "!H","!V",
