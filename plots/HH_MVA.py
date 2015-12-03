@@ -503,7 +503,7 @@ def main():
 #                    "M_bb_closest", "M_jjlnu",
 #                    "M_jjb", "M_blnu" ]
 
-    MLPTopVars = [  "Njet20",
+    MLPTopVars = [  "Njets20",
                     "jet1Pt","jet2Pt",
                     "bjet1Pt","bjet2Pt",
                     "Pt_bb","Pt_bl","Pt_j1l",
@@ -539,8 +539,8 @@ def main():
                     configuration("everythingCleanUp", allVars, 2),
                     configuration("betterCleanUp", betterVars, 2),
                     configuration("MLPTopCleanUp", MLPTopVars, 2),
-                    configuration("ANCleanUp",     ANVars, 2),
-                    configuration("favsCleanUp",   favVars, 2),
+#                    configuration("ANCleanUp",     ANVars, 2),
+#                    configuration("favsCleanUp",   favVars, 2),
 #                    configuration("everything30",  allVars, 3),
                   ]
 
