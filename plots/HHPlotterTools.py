@@ -327,16 +327,21 @@ def makeAxes2D(*hists, **kwargs):
         if "bjet-" in name or "bquark-" in name:
             var = "_{b"
         elif "jets-" in name or "jet-jet-" in name:
-            var = "_{jj,"
-        elif "lepton-" in name:
-            var = "_{l"
+            if "-lepton-bjets" in name:
+                var = "_{jj"
+            else:
+                var = "_{jj,"
         elif "jet-" in name:
             var = "_{j"
+        elif "lepton-" in name:
+            var = "_{l"
         elif "quark-" in name:
             var = "_{q"
         elif "MET-" in name:
             var = "_{E^{miss}_{T},"
-        if "-lepton-MET" in name:
+        if "lepton-bjets" in name:
+            var += "l,bb}"
+        elif "-lepton-MET" in name:
             var += "l#nu}"
         elif "-lepton" in name:
             var += "l}"
@@ -423,10 +428,10 @@ def makeAxes(*hists, **kwargs):
                     xlabel = var+"_{jj"
                 else:
                     xlabel = var+"_{jj,"
-            elif "lepton-" in name:
-                xlabel = var+"_{l"
             elif "jet-" in name:
                 xlabel = var+"_{j"
+            elif "lepton-" in name:
+                xlabel = var+"_{l"
             elif "quark-" in name:
                 xlabel = var+"_{q"
             elif "MET-" in name:
