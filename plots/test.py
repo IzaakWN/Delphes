@@ -104,7 +104,7 @@ def main():
                 configuration("MLPTop20", MLPTopVars, 1),
                 configuration("AN20",     ANVars, 1),
                 configuration("favs20",   favVars, 1),
-                configuration("bad20",   favVars, 1)
+                configuration("bad20",    badVars, 1)
                ]
 
 
