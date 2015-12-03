@@ -76,7 +76,7 @@ def plotBasic(stage):
     for comb in [ "jj","jj_cut",
                   "jj_all","jj_all_cut",
                   "bb_cut",
-                  "bb_leading","bb_leading_cut",
+                  "bb_leading"
                   "bb_closest","bb_closest_cut",
                   "bb_farthest",
                   "bl","j1l",#"j2l",

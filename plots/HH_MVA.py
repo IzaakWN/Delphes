@@ -546,7 +546,7 @@ def main():
 ##                    configuration("MLPTop20", MLPTopVars, 1),
 ##                    configuration("AN20",     ANVars, 1),
 ##                    configuration("favs20",   favVars, 1)
-#                    configuration("everythingCleanUp", allVars, 2),
+                    configuration("everythingCleanUp", allVars, 2),
                     configuration("betterCleanUp", betterVars, 2),
                     configuration("MLPTopCleanUp", MLPTopVars, 2),
                     configuration("ANCleanUp",     ANVars, 2),
