@@ -9,7 +9,7 @@ from fold import fold
 
 # the list of category names
 categoryNames = [ "GenLevel_dilep", "GenLevelCuts_dilep", "Selection_dilep", "CleanUp_dilep", "StrictSelection_dilep",
-                  "GenLevel", "GenLevelCuts","Cuts", "CleanUp" ]
+                  "GenLevel", "GenLevelCuts","Cuts", "CleanUp", "StrictSelection" ]
 
 
 
@@ -39,8 +39,8 @@ def eventCategory(event):
     # preparation for clean-up
     event.M_ll = 0
     event.M_bb = 0
-    event.DeltaR_ll = 100 # > pi
-    event.DeltaR_bb = 100 # > pi
+    event.DeltaR_ll = 100 # >>> pi
+    event.DeltaR_bb = 100 # >>> pi
     event.DeltaPhi_bbll = 0
     p_ll = None
     if len(leps)>1:
@@ -81,8 +81,9 @@ def eventCategory(event):
         # H -> bb
         if abs(particle.PID) == 25 and 0 <= D1 < len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) in [5]: # b-quark
-                if D.PT > 15:
-                  nBquarks15+=1
+                for D in [ event.particles[D1], event.particles[D2] ]:
+                    if D.PT > 15 and abs(D.Eta) < 2.5:
+                      nBquarks15+=1
                 nBquarks+=2
 
     # preparation for gen level cuts
@@ -130,14 +131,23 @@ def eventCategory(event):
 
     # 7: one muon or electron with PT > 20, 25 GeV
     #    MET > 20 GeV
-    #    2 jets
-    #    2 b-jets with PT > 30 GeV
+    #    at least 2 jets
+    #    at least 2 b-jets with PT > 30 GeV
     categoryData.append( len(leps)>0 and \
                          event.met[0].MET>20 and \
                          len(event.jets20)>3 and \
                          len(event.bjets30)>1 )
 
-    # 8: clean-up cuts
+    # 8: one muon or electron with PT > 20, 25 GeV
+    #    MET > 20 GeV
+    #    2 jets
+    #    2 b-jets with PT > 30 GeV
+    categoryData.append( len(leps)==1 and \
+                         event.met[0].MET>20 and \
+                         len(event.jets20)==4 and \
+                         len(event.bjets30)==2 )
+
+    # 9: clean-up cuts
     categoryData.append( 60<event.M_bb<160 and \
                          event.DeltaR_bb<3.1 )
     
@@ -187,8 +197,12 @@ def isInCategory(category, categoryData):
         #      > GenLevel          > selection
 
     if category == 8:
-        return categoryData[6] and categoryData[7] and categoryData[8]
+        return categoryData[6] and categoryData[7] and categoryData[9]
         #      > GenLevel          > selection         > clean-up
+
+    if category == 9:
+        return categoryData[6] and categoryData[8] and categoryData[9]
+        #      > GenLevel          > strict selection  > clean-up
 
 
     else:
