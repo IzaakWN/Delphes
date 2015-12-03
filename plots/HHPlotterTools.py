@@ -352,7 +352,7 @@ def makeAxes2D(*hists, **kwargs):
         elif "-quark" in name:
             var += "q}"
         elif "-MET" in name:
-            var += ",E^{miss}_{T}}}"
+            var += ",E^{miss}_{T}}"
         elif "-nu" in name:
             var += "#nu}"
         xlabel = "#Delta#eta" + var
@@ -449,7 +449,7 @@ def makeAxes(*hists, **kwargs):
             elif "-quark" in name:
                 xlabel += "q}"
             elif "-MET" in name:
-                xlabel += ",E^{miss}_{T}}}"
+                xlabel += ",E^{miss}_{T}}"
             elif "-nu" in name:
                 xlabel += "#nu}"
             hist0.GetXaxis().SetTitle(xlabel)
