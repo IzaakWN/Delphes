@@ -83,7 +83,7 @@ def main():
     print preamble
     f.write( preamble)
 
-    for stageN in ["1","2","3"]:
+    for stageN in ["1","2","3","4"]:
         punzi("stage_"+stageN+"/")
 
 
@@ -104,7 +104,7 @@ def main():
     print preamble
     f.write( preamble)
 
-    for stageN in ["5","6","7"]:
+    for stageN in ["5","6","7","8","9"]:
         punzi("stage_"+stageN+"/")
 
 
@@ -112,7 +112,7 @@ def main():
     f.close()
 
     print "\n"
-    for stageN in ["0","1","2","3","4","5","6","7"]:
+    for stageN in ["0","1","2","3","4","5","6","7","8","9"]:
         hist_S = file.Get("stage_"+stageN+"/selection/category") # signal: HH -> bbWW
         hist_B = file_tt.Get("stage_"+stageN+"/selection/category") # BG: tt -> bbWW
         S = hist_S.GetBinContent(int(stageN)+1)
