@@ -100,12 +100,9 @@ print "P2 = %.4f, S = %.1f, B = %.1f" % (N_S*S2/S_tot/sqrt(1+N_B*B2/B_tot),N_S*S
 
 
 
-class configuration(object):
-
     def __init__(self, name, varNames, stage):
         self.name = name
-        # check wether varNames are in tree!!! 
-        self.varNames = varNames
+        self.varNames = [ ]
         self.treeS = None
         self.treeB = None
         self.hist_effs = [ ]
@@ -120,6 +117,16 @@ class configuration(object):
         elif stage==3:
             self.treeS = treeS3
             self.treeB = treeB3
+        # check existence of variables
+        if self.treeS and self.treeB:
+            listS = self.treeS.GetListOfBranches()
+            listB = self.treeB.GetListOfBranches()
+            for var in varNames:
+                if var in listS and var in listB:
+                    print ">>> "+self.name+": variable "+var+" added"
+                    self.varNames.append(varNames)
+                else:
+                    sys.exit(">>> ERROR: "+self.name+": variables \""+var+"\" not in the tree!")
 
 
 
@@ -448,8 +455,8 @@ def correlation(config):
     histS = f.Get("CorrelationMatrixS")
     histS.Draw("colz")
     makeLabels2D(histS,xaxis=True,yaxis=True)
-    histS.SetLabelSize(0.048,"x")
-    histS.SetLabelSize(0.062,"y")
+    histS.SetLabelSize(0.036,"x")
+    histS.SetLabelSize(0.052,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixS_"+config.name+".png")
     c.Close()
@@ -458,8 +465,8 @@ def correlation(config):
     histB = f.Get("CorrelationMatrixB")
     histB.Draw("colz")
     makeLabels2D(histB,xaxis=True,yaxis=True)
-    histB.SetLabelSize(0.048,"x")
-    histB.SetLabelSize(0.062,"y")
+    histB.SetLabelSize(0.036,"x")
+    histB.SetLabelSize(0.052,"y")
 #    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixB_"+config.name+".png")
     c.Close()
@@ -535,17 +542,17 @@ def main():
         print ">>> test mode"
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
-        configs = [ configuration("everything20", allVars, 1),
-                    configuration("better20",     betterVars, 1),
-#                    configuration("MLPTop20", MLPTopVars, 1),
-#                    configuration("AN20",     ANVars, 1),
-#                    configuration("favs20",   favVars, 1)
-                    configuration("everythingCleanUp", allVars, 2),
+        configs = [ #configuration("everything20", allVars, 1),
+#                    configuration("better20",     betterVars, 1),
+##                    configuration("MLPTop20", MLPTopVars, 1),
+##                    configuration("AN20",     ANVars, 1),
+##                    configuration("favs20",   favVars, 1)
+#                    configuration("everythingCleanUp", allVars, 2),
                     configuration("betterCleanUp", betterVars, 2),
                     configuration("MLPTopCleanUp", MLPTopVars, 2),
-#                    configuration("ANCleanUp",     ANVars, 2),
-#                    configuration("favsCleanUp",   favVars, 2),
-#                    configuration("everything30",  allVars, 3),
+                    configuration("ANCleanUp",     ANVars, 2),
+                    configuration("favsCleanUp",   favVars, 2),
+                    configuration("everything30",  allVars, 3),
                   ]
 
     if opts.onlyPlot:
