@@ -561,9 +561,9 @@ def main():
             train(config)
     for config in configs:
         plot(config)
-    compare([c.name for c in configs if c.stage==1],stage="stage_1")
-    compare([c.name for c in configs if c.stage==2],stage="stage_2")
-    compare([c.name for c in configs if c.stage==3],stage="stage_3")
+    compare([c for c in configs if c.stage==1],stage="stage_1")
+    compare([c for c in configs if c.stage==2],stage="stage_2")
+    compare([c for c in configs if c.stage==3],stage="stage_3")
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 

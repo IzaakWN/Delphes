@@ -84,7 +84,7 @@ def eventCategory(event):
         if abs(particle.PID) == 6 and 0 <= D1 < len(event.particles) and event.particles[D1]:
             for D in [ event.particles[particle.D1], event.particles[particle.D2] ]:
                 if abs(D.PID) == 5: # b-quark
-                    if D.PT > 15 and abs(D.Eta) < 2.5:
+                    if D.PT > 15: #and abs(D.Eta) < 2.5:
                       nBquarks15+=1
                     nBquarks+=1
 
@@ -116,19 +116,19 @@ def eventCategory(event):
                          event.met[0].MET>20 and \
                          len(event.bjets30)>1 )
     
-    # 3: two muons or electrons with PT > 20, 25 GeV 
+    # 3: two muons or electrons with PT > 20, 25 GeV
     #    MET > 20 GeV
     #    2 b-jets with PT > 30 GeV
     categoryData.append( len(leps)==2 and \
                          event.met[0].MET>20 and \
-                         len(event.bjets30)==2 )
+                         len(event.bjets30)>1 )
 
     # 4: clean-up cuts
     categoryData.append( event.M_ll<85 and 60<event.M_bb<160 and \
                          event.DeltaR_ll<2 and event.DeltaR_bb<3.1 and event.DeltaPhi_bbll>1.7 )
-
-    # 5-6: generator level: 1 leptons, 2 b-quarks
-    categoryData.append((nLeptons==1 and nBquarks==2) or event.particles.GetEntries()==0)
+    
+    # 5-6: generator level: single Wlnu, Wjj and Hbb
+    categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
     categoryData.append((len(gen_leptons15)==1 and nBquarks15==2) or event.particles.GetEntries()==0)
 #    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ql_gen<2.5) or event.particles.GetEntries()==0)
 
@@ -136,7 +136,7 @@ def eventCategory(event):
     #    MET > 20 GeV
     #    at least 2 jets
     #    at least 2 b-jets with PT > 30 GeV
-    categoryData.append( len(leps)>0 and \
+    categoryData.append( len(leps)==1 and \
                          event.met[0].MET>20 and \
                          len(event.jets20)>3 and \
                          len(event.bjets30)>1 )
@@ -148,7 +148,7 @@ def eventCategory(event):
     categoryData.append( len(leps)==1 and \
                          event.met[0].MET>20 and \
                          len(event.jets20)==4 and \
-                         len(event.bjets30)==2 )
+                         len(event.bjets30)>1 )
 
     # 9: clean-up cuts
     categoryData.append( 60<event.M_bb<160 and \
