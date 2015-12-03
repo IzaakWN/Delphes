@@ -103,13 +103,13 @@ def eventCategory(event):
     # 9: clean-up cuts 2
     DeltaR_bl = 0
     DeltaPhi_j1lbb = 0
-    if lepton and event.bjets30:
+    if leps and event.bjets30:
         # farthest bjet-lepton pair
-        DeltaR_bl = max(TLV.DeltaR(bj.TLV,lepton.TLV) for bj in event.bjets30)
+        DeltaR_bl = max(TLV.DeltaR(bj.TLV,leps[0].TLV) for bj in event.bjets30)
         if p_bb and len(event.cleanedJets20)>3:
             # closest jet-lepton pair
-            jet = min([j for j in event.cleanedJets20 if not j.BTag], key=lambda j: TLV.DeltaR(j.TLV,lepton))
-            DeltaPhi_j1lbb = fold(abs( (jet.TLV+lepton.TLV).Phi() - p_bb.Phi() ))
+            jet = min([j for j in event.cleanedJets20 if not j.BTag], key=lambda j: TLV.DeltaR(j.TLV,leps[0]))
+            DeltaPhi_j1lbb = fold(abs( (jet.TLV+leps[0].TLV).Phi() - p_bb.Phi() ))
 #            DeltaR_j1lbb = TLV.DeltaR(jet.TLV+lepton.TLV, p_bb.Phi())
     categoryData.append( categoryData[-1] and \
                          DeltaR_bl > 2 and \
