@@ -38,7 +38,7 @@ class configuration(object):
                     print ">>> "+self.name+": variable "+var+" added"
                     self.varNames.append(varNames)
                 else:
-                    sys.exit(">>> ERROR: "+self.name+": variables "+var+" not in the tree!")
+                    sys.exit(">>> ERROR: "+self.name+": variables \""+var+"\" not in the tree!")
 
 
 def main():
@@ -106,7 +106,8 @@ def main():
                 configuration("favs20",   favVars, 1),
                 configuration("bad20",    badVars, 1)
                ]
-
+    
+    print "Done"
 
 
 if __name__ == '__main__':
@@ -118,6 +119,286 @@ if __name__ == '__main__':
 #    M_bb vs. bjet1, bjet2 for background
 #
 
+
+#--- BDT                      : -----------------------------------------------
+#--- BDT                      : Rank : Variable      : Variable Importance
+#--- BDT                      : -----------------------------------------------
+#--- BDT                      :    1 : M_bb_closest  : 6.179e-02
+#--- BDT                      :    2 : DeltaR_j1l    : 6.056e-02
+#--- BDT                      :    3 : jet1Pt        : 5.183e-02
+#--- BDT                      :    4 : DeltaR_jjl    : 5.172e-02
+#--- BDT                      :    5 : bjet1Pt       : 5.170e-02
+#--- BDT                      :    6 : leptonPt      : 5.118e-02
+#--- BDT                      :    7 : DeltaR_bb1    : 5.087e-02
+#--- BDT                      :    8 : DeltaR_j2l    : 4.737e-02
+#--- BDT                      :    9 : DeltaR_b2l    : 4.551e-02
+#--- BDT                      :   10 : DeltaR_jjb    : 4.344e-02
+#--- BDT                      :   11 : DeltaR_b1l    : 4.309e-02
+#--- BDT                      :   12 : M_blnu        : 4.248e-02
+#--- BDT                      :   13 : M_jjb         : 4.137e-02
+#--- BDT                      :   14 : DeltaR_jj     : 4.097e-02
+#--- BDT                      :   15 : MT_lnu        : 3.884e-02
+#--- BDT                      :   16 : MT_jjlnu      : 3.857e-02
+#--- BDT                      :   17 : M_jjlnu       : 3.852e-02
+#--- BDT                      :   18 : DeltaPhi_lMET : 3.710e-02
+#--- BDT                      :   19 : MET           : 3.566e-02
+#--- BDT                      :   20 : bjet2Pt       : 3.477e-02
+#--- BDT                      :   21 : jet2Pt        : 3.458e-02
+#--- BDT                      :   22 : Njets20       : 3.006e-02
+#--- BDT                      :   23 : Nbjets30      : 2.803e-02
+#--- BDT                      : -----------------------------------------------
+#--- BDTTuned                 : Ranking result (top variable is best ranked)
+#--- BDTTuned                 : -----------------------------------------------
+#--- BDTTuned                 : Rank : Variable      : Variable Importance
+#--- BDTTuned                 : -----------------------------------------------
+#--- BDTTuned                 :    1 : DeltaR_j1l    : 5.944e-02
+#--- BDTTuned                 :    2 : M_bb_closest  : 5.577e-02
+#--- BDTTuned                 :    3 : DeltaR_jjl    : 5.213e-02
+#--- BDTTuned                 :    4 : bjet1Pt       : 5.113e-02
+#--- BDTTuned                 :    5 : jet1Pt        : 4.970e-02
+#--- BDTTuned                 :    6 : DeltaR_bb1    : 4.853e-02
+#--- BDTTuned                 :    7 : leptonPt      : 4.721e-02
+#--- BDTTuned                 :    8 : M_blnu        : 4.487e-02
+#--- BDTTuned                 :    9 : DeltaR_b2l    : 4.477e-02
+#--- BDTTuned                 :   10 : DeltaR_jj     : 4.475e-02
+#--- BDTTuned                 :   11 : DeltaR_j2l    : 4.425e-02
+#--- BDTTuned                 :   12 : DeltaR_jjb    : 4.407e-02
+#--- BDTTuned                 :   13 : DeltaR_b1l    : 4.325e-02
+#--- BDTTuned                 :   14 : M_jjb         : 4.267e-02
+#--- BDTTuned                 :   15 : MT_lnu        : 4.251e-02
+#--- BDTTuned                 :   16 : MT_jjlnu      : 3.944e-02
+#--- BDTTuned                 :   17 : DeltaPhi_lMET : 3.872e-02
+#--- BDTTuned                 :   18 : MET           : 3.827e-02
+#--- BDTTuned                 :   19 : bjet2Pt       : 3.771e-02
+#--- BDTTuned                 :   20 : M_jjlnu       : 3.715e-02
+#--- BDTTuned                 :   21 : jet2Pt        : 3.681e-02
+#--- BDTTuned                 :   22 : Njets20       : 2.971e-02
+#--- BDTTuned                 :   23 : Nbjets30      : 2.714e-02
+#--- BDTTuned                 : -----------------------------------------------
+#--- BDTMaxDepth              : Ranking result (top variable is best ranked)
+#--- BDTMaxDepth              : -----------------------------------------------
+#--- BDTMaxDepth              : Rank : Variable      : Variable Importance
+#--- BDTMaxDepth              : -----------------------------------------------
+#--- BDTMaxDepth              :    1 : DeltaR_j1l    : 5.344e-02
+#--- BDTMaxDepth              :    2 : M_bb_closest  : 5.219e-02
+#--- BDTMaxDepth              :    3 : DeltaR_jjl    : 5.100e-02
+#--- BDTMaxDepth              :    4 : DeltaR_bb1    : 5.070e-02
+#--- BDTMaxDepth              :    5 : DeltaR_jj     : 4.885e-02
+#--- BDTMaxDepth              :    6 : bjet1Pt       : 4.859e-02
+#--- BDTMaxDepth              :    7 : DeltaR_b2l    : 4.832e-02
+#--- BDTMaxDepth              :    8 : leptonPt      : 4.683e-02
+#--- BDTMaxDepth              :    9 : DeltaR_jjb    : 4.578e-02
+#--- BDTMaxDepth              :   10 : DeltaR_b1l    : 4.503e-02
+#--- BDTMaxDepth              :   11 : DeltaPhi_lMET : 4.499e-02
+#--- BDTMaxDepth              :   12 : DeltaR_j2l    : 4.463e-02
+#--- BDTMaxDepth              :   13 : jet1Pt        : 4.392e-02
+#--- BDTMaxDepth              :   14 : MET           : 4.288e-02
+#--- BDTMaxDepth              :   15 : MT_lnu        : 4.200e-02
+#--- BDTMaxDepth              :   16 : bjet2Pt       : 4.189e-02
+#--- BDTMaxDepth              :   17 : MT_jjlnu      : 4.140e-02
+#--- BDTMaxDepth              :   18 : M_jjb         : 4.052e-02
+#--- BDTMaxDepth              :   19 : M_blnu        : 4.001e-02
+#--- BDTMaxDepth              :   20 : M_jjlnu       : 3.855e-02
+#--- BDTMaxDepth              :   21 : jet2Pt        : 3.738e-02
+#--- BDTMaxDepth              :   22 : Njets20       : 3.063e-02
+#--- BDTMaxDepth              :   23 : Nbjets30      : 2.050e-02
+#--- BDTMaxDepth              : -----------------------------------------------
+#--- BDTCuts                  : Ranking result (top variable is best ranked)
+#--- BDTCuts                  : -----------------------------------------------
+#--- BDTCuts                  : Rank : Variable      : Variable Importance
+#--- BDTCuts                  : -----------------------------------------------
+#--- BDTCuts                  :    1 : bjet1Pt       : 5.828e-02
+#--- BDTCuts                  :    2 : M_bb_closest  : 5.681e-02
+#--- BDTCuts                  :    3 : leptonPt      : 5.414e-02
+#--- BDTCuts                  :    4 : DeltaR_j1l    : 5.131e-02
+#--- BDTCuts                  :    5 : DeltaR_b1l    : 4.944e-02
+#--- BDTCuts                  :    6 : DeltaR_jjl    : 4.917e-02
+#--- BDTCuts                  :    7 : jet1Pt        : 4.853e-02
+#--- BDTCuts                  :    8 : DeltaR_bb1    : 4.770e-02
+#--- BDTCuts                  :    9 : DeltaR_b2l    : 4.598e-02
+#--- BDTCuts                  :   10 : DeltaR_j2l    : 4.521e-02
+#--- BDTCuts                  :   11 : MT_jjlnu      : 4.320e-02
+#--- BDTCuts                  :   12 : DeltaR_jjb    : 4.208e-02
+#--- BDTCuts                  :   13 : M_jjb         : 4.160e-02
+#--- BDTCuts                  :   14 : jet2Pt        : 4.160e-02
+#--- BDTCuts                  :   15 : M_blnu        : 4.119e-02
+#--- BDTCuts                  :   16 : M_jjlnu       : 4.050e-02
+#--- BDTCuts                  :   17 : DeltaR_jj     : 4.023e-02
+#--- BDTCuts                  :   18 : MET           : 3.976e-02
+#--- BDTCuts                  :   19 : MT_lnu        : 3.808e-02
+#--- BDTCuts                  :   20 : bjet2Pt       : 3.742e-02
+#--- BDTCuts                  :   21 : DeltaPhi_lMET : 3.720e-02
+#--- BDTCuts                  :   22 : Nbjets30      : 2.549e-02
+#--- BDTCuts                  :   23 : Njets20       : 2.507e-02
+#--- BDTCuts                  : -----------------------------------------------
+#--- BDTBoost                 : Ranking result (top variable is best ranked)
+#--- BDTBoost                 : -----------------------------------------------
+#--- BDTBoost                 : Rank : Variable      : Variable Importance
+#--- BDTBoost                 : -----------------------------------------------
+#--- BDTBoost                 :    1 : DeltaR_j1l    : 7.212e-02
+#--- BDTBoost                 :    2 : bjet1Pt       : 6.457e-02
+#--- BDTBoost                 :    3 : M_bb_closest  : 6.368e-02
+#--- BDTBoost                 :    4 : leptonPt      : 5.486e-02
+#--- BDTBoost                 :    5 : DeltaR_jjl    : 5.285e-02
+#--- BDTBoost                 :    6 : DeltaR_b2l    : 4.906e-02
+#--- BDTBoost                 :    7 : DeltaR_bb1    : 4.892e-02
+#--- BDTBoost                 :    8 : jet1Pt        : 4.864e-02
+#--- BDTBoost                 :    9 : DeltaR_j2l    : 4.514e-02
+#--- BDTBoost                 :   10 : M_blnu        : 4.470e-02
+#--- BDTBoost                 :   11 : DeltaR_b1l    : 4.396e-02
+#--- BDTBoost                 :   12 : DeltaR_jjb    : 3.903e-02
+#--- BDTBoost                 :   13 : M_jjb         : 3.784e-02
+#--- BDTBoost                 :   14 : DeltaR_jj     : 3.783e-02
+#--- BDTBoost                 :   15 : MT_lnu        : 3.738e-02
+#--- BDTBoost                 :   16 : jet2Pt        : 3.482e-02
+#--- BDTBoost                 :   17 : M_jjlnu       : 3.438e-02
+#--- BDTBoost                 :   18 : bjet2Pt       : 3.433e-02
+#--- BDTBoost                 :   19 : Nbjets30      : 3.291e-02
+#--- BDTBoost                 :   20 : MT_jjlnu      : 3.196e-02
+#--- BDTBoost                 :   21 : Njets20       : 3.131e-02
+#--- BDTBoost                 :   22 : DeltaPhi_lMET : 3.006e-02
+#--- BDTBoost                 :   23 : MET           : 2.964e-02
+#--- BDTBoost                 : -----------------------------------------------
+#--- BDTNodeSize              : Ranking result (top variable is best ranked)
+#--- BDTNodeSize              : -----------------------------------------------
+#--- BDTNodeSize              : Rank : Variable      : Variable Importance
+#--- BDTNodeSize              : -----------------------------------------------
+#--- BDTNodeSize              :    1 : DeltaR_j1l    : 7.197e-02
+#--- BDTNodeSize              :    2 : bjet1Pt       : 6.799e-02
+#--- BDTNodeSize              :    3 : DeltaR_jjl    : 6.078e-02
+#--- BDTNodeSize              :    4 : M_bb_closest  : 5.858e-02
+#--- BDTNodeSize              :    5 : DeltaR_bb1    : 5.723e-02
+#--- BDTNodeSize              :    6 : leptonPt      : 5.440e-02
+#--- BDTNodeSize              :    7 : M_jjb         : 4.899e-02
+#--- BDTNodeSize              :    8 : jet1Pt        : 4.833e-02
+#--- BDTNodeSize              :    9 : DeltaR_b2l    : 4.760e-02
+#--- BDTNodeSize              :   10 : DeltaR_b1l    : 4.270e-02
+#--- BDTNodeSize              :   11 : M_blnu        : 4.084e-02
+#--- BDTNodeSize              :   12 : DeltaR_j2l    : 3.904e-02
+#--- BDTNodeSize              :   13 : bjet2Pt       : 3.778e-02
+#--- BDTNodeSize              :   14 : DeltaR_jjb    : 3.746e-02
+#--- BDTNodeSize              :   15 : Nbjets30      : 3.515e-02
+#--- BDTNodeSize              :   16 : MT_lnu        : 3.432e-02
+#--- BDTNodeSize              :   17 : MET           : 3.267e-02
+#--- BDTNodeSize              :   18 : DeltaR_jj     : 3.228e-02
+#--- BDTNodeSize              :   19 : MT_jjlnu      : 3.225e-02
+#--- BDTNodeSize              :   20 : jet2Pt        : 3.173e-02
+#--- BDTNodeSize              :   21 : M_jjlnu       : 3.124e-02
+#--- BDTNodeSize              :   22 : DeltaPhi_lMET : 3.081e-02
+#--- BDTNodeSize              :   23 : Njets20       : 2.586e-02
+#--- BDTNodeSize              : -----------------------------------------------
+#--- MLPTanh                  : Ranking result (top variable is best ranked)
+#--- MLPTanh                  : --------------------------------------
+#--- MLPTanh                  : Rank : Variable      : Importance
+#--- MLPTanh                  : --------------------------------------
+#--- MLPTanh                  :    1 : M_blnu        : 4.103e+01
+#--- MLPTanh                  :    2 : bjet1Pt       : 4.070e+01
+#--- MLPTanh                  :    3 : jet2Pt        : 3.806e+01
+#--- MLPTanh                  :    4 : leptonPt      : 3.381e+01
+#--- MLPTanh                  :    5 : jet1Pt        : 3.366e+01
+#--- MLPTanh                  :    6 : Nbjets30      : 3.289e+01
+#--- MLPTanh                  :    7 : M_jjlnu       : 3.052e+01
+#--- MLPTanh                  :    8 : M_jjb         : 2.736e+01
+#--- MLPTanh                  :    9 : DeltaR_j1l    : 2.292e+01
+#--- MLPTanh                  :   10 : MT_jjlnu      : 2.213e+01
+#--- MLPTanh                  :   11 : MT_lnu        : 2.158e+01
+#--- MLPTanh                  :   12 : MET           : 2.139e+01
+#--- MLPTanh                  :   13 : bjet2Pt       : 1.750e+01
+#--- MLPTanh                  :   14 : Njets20       : 1.180e+01
+#--- MLPTanh                  :   15 : M_bb_closest  : 1.043e+01
+#--- MLPTanh                  :   16 : DeltaR_jjl    : 6.199e+00
+#--- MLPTanh                  :   17 : DeltaR_bb1    : 6.108e+00
+#--- MLPTanh                  :   18 : DeltaPhi_lMET : 5.939e+00
+#--- MLPTanh                  :   19 : DeltaR_j2l    : 4.815e+00
+#--- MLPTanh                  :   20 : DeltaR_jj     : 4.761e+00
+#--- MLPTanh                  :   21 : DeltaR_b2l    : 4.093e+00
+#--- MLPTanh                  :   22 : DeltaR_jjb    : 3.134e+00
+#--- MLPTanh                  :   23 : DeltaR_b1l    : 2.048e+00
+#--- MLPTanh                  : --------------------------------------
+#--- MLPLearningRate          : Ranking result (top variable is best ranked)
+#--- MLPLearningRate          : --------------------------------------
+#--- MLPLearningRate          : Rank : Variable      : Importance
+#--- MLPLearningRate          : --------------------------------------
+#--- MLPLearningRate          :    1 : Njets20       : -nan
+#--- MLPLearningRate          :    2 : Nbjets30      : -nan
+#--- MLPLearningRate          :    3 : jet1Pt        : -nan
+#--- MLPLearningRate          :    4 : jet2Pt        : -nan
+#--- MLPLearningRate          :    5 : bjet1Pt       : -nan
+#--- MLPLearningRate          :    6 : bjet2Pt       : -nan
+#--- MLPLearningRate          :    7 : leptonPt      : -nan
+#--- MLPLearningRate          :    8 : MET           : -nan
+#--- MLPLearningRate          :    9 : DeltaR_j1l    : -nan
+#--- MLPLearningRate          :   10 : DeltaR_j2l    : -nan
+#--- MLPLearningRate          :   11 : DeltaR_b1l    : -nan
+#--- MLPLearningRate          :   12 : DeltaR_b2l    : -nan
+#--- MLPLearningRate          :   13 : DeltaR_bb1    : -nan
+#--- MLPLearningRate          :   14 : DeltaR_jj     : -nan
+#--- MLPLearningRate          :   15 : DeltaR_jjl    : -nan
+#--- MLPLearningRate          :   16 : DeltaR_jjb    : -nan
+#--- MLPLearningRate          :   17 : DeltaPhi_lMET : -nan
+#--- MLPLearningRate          :   18 : M_bb_closest  : -nan
+#--- MLPLearningRate          :   19 : M_jjlnu       : -nan
+#--- MLPLearningRate          :   20 : M_jjb         : -nan
+#--- MLPLearningRate          :   21 : M_blnu        : -nan
+#--- MLPLearningRate          :   22 : MT_lnu        : -nan
+#--- MLPLearningRate          :   23 : MT_jjlnu      : -nan
+#--- MLPLearningRate          : --------------------------------------
+#--- MLPNodes                 : Ranking result (top variable is best ranked)
+#--- MLPNodes                 : --------------------------------------
+#--- MLPNodes                 : Rank : Variable      : Importance
+#--- MLPNodes                 : --------------------------------------
+#--- MLPNodes                 :    1 : M_jjb         : 4.189e+01
+#--- MLPNodes                 :    2 : Nbjets30      : 4.154e+01
+#--- MLPNodes                 :    3 : M_jjlnu       : 4.052e+01
+#--- MLPNodes                 :    4 : jet2Pt        : 3.888e+01
+#--- MLPNodes                 :    5 : leptonPt      : 3.493e+01
+#--- MLPNodes                 :    6 : M_blnu        : 3.431e+01
+#--- MLPNodes                 :    7 : bjet1Pt       : 3.308e+01
+#--- MLPNodes                 :    8 : jet1Pt        : 2.927e+01
+#--- MLPNodes                 :    9 : MET           : 2.549e+01
+#--- MLPNodes                 :   10 : MT_jjlnu      : 2.529e+01
+#--- MLPNodes                 :   11 : bjet2Pt       : 2.402e+01
+#--- MLPNodes                 :   12 : MT_lnu        : 2.299e+01
+#--- MLPNodes                 :   13 : DeltaR_j1l    : 1.564e+01
+#--- MLPNodes                 :   14 : Njets20       : 1.526e+01
+#--- MLPNodes                 :   15 : M_bb_closest  : 1.187e+01
+#--- MLPNodes                 :   16 : DeltaPhi_lMET : 7.993e+00
+#--- MLPNodes                 :   17 : DeltaR_bb1    : 7.825e+00
+#--- MLPNodes                 :   18 : DeltaR_j2l    : 7.751e+00
+#--- MLPNodes                 :   19 : DeltaR_jjl    : 7.709e+00
+#--- MLPNodes                 :   20 : DeltaR_jj     : 5.440e+00
+#--- MLPNodes                 :   21 : DeltaR_b2l    : 3.462e+00
+#--- MLPNodes                 :   22 : DeltaR_jjb    : 3.427e+00
+#--- MLPNodes                 :   23 : DeltaR_b1l    : 1.783e+00
+#--- MLPNodes                 : --------------------------------------
+#--- MLPSigmoid               : Ranking result (top variable is best ranked)
+#--- MLPSigmoid               : --------------------------------------
+#--- MLPSigmoid               : Rank : Variable      : Importance
+#--- MLPSigmoid               : --------------------------------------
+#--- MLPSigmoid               :    1 : Nbjets30      : 4.929e+01
+#--- MLPSigmoid               :    2 : leptonPt      : 4.123e+01
+#--- MLPSigmoid               :    3 : jet2Pt        : 3.833e+01
+#--- MLPSigmoid               :    4 : bjet1Pt       : 3.743e+01
+#--- MLPSigmoid               :    5 : M_blnu        : 3.633e+01
+#--- MLPSigmoid               :    6 : jet1Pt        : 3.188e+01
+#--- MLPSigmoid               :    7 : M_jjlnu       : 2.955e+01
+#--- MLPSigmoid               :    8 : M_jjb         : 2.893e+01
+#--- MLPSigmoid               :    9 : DeltaR_j1l    : 2.398e+01
+#--- MLPSigmoid               :   10 : MT_jjlnu      : 2.240e+01
+#--- MLPSigmoid               :   11 : MT_lnu        : 2.088e+01
+#--- MLPSigmoid               :   12 : MET           : 1.834e+01
+#--- MLPSigmoid               :   13 : bjet2Pt       : 1.609e+01
+#--- MLPSigmoid               :   14 : M_bb_closest  : 1.548e+01
+#--- MLPSigmoid               :   15 : Njets20       : 1.134e+01
+#--- MLPSigmoid               :   16 : DeltaR_bb1    : 9.760e+00
+#--- MLPSigmoid               :   17 : DeltaR_j2l    : 7.457e+00
+#--- MLPSigmoid               :   18 : DeltaR_jjl    : 6.064e+00
+#--- MLPSigmoid               :   19 : DeltaPhi_lMET : 4.941e+00
+#--- MLPSigmoid               :   20 : DeltaR_b2l    : 4.293e+00
+#--- MLPSigmoid               :   21 : DeltaR_jj     : 3.791e+00
+#--- MLPSigmoid               :   22 : DeltaR_jjb    : 3.175e+00
+#--- MLPSigmoid               :   23 : DeltaR_b1l    : 1.933e+00
+#--- MLPSigmoid               : --------------------------------------
 
 
 #--- Factory                  : Ranking input variables (method specific)...
