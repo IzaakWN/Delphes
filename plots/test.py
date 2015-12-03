@@ -35,10 +35,10 @@ class configuration(object):
             listB = self.treeB.GetListOfBranches()
             for var in varNames:
                 if var in listS and var in listB:
-                    print ">>> "+config.name+": variable "+var+" added"
+                    print ">>> "+self.name+": variable "+var+" added"
                     self.varNames.append(varNames)
                 else:
-                    sys.exit(">>> ERROR: "+config.name+": variables "+var+" not in the tree!")
+                    sys.exit(">>> ERROR: "+self.name+": variables "+var+" not in the tree!")
 
 
 def main():
