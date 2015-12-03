@@ -522,7 +522,7 @@ def main():
                 "M_bl", "M_j1l" ]
 
     favVars = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
-                "DeltaR_j1l", "DeltaR_j2l", "DeltaR_jjl"
+                "DeltaR_j1l", "DeltaR_j2l", "DeltaR_jjl",
                 "Pt_bb", "Pt_bl",
                 "M_bb_closest", "M_jjlnu",
                 "M_jjb", "M_bl", "M_j1l" ]
