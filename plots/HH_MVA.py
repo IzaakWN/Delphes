@@ -100,33 +100,33 @@ print "P2 = %.4f, S = %.1f, B = %.1f" % (N_S*S2/S_tot/sqrt(1+N_B*B2/B_tot),N_S*S
 
 
 
-    def __init__(self, name, varNames, stage):
-        self.name = name
-        self.varNames = [ ]
-        self.treeS = None
-        self.treeB = None
-        self.hist_effs = [ ]
-        self.stage = stage
+def __init__(self, name, varNames, stage):
+    self.name = name
+    self.varNames = [ ]
+    self.treeS = None
+    self.treeB = None
+    self.hist_effs = [ ]
+    self.stage = stage
 #        self.significances
-        if stage==1:
-            self.treeS = treeS1
-            self.treeB = treeB1
-        elif stage==2:
-            self.treeS = treeS2
-            self.treeB = treeB2
-        elif stage==3:
-            self.treeS = treeS3
-            self.treeB = treeB3
-        # check existence of variables
-        if self.treeS and self.treeB:
-            listS = self.treeS.GetListOfBranches()
-            listB = self.treeB.GetListOfBranches()
-            for var in varNames:
-                if var in listS and var in listB:
-                    print ">>> "+self.name+": variable "+var+" added"
-                    self.varNames.append(varNames)
-                else:
-                    sys.exit(">>> ERROR: "+self.name+": variables \""+var+"\" not in the tree!")
+    if stage==1:
+        self.treeS = treeS1
+        self.treeB = treeB1
+    elif stage==2:
+        self.treeS = treeS2
+        self.treeB = treeB2
+    elif stage==3:
+        self.treeS = treeS3
+        self.treeB = treeB3
+    # check existence of variables
+    if self.treeS and self.treeB:
+        listS = self.treeS.GetListOfBranches()
+        listB = self.treeB.GetListOfBranches()
+        for var in varNames:
+            if var in listS and var in listB:
+                print ">>> "+self.name+": variable "+var+" added"
+                self.varNames.append(varNames)
+            else:
+                sys.exit(">>> ERROR: "+self.name+": variables \""+var+"\" not in the tree!")
 
 
 
