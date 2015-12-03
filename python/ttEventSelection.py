@@ -106,7 +106,7 @@ def eventCategory(event):
     if lepton and event.bjets30:
         # farthest bjet-lepton pair
         DeltaR_bl = max(TLV.DeltaR(bj.TLV,lepton.TLV) for bj in event.bjets30)
-        if p_bb and len(event.cleanedJets20)>3
+        if p_bb and len(event.cleanedJets20)>3:
             # closest jet-lepton pair
             jet = min([j for j in event.cleanedJets20 if not j.BTag], key=lambda j: TLV.DeltaR(j.TLV,lepton))
             DeltaPhi_j1lbb = fold(abs( (jet.TLV+lepton.TLV).Phi() - p_bb.Phi() ))
