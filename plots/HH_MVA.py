@@ -236,16 +236,16 @@ def train(config):
                                    "HiddenLayers=N,N",
                                    "UseRegulator"
                                   ]) )
-##    # MLPLearningRate
-##    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
-##                        ":".join([ "!H","!V",
-##                                   "LearningRate=0.01", # 0.8 -> 0.1 -> ...
-###                                   "NCycles=200",
-##                                   "NeuronType=tanh",
-##                                   "VarTransform=N",
-##                                   "HiddenLayers=N,N",
-##                                   "UseRegulator"
-##                                  ]) )
+    # MLPLearningRate
+    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
+                        ":".join([ "!H","!V",
+                                   "LearningRate=0.5", # 0.8 -> 0.1 -> 0.01 -> 0.1
+#                                   "NCycles=200",
+                                   "NeuronType=tanh",
+                                   "VarTransform=N",
+                                   "HiddenLayers=N,N",
+                                   "UseRegulator"
+                                  ]) )
 #    # MLPNodes
 #    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
 #    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes",
@@ -268,17 +268,17 @@ def train(config):
 #                                   "HiddenLayers=N",
 #                                   "UseRegulator"
 #                                  ]) )
-    # MLPNodes2
-    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes2",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=sigmoid",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N,N+4",
-                                   "UseRegulator"
-                                  ]) )
+#    # MLPNodes2
+#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes2",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.01",
+##                                   "NCycles=200",
+#                                   "NeuronType=sigmoid",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N,N+4",
+#                                   "UseRegulator"
+#                                  ]) )
     # MLPSigmoid
     factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
                         ":".join([ "!H","!V",

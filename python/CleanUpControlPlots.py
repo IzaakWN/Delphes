@@ -90,6 +90,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("DeltaR_jjb","leading jets-bjet DeltaR",100,0,4.5)
         self.add("DeltaR_j1lbb","closest jet-lepton-bjets DeltaR",100,0,4.5)
         self.add("DeltaR_jjlbb","leading jets-lepton-bjets DeltaR",100,0,4.5)
+        self.add("DeltaR_jjbbl","leading jets-bjet-bjet-lepton DeltaR",100,0,4.5)
         self.add("DeltaR_bb1","closest bjet-bjet pair DeltaR",100,0,4)
         self.add("DeltaR_b1l","farthest bjet-lepton DeltaR",100,0,4)
         self.add("DeltaR_b2l","2nd farthest bjet-lepton DeltaR",100,0,4)
@@ -105,6 +106,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("DeltaPhi_jjb","leading jets-bjet DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_j1lbb","closest jet-lepton-bjets DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_jjlbb","leading jets-lepton-bjets DeltaPhi",100,0,3.5)
+        self.add("DeltaPhi_jjbbl","leading jets-bjet-bjet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_bb1","closest bjet-bjet pair DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b1l","farthest bjet-lepton DeltaPhi",100,0,3.5)
         self.add("DeltaPhi_b2l","2nd farthest bjet-lepton DeltaPhi",100,0,3.5)
@@ -121,6 +123,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add2D("DeltaEtaDeltaPhi_jjb","leading jets-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_j1lbb","closest jet-lepton-bjets DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_jjlbb","leading jets-lepton-bjets DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
+        self.add2D("DeltaEtaDeltaPhi_jjbbl","leading jets-bjet-bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_bb1","closest bjet-bjet DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_b1l","farthest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
         self.add2D("DeltaEtaDeltaPhi_b2l","2nd farthest bjet-lepton DeltaPhi vs. DeltaEta",50,0,3.5,50,0,3.2)
@@ -170,6 +173,7 @@ class CleanUpControlPlots(BaseControlPlots):
 
         # bjet - bjet
         bl = [ ]
+        p_bl = None
         if lepton and bjets:
             bl = sorted( bjets, key=lambda j: TLV.DeltaR(j.TLV,lepton.TLV), reverse=True ) # farthest->closest
             DeltaPhi = fold(abs(lepton.Phi - bl[0].Phi))
@@ -350,8 +354,9 @@ class CleanUpControlPlots(BaseControlPlots):
                         jets_tt = event.cleanedJets20[:]
                         jets_tt.remove(bl[-1])
                         jets_tt.remove(bl[-2])
-                        p_jj_tt = jets_tt[0].TLV + jets_tt[1].TLV
-                        result["M_jjb"] = (p_jj_tt + bl[-2].TLV).M()
+                        p_jj = jets_tt[0].TLV + jets_tt[1].TLV
+                        p_jjb = p_jj + bl[-2].TLV
+                        result["M_jjb"] = p_jjb.M()
                         result["DeltaR_jjb"] = TLV.DeltaR(p_jj,bl[-2].TLV)
                         result["DeltaPhi_jjb"] = fold(abs(p_jj.Phi()-bl[-2].Phi))
                         result["DeltaEtaDeltaPhi_jjb"] = [[ abs(p_jj.Eta() - bl[-2].Eta),
@@ -360,6 +365,10 @@ class CleanUpControlPlots(BaseControlPlots):
                         result["DeltaPhi_jjlbb"] = fold(abs(p_jjl.Phi()-p_bb1.Phi()))
                         result["DeltaEtaDeltaPhi_jjlbb"] = [[ abs(p_jjl.Eta() - p_bb1.Eta()),
                                                               result["DeltaPhi_jjlbb"] ]]
+                        result["DeltaR_jjbbl"] = TLV.DeltaR(p_jjb,p_bl)
+                        result["DeltaPhi_jjbbl"] = fold(abs(p_jjb.Phi()-p_bl.Phi()))
+                        result["DeltaEtaDeltaPhi_jjbbl"] = [[ abs(p_jjb.Eta() - p_bl.Eta()),
+                                                              result["DeltaPhi_jjbbl"] ]]
     
 
         if p_jj_cut:
