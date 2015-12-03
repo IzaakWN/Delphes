@@ -523,7 +523,7 @@ def main():
 
     favVars = [ "DeltaR_b1l", "DeltaR_b2l", "DeltaR_bb1",
                 "DeltaR_j1l", "DeltaR_j2l", "DeltaR_jjl"
-                "Pt_bb", "Pt_bl"
+                "Pt_bb", "Pt_bl",
                 "M_bb_closest", "M_jjlnu",
                 "M_jjb", "M_bl", "M_j1l" ]
 
@@ -541,7 +541,7 @@ def main():
                     configuration("MLPTopCleanUp", MLPTopVars, 2),
                     configuration("ANCleanUp",     ANVars, 2),
                     configuration("favsCleanUp",   favVars, 2),
-                    configuration("everything30",  allVars, 3),
+#                    configuration("everything30",  allVars, 3),
                   ]
 
     if opts.onlyPlot:
