@@ -104,6 +104,7 @@ class configuration(object):
 
     def __init__(self, name, varNames, stage):
         self.name = name
+        # check wether varNames are in tree!!! 
         self.varNames = varNames
         self.treeS = None
         self.treeB = None
@@ -137,7 +138,10 @@ def train(config):
                             "AnalysisType=Classification" ]) )
 
     for name in config.varNames:
-        factory.AddVariable(name,"F")
+        if name[0] == "N":
+            factory.AddVariable(name,"I")
+        else:
+            factory.AddVariable(name,"F")
 
     factory.AddSignalTree(config.treeS)
     factory.AddBackgroundTree(config.treeB)
