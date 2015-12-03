@@ -82,7 +82,7 @@ def eventCategory(event):
         if abs(particle.PID) == 25 and 0 <= D1 < len(event.particles) and event.particles[D1]:
             if abs(event.particles[D1].PID) in [5]: # b-quark
                 for D in [ event.particles[D1], event.particles[D2] ]:
-                    if D.PT > 15 and abs(D.Eta) < 2.5:
+                    if D.PT > 15: # and abs(D.Eta) < 2.5:
                       nBquarks15+=1
                 nBquarks+=2
 
@@ -117,9 +117,9 @@ def eventCategory(event):
     # 3: two muons or electrons with PT > 20, 25 GeV
     #    MET > 20 GeV
     #    2 b-jets with PT > 30 GeV
-    categoryData.append( len(leps)==1 and \
+    categoryData.append( len(leps)==2 and \
                          event.met[0].MET>20 and \
-                         len(event.bjets30)==2 )
+                         len(event.bjets30)>1 )
 
     # 4: clean-up cuts
     categoryData.append( event.M_ll<85 and 60<event.M_bb<160 and \
@@ -134,7 +134,7 @@ def eventCategory(event):
     #    MET > 20 GeV
     #    at least 2 jets
     #    at least 2 b-jets with PT > 30 GeV
-    categoryData.append( len(leps)>0 and \
+    categoryData.append( len(leps)==1 and \
                          event.met[0].MET>20 and \
                          len(event.jets20)>3 and \
                          len(event.bjets30)>1 )
@@ -146,7 +146,7 @@ def eventCategory(event):
     categoryData.append( len(leps)==1 and \
                          event.met[0].MET>20 and \
                          len(event.jets20)==4 and \
-                         len(event.bjets30)==2 )
+                         len(event.bjets30)>1 )
 
     # 9: clean-up cuts
     categoryData.append( 60<event.M_bb<160 and \
