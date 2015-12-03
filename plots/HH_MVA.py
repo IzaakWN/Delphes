@@ -104,7 +104,7 @@ class configuration(object):
 
     def __init__(self, name, varNames, stage):
         self.name = name
-        self.varNames = [ ]
+        self.varNames = varNames
         self.treeS = None
         self.treeB = None
         self.hist_effs = [ ]
@@ -124,10 +124,7 @@ class configuration(object):
             listS = self.treeS.GetListOfBranches()
             listB = self.treeB.GetListOfBranches()
             for var in varNames:
-                if var in listS and var in listB:
-                    print ">>> "+self.name+": variable "+var+" added"
-                    self.varNames.append(varNames)
-                else:
+                if (var not in listS) or (var not in listB):
                     sys.exit(">>> ERROR: "+self.name+": variables \""+var+"\" not in the tree!")
 
 
