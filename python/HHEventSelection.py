@@ -7,7 +7,7 @@ from itertools import combinations
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Selection20", "CleanUp", "Selection30", "Max5Jets" ]
+categoryNames = [ "GenLevel", "Selection20", "CleanUp", "CleanUp2", "Selection30", "Max5Jets" ]
 
 
 
@@ -96,8 +96,19 @@ def eventCategory(event):
             M_bb = (b1.TLV+b2.TLV).M()
     categoryData.append( 60 < M_bb < 160 and \
                          DeltaR_bb < 3.1 )
+
+    # 9: clean-up cuts 2
+    M_bb = 0
+    DeltaR_bb = 100
+    for b1,b2 in combinations(event.bjets30,2):
+        DeltaR = TLV.DeltaR(b1.TLV,b2.TLV)
+        if DeltaR < DeltaR_bb:
+            DeltaR_bb = DeltaR
+            M_bb = (b1.TLV+b2.TLV).M()
+    categoryData.append( 60 < M_bb < 160 and \
+                         DeltaR_bb < 3.1 )
     
-    # 9: at most 5 jets with Pt > 30 GeV
+    # 10: at most 5 jets with Pt > 30 GeV
     categoryData.append( len(event.cleanedJets30)<6 )
 
     return categoryData
@@ -120,11 +131,15 @@ def isInCategory(category, categoryData):
         #      > signal            > exact 1 lepton    > 4 jets20          > 2 b-jets         > MET                > cleanup
 
     if category == 3:
-        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[8]
-        #      > signal            > exact 1 lepton    > 4 jets30          > 2 b-jets          > MET               > cleanup
+        return categoryData[0] and categoryData[2] and categoryData[3] and categoryData[6] and categoryData[7] and categoryData[9]
+        #      > signal            > exact 1 lepton    > 4 jets20          > 2 b-jets          > MET               > cleanup2
 
     if category == 4:
-        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[8] and categoryData[9]
+        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[9]
+        #      > signal            > exact 1 lepton    > 4 jets30          > 2 b-jets          > MET               > cleanup
+
+    if category == 5:
+        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[9] and categoryData[10]
         #      > signal            > exact 1 lepton    > 4 jets30          > 2 b-jets          > MET               > cleanup           > max 5 jets
         
     else:

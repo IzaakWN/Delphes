@@ -419,7 +419,10 @@ def makeAxes(*hists, **kwargs):
             if "bjet-" in name or "bquark-" in name:
                 xlabel = var+"_{b"
             elif "jets-" in name or "jet-jet-" in name:
-                xlabel = var+"_{jj,"
+                if "-lepton-bjets" in name:
+                    xlabel = var+"_{jj"
+                else:
+                    xlabel = var+"_{jj,"
             elif "lepton-" in name:
                 xlabel = var+"_{l"
             elif "jet-" in name:
@@ -428,7 +431,9 @@ def makeAxes(*hists, **kwargs):
                 xlabel = var+"_{q"
             elif "MET-" in name:
                 xlabel = var+"_{E^{miss}_{T},"
-            if "-lepton-MET" in name:
+            if "lepton-bjets" in name:
+                xlabel += "l,bb}"
+            elif "-lepton-MET" in name:
                 xlabel += "l#nu}"
             elif "-lepton" in name:
                 xlabel += "l}"
