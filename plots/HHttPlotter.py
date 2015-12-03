@@ -80,7 +80,7 @@ def plotBasic(stage):
                   "bb_closest","bb_closest_cut",
                   "bb_farthest",
                   "bl","j1l",#"j2l",
-                  "jjl_all","jjl","jjlnu",
+                  "jjl_all","jjl","j1lbb","jjlnu",
                   "jjb","bl","blnu" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
@@ -342,7 +342,7 @@ def plot2D(stage):
 
     # RECO LEVEL: DeltaPhi vs. DeltaEta
     names = [ "jj_all","jj","j1l","j2l","j3l","jjl_all",
-              "jjl","jjb","jjlbb",
+              "jjl","jjb","jjlbb","j1lbb",
               "bb1","b1l","b2l" ]
 
     for name in names:
