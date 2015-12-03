@@ -119,7 +119,8 @@ def eventCategory(event):
     #    2 b-jets with PT > 30 GeV
     categoryData.append( len(leps)==2 and \
                          event.met[0].MET>20 and \
-                         len(event.bjets30)>1 )
+                         # require no other jets?
+                         len(event.bjets30)==2 )
 
     # 4: clean-up cuts
     categoryData.append( event.M_ll<85 and 60<event.M_bb<160 and \
