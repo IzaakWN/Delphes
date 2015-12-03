@@ -80,7 +80,7 @@ def plotBasic(stage):
                   "bb_closest","bb_closest_cut",
                   "bb_farthest",
                   "bl","j1l",#"j2l",
-                  "jjl_all","jjl","j1lbb","jjlnu",
+                  "jjl_all","jjl","jjlnu",
                   "jjb","bl","blnu" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
@@ -89,7 +89,7 @@ def plotBasic(stage):
     for comb in [ "j1l","j2l","jj_all","jj",
                   "b1l","b2l","bb1",
                   "jjl_all","jjl",
-                  "jjlbb","jjb" ]:
+                  "jjlbb","j1lbb","jjb" ]:
         names.append("cleanup/DeltaR_"+comb)
         names.append("cleanup/DeltaPhi_"+comb)
     names.append("cleanup/DeltaR_b1l_i")
