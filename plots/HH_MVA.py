@@ -48,6 +48,7 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 # list of methods
 Methods = [ ("BDT","BDT"),
             ("BDT","BDTTuned"),
+#            ("BDT","BDTPreselection"),
 #            ("BDT","BDTNTrees"),
 #            ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
@@ -178,6 +179,19 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=100" # 20 -> 70 -> 100
                                  ]) )
+    # BDTPreselection
+    factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
+                       ":".join([ "!H","!V",
+                                  "NTrees=2000",
+                                  "DoPreselection",
+#                                  "MinNodeSize=2.%", # 2.%
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3", # 3 -> 5 -> 3
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.05", # 0.1 -> 0.05
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=100" # 20 -> 70 -> 100
+                                 ]) )
 #    # BDTNTrees
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNTrees",
 #                       ":".join([ "!H","!V",
@@ -239,7 +253,7 @@ def train(config):
     # MLPLearningRate
     factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
                         ":".join([ "!H","!V",
-                                   "LearningRate=0.5", # 0.8 -> 0.1 -> 0.01 -> 0.1
+                                   "LearningRate=0.1", # 0.8 -> 0.1 -> 0.01 -> 0.1
 #                                   "NCycles=200",
                                    "NeuronType=tanh",
                                    "VarTransform=N",
@@ -408,7 +422,10 @@ def plot(config):
 
 # HISTOGRAMS: compare all methods and variable configurations
 def compare(configs,stage="",methods0=methods):
-    print "\n>>> compare methods with "+", ".join([c.name for c in configs])
+    if configs:
+        print "\n>>> compare methods with "+", ".join([c.name for c in configs])
+    else:
+        return
     
     hist_effs = [ ]
     for config in configs:
@@ -541,8 +558,8 @@ def main():
         print ">>> test mode"
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
-        configs = [ #configuration("everything20", allVars, 1),
-#                    configuration("better20",     betterVars, 1),
+        configs = [ configuration("everything20", allVars, 1),
+                    configuration("better20",     betterVars, 1),
 ##                    configuration("MLPTop20", MLPTopVars, 1),
 ##                    configuration("AN20",     ANVars, 1),
 ##                    configuration("favs20",   favVars, 1)
