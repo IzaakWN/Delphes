@@ -333,6 +333,8 @@ def makeAxes2D(*hists, **kwargs):
         elif "jets-" in name or "jet-jet-" in name:
             if "-lepton-bjets" in name:
                 var = "_{jj"
+            elif "-bjet-lepton" in name:
+                var = "_{jjb"
             else:
                 var = "_{jj,"
         elif "jet-" in name:
@@ -347,6 +349,8 @@ def makeAxes2D(*hists, **kwargs):
             var += "l,bb}"
         elif "-lepton-MET" in name:
             var += "l#nu}"
+        elif "-bjet-lepton" in name:
+            var += ",bl}"
         elif "-lepton" in name:
             var += "l}"
         elif "-bjet" in name or "-bquark" in name:
@@ -430,6 +434,8 @@ def makeAxes(*hists, **kwargs):
             elif "jets-" in name or "jet-jet-" in name:
                 if "-lepton-bjets" in name:
                     xlabel = var+"_{jj"
+                elif "-bjet-lepton" in name:
+                    xlabel = var+"_{jjb"
                 else:
                     xlabel = var+"_{jj,"
             elif "jet-" in name:
@@ -444,6 +450,8 @@ def makeAxes(*hists, **kwargs):
                 xlabel += "l,bb}"
             elif "-lepton-MET" in name:
                 xlabel += "l#nu}"
+            elif "-bjet-lepton" in name:
+                xlabel += ",bl}"
             elif "-lepton" in name:
                 xlabel += "l}"
             elif "-bjet" in name or "-bquark" in name:
