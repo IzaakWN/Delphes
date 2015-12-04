@@ -626,3 +626,148 @@ B_tot = 280
   ---------------------------------------
    stage	P     	S 	B
   ---------------------------------------
+
+12/03/15 - 17:08:07
+
+# Comments:
+Stuff.
+
+12/03/15 - 19:07:29
+
+# Comments:
+S.
+
+# Dileptonic channel
+
+# expected number of events
+N_S = 1355
+N_B = 133793550
+
+# total number of MC events run on
+S_tot = 22812
+B_tot = 22546
+
+ Punzi significance
+  ---------------------------------------
+   stage	P     	S 	B
+  ---------------------------------------
+  stage_1	0.10628	703	43771011
+  stage_2	0.04916	157	10236577
+  stage_3	0.09587	126	1726866
+
+
+# Semileptonic channel
+
+# expected number of events
+N_S = 8580
+N_B = 848540549
+
+# total number of MC events run on
+S_tot = 2038
+B_tot = 275
+
+ Punzi significance
+  ---------------------------------------
+   stage	P     	S 	B
+  ---------------------------------------
+  stage_5	0.0	0	0
+  stage_6	0.0	0	0
+  stage_7	0.0	0	0
+
+
+
+
+12/03/15 - 19:19:00
+
+# Comments:
+S
+
+# Dileptonic channel
+
+# expected number of events
+N_S = 1355
+N_B = 133793550
+
+# total number of MC events run on
+S_tot = 22812
+B_tot = 22546
+
+ Punzi significance
+  ---------------------------------------
+   stage	P     	S 	B
+  ---------------------------------------
+  stage_1	0.10628	703	43771011
+  stage_2	0.04916	157	10236577
+  stage_3	0.09587	126	1726866
+  stage_4	0.09476	121	1631918
+
+
+# Semileptonic channel
+
+# expected number of events
+N_S = 8580
+N_B = 848540549
+
+# total number of MC events run on
+S_tot = 2038
+B_tot = 275
+
+ Punzi significance
+  ---------------------------------------
+   stage	P     	S 	B
+  ---------------------------------------
+  stage_5	0.0	0	0
+  stage_6	0.0	0	0
+  stage_7	0.0	0	0
+  stage_8	0.0	0	0
+  stage_9	0.0	0	0
+
+
+
+
+12/03/15 - 21:16:04
+
+# Comments:
+j
+
+# Dileptonic channel
+
+# expected number of events
+N_S = 1355
+N_B = 133793550
+
+# total number of MC events run on
+S_tot = 22812
+B_tot = 22546
+
+ Punzi significance
+  ---------------------------------------
+   stage	P     	S 	B
+  ---------------------------------------
+  stage_1	0.11039	776	49485692
+  stage_2	0.04939	159	10414604
+  stage_3	0.09582	127	1756537
+  stage_4	0.09582	127	1756537
+
+
+# Semileptonic channel
+
+# expected number of events
+N_S = 8580
+N_B = 848540549
+
+# total number of MC events run on
+S_tot = 2138
+B_tot = 296
+
+ Punzi significance
+  ---------------------------------------
+   stage	P     	S 	B
+  ---------------------------------------
+  stage_5	0.0	0	0
+  stage_6	0.0	0	0
+  stage_7	0.0	0	0
+  stage_8	0.0	0	0
+  stage_9	0.0	0	0
+
+
