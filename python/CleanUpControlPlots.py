@@ -68,7 +68,6 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_j1l","closest jet-lepton Mass",100,0,450)
 #        self.add("M_j2l","2nd closest jet-lepton Mass",100,0,450)
         self.add("M_bb_leading","leading bjet-bjet Mass",100,0,300)
-#        self.add("M_bb_leading_cut","leading bjet-bjet (cut) Mass",100,0,300)
         self.add("M_bb_closest","closest bjet-bjet Mass",100,0,300)
         self.add("M_bb_closest_cut","closest bjet-bjet (cut) Mass",100,0,300)
         self.add("M_bb_farthest","farthest bjet-bjet Mass",100,0,300)
@@ -209,8 +208,6 @@ class CleanUpControlPlots(BaseControlPlots):
                                    fold(abs(lepton.Phi - j2.Phi))>1 :
                     madeCut = True
                     result["M_bb_cut"].append(p_bb.M())
-#                    if p_bb.Pt() > PT_bb_leading:
-#                        result["M_bb_leading_cut"] = p_bb.Pt()
 
             if DeltaR < DeltaR_bb_closest:
                 bjet_closest = [j1,j2]
