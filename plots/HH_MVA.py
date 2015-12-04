@@ -134,7 +134,7 @@ def train(config):
     print "\n>>> train with configuration "+config.name
 
     TMVA.Tools.Instance()
-    f_out = TFile("MVA/trees/HH_MVA_"+config.name+".root","RECREATE")
+    f_out = TFile("MVA/HH_MVA_"+config.name+".root","RECREATE")
 
     factory = TMVA.Factory( "TMVAClassification", f_out,
                             ":".join([ "!V",
@@ -311,6 +311,12 @@ def train(config):
 
     # move files from weights/ to MVA/weights/configname
     weightsdir = "MVA/weights/"+config.name
+#    if not os.path.exists("MVA"):
+#        os.makedirs("MVA")
+#    if not os.path.exists("MVA/trees"):
+#        os.makedirs("MVA/trees")
+#    if not os.path.exists("MVA/weights"):
+#        os.makedirs("MVA/weights")
     if not os.path.exists(weightsdir):
         os.makedirs(weightsdir)
     for method in methods:
@@ -318,6 +324,8 @@ def train(config):
                   weightsdir+"/TMVAClassification_"+method+".weights.xml")
         os.rename("weights/TMVAClassification_"+method+".class.C",
                   weightsdir+"/TMVAClassification_"+method+".class.C")
+    os.rename("MVA/HH_MVA_"+config.name+".root",
+              "MVA/trees/HH_MVA_"+config.name+".root")
 
 
 
