@@ -70,7 +70,7 @@ def plotBasic(stage):
     #names.append("reco/Hbb_a1M")
     #names.append("reco/Hbb_a1Eta")
 
-    if stage == "stage_0/":
+    if "0" in stage or "1" in stage:
         names.append("selection/category")
 
     for comb in [ "jj","jj_cut",
