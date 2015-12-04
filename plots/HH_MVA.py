@@ -561,7 +561,7 @@ def main():
         configs = [
 #                    configuration("everything20", allVars, 1),
 #                    configuration("better20",     betterVars, 1),
-#                    configuration("everythingCleanUp", allVars, 2),
+                    configuration("everythingCleanUp", allVars, 2),
                     configuration("betterCleanUp", betterVars, 2),
                     configuration("everythingCleanUp2",  allVars, 3),
                     configuration("betterCleanUp2", betterVars, 3),
