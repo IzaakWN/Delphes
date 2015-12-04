@@ -348,7 +348,7 @@ def plot2D(stage):
 
     # RECO LEVEL: DeltaPhi vs. DeltaEta
     names = [ "jj_all","jj","j1l","j2l","j3l","jjl_all",
-              "jjl","jjb","jjlbb","j1lbb","jjbbl"
+              "jjl","jjb","jjlbb","j1lbb","jjbbl",
               "bb1","b1l","b2l" ]
 
     for name in names:
