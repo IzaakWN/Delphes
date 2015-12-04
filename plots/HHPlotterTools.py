@@ -434,7 +434,7 @@ def makeAxes(*hists, **kwargs):
             elif "jets-" in name or "jet-jet-" in name:
                 if "-lepton-bjets" in name:
                     xlabel = var+"_{jj"
-                elif "-bjet-lepton" in name:
+                elif "-bjet-bjet-lepton" in name:
                     xlabel = var+"_{jjb"
                 else:
                     xlabel = var+"_{jj,"
@@ -450,7 +450,7 @@ def makeAxes(*hists, **kwargs):
                 xlabel += "l,bb}"
             elif "-lepton-MET" in name:
                 xlabel += "l#nu}"
-            elif "-bjet-lepton" in name:
+            elif "-bjet-bjet-lepton" in name:
                 xlabel += ",bl}"
             elif "-lepton" in name:
                 xlabel += "l}"
