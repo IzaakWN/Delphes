@@ -101,7 +101,7 @@ def eventCategory(event):
 #        pl.SetPtEtaPhiM(gen_leptons15[0].PT,gen_leptons15[0].Eta,gen_leptons15[0].Phi,gen_leptons15[0].Mass)
 #        pqs[0].SetPtEtaPhiM(gen_quarks15[0].PT,gen_quarks15[0].Eta,gen_quarks15[0].Phi,gen_quarks15[0].Mass)
 #        pqs[1].SetPtEtaPhiM(gen_quarks15[1].PT,gen_quarks15[1].Eta,gen_quarks15[1].Phi,gen_quarks15[1].Mass)
-#        DeltaR_ql_gen = min(TLV.DeltaR(pq,pl) for pq in pqs)
+#        DeltaR_ql_gen = min(TLV.DeltaR(pq,pl) for pq in pqs) 
 
     # 0-1: generator level: double Wlnu and Hbb
     categoryData.append((nLeptons==2 and nBquarks==2)) #or event.particles.GetEntries()==0)
