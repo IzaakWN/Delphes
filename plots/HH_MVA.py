@@ -170,7 +170,7 @@ def train(config):
     # BDTTuned
     factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000",
+                                  "NTrees=1500",
 #                                  "MinNodeSize=2.%", # 2.%
 #                                  "nEventsMin=200",
                                   "MaxDepth=3", # 3 -> 5 -> 3
@@ -182,7 +182,7 @@ def train(config):
     # BDTPreselection
     factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000",
+                                  "NTrees=1500",
                                   "DoPreselection",
 #                                  "MinNodeSize=2.%", # 2.%
 #                                  "nEventsMin=200",
@@ -219,7 +219,7 @@ def train(config):
     # BDTBoost
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000",
+                                  "NTrees=1500",
 #                                  "MinNodeSize=2.%",
 #                                  "nEventsMin=200",
                                   "MaxDepth=3",
@@ -231,7 +231,7 @@ def train(config):
     # BDTNodeSize
     factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
                        ":".join([ "!H","!V",
-                                  "NTrees=2000",
+                                  "NTrees=1500",
                                   "MinNodeSize=5.%", # 10.% -> 20.% -> 1.%
 #                                  "nEventsMin=200",
                                   "MaxDepth=3",
@@ -515,15 +515,15 @@ def main():
                 "MT_lnu","MT_jjlnu" ]
 
     betterVars = [  "Nbjets30","Njets20",
-                    "jet1Pt","jet2Pt",
-                    "bjet1Pt","bjet2Pt",
+#                    "jet1Pt","jet2Pt",
+#                    "bjet1Pt","bjet2Pt",
                     "Pt_bb","Pt_bl","Pt_j1l",
                     "leptonPt","MET",
                     "DeltaR_j1l","DeltaR_j2l",
                     "DeltaR_b1l","DeltaR_b2l",
                     "DeltaR_bb1",
-                    "DeltaPhi_j1lbb",
                     "DeltaR_jjl","DeltaR_jjb",
+                    "DeltaPhi_j1lbb",
                     "M_bb_closest", "M_jjlnu",
                     "M_jjb", "M_bl",
                     "M_j1l" ]
@@ -571,8 +571,8 @@ def main():
 #                    configuration("better20",     betterVars, 1),
                     configuration("everythingCleanUp", allVars, 2),
                     configuration("betterCleanUp", betterVars, 2),
-                    configuration("everythingCleanUp2",  allVars, 3),
-                    configuration("betterCleanUp2", betterVars, 3),
+#                    configuration("everythingCleanUp2",  allVars, 3),
+#                    configuration("betterCleanUp2", betterVars, 3),
                   ]
 
     if opts.onlyPlot:
