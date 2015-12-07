@@ -53,7 +53,7 @@ def punzi(stage):
         S = hist_S.GetBinContent(6) # MC after reco and cuts
         B = hist_B.GetBinContent(6)
     
-    P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) ))*100000 )/100000
+    P = N_S * (S/S_tot) / (1.0+sqrt( N_B * (B/B_tot) ))
     table = "  "+stage[:-1]+ "\t%.5f\t%.1f\t%.1f" % (P,N_S*(S/S_tot),N_B*(B/B_tot))
 
     print table
