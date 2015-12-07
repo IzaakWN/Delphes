@@ -228,9 +228,12 @@ def makeLegend(*hists, **kwargs):
             x2 = x1 + width
             y2 = 1-y2+height[len(hists)-1]
         elif position=="RightTop":
+            x1 = 1.18-x2
+            x2 = x1 + width
+        elif position=="RightRightTop":
             x1 = 1.10-x2
             x2 = x1 + width
-        elif position=="RightTopTop":
+        elif position=="RightRightTopTop":
             x1 = 1.10-x2
             x2 = x1 + width
             y2 = 0.88
