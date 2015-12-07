@@ -50,8 +50,8 @@ def punzi(stage):
             B2 = hist_B.GetBinContent(2)
             print "\nGenlevel with cuts on BG = %.4f GenLevel without cuts on BG \n" % (B2/B)
     else:
-        S = hist_S.GetBinContent(5) # MC after reco and cuts
-        B = hist_B.GetBinContent(5)
+        S = hist_S.GetBinContent(6) # MC after reco and cuts
+        B = hist_B.GetBinContent(6)
     
     P = round( N_S * (S/S_tot) / (1+sqrt( N_B * (B/B_tot) ))*100000 )/100000
     table = "  "+stage[:-1]+ "\t%.5f\t%.1f\t%.1f" % (P,N_S*(S/S_tot),N_B*(B/B_tot))
