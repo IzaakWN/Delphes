@@ -177,7 +177,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.05", # 0.1 -> 0.05
                                   "SeparationType=GiniIndex",
-                                  "nCuts=100" # 20 -> 70 -> 100
+                                  "nCuts=50" # 20 -> 70 -> 100
                                  ]) )
     # BDTPreselection
     factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
@@ -190,7 +190,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.05", # 0.1 -> 0.05
                                   "SeparationType=GiniIndex",
-                                  "nCuts=100" # 20 -> 70 -> 100
+                                  "nCuts=50" # 20 -> 70 -> 100
                                  ]) )
 #    # BDTNTrees
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNTrees",
@@ -202,7 +202,7 @@ def train(config):
 #                                  "BoostType=AdaBoost",
 #                                  "AdaBoostBeta=0.05",
 #                                  "SeparationType=GiniIndex",
-#                                  "nCuts=100"
+#                                  "nCuts=50"
 #                                 ]) )
 #    # BDTMaxDepth
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTMaxDepth",
@@ -214,7 +214,7 @@ def train(config):
 #                                  "BoostType=AdaBoost",
 #                                  "AdaBoostBeta=0.05",
 #                                  "SeparationType=GiniIndex",
-#                                  "nCuts=100"
+#                                  "nCuts=50"
 #                                 ]) )
     # BDTBoost
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
@@ -226,7 +226,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.1", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=100"
+                                  "nCuts=50"
                                  ]) )
     # BDTNodeSize
     factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
@@ -238,28 +238,28 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.05",
                                   "SeparationType=GiniIndex",
-                                  "nCuts=100"
+                                  "nCuts=50"
                                  ]) )
-    # MLPTanh
-    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=tanh",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N,N",
-                                   "UseRegulator"
-                                  ]) )
-    # MLPLearningRate
-    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.1", # 0.8 -> 0.1 -> 0.01 -> 0.1
-#                                   "NCycles=200",
-                                   "NeuronType=sigmoid",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N,N",
-                                   "UseRegulator"
-                                  ]) )
+#    # MLPTanh
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.01",
+##                                   "NCycles=200",
+#                                   "NeuronType=tanh",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N,N",
+#                                   "UseRegulator"
+#                                  ]) )
+#    # MLPLearningRate
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.1", # 0.8 -> 0.1 -> 0.01 -> 0.1
+##                                   "NCycles=200",
+#                                   "NeuronType=sigmoid",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N,N",
+#                                   "UseRegulator"
+#                                  ]) )
 #    # MLPNodes
 #    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
 #    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes",
@@ -293,16 +293,16 @@ def train(config):
 #                                   "HiddenLayers=N,N+4",
 #                                   "UseRegulator"
 #                                  ]) )
-    # MLPSigmoid
-    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=sigmoid",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N,N",
-                                   "UseRegulator"
-                                  ]) )
+#    # MLPSigmoid
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.01",
+##                                   "NCycles=200",
+#                                   "NeuronType=sigmoid",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N,N",
+#                                   "UseRegulator"
+#                                  ]) )
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -513,6 +513,51 @@ def main():
                 "M_jjb", "M_blnu",         # top reconstruction
                 "M_bl", "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
+    
+    allVars2 = [ "Njets20","Nbjets30",
+                "jet1Pt","jet2Pt",
+                "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_j2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_jjl","DeltaR_jjb",
+                "DeltaPhi_lMET","DeltaPhi_j1lbb",
+                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
+                "M_jjb", "M_bl",           # top reconstruction
+                "M_j1l",
+                "MT_lnu","MT_jjlnu" ]
+    
+    allVars3 = [ "Njets20","Nbjets30",
+                "jet1Pt","jet2Pt",
+                "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_j2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_jjl","DeltaR_jjb",
+                "DeltaPhi_lMET","DeltaPhi_j1lbb",
+                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
+                "M_jjb", "M_bl",           # top reconstruction
+                "M_j1l",
+                "MT_jjlnu" ]
+    
+    allVars4 = [ "Njets20","Nbjets30",
+                "jet1Pt","jet2Pt",
+                "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_j2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_jjl","DeltaR_jjb",
+                "DeltaPhi_j1lbb",
+                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
+                "M_jjb", "M_bl",           # top reconstruction
+                "M_j1l",
+                "MT_jjlnu" ]
 
     betterVars = [  "Nbjets30","Njets20",
                     "jet1Pt","jet2Pt",
@@ -521,7 +566,7 @@ def main():
                     "leptonPt","MET",
                     "DeltaR_j1l","DeltaR_j2l",
                     "DeltaR_b1l","DeltaR_b2l",
-                    "DeltaR_bb1",
+                    "DeltaR_bb1","DeltaR_jj",
                     "DeltaR_jjl","DeltaR_jjb",
                     "DeltaPhi_j1lbb",
                     "M_bb_closest", "M_jjlnu",
@@ -570,6 +615,9 @@ def main():
 #                    configuration("everything20", allVars, 1),
 #                    configuration("better20",     betterVars, 1),
                     configuration("everythingCleanUp", allVars, 2),
+                    configuration("everythingCleanUp2", allVars2, 2),
+                    configuration("everythingCleanUp2", allVars3, 2),
+                    configuration("everythingCleanUp2", allVars4, 2),
                     configuration("betterCleanUp", betterVars, 2),
 #                    configuration("everythingCleanUp2",  allVars, 3),
 #                    configuration("betterCleanUp2", betterVars, 3),
