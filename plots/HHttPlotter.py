@@ -137,7 +137,7 @@ def plotBasic(stage):
 #        if "a1" in name:
 #            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
 #            legend.Draw()
-        if name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaPhi_b1l", "DeltaR_b1l", "M_jjlnu" ] :
+        if name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaPhi_b1l", "DeltaR_b1l" ] :
             legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_bb1", "DeltaR_bb" ] :
