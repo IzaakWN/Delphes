@@ -475,6 +475,31 @@ def compare(configs,stage="",methods0=methods):
 
 
 
+# HISTOGRAMS: eff
+def eff(config,method):
+    print "\n>>> make single efficiency with "+method
+    
+    hist = None
+    for h in config.hist_effs:
+        if h.GetTitle().replace("MVA_","") == method:
+            hist = h
+            break
+    if not hist:
+        print ">>> No histograms!"
+        return
+    
+    c = makeCanvas()
+    hist.Draw()
+    hist.SetLineWidth(2)
+    hist.SetStats(0)
+    makeAxes(hist,xlabel="signal efficiency",ylabel="background rejection")
+    setLineColor(hist)
+    CMS_lumi.CMS_lumi(c,14,33)
+    c.SaveAs("MVA/BrejvsSeffs_"+config.name+"_"+method+".png")
+    c.Close()
+
+
+
 # 2D COLOR HISTOGRAM: Correlation matrices
 def correlation(config):
     print "\n>>> make correlation matrix plots"
@@ -657,7 +682,7 @@ def main():
     compare([c for c in configs if c.stage==1],stage="stage_1")
     compare([c for c in configs if c.stage==2],stage="stage_2")
     compare([c for c in configs if c.stage==3],stage="stage_3")
-    compare(configs[1],stage="DBTTuned",methods0=("BDT", "BDTTuned"))
+    eff(configs[0],"BDTTuned")
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
