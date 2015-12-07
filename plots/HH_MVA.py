@@ -389,11 +389,11 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 100, -0.4, 1.4)
-            histB = TH1F("histB", "", 100, -0.4, 1.4)
+            histS = TH1F("histS", "", 150, -0.4, 1.4)
+            histB = TH1F("histB", "", 150, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 100, -1.4, 1.4)
-            histB = TH1F("histB", "", 100, -1.4, 1.4)
+            histS = TH1F("histS", "", 150, -1.4, 1.4)
+            histB = TH1F("histB", "", 150, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
