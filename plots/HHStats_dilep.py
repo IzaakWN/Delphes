@@ -95,8 +95,8 @@ def main():
     N_B = sigma_B * L
     hist_S = file.Get("stage_5/selection/category") # signal: HH -> bbWW
     hist_B = file_tt.Get("stage_5/selection/category") # BG: tt -> bbWW
-    S_tot = hist_S.GetBinContent(5) #214888
-    B_tot = hist_B.GetBinContent(5) #211952 #170692
+    S_tot = hist_S.GetBinContent(6) #214888
+    B_tot = hist_B.GetBinContent(6) #211952 #170692
     preamble = "\n\n\n# Semileptonic channel" + \
                "\n\n# expected number of events\nN_S = %i\nN_B = %i" % (N_S,N_B) + \
                "\n\n# total number of MC events run on\nS_tot = %i\nB_tot = %i" % (S_tot,B_tot) + \
