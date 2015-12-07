@@ -175,11 +175,11 @@ def isInCategory(category, categoryData):
         #      > GenLevel with cuts
 
     if category == 2:
-        return categoryData[1] and categoryData[2]
+        return categoryData[1] and categoryData[3]
         #      > GenLevel          > selection
 
     if category == 3:
-        return categoryData[1] and categoryData[2] and categoryData[4]
+        return categoryData[1] and categoryData[3] and categoryData[4]
         #      > GenLevel          > selection         > clean-up
 
     if category == 4:
