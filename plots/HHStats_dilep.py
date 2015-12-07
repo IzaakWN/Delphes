@@ -43,13 +43,13 @@ def punzi(stage):
     hist_S = file.Get(stage+"selection/category") # signal: HH -> bbWW
     hist_B = file_tt.Get(stage+"selection/category") # BG: tt -> bbWW
 
-    if int(stage[-2]) < 4:
+    if int(stage[-2]) < 5:
         S = hist_S.GetBinContent(1) # MC after reco and cuts
-        B = hist_B.GetBinContent(2)
+        B = hist_B.GetBinContent(1)
         if int(stage[-2]) == 0:
             B2 = hist_B.GetBinContent(2)
-            print "\nGenlevel with cuts on BG = %s GenLevel without cuts on BG \n" % \
-                  (round(B2/B*1000)/1000)
+            print "\nGenlevel with cuts on BG = %.4f GenLevel without cuts on BG \n" % \
+                  B2/B
     else:
         S = hist_S.GetBinContent(5) # MC after reco and cuts
         B = hist_B.GetBinContent(5)
