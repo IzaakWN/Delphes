@@ -533,7 +533,7 @@ def main():
                 "DeltaR_jjl","DeltaR_jjb",
                 "DeltaPhi_lMET","DeltaPhi_j1lbb",
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_bl",           # top reconstruction
+                "M_jjb", "M_blnu",         # top reconstruction
                 "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
     
@@ -548,7 +548,7 @@ def main():
                 "DeltaR_jjl","DeltaR_jjb",
                 "DeltaPhi_lMET","DeltaPhi_j1lbb",
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_bl",           # top reconstruction
+                "M_jjb", "M_blnu",         # top reconstruction
                 "M_j1l",
                 "MT_jjlnu" ]
     
@@ -561,7 +561,7 @@ def main():
                 "DeltaR_b1l","DeltaR_b2l",
                 "DeltaR_bb1","DeltaR_jj",
                 "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_j1lbb",
+                "DeltaPhi_j1lbb","DeltaPhi_lMET"
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
                 "M_jjb", "M_bl",           # top reconstruction
                 "M_j1l",
