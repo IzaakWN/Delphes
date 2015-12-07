@@ -422,9 +422,9 @@ def makeAxes(*hists, **kwargs):
             if "bjets" in name:
                 hist0.GetXaxis().SetTitle("transverse momentum p_{T}^{bb} [GeV]")
             elif "bjet-lepton" in name:
-                hist0.GetXaxis().SetTitle("transverse momentum p_{T}^{b#ell} [GeV]")
+                hist0.GetXaxis().SetTitle("transverse momentum p_{T}^{bl} [GeV]")
             elif "jet-lepton" in name:
-                hist0.GetXaxis().SetTitle("transverse momentum p_{T}^{j#ell} [GeV]")
+                hist0.GetXaxis().SetTitle("transverse momentum p_{T}^{jl} [GeV]")
             else:
                 hist0.GetXaxis().SetTitle("transverse momentum p_{T} [GeV]")
             ylabel += "GeV"
