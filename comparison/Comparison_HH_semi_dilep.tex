@@ -5,13 +5,14 @@
 \usepackage{bm} % for bold math
 \usepackage{textgreek}
 \usepackage{graphicx}
-\usepackage[font=small,labelfont=bf,nooneline]{caption} % for subfigs
+\usepackage[labelfont=bf,nooneline]{caption} % for subfigs %font=small
 \usepackage{subcaption} % for subfigs
 \usepackage{hyperref} % hyperlinks [colorlinks=true]
 \usepackage{booktabs} % spaces between columns
 \usepackage{cancel} % MET: $\cancel{\it{E}}_{T}$
 \setlength{\tabcolsep}{7pt}
 
+\newcommand{\cc}[1]{\multicolumn{1}{c}{#1}} % centered cell
 \newcommand{\levels}[1]{ \multicolumn{2}{l}{\hspace{-1em}\textbf{#1}}}
 \newcommand{\level}[1]{ \multicolumn{5}{l}{\hspace{-1em}\textbf{#1}}}
 \newcommand{\T}{\rule{0pt}{2.9ex}}       % Top strut
@@ -24,7 +25,7 @@
 \newcommand{\bbWW}{$\rightarrow$ bbWW}
 \newcommand{\di}{$\rightarrow$ bbWW $\rightarrow$ bb$\ell\nu \ell\nu$}
 \newcommand{\semi}{$\rightarrow$ bbWW $\rightarrow$ bb$qq\ell\nu$}
-\newcommand{\channels}{bbWW $\rightarrow$ bb$\ell\nu\ell\nu$ or bbWW $\rightarrow$ bb$qq\ell\nu$ }
+\newcommand{\channels}{bbWW $\rightarrow$ bb$\ell\nu\ell\nu$, bb$qq\ell\nu$} % or bbWW $\rightarrow$ bb$qq\ell\nu$ }
 \newcommand{\lnu}{$\ell\nu$}
 \renewcommand{\ll}{\ell\ell}
 \newcommand{\bb}{\text{bb}}
@@ -50,8 +51,7 @@
 
 
 % Introduction
-In this reports, I tempt to reproduce selection level significances from the analysis note on the\\ \mbox{HH \di} channel by C. Delaere \etal\ \cite{AN}. %For further comparison, we compare
-
+This report compares results of selection level cuts of the analysis of HH \di, the analysis note by C. Delaere \etal\ \cite{AN} and a new HH \semi\ analysis.
 
 
 
@@ -69,10 +69,9 @@ For our analysis, the samples only contain \mbox{bbWW $\rightarrow$ bb\lnu\lnu} 
 % Event selections \& clean-up
 \section{Event selections \& clean-up}
 
-To reproduce the results by C. Delaere \etal\, the event selections and clean-up as described in their analysis note are applied to our samples. %(The code can be found here: \cite{code_HH} \cite{code_tt}.)
-These cuts and the ones we use for the semileptonic final state are compared in Table \ref{cuts}.
+To reproduce the results by C. Delaere \etal, the event selections and clean-up as described in their analysis note are applied to our samples. %(The code can be found here: \cite{code_HH} \cite{code_tt}.)
+Similar selections are made in the semileptonic case, however note that there are no cuts equivalent to $\Delta R_{\ll}$, $m_{\ll}$ or $\Delta \phi_{\text{bb},\ll}$ at generator or clean-up level for the semileptonic case, leading to bigger differences between the two cases. All cuts are compared in Table \ref{cuts}.
 
-For the semileptonic sample, the $\Delta R_{\ll}$ cut at generator level is replaced with $\Delta R_{q\ell}$, where $q$ is the closest quark to the lepton. Please note that there are no equivalent cuts to $\Delta R_{\ll}$, $m_{\ll}$ or $\Delta \phi_{\text{bb},\ll}$ used in the clean-up, leading to bigger differences between the two cases.
 
 
 
@@ -144,17 +143,17 @@ with numbers from \cite{BR_HH}, \cite{BR_tt} and \cite{BR_W}:
 	\levels{Generator level filter on background} \T\\
 	b-quarks: $p_T > 15$ GeV                      & b-quarks: $p_T > 15$ GeV    \\
 	leptons: $p_T > 15$ GeV, $|\eta| < 2.5$       & lepton: $p_T > 15$ GeV, $|\eta| < 2.5$    \\
-	$\Delta R_{\ll} < 2.5$                        & $\Delta R_{q\ell} < 2.5$ \\
+	$\Delta R_{\ll} < 2.5$                        & \\%$\Delta R_{q\ell} < 2.5$ \\
 	\levels{Selection} \T\\
 	two b-jets: $p_T > 30$ GeV, $|\eta|<2.5$      & two b-jets: $p_T > 30$ GeV, $|\eta|<2.5$ \\
 	                                              & two non b-jets: $p_T > 20$ GeV, $|\eta|<2.5$ \\
 	two oppositely charged leptons with:          & one lepton with: \\
 	\quad muons: $p_T > 20$ GeV, $|\eta|<2.5$     & \quad muon: $p_T > 20$ GeV, $|\eta|<2.5$ \\
 	\quad electrons: $p_T > 25$ GeV, $|\eta|<2.5$ & \quad electron: $p_T > 25$ GeV, $|\eta|<2.5$ \\
-	MET $> 20$ GeV                                & MET $> 20$ GeV \\
+	\MET $> 20$ GeV                                & \MET $> 20$ GeV \\
 	\levels{Clean-up} \T\\
 	$60 \text{ GeV} < m_{\bb} < 160 \text{ GeV}$  & $60 \text{ GeV} < m_{\bb} < 160 \text{ GeV}$ \\
-	$\Delta R_{\bb} < 3.1 \text{ GeV}$            & $\Delta R_{\bb} < 3.1 \text{ GeV}$ \\
+	$\Delta R_{\bb} < 3.1 \text{ GeV}$            & $\Delta R_{\bb} < 3 \text{ GeV}$ \\
 	$m_{ll} < 85 \text{ GeV}$                     & \\
 	$\Delta R_{\ll} < 2$                          & \\
 	$\Delta \phi_{\text{bb},\ll} < 1.7$           & \\
@@ -213,7 +212,7 @@ with numbers from \cite{BR_HH}, \cite{BR_tt} and \cite{BR_W}:
 	\midrule
 % without taus in sample
 	\channels				     &  22812  &  22546 & 166483 & 164661 \\
-	Generator level filter &  22812  &   8339 & 166483 &  68011 \\
+	Generator level filter 		 &  22812  &   8339 & 166483 &  68011 \\
 	Selection                    &   2748  &   1755 &  28203 &  19401 \\
 	Clean-up                     &   2149  &    296 &  22189 &   8748 \\
 % with taus in sample
@@ -233,7 +232,8 @@ with numbers from \cite{BR_HH}, \cite{BR_tt} and \cite{BR_W}:
 
 Using the yield $N = \sigma L$ with an integrated luminosity $L = 3000 \text{ fb}^{-1}$, the Punzi significance is calculated as:
 \begin{equation}
-	P = \frac{N({\text{HH}})}{\sqrt{1+N({\text{\tt}})}}.
+	P = \frac{S}{\sqrt{1+B}}.
+%	P = \frac{N({\text{HH}})}{\sqrt{1+N({\text{\tt}})}}.
 \end{equation}
 To obtain the significance at after each round of cuts, we multiply each yield with the selection efficiency. %ratio of the number of Monte Carlo events that made the cut and the total number of Monte Carlo events run on.
 The total number of Monte Carlo events per sample in our analysis is listed in Table \ref{sigma}. %For both the HH as \tt\-background we use the total number of events of their respective process.
@@ -252,16 +252,16 @@ Results are summarized in Table \ref{comparison}. To compare the dileptonic to t
 \begin{table}[t]
 	%\small
 	\centering
-	\caption{Comparison of the significance $P$ and yields $N$ between the semileptonic and dileptonic final state for our results using the cross sections at NNLO from Table \ref{sigma} and the results by C. Deleare \etal\ at $\sqrt{s}=14$ TeV and with integrated luminosity $L = 3000 \text{ fb}^{-1}$. The factor $k_{\BR}=\sqrt{\BR(\text{WW}\rightarrow\text{\lnu\lnu})/\BR(\text{WW}\rightarrow\text{qq\lnu})} \simeq 0.397$ allows for comparison.} \vspace{5pt}  %, cross sections \sAN\ from Table \ref{sigma_AN}
+	\caption{Comparison of the significance $P$ and yields $S:=N$(HH) and $B:=N$(\tt) between the semileptonic and dileptonic final state for our results using the cross sections at NNLO from Table \ref{sigma} and the results by C. Deleare \etal\ at $\sqrt{s}=14$ TeV and with integrated luminosity $L = 3000 \text{ fb}^{-1}$. The factor $k_{\BR}=\sqrt{\BR(\text{WW}\rightarrow\text{\lnu\lnu})/\BR(\text{WW}\rightarrow\text{qq\lnu})} \simeq 0.397$ allows for comparison.} \vspace{5pt}  %, cross sections \sAN\ from Table \ref{sigma_AN}
 	\label{comparison}
 	\begin{tabular}{@{\quad}llrrllrrr@{}}
 	
 	\toprule
-	& \multicolumn{3}{c}{dileptonic final state} && \multicolumn{3}{c}{semileptonic final state} \\
+	& \multicolumn{3}{c}{dileptonic final state} & \multicolumn{4}{c}{semileptonic final state} \\
 	\cmidrule(r){2-4} \cmidrule(r){5-8}
-	                       &  $P$  & $N$(HH) &  $N$(\tt)  & $P$ & $k_{\BR}P$ & $N$(HH) &   $N$(\tt)  \\
+	                       & \cc{$P$} & \cc{$S$} & \cc{$B$} & \cc{$P$} & \cc{$k_{\BR}P$} & \cc{$S$} & \cc{$B$} \\
 	\midrule
-	\level{Initial significance, before any cuts} \T\\
+	\level{Initial $\bm{\text{bbWW} \rightarrow \text{bb}qq\ell\nu, \text{bb}\ell\nu\ell\nu}$ sample} \T\\
 	Assuming NNLO          & 0.117 &   1356  & 133 793 550 & 0.295 & 0.117 &   8580  & 848 540 550  \\
 %	Our results with \sAN  & 0.097 &   1125  & 135 499 054 & 0.243 & 0.097 &   7117  & 859 357 134  \\
 	\level{Gen level cuts on background} \T\\
@@ -329,22 +329,34 @@ Results are summarized in Table \ref{comparison}. To compare the dileptonic to t
 
 \section*{Appendix A: Preliminary results on multivariate analysis of\\ \mbox{$\bm{\text{HH} \rightarrow \text{bbWW} \rightarrow \text{bb} qq\ell\nu}$}}
 
-The multilayer perceptron (MLP) from the TMVA class in ROOT is used as neural network. The following variables are input for the NN: $p_T$ of the two leading b-jets, $p_T$ of the two leading light jets, $p_T$ of the leading lepton, missing transverse momentum \MET, $\Delta R_{j_1\ell}$, $\Delta R_{j_1\ell}$, $\Delta R_{\text{b}_1\ell}$, $\Delta R_{\text{b}_2\ell}$, $\Delta R_{\bb}$, $M_{\bb}$, $M_{jj,\text{b}}$ and $M_{\text{b,\lnu}}$. Here $j_1$ denotes the light jet closest to the lepton, and $j_2$ the second closest, while $\text{b}_1$ denotes the b-tagged jet farthest to the lepton and $\text{b}_2$ the second farthest. In case of more than 2 b-jets, the b-jets pair closest in $\Delta R_{\bb}$ is used for $M_{\bb}$ and other b-tagged jets are then regarded as light jets. The other two invariant masses reconstruct a leptonic and hadronic top as follows: % To exploit the top mass
+
+% Event selection
+From the samples described in section 1, we select events with at least two b-jets with $p_T > 30$ GeV, at least four jets with $p_T > 20$ GeV, exactly one lepton with $p_T > 20$ GeV, missing transverse momentum \MET $> 20$ GeV.  
+% BDT
+%The multilayer perceptron (MLP) from the TMVA class in ROOT is used as neural network. The following variables are input for the NN.
+The TMVA's boosted decision tree (BDT) is used for the multivariate analysis on HH \semi\ with background \tt\ \semi. The following are input variables for the BDT:
+% variable list
+$p_T$ of the two leading b-jets, $p_T$ of the two leading light jets, $p_T$ of the leading lepton, missing transverse momentum \MET, $\Delta R_{j_1\ell}$, $\Delta R_{j_1\ell}$, $\Delta R_{\text{b}_1\ell}$, $\Delta R_{\text{b}_2\ell}$, $\Delta R_{\bb}$, $M_{\bb}$, $M_{jj,\text{b}}$ and $M_{\text{b,\lnu}}$.
+% further explanation
+Here $j_1$ denotes the light jet closest to the lepton, and $j_2$ the second closest, while $\text{b}_1$ denotes the b-tagged jet farthest to the lepton and $\text{b}_2$ the second farthest. In case of more than 2 b-jets, the b-jets pair closest in $\Delta R_{\bb}$ is used for $M_{\bb}$ and other b-tagged jets are then regarded as light jets. The other two invariant masses reconstruct a leptonic and hadronic top as follows: % To exploit the top mass
 the two leading jets and closest b-jet second closest to the lepton form $M_{jj,\text{b}}$ and the lepton, reconstructed neutrino and b-jet closest to the lepton make $M_{\text{b,\lnu}}$. The neutrino is reconstructed assuming its transverse momentum $p^\nu_T$ is given by the missing transverse and its longitudinal component $p^\nu_z$ is the real solution of $M_\text{W}^2 = (p_\ell + p_\nu)^2$.
 
- All variables are shown Figs. \ref{vars1}-\ref{vars3}.
+All variables are shown Figs. \ref{vars1}-\ref{vars3}.
 
-%[ "jet1Pt","jet2Pt",
+%[ "Njets20","Nbjets30",
+%  "jet1Pt","jet2Pt",
 %  "bjet1Pt","bjet2Pt",
+%  "Pt_bb","Pt_bl","Pt_j1l",
 %  "leptonPt","MET",
 %  "DeltaR_j1l","DeltaR_j2l",
 %  "DeltaR_b1l","DeltaR_b2l",
-%  "DeltaR_bb1","DeltaPhi_METl",
-%  "M_bb_closest",
-%  "M_jjb_leading",
-%  "M_blnu",
+%  "DeltaR_bb1","DeltaR_jj",
+%  "DeltaR_jjl","DeltaR_jjb",
+%  "DeltaPhi_lMET","DeltaPhi_j1lbb",
+%  "M_bb_closest", "M_jjlnu",
+%  "M_jjb", "M_blnu",
+%  "M_bl", "M_j1l",
 %  "MT_lnu","MT_jjlnu" ]
-
 
 % FIGURE
 \begin{figure*}[h]
@@ -418,7 +430,7 @@ the two leading jets and closest b-jet second closest to the lepton form $M_{jj,
     % fig b
     \begin{minipage}[h!]{\ww}
       \centering
-      \includegraphics[width=\ww]{figs/M_jjb_leading.png}
+      \includegraphics[width=\ww]{figs/M_jjb.png}
     \end{minipage}
     \hspace{9mm}
   \end{subfigure}	
