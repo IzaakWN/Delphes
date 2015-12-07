@@ -580,7 +580,7 @@ def main():
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
                 "M_jjb", "M_blnu",           # top reconstruction
                 "M_j1l",
-                "MT_jjlnu" ]
+                "MT_lnu" ]
 
     betterVars = [  "Nbjets30","Njets20",
                     "jet1Pt","jet2Pt",
@@ -641,6 +641,7 @@ def main():
                     configuration("everythingCleanUp2", allVars2, 2),
                     configuration("everythingCleanUp3", allVars3, 2),
                     configuration("everythingCleanUp4", allVars4, 2),
+                    configuration("everythingCleanUp5", allVars5, 2),
                     configuration("betterCleanUp", betterVars, 2),
 #                    configuration("everythingCleanUp2",  allVars, 3),
 #                    configuration("betterCleanUp2", betterVars, 3),
@@ -656,6 +657,7 @@ def main():
     compare([c for c in configs if c.stage==1],stage="stage_1")
     compare([c for c in configs if c.stage==2],stage="stage_2")
     compare([c for c in configs if c.stage==3],stage="stage_3")
+    compare(configs[1],stage="DBTTuned",methods0=("BDT", "BDTTuned"))
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
