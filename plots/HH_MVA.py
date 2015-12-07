@@ -48,12 +48,12 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 # list of methods
 Methods = [ ("BDT","BDT"),
             ("BDT","BDTTuned"),
-#            ("BDT","BDTPreselection"),
+            ("BDT","BDTPreselection"),
 #            ("BDT","BDTNTrees"),
 #            ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
             ("BDT","BDTBoost"),
-#            ("BDT","BDTNodeSize"),
+            ("BDT","BDTNodeSize"),
 #            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
@@ -183,7 +183,7 @@ def train(config):
     factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
                        ":".join([ "!H","!V",
                                   "NTrees=1500",
-                                  "DoPreselection",
+                                  "DoPreselection=True",
 #                                  "MinNodeSize=2.%", # 2.%
 #                                  "nEventsMin=200",
                                   "MaxDepth=3", # 3 -> 5 -> 3
