@@ -130,8 +130,8 @@ def eventCategory(event):
     
     # 5-6: generator level: single Wlnu, Wjj and Hbb
     categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
-    categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
-#    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2)) #or event.particles.GetEntries()==0)
+#    categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
+    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2)) #or event.particles.GetEntries()==0)
 #    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ql_gen<2.5) or event.particles.GetEntries()==0)
 
     # 7: one muon or electron with PT > 20, 25 GeV
