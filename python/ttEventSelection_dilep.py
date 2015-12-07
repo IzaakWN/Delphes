@@ -37,7 +37,7 @@ def eventCategory(event):
             break
     
     # preparation for clean-up
-    event.M_ll = 0
+    event.M_ll = 100
     event.M_bb = 0
     event.DeltaR_ll = 100 # >>> pi
     event.DeltaR_bb = 100 # >>> pi
@@ -103,11 +103,11 @@ def eventCategory(event):
 #        pl.SetPtEtaPhiM(gen_leptons15[0].PT,gen_leptons15[0].Eta,gen_leptons15[0].Phi,gen_leptons15[0].Mass)
 #        pqs[0].SetPtEtaPhiM(gen_quarks15[0].PT,gen_quarks15[0].Eta,gen_quarks15[0].Phi,gen_quarks15[0].Mass)
 #        pqs[1].SetPtEtaPhiM(gen_quarks15[1].PT,gen_quarks15[1].Eta,gen_quarks15[1].Phi,gen_quarks15[1].Mass)
-#        DeltaR_ql_gen = min(TLV.DeltaR(pq,pl) for pq in pqs)
+#        DeltaR_ql_gen = min(TLV.DeltaR(pq,pl) for pq in pqs) 
 
-    # 0-1: generator level: 2 leptons, 2 b-quarks
-    categoryData.append((nLeptons==2 and nBquarks==2) or event.particles.GetEntries()==0)
-    categoryData.append((len(gen_leptons15)==2 and nBquarks15==2 and DeltaR_ll_gen<2.5) or event.particles.GetEntries()==0)
+    # 0-1: generator level: double Wlnu and Hbb
+    categoryData.append((nLeptons==2 and nBquarks==2)) #or event.particles.GetEntries()==0)
+    categoryData.append((len(gen_leptons15)==2 and nBquarks15==2 and DeltaR_ll_gen<2.5)) #or event.particles.GetEntries()==0)
     
     # 2: two muons or electrons with PT > 20, 25 GeV
     #    MET > 20 GeV
@@ -130,7 +130,8 @@ def eventCategory(event):
     
     # 5-6: generator level: single Wlnu, Wjj and Hbb
     categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
-    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2) or event.particles.GetEntries()==0)
+    categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
+#    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2)) #or event.particles.GetEntries()==0)
 #    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ql_gen<2.5) or event.particles.GetEntries()==0)
 
     # 7: one muon or electron with PT > 20, 25 GeV
@@ -153,7 +154,7 @@ def eventCategory(event):
 
     # 9: clean-up cuts
     categoryData.append( 60<event.M_bb<160 and \
-                         event.DeltaR_bb<3.1 )
+                         event.DeltaR_bb<3 )
     
     return categoryData
 

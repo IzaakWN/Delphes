@@ -93,8 +93,8 @@ def main():
 #    sigma_B = 9030*1.85/0.372/0.0453*0.2873 # fb
     N_S = sigma_S * L
     N_B = sigma_B * L
-    hist_S = file.Get("stage_4/selection/category") # signal: HH -> bbWW
-    hist_B = file_tt.Get("stage_4/selection/category") # BG: tt -> bbWW
+    hist_S = file.Get("stage_5/selection/category") # signal: HH -> bbWW
+    hist_B = file_tt.Get("stage_5/selection/category") # BG: tt -> bbWW
     S_tot = hist_S.GetBinContent(5) #214888
     B_tot = hist_B.GetBinContent(5) #211952 #170692
     preamble = "\n\n\n# Semileptonic channel" + \

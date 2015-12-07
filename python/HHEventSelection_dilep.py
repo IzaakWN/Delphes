@@ -37,7 +37,7 @@ def eventCategory(event):
             break
     
     # preparation for clean-up
-    event.M_ll = 0
+    event.M_ll = 100
     event.M_bb = 0
     event.DeltaR_ll = 100 # >>> pi
     event.DeltaR_bb = 100 # >>> pi
@@ -105,7 +105,7 @@ def eventCategory(event):
 
     # 0-1: generator level: double Wlnu and Hbb
     categoryData.append((nLeptons==2 and nBquarks==2)) #or event.particles.GetEntries()==0)
-    categoryData.append((len(gen_leptons15)==2 and nBquarks15==2 and DeltaR_ll_gen<2.5) or event.particles.GetEntries()==0)
+    categoryData.append((len(gen_leptons15)==2 and nBquarks15==2 and DeltaR_ll_gen<2.5)) #or event.particles.GetEntries()==0)
     
     # 2: two muons or electrons with PT > 20, 25 GeV
     #    MET > 20 GeV
@@ -128,7 +128,8 @@ def eventCategory(event):
     
     # 5-6: generator level: single Wlnu, Wjj and Hbb
     categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
-    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2) or event.particles.GetEntries()==0)
+    categoryData.append((nLeptons==1 and nBquarks==2)) # or event.particles.GetEntries()==0)
+#    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2)) #or event.particles.GetEntries()==0)
 #    categoryData.append((len(gen_leptons15)==1 and nBquarks15==2 and DeltaR_ql_gen<2.5) or event.particles.GetEntries()==0)
 
     # 7: one muon or electron with PT > 20, 25 GeV
@@ -151,7 +152,7 @@ def eventCategory(event):
 
     # 9: clean-up cuts
     categoryData.append( 60<event.M_bb<160 and \
-                         event.DeltaR_bb<3.1 )
+                         event.DeltaR_bb<3 )
     
     return categoryData
 
