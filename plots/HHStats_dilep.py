@@ -83,7 +83,7 @@ def main():
     print preamble
     f.write( preamble)
 
-    for stageN in ["1","2","3","4"]:
+    for stageN in ["0","1","2","3","4"]:
         punzi("stage_"+stageN+"/")
 
 
