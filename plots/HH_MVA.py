@@ -342,7 +342,7 @@ def significance(histS,histB):
     for i in range(1,N):
         S = N_S * histS.Integral(i,N) / S_tot # yield
         B = N_B * histB.Integral(i,N) / B_tot
-        P = S / sqrt(1+B)
+        P = S / (1+sqrt(B))
         if Pmax<P and S > 10 and B > 10:
             Pmax = P
             Smax = S
@@ -361,10 +361,18 @@ def significanceBins(histS,histB):
     # calculate significance per bin and add
     # using variance addition law: sigma^2 = sum(sigma_i^2)
     N = histS.GetNbinsX()
+    Si = 0
     for i in range(1,N):
         S = N_S * histS.GetBinContent(i) / S_tot # yield for bin i
         B = N_B * histB.GetBinContent(i) / B_tot
-        P2 += S*S/(1+B) # P^2 += P_i^2
+        if B == 0:
+            Si += S # save S for next bin
+        elif Si:
+            S += Si # add bin(s) where B was (were) 0
+            Si = 0  # reset
+            P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
+        else:
+            P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
 
     return sqrt(P2)
 
