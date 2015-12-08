@@ -365,23 +365,17 @@ def significanceBins(histS,histB):
     Si = 0
     Bi = 0
     for i in reversed(range(1,N)):
-        S = N_S * histS.GetBinContent(i) / S_tot # yield for bin i
-        B = N_B * histB.GetBinContent(i) / B_tot
+        # merge with previous bins B or S were 0 there
+        S = Si + N_S * histS.GetBinContent(i) / S_tot # yield for bin i
+        B = Bi + N_B * histB.GetBinContent(i) / B_tot
         
-        if B == 0:
-            Si += S # save S for next bin
-        elif Si:
-            S += Si # merge with bin(s) wherein B was (were) 0
-            Si = 0  # reset
-        
-        if S == 0:
-            Bi += B # save B for next bin
-        elif Bi:
-            B += Bi # merge with bin(s) wherein S was (were) 0
-            Bi = 0  # reset
-        
-        if S + B : # both non-zero
+        if S and B : # both non-zero
+            Si = 0 # reset
+            Bi = 0 # reset
             P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
+        else:
+            Si += S # save S for next bin
+            Bi += B # save B for next bin
 
     return sqrt(P2)
 
