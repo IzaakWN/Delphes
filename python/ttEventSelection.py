@@ -120,7 +120,7 @@ def eventCategory(event):
             M_j1l = p_j1l.M()
 #            DeltaR_j1lbb = TLV.DeltaR(jet.TLV+lepton.TLV, p_bb.Phi())
     categoryData.append( categoryData[-1] and \
-                         DeltaR_b1l > 2 and \
+                         DeltaR_b1l > 1.5 and \
                          DeltaR_b2l > 1.2 and \
                          DeltaPhi_j1lbb > 1.5 and \
                          M_j1l < 100 )
