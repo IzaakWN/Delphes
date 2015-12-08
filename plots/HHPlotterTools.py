@@ -496,12 +496,12 @@ def makeAxes(*hists, **kwargs):
             if "vs." in name:
                 hist0.GetXaxis().SetTitle("W #rightarrow l#nu mass [GeV]")
                 ylabel = "W #rightarrow qq mass [GeV]"
+            elif "jets-" in name or "jet-jet-" in name:
+                xlabel += "_{jj,"
             elif "lepton-" in name:
                 xlabel += "_{l"
             elif "bjet-" in name or "bquark-" in name:
                 xlabel += "_{b"
-            elif "jets-" in name or "jet-jet-" in name:
-                xlabel += "_{jj,"
             elif "jet-" in name:
                 xlabel += "_{j"
             elif "bquark-" in name:
@@ -512,7 +512,9 @@ def makeAxes(*hists, **kwargs):
                 xlabel += "_{jj,b}"
             elif "leptonic top" in name:
                 xlabel += "_{b,l#nu}"
-            if "-lepton" in name:
+            if "-lepton-MET" in name:
+                xlabel += "l#nu}"
+            elif "-lepton" in name:
                 xlabel += "l}"
             elif "-bjet" in name or "-bquark" in name:
                 xlabel += "b}"
