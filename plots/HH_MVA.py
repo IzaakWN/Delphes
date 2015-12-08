@@ -556,6 +556,7 @@ def main():
                 "M_bl", "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
                 # Mbl better discrinant than Mblnu
+                # MT_lnu better than MT_jjlnu
                 # DeltaPhi_lMET is bad?
     
     allVars2 = [ "Njets20","Nbjets30",
