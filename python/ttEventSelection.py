@@ -20,15 +20,15 @@ def eventCategory(event):
     categoryData = [ ]
     event.cleanedJets = [ jet for jet in event.jets ][:15]
     muons20 = [ m for m in event.muons if m.PT>20 and m.Eta<2.5 ]
-    electrons20 = [ e for e in event.electrons if e.PT>20 and e.Eta<2.5 ]
-    leps = sorted(muons20+electrons20, key=lambda x: x.PT, reverse=True)
+    electrons25 = [ e for e in event.electrons if e.PT>25 and e.Eta<2.5 ]
+    leps = sorted(muons20+electrons25, key=lambda x: x.PT, reverse=True)
     event.leadingLeptons = leps[:5]
     
     for m in muons20:
         m.Mass = 0.1057
         m.TLV = TLV()
         m.TLV.SetPtEtaPhiM(m.PT, m.Eta, m.Phi, m.Mass)
-    for e in electrons20:
+    for e in electrons25:
         e.Mass = 0.000511
         e.TLV = TLV()
         e.TLV.SetPtEtaPhiM(e.PT, e.Eta, e.Phi, e.Mass)
