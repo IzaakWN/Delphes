@@ -103,20 +103,26 @@ def eventCategory(event):
                          DeltaR_bb < 3 )
 
     # 9: clean-up cuts 2
-    DeltaR_bl = 0
+    DeltaR_b1l = 0
+    DeltaR_b2l = 0
     DeltaPhi_j1lbb = 0
-    if leps and event.bjets30:
+    M_j1l = 101
+    if leps and len(event.bjets30)>1:
         # farthest bjet-lepton pair
-        DeltaR_bl = max(TLV.DeltaR(bj.TLV,leps[0].TLV) for bj in event.bjets30)
+        [DeltaR_b1l,DeltaR_b2l] = sorted(TLV.DeltaR(bj.TLV,leps[0].TLV) for bj in event.bjets30,reverse=True)[:2]
         if p_bb and len(event.cleanedJets20)>3:
             # closest jet-lepton pair
             jet = min([j for j in event.cleanedJets20 if j not in bjet_closest],
-                                      key=lambda j: TLV.DeltaR(j.TLV,leps[0].TLV))
-            DeltaPhi_j1lbb = fold(abs( (jet.TLV+leps[0].TLV).Phi() - p_bb.Phi() ))
+                                                      key=lambda j: TLV.DeltaR(j.TLV,leps[0].TLV))
+            p_j1l = jet.TLV+leps[0].TLV
+            DeltaPhi_j1lbb = fold(abs( p_j1l.Phi() - p_bb.Phi() ))
+            M_j1l = p_j1l.M()
 #            DeltaR_j1lbb = TLV.DeltaR(jet.TLV+lepton.TLV, p_bb.Phi())
     categoryData.append( categoryData[-1] and \
-                         DeltaR_bl > 2 and \
-                         DeltaPhi_j1lbb > 1.5 )
+                         DeltaR_b1l > 2 and \
+                         DeltaR_b2l > 1.2 and \
+                         DeltaPhi_j1lbb > 1.5 and \
+                         M_j1l < 100 )
     
     # 10: at most 5 jets with Pt > 30 GeV
     categoryData.append( len(event.cleanedJets30)<6 )
