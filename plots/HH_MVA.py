@@ -10,6 +10,11 @@ from math import sqrt
 import CMS_lumi, tdrstyle
 from HHPlotterTools import *
 ROOT.gROOT.SetBatch(ROOT.kTRUE)
+CMS_lumi.cmsText = "CMS"
+CMS_lumi.extraText = "Simulation preliminary"
+CMS_lumi.cmsTextSize = 0.65
+CMS_lumi.outOfFrame = True
+tdrstyle.setTDRStyle()
 
 # Manual: http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
 # Method options: http://tmva.sourceforge.net/optionRef.html
@@ -416,16 +421,16 @@ def plot(config):
                               (Pmax,Smax,Bmax,cut) + \
                               "\n>>>\t\t%.4f significance with bins" % Pbins  )
 
-        histS.SetLineColor(ROOT.kRed)
+        histS.SetLineColor(ROOT.kRed+3)
         histS.SetLineWidth(2)
-        histB.SetLineColor(ROOT.kBlue)
+        histB.SetLineColor(ROOT.kAzure+4)
         histB.SetLineWidth(2)
         histB.SetStats(0)
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
         makeAxes(histB,histS,xlabel=(method+" response"),ylabel="")
-        legend = makeLegend(histS,histB,title=method+" response",entries=["signal","background"],position="RightTopTop")
+        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
         legend.Draw()
 
         CMS_lumi.CMS_lumi(c,14,33)
@@ -496,6 +501,7 @@ def eff(config,method):
     hist.SetLineWidth(2)
     hist.SetStats(0)
     makeAxes(hist,xlabel="signal efficiency",ylabel="background rejection")
+    hist.SetTitle()
     setLineColor(hist)
     CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/BrejvsSeffs_"+config.name+"_"+method+".png")
