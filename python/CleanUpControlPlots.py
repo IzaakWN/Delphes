@@ -65,7 +65,7 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("M_jjb","hadronic top reco Mass",100,0,700)
         self.add("M_jjl_all","jets-lepton combinations Mass",100,0,450)
         self.add("M_jjl","leading jets-lepton Mass",100,0,450)
-        self.add("M_jjlnu","leading jets-lepton-MET Mass",100,0,700)
+        self.add("M_jjlnu","leading jets-lepton-MET Mass",100,0,800)
         self.add("M_j1l","closest jet-lepton Mass",100,0,450)
 #        self.add("M_j2l","2nd closest jet-lepton Mass",100,0,450)
         self.add("M_bb_leading","leading bjet-bjet Mass",100,0,300)
@@ -82,7 +82,7 @@ class CleanUpControlPlots(BaseControlPlots):
 #        self.add2D("DeltaRDeltaPt_jl","lepton-bjet DeltaPt vs. DeltaR",100,0,4.5,100,0,2)
 
         self.add("DeltaR_jj_all","jet-jet combinations DeltaR",100,0,4)
-        self.add("DeltaR_jj","leading jet-jet DeltaR",100,0,4)
+        self.add("DeltaR_jj","leading jet-jet DeltaR",100,0,4.5)
         self.add("DeltaR_j1l","closest jet-lepton DeltaR",100,0,4)
         self.add("DeltaR_j2l","2nd closest jet-lepton DeltaR",100,0,4)
         self.add("DeltaR_jjl_all","jets-lepton combinations DeltaR",100,0,5)
