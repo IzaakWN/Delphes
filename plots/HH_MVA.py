@@ -541,16 +541,16 @@ def correlation(config):
 
 def main():
     
-    allVars = [ "Njets20","Nbjets30",
-                "jet1Pt","jet2Pt",
-                "bjet1Pt","bjet2Pt",
-                "Pt_bb","Pt_bl","Pt_j1l",
-                "leptonPt","MET",
-                "DeltaR_j1l","DeltaR_j2l",
-                "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb1","DeltaR_jj",
-                "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_lMET","DeltaPhi_j1lbb",
+    allVars = [ "Njets20", "Nbjets30",
+                "jet1Pt", "jet2Pt",
+                "bjet1Pt", "bjet2Pt",
+                "Pt_bb", "Pt_bl", "Pt_j1l",
+                "leptonPt", "MET",
+                "DeltaR_j1l", "DeltaR_j2l",
+                "DeltaR_b1l", "DeltaR_b2l",
+                "DeltaR_bb1", "DeltaR_jj",
+                "DeltaR_jjl", "DeltaR_jjb",
+                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
                 "M_jjb", "M_blnu",         # top reconstruction
                 "M_bl", "M_j1l", "M_jjl",
@@ -559,35 +559,50 @@ def main():
                 # MT_lnu better than MT_jjlnu
                 # DeltaPhi_lMET is bad?
 
-    allVars2 = [ "Njets20","Nbjets30",
-                "jet1Pt","jet2Pt",
-                "bjet1Pt","bjet2Pt",
-                "Pt_bb","Pt_bl","Pt_j1l",
-                "leptonPt","MET",
-                "DeltaR_j1l","DeltaR_j2l",
-                "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb1","DeltaR_jj",
-                "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_j1lbb",
-                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_blnu",         # top reconstruction
+    allVars2 = [ "Njets20", "Nbjets30",
+                "jet1Pt", "jet2Pt",
+                "bjet1Pt", "bjet2Pt",
+                "Pt_bb", "Pt_bl", "Pt_j1l",
+                "leptonPt", "MET",
+                "DeltaR_j1l", "DeltaR_j2l",
+                "DeltaR_b1l", "DeltaR_b2l",
+                "DeltaR_bb1", "DeltaR_jj",
+                "DeltaR_jjl", "DeltaR_jjb",
+                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
+                "M_bb_closest", "M_jjlnu",     # Higgs reconstruction
+                "M_jjb", "M_blnu", #"M_jjl",   # top reconstruction
                 "M_bl", "M_j1l",
-                "MT_lnu","MT_jjlnu" ]
+                "MT_lnu", "MT_jjlnu" ]
 
-    allVars3 = [ "Njets20","Nbjets30",
-                "jet1Pt","jet2Pt",
-                "bjet1Pt","bjet2Pt",
-                "Pt_bb","Pt_bl","Pt_j1l",
-                "leptonPt","MET",
-                "DeltaR_j1l","DeltaR_j2l",
-                "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb1","DeltaR_jj",
-                "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_j1lbb",
-                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_blnu",         # top reconstruction
+    allVars3 = [ "Njets20", "Nbjets30",
+                "jet1Pt", "jet2Pt",
+                "bjet1Pt", "bjet2Pt",
+                "Pt_bb", "Pt_bl", "Pt_j1l",
+                "leptonPt", "MET",
+                "DeltaR_j1l", "DeltaR_j2l",
+                "DeltaR_b1l", "DeltaR_b2l",
+                "DeltaR_bb1", "DeltaR_jj",
+                "DeltaR_jjl", "DeltaR_jjb",
+                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
+                "M_bb_closest", #"M_jjlnu",     # Higgs reconstruction
+                "M_jjb", "M_blnu", "M_jjl",   # top reconstruction
                 "M_bl", "M_j1l",
-                "MT_lnu" ]
+                "MT_lnu", "MT_jjlnu" ]
+
+    allVars4 = [ "Njets20", "Nbjets30",
+                "jet1Pt", "jet2Pt",
+                "bjet1Pt", "bjet2Pt",
+                "Pt_bb", "Pt_bl", "Pt_j1l",
+                "leptonPt", "MET",
+                "DeltaR_j1l", "DeltaR_j2l",
+                "DeltaR_b1l", "DeltaR_b2l",
+                "DeltaR_bb1", "DeltaR_jj",
+                "DeltaR_jjl", "DeltaR_jjb",
+                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
+                "M_bb_closest",               # Higgs reconstruction
+                "M_jjb", "M_blnu", "M_jjl",   # top reconstruction
+                "M_bl", "M_j1l",
+                "MT_lnu" #, "MT_jjlnu"  ]
 
     betterVars = [  "Nbjets30","Njets20",
                     "jet1Pt","jet2Pt",
@@ -596,22 +611,23 @@ def main():
                     "leptonPt","MET",
                     "DeltaR_j1l","DeltaR_j2l",
                     "DeltaR_b1l","DeltaR_b2l",
-                    "DeltaR_bb1","DeltaR_jj",
+                    "DeltaR_bb1", #"DeltaPhi_lMET"
+                    "DeltaR_jjl","DeltaR_jjb",
+                    "DeltaPhi_j1lbb",
+                    "M_bb_closest", "M_jjl",
+                    "M_jjb", "M_bl", #"M_blnu",
+                    "M_j1l", "MT_lnu" ]
+
+    bestVars = [    "bjet1Pt","jet1Pt",
+                    "leptonPt", "MET"
+                    "DeltaR_j1l","DeltaR_j2l",
+                    "DeltaR_b1l","DeltaR_b2l",
+                    "DeltaR_bb1",
                     "DeltaR_jjl","DeltaR_jjb",
                     "DeltaPhi_j1lbb",
                     "M_bb_closest", "M_jjlnu",
-                    "M_jjb", "M_bl",
-                    "M_j1l" ] # MT_lnu is bad?
-
-#    bestVars = [    "Nbjets30",
-#                    "bjet1Pt","bjet2Pt",
-#                    "leptonPt",
-#                    "DeltaR_j1l","DeltaR_j2l",
-#                    "DeltaR_b1l","DeltaR_b2l",
-#                    "DeltaR_bb1",
-#                    "DeltaR_jjl","DeltaR_jjb",
-#                    "M_bb_closest", "M_jjlnu",
-#                    "M_jjb", "M_blnu" ]
+                    "M_jjb", "M_bl", "M_j1l",
+                    "MT_lnu" ]
 
 #    MLPTopVars = [  "Njets20",
 #                    "jet1Pt","jet2Pt",
@@ -645,11 +661,13 @@ def main():
 #                    configuration("everything20", allVars, 1),
 #                    configuration("better20",     betterVars, 1),
                     configuration("everythingCleanUp", allVars, 2),
-                    configuration("everythingCleanUp2", allVars2, 2),
-                    configuration("everythingCleanUp3", allVars3, 2),
+                    configuration("everything2CleanUp", allVars2, 2),
+                    configuration("everything3CleanUp", allVars3, 2),
+                    configuration("everything4CleanUp", allVars4, 2),
                     configuration("betterCleanUp", betterVars, 2),
-#                    configuration("everythingCleanUp2",  allVars, 3),
-#                    configuration("betterCleanUp2", betterVars, 3),
+                    configuration("bestCleanUp", bestVars, 2),
+                    configuration("everythingCleanUp2",  allVars, 3),
+                    configuration("betterCleanUp2", betterVars, 3),
                   ]
 
     if opts.onlyPlot:
