@@ -53,7 +53,7 @@ Methods = [ ("BDT","BDT"),
 #            ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
             ("BDT","BDTBoost"),
-            ("BDT","BDTNodeSize"),
+#            ("BDT","BDTNodeSize"),
 #            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
@@ -228,18 +228,18 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=50"
                                  ]) )
-    # BDTNodeSize
-    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-                                  "MinNodeSize=5.%", # 10.% -> 20.% -> 1.%
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.05",
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50"
-                                 ]) )
+#    # BDTNodeSize
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+#                                  "MinNodeSize=5.%", # 10.% -> 20.% -> 1.%
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.05",
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50"
+#                                 ]) )
 #    # MLPTanh
 #    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
 #                        ":".join([ "!H","!V",
@@ -547,12 +547,12 @@ def main():
                 "DeltaPhi_lMET","DeltaPhi_j1lbb",
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
                 "M_jjb", "M_blnu",         # top reconstruction
-                "M_bl", "M_j1l",
-                "MT_lnu","MT_jjlnu" ]
+                "M_bl", "M_j1l", "M_jjl",
+                "MT_lnu","MT_jjlnu", ]
                 # Mbl better discrinant than Mblnu
                 # MT_lnu better than MT_jjlnu
                 # DeltaPhi_lMET is bad?
-    
+
     allVars2 = [ "Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
                 "bjet1Pt","bjet2Pt",
@@ -562,12 +562,12 @@ def main():
                 "DeltaR_b1l","DeltaR_b2l",
                 "DeltaR_bb1","DeltaR_jj",
                 "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_lMET","DeltaPhi_j1lbb",
+                "DeltaPhi_j1lbb",
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_bl",           # top reconstruction
-                "M_j1l",
+                "M_jjb", "M_blnu",         # top reconstruction
+                "M_bl", "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
-    
+
     allVars3 = [ "Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
                 "bjet1Pt","bjet2Pt",
@@ -577,40 +577,10 @@ def main():
                 "DeltaR_b1l","DeltaR_b2l",
                 "DeltaR_bb1","DeltaR_jj",
                 "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_lMET","DeltaPhi_j1lbb",
+                "DeltaPhi_j1lbb",
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
                 "M_jjb", "M_blnu",         # top reconstruction
-                "M_j1l",
-                "MT_lnu","MT_jjlnu" ]
-    
-    allVars4 = [ "Njets20","Nbjets30",
-                "jet1Pt","jet2Pt",
-                "bjet1Pt","bjet2Pt",
-                "Pt_bb","Pt_bl","Pt_j1l",
-                "leptonPt","MET",
-                "DeltaR_j1l","DeltaR_j2l",
-                "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb1","DeltaR_jj",
-                "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_lMET","DeltaPhi_j1lbb",
-                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_blnu",         # top reconstruction
-                "M_j1l",
-                "MT_jjlnu" ]
-    
-    allVars5 = [ "Njets20","Nbjets30",
-                "jet1Pt","jet2Pt",
-                "bjet1Pt","bjet2Pt",
-                "Pt_bb","Pt_bl","Pt_j1l",
-                "leptonPt","MET",
-                "DeltaR_j1l","DeltaR_j2l",
-                "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb1","DeltaR_jj",
-                "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_lMET","DeltaPhi_j1lbb",
-                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_blnu",         # top reconstruction
-                "M_j1l",
+                "M_bl", "M_j1l",
                 "MT_lnu" ]
 
     betterVars = [  "Nbjets30","Njets20",
@@ -671,8 +641,6 @@ def main():
                     configuration("everythingCleanUp", allVars, 2),
                     configuration("everythingCleanUp2", allVars2, 2),
                     configuration("everythingCleanUp3", allVars3, 2),
-                    configuration("everythingCleanUp4", allVars4, 2),
-                    configuration("everythingCleanUp5", allVars5, 2),
                     configuration("betterCleanUp", betterVars, 2),
 #                    configuration("everythingCleanUp2",  allVars, 3),
 #                    configuration("betterCleanUp2", betterVars, 3),
