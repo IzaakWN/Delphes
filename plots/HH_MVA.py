@@ -48,7 +48,7 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 # list of methods
 Methods = [ ("BDT","BDT"),
             ("BDT","BDTTuned"),
-            ("BDT","BDTPreselection"),
+#            ("BDT","BDTPreselection"),
 #            ("BDT","BDTNTrees"),
 #            ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
@@ -179,19 +179,19 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=50" # 20 -> 70 -> 100
                                  ]) )
-    # BDTPreselection
-    factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-                                  "DoPreselection=True",
-#                                  "MinNodeSize=2.%", # 2.%
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3", # 3 -> 5 -> 3
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.05", # 0.1 -> 0.05
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50" # 20 -> 70 -> 100
-                                 ]) )
+#    # BDTPreselection
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+#                                  "DoPreselection=True",
+##                                  "MinNodeSize=2.%", # 2.%
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3", # 3 -> 5 -> 3
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.05", # 0.1 -> 0.05
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50" # 20 -> 70 -> 100
+#                                 ]) )
 #    # BDTNTrees
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNTrees",
 #                       ":".join([ "!H","!V",
@@ -358,20 +358,29 @@ def significanceBins(histS,histB):
     
     P2 = 0
 
-    # calculate significance per bin and add
-    # using variance addition law: sigma^2 = sum(sigma_i^2)
+    # calculate significance per bin and add using variance addition law:
+    #                      sigma^2 = sum(sigma_i^2)
+    # if S or B bin is empty, merge with next bins until both are nonzero
     N = histS.GetNbinsX()
     Si = 0
-    for i in range(1,N):
+    Bi = 0
+    for i in reversed(range(1,N)):
         S = N_S * histS.GetBinContent(i) / S_tot # yield for bin i
         B = N_B * histB.GetBinContent(i) / B_tot
+        
         if B == 0:
             Si += S # save S for next bin
         elif Si:
-            S += Si # add bin(s) where B was (were) 0
+            S += Si # merge with bin(s) wherein B was (were) 0
             Si = 0  # reset
-            P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
-        else:
+        
+        if S == 0:
+            Bi += B # save B for next bin
+        elif Bi:
+            B += Bi # merge with bin(s) wherein S was (were) 0
+            Bi = 0  # reset
+        
+        if S + B : # both non-zero
             P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
 
     return sqrt(P2)
@@ -546,6 +555,8 @@ def main():
                 "M_jjb", "M_blnu",         # top reconstruction
                 "M_bl", "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
+                # Mbl better discrinant than Mblnu
+                # DeltaPhi_lMET is bad?
     
     allVars2 = [ "Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
@@ -619,7 +630,7 @@ def main():
                     "DeltaPhi_j1lbb",
                     "M_bb_closest", "M_jjlnu",
                     "M_jjb", "M_bl",
-                    "M_j1l" ]
+                    "M_j1l" ] # MT_lnu is bad?
 
 #    bestVars = [    "Nbjets30",
 #                    "bjet1Pt","bjet2Pt",
@@ -680,6 +691,7 @@ def main():
     for config in configs:
         plot(config)
     compare([c for c in configs if c.stage==1],stage="stage_1")
+    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
     compare([c for c in configs if c.stage==2],stage="stage_2")
     compare([c for c in configs if c.stage==3],stage="stage_3")
     eff(configs[0],"BDTTuned")
