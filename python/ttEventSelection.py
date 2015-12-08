@@ -110,7 +110,7 @@ def eventCategory(event):
     M_j1l = 101
     if leps and len(event.bjets30)>1:
         # farthest bjet-lepton pair
-        [DeltaR_b1l,DeltaR_b2l] = sorted(TLV.DeltaR(bj.TLV,leps[0].TLV) for bj in event.bjets30,reverse=True)[:2]
+        [DeltaR_b1l,DeltaR_b2l] = sorted([TLV.DeltaR(bj.TLV,leps[0].TLV) for bj in event.bjets30],reverse=True)[:2]
         if p_bb and len(event.cleanedJets20)>3:
             # closest jet-lepton pair
             jet = min([j for j in event.cleanedJets20 if j not in bjet_closest],
