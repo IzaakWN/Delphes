@@ -494,10 +494,13 @@ def compare(configs,stage="",methods0=methods):
     for config in configs:
         labels.extend([config.name+", "+method for method in methods0])
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
-                                   entries=labels, position="RightTop")
+                                   #entries=labels, position="RightTop"),
+                                   position="RightTop")
+    
+    
     legend.Draw()
     CMS_lumi.CMS_lumi(c,14,33)
-    setLineStyle(*hist_effs)
+    setLineColor(*hist_effs)
     #for hist in hist_effs:
         #hist.SetLineStyle(1)
         #hist.SetLineWidth(2)
