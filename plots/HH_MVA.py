@@ -58,6 +58,8 @@ Methods = [ ("BDT","BDT"),
 #            ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
             ("BDT","BDTBoost"),
+            ("BDT","BDTBoost1"),
+            ("BDT","BDTBoost2"),
 #            ("BDT","BDTNodeSize"),
 #            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
@@ -230,6 +232,30 @@ def train(config):
                                   "MaxDepth=3",
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.1", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
+    # BDTBoost1
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost1",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.12", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
+    # BDTBoost2
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.08", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
                                   "nCuts=50"
                                  ]) )
@@ -568,7 +594,7 @@ def main():
                 "DeltaR_b1l", "DeltaR_b2l",
                 "DeltaR_bb1", "DeltaR_jj",
                 "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
+                "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
                 "M_bb_closest", "M_jjlnu",     # Higgs reconstruction
                 "M_jjb", "M_blnu", #"M_jjl",   # top reconstruction
                 "M_bl", "M_j1l",
@@ -583,7 +609,7 @@ def main():
                 "DeltaR_b1l", "DeltaR_b2l",
                 "DeltaR_bb1", "DeltaR_jj",
                 "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
+                "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
                 "M_bb_closest", #"M_jjlnu",     # Higgs reconstruction
                 "M_jjb", "M_blnu", "M_jjl",   # top reconstruction
                 "M_bl", "M_j1l",
@@ -598,37 +624,37 @@ def main():
                 "DeltaR_b1l", "DeltaR_b2l",
                 "DeltaR_bb1", "DeltaR_jj",
                 "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
+                "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
                 "M_bb_closest",               # Higgs reconstruction
                 "M_jjb", "M_blnu", "M_jjl",   # top reconstruction
                 "M_bl", "M_j1l",
                 "MT_lnu"#, "MT_jjlnu"
                 ]
 
-    betterVars = [  "Nbjets30","Njets20",
-                    "jet1Pt","jet2Pt",
-                    "bjet1Pt","bjet2Pt",
-                    "Pt_bb","Pt_bl","Pt_j1l",
-                    "leptonPt","MET",
-                    "DeltaR_j1l","DeltaR_j2l",
-                    "DeltaR_b1l","DeltaR_b2l",
-                    "DeltaR_bb1", #"DeltaPhi_lMET"
-                    "DeltaR_jjl","DeltaR_jjb",
-                    "DeltaPhi_j1lbb",
-                    "M_bb_closest", "M_jjl",
-                    "M_jjb", "M_bl", #"M_blnu",
-                    "M_j1l", "MT_lnu" ]
+    #betterVars = [  "Nbjets30","Njets20",
+                    #"jet1Pt","jet2Pt",
+                    #"bjet1Pt","bjet2Pt",
+                    #"Pt_bb",
+                    #"leptonPt","MET",
+                    #"DeltaR_j1l","DeltaR_j2l",
+                    #"DeltaR_b1l","DeltaR_b2l",
+                    #"DeltaR_bb1", #"DeltaPhi_lMET"
+                    #"DeltaR_jjl","DeltaR_jjb",
+                    #"DeltaPhi_j1lbb",
+                    #"M_bb_closest", "M_jjl",
+                    #"M_jjb", "M_bl", #"M_blnu",
+                    #"M_j1l", "MT_lnu" ]
 
-    bestVars = [    "bjet1Pt","jet1Pt",
-                    "leptonPt", "MET",
-                    "DeltaR_j1l","DeltaR_j2l",
-                    "DeltaR_b1l","DeltaR_b2l",
-                    "DeltaR_bb1",
-                    "DeltaR_jjl","DeltaR_jjb",
-                    "DeltaPhi_j1lbb",
-                    "M_bb_closest", "M_jjlnu",
-                    "M_jjb", "M_bl", "M_j1l",
-                    "MT_lnu" ]
+    #bestVars = [    "bjet1Pt","jet1Pt",
+                    #"leptonPt", "MET",
+                    #"DeltaR_j1l","DeltaR_j2l",
+                    #"DeltaR_b1l","DeltaR_b2l",
+                    #"DeltaR_bb1",
+                    #"DeltaR_jjl","DeltaR_jjb",
+                    #"DeltaPhi_j1lbb",
+                    #"M_bb_closest", "M_jjlnu",
+                    #"M_jjb", "M_bl", "M_j1l",
+                    #"MT_lnu" ]
 
 #    MLPTopVars = [  "Njets20",
 #                    "jet1Pt","jet2Pt",
@@ -665,16 +691,14 @@ def main():
                     configuration("everything2CleanUp", allVars2, 2),
                     configuration("everything3CleanUp", allVars3, 2),
                     configuration("everything4CleanUp", allVars4, 2),
-                    configuration("betterCleanUp", betterVars, 2),
-                    configuration("bestCleanUp", bestVars, 2),
-                    configuration("everythingCleanUp2",  allVars, 3),
-                    configuration("betterCleanUp2", betterVars, 3),
+                    #configuration("betterCleanUp", betterVars, 2),
+                    #configuration("bestCleanUp", bestVars, 2),
                   ]
 
     if opts.onlyPlot:
         print ">>> plots only"
     else:
-        for config in reversed(configs):
+        for config in configs: #reversed(configs):
             train(config)
     for config in configs:
         plot(config)
