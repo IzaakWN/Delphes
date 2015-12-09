@@ -456,10 +456,6 @@ def plot(config):
         histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(histS,histB)
-        #histS.SetLineColor(ROOT.kRed+3)
-        histS.SetLineWidth(2)
-        #histB.SetLineColor(ROOT.kAzure+4)
-        #histB.SetLineWidth(2)
         c.SaveAs("MVA/"+method+"_"+config.name+".png")
         c.Close()
         gDirectory.Delete("histS")
@@ -489,7 +485,7 @@ def compare(configs,stage="",methods0=methods):
     
     c = makeCanvas()
     hist_effs[0].Draw()
-    #hist_effs[0].SetStats(0)
+    hist_effs[0].SetStats(0)
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
@@ -500,7 +496,7 @@ def compare(configs,stage="",methods0=methods):
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=labels, position="RightTop")
     legend.Draw()
-    #CMS_lumi.CMS_lumi(c,14,33)
+    CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
     #for hist in hist_effs:
         #hist.SetLineStyle(1)
