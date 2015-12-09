@@ -453,11 +453,11 @@ def plot(config):
         #legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],tt=True,position='RightTopTop',transparent=True)
         legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
-        #histB.SetStats(0)
+        histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(histS,histB)
         #histS.SetLineColor(ROOT.kRed+3)
-        #histS.SetLineWidth(2)
+        histS.SetLineWidth(2)
         #histB.SetLineColor(ROOT.kAzure+4)
         #histB.SetLineWidth(2)
         c.SaveAs("MVA/"+method+"_"+config.name+".png")
@@ -502,9 +502,9 @@ def compare(configs,stage="",methods0=methods):
     legend.Draw()
     #CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
-    for hist in hist_effs[:]:
+    #for hist in hist_effs:
         #hist.SetLineStyle(1)
-        hist.SetLineWidth(2)
+        #hist.SetLineWidth(2)
     c.SaveAs("MVA/BrejvsSeffs_"+stage+".png")
     c.Close()
 
