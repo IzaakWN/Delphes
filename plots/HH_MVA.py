@@ -494,7 +494,7 @@ def compare(configs,stage="",methods0=methods):
     for config in configs:
         labels.extend([config.name+", "+method for method in methods0])
     legend = makeLegend(hist_effs[0],hist_effs[1],title="#splitline{background rejection}{vs. signal efficiency}",
-                                   entries=labels, position="RightTop"),
+                                   entries=labels, position="RightTop")
     legend.Draw()
     CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
