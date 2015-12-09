@@ -538,7 +538,7 @@ def eff(config,method):
 # 2D COLOR HISTOGRAM: Correlation matrices
 def correlation(config):
     print "\n>>> make correlation matrix plots"
-    gStyle.SetPalette(1) # for rainbow colors
+    ROOT.gStyle.SetPalette(1) # for rainbow colors
 
     reader = TMVA.Reader()
     f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
