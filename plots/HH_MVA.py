@@ -489,10 +489,10 @@ def compare(configs,stage="",methods0=methods):
     c = makeCanvas()
     hist_effs[0].Draw()
     hist_effs[0].SetStats(0)
-    makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
+    makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     labels = [ ]
     for config in configs:
         labels.extend([config.name+", "+method for method in methods0])
@@ -502,7 +502,7 @@ def compare(configs,stage="",methods0=methods):
     CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
     for hist in hist_effs[:]:
-        hist.SetLineStyle(2)
+        hist.SetLineStyle(1)
         hist.SetLineWidth(2)
     c.SaveAs("MVA/BrejvsSeffs_"+stage+".png")
     c.Close()
