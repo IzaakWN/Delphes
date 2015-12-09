@@ -449,7 +449,7 @@ def plot(config):
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
-        makeAxes(histB,histS,xlabel=(method+" response"),ylabel="")
+        makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
         legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
 
