@@ -497,7 +497,7 @@ def compare(configs,stage="",methods0=methods):
                                    entries=labels, position="RightTop")
     legend.Draw()
     CMS_lumi.CMS_lumi(c,14,33)
-    setLineColor(*hist_effs)
+    setLineStyle(*hist_effs)
     #for hist in hist_effs:
         #hist.SetLineStyle(1)
         #hist.SetLineWidth(2)
