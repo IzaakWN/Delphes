@@ -489,7 +489,7 @@ def plotPie(stage):
     hist = file_tt.Get(stage+"gen/NWlnu")
     hist.GetXaxis().SetRangeUser(0, 3)
     pie = TPie(hist)
-    pie.SetCircle(.53,.5,.2)
+    pie.oircle(.53,.5,.2)
 #    pie.SetAngularOffset(200)
     pie.SetEntryRadiusOffset(2,.03)
 
