@@ -502,7 +502,7 @@ def compare(configs,stage="",methods0=methods):
     CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
     for hist in hist_effs[:]:
-        hist.SetLineStyle(1)
+        #hist.SetLineStyle(1)
         hist.SetLineWidth(2)
     c.SaveAs("MVA/BrejvsSeffs_"+stage+".png")
     c.Close()
@@ -549,7 +549,7 @@ def correlation(config):
     makeLabels2D(histS,xaxis=True,yaxis=True)
     histS.SetLabelSize(0.030,"x")
     histS.SetLabelSize(0.040,"y")
-   CMS_lumi.CMS_lumi(c,14,33)
+    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixS_"+config.name+".png")
     c.Close()
 
