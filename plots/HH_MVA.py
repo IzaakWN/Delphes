@@ -456,7 +456,7 @@ def plot(config):
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
         makeAxes(histB,histS,xlabel=(method+" response"),ylabel="")
-        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
+        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
 
         CMS_lumi.CMS_lumi(c,14,33)
@@ -526,8 +526,8 @@ def eff(config,method):
     hist.Draw()
     hist.SetLineWidth(2)
     hist.SetStats(0)
-    makeAxes(hist,xlabel="signal efficiency",ylabel="background rejection")
-    hist.SetTitle()
+    makeAxes(hist,xlabel="signal efficiency",tt=True,ylabel="background rejection")
+    #hist.SetTitle()
     setLineColor(hist)
     CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/BrejvsSeffs_"+config.name+"_"+method+".png")
