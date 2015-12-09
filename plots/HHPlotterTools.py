@@ -578,10 +578,10 @@ def setFillStyle(hist):
 def setLineStyle(*hists):
 
 #    linewidth = kwargs.get('linewidth', 2)
-    line = [1,2,3,4]
+    #line = [1,2,3,4]
     for i in range(len(hists)):
         hists[i].SetLineColor(colors[i%len(colors)])
-        hists[i].SetLineStyle(line[i%4])
+        hists[i].SetLineStyle(i%4+1)
         hists[i].SetLineWidth(3)
 
 

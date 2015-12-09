@@ -450,9 +450,10 @@ def plot(config):
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
         makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
-        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],tt=True,position='RightTopTop',transparent=True)
+        #legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],tt=True,position='RightTopTop',transparent=True)
+        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
-        histB.SetStats(0)
+        #histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(histS,histB)
         #histS.SetLineColor(ROOT.kRed+3)
@@ -488,11 +489,11 @@ def compare(configs,stage="",methods0=methods):
     
     c = makeCanvas()
     hist_effs[0].Draw()
-    hist_effs[0].SetStats(0)
+    #hist_effs[0].SetStats(0)
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
-    makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
+    makeAxes(hist_effs,xlabel="signal efficiency",ylabel="background rejection")
     labels = [ ]
     for config in configs:
         labels.extend([config.name+", "+method for method in methods0])
@@ -501,9 +502,9 @@ def compare(configs,stage="",methods0=methods):
     legend.Draw()
     CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
-    for hist in hist_effs[:]:
-        hist.SetLineStyle(1)
-        hist.SetLineWidth(2)
+    #for hist in hist_effs[:]:
+        #hist.SetLineStyle(1)
+        #hist.SetLineWidth(2)
     c.SaveAs("MVA/BrejvsSeffs_"+stage+".png")
     c.Close()
 
