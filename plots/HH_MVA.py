@@ -451,7 +451,7 @@ def plot(config):
         histS.Draw("same")
         makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
         #legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],tt=True,position='RightTopTop',transparent=True)
-        legend = makeLegend(histS,histB,title="test",tt=True,position='RightTopTop',transparent=True)
+        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
         #histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
@@ -500,7 +500,7 @@ def compare(configs,stage="",methods0=methods):
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=labels, position="RightTop")
     legend.Draw()
-    CMS_lumi.CMS_lumi(c,14,33)
+    #CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
     for hist in hist_effs[:]:
         hist.SetLineStyle(1)
