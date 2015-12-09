@@ -589,7 +589,7 @@ def setLineStyle(*hists):
 def setLineColor(*hists):
     for i in range(len(hists)):
         hists[i].SetLineColor(colors[i%len(colors)])
-        hists[i].SetLineStyle(1)
+        hists[i].SetLineStyle(2)
 
 
 
