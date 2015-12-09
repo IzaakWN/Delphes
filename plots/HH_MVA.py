@@ -502,7 +502,7 @@ def compare(configs,stage="",methods0=methods):
     CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
     for hist in hist_effs[:]:
-        #hist.SetLineStyle(1)
+        hist.SetLineStyle(2)
         hist.SetLineWidth(2)
     c.SaveAs("MVA/BrejvsSeffs_"+stage+".png")
     c.Close()
@@ -538,6 +538,7 @@ def eff(config,method):
 # 2D COLOR HISTOGRAM: Correlation matrices
 def correlation(config):
     print "\n>>> make correlation matrix plots"
+    gStyle.SetPalette(1) # for rainbow colors
 
     reader = TMVA.Reader()
     f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
