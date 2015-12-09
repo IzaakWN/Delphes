@@ -452,14 +452,13 @@ def plot(config):
         makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
         legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
-
+        histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(histS,histB)
         #histS.SetLineColor(ROOT.kRed+3)
         #histS.SetLineWidth(2)
         #histB.SetLineColor(ROOT.kAzure+4)
         #histB.SetLineWidth(2)
-        histB.SetStats(0)
         c.SaveAs("MVA/"+method+"_"+config.name+".png")
         c.Close()
         gDirectory.Delete("histS")
@@ -489,21 +488,21 @@ def compare(configs,stage="",methods0=methods):
     
     c = makeCanvas()
     hist_effs[0].Draw()
-    hist_effs[0].SetLineWidth(2)
     hist_effs[0].SetStats(0)
     makeAxes(hist_effs[0],xlabel="signal efficiency",ylabel="background rejection")
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
-            hist.SetLineWidth(2)
     labels = [ ]
     for config in configs:
         labels.extend([config.name+", "+method for method in methods0])
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=labels, position="RightTop")
     legend.Draw()
-    setLineColor(*hist_effs)
     CMS_lumi.CMS_lumi(c,14,33)
+    setLineColor(*hist_effs)
+    for hist in hist_effs[:]:
+        hist.SetLineWidth(2)
     c.SaveAs("MVA/BrejvsSeffs_"+stage+".png")
     c.Close()
 
@@ -528,8 +527,8 @@ def eff(config,method):
     #hist.SetTitle()
     hist.SetStats(0)
     CMS_lumi.CMS_lumi(c,14,33)
-    hist.SetLineWidth(2)
     setLineColor(hist)
+    #hist.SetLineWidth(2)
     c.SaveAs("MVA/BrejvsSeffs_"+config.name+"_"+method+".png")
     c.Close()
 
