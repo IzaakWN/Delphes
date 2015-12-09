@@ -14,7 +14,7 @@ CMS_lumi.cmsText = "CMS"
 CMS_lumi.extraText = "Simulation preliminary"
 CMS_lumi.cmsTextSize = 0.65
 CMS_lumi.outOfFrame = True
-tdrstyle.setTDRStyle()
+#tdrstyle.setTDRStyle()
 
 # Manual: http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
 # Method options: http://tmva.sourceforge.net/optionRef.html
