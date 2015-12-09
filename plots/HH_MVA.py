@@ -493,7 +493,7 @@ def compare(configs,stage="",methods0=methods):
     if len(hist_effs)>1:
         for hist in hist_effs[1:]:
             hist.Draw("same")
-    makeAxes(*hist_effs,xlabel="signal efficiency",ylabel="background rejection")
+    makeAxes(*hist_effs,title="test",xlabel="signal efficiency",ylabel="background rejection")
     labels = [ ]
     for config in configs:
         labels.extend([config.name+", "+method for method in methods0])
