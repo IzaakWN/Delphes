@@ -447,12 +447,6 @@ def plot(config):
                               (Pmax,Smax,Bmax,cut) + \
                               "\n>>>\t\t%.4f significance with bins" % Pbins  )
 
-        histS.SetLineColor(ROOT.kRed+3)
-        histS.SetLineWidth(2)
-        histB.SetLineColor(ROOT.kAzure+4)
-        histB.SetLineWidth(2)
-        histB.SetStats(0)
-
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
         makeAxes(histB,histS,xlabel=(method+" response"),ylabel="")
@@ -460,6 +454,12 @@ def plot(config):
         legend.Draw()
 
         CMS_lumi.CMS_lumi(c,14,33)
+        setLineStyle(histS,histB)
+        #histS.SetLineColor(ROOT.kRed+3)
+        #histS.SetLineWidth(2)
+        #histB.SetLineColor(ROOT.kAzure+4)
+        #histB.SetLineWidth(2)
+        histB.SetStats(0)
         c.SaveAs("MVA/"+method+"_"+config.name+".png")
         c.Close()
         gDirectory.Delete("histS")
@@ -524,12 +524,12 @@ def eff(config,method):
     
     c = makeCanvas()
     hist.Draw()
-    hist.SetLineWidth(2)
-    hist.SetStats(0)
     makeAxes(hist,xlabel="signal efficiency",tt=True,ylabel="background rejection")
     #hist.SetTitle()
-    setLineColor(hist)
+    hist.SetStats(0)
     CMS_lumi.CMS_lumi(c,14,33)
+    hist.SetLineWidth(2)
+    setLineColor(hist)
     c.SaveAs("MVA/BrejvsSeffs_"+config.name+"_"+method+".png")
     c.Close()
 
@@ -559,7 +559,6 @@ def correlation(config):
     makeLabels2D(histB,xaxis=True,yaxis=True)
     histB.SetLabelSize(0.030,"x")
     histB.SetLabelSize(0.040,"y")
-#    CMS_lumi.CMS_lumi(c,14,33)
     c.SaveAs("MVA/CorrelationMatrixB_"+config.name+".png")
     c.Close()
 
