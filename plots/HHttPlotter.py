@@ -142,12 +142,13 @@ def plotBasic(stage):
         if name[name.index("/")+1] == "N" or name[-2:] == "Pt":
             legend = makeLegend(hist_S,hist_tt,tt=True)
             legend.Draw()
-        elif name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaR_b1l", "DeltaR_b2l", "DeltaR_jjb",
-                                           "DeltaPhi_b1l", "DeltaPhi_j1lbb", "DeltaPhi_jjlbb", "DeltaPhi_jjbbl",
-                                           "DeltaPhi_q2l", "DeltaPhi_b1l", "DeltaPhi_b2l", "DeltaPhi_jjb"]:
+        elif name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaR_b1l", "DeltaR_jjb",
+                                           "DeltaPhi_j1lbb", "DeltaPhi_jjlbb", "DeltaPhi_jjbbl",
+                                           "DeltaPhi_q2l", "DeltaPhi_b1l", "DeltaPhi_jjb"]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTop",transparent=True)
             legend.Draw()
-        elif name[name.index("/")+1:] in [ "DeltaR_jj","DeltaR_jj_all", "DeltaR_jjl" ]:
+        elif name[name.index("/")+1:] in [ "DeltaR_b2l", "DeltaPhi_b2l",
+                                           "DeltaR_jj", "DeltaR_jj_all", "DeltaR_jjl" ]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTopTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_bb", "DeltaR_j2l", "DeltaPhi_bb" ]: #"DeltaR_bb1",
