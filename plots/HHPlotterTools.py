@@ -250,11 +250,11 @@ def makeLegend(*hists, **kwargs):
             x2 = x1 + width
             y2 = 0.88
         elif position=="Center":
-            x1 = 0.52
+            x1 = 0.48
             x2 = x1 + width
             y2 = 0.92
         elif position=="CenterBottom":
-            x1 = 0.45
+            x1 = 0.42
             x2 = x1 + width
             y2 = 0.40
 #    if title == "":
