@@ -112,6 +112,8 @@ def plotBasic(stage):
     names.append("cleanup/Pt_bb")
     names.append("cleanup/Pt_bl")
     names.append("cleanup/Pt_j1l")
+    names.append("cleanup/Pt_jjl")
+    names.append("cleanup/Pt_jjb")
 
 #    for comb in [ "qq","q1l","q2l",
 #                  "bb","b1l","b2l", ]:
@@ -137,7 +139,7 @@ def plotBasic(stage):
 #        if "a1" in name:
 #            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
 #            legend.Draw()
-        if name[name.index("/")+1] == "N" or name[-1] == "Pt":
+        if name[name.index("/")+1] == "N" or name[-2:] == "Pt":
             legend = makeLegend(hist_S,hist_tt,tt=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaR_b1l", "DeltaR_b2l",

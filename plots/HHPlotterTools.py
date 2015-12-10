@@ -440,6 +440,10 @@ def makeAxes(*hists, **kwargs):
                 hist0.GetXaxis().SetTitle("p_{T}^{bl} [GeV]")
             elif "jet-lepton" in name:
                 hist0.GetXaxis().SetTitle("p_{T}^{jl} [GeV]")
+            elif "jets-bjet" in name:
+                hist0.GetXaxis().SetTitle("p_{T}^{jjb} [GeV]")
+            elif "jets-lepton" in name:
+                hist0.GetXaxis().SetTitle("p_{T}^{jjl} [GeV]")
             elif "bjet" in name:
                 hist0.GetXaxis().SetTitle("p_{T}^{b} [GeV]")
             elif "jet" in name:
