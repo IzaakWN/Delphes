@@ -400,13 +400,13 @@ def significanceBins(histS,histB):
         S = Si + N_S * histS.GetBinContent(i) / S_tot # yield for bin i
         B = Bi + N_B * histB.GetBinContent(i) / B_tot
         
-        if S and B : # both non-zero
+        if S and B : # both nonzero
             Si = 0 # reset
             Bi = 0 # reset
             P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
-        else:
-            Si += S # save S for next bin
-            Bi += B # save B for next bin
+        else: # at least on zero
+            Si += S # save S for next bins until both nonzero
+            Bi += B # save B for next bins until both nonzero
 
     return sqrt(P2)
 
@@ -607,7 +607,7 @@ def main():
                 "DeltaR_bb1", "DeltaR_jj",
                 "DeltaR_jjl", "DeltaR_jjb",
                 "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
-                "M_bb_closest", #"M_jjlnu",     # Higgs reconstruction
+                "M_bb_closest", #"M_jjlnu",   # Higgs reconstruction
                 "M_jjb", "M_blnu", "M_jjl",   # top reconstruction
                 "M_bl", "M_j1l",
                 "MT_lnu", "MT_jjlnu" ]
@@ -622,25 +622,41 @@ def main():
                 "DeltaR_bb1", "DeltaR_jj",
                 "DeltaR_jjl", "DeltaR_jjb",
                 "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
-                "M_bb_closest",               # Higgs reconstruction
-                "M_jjb", "M_blnu", "M_jjl",   # top reconstruction
+                "M_bb_closest", "M_jjl",   # Higgs reconstruction
+                "M_jjb", "M_blnu",         # top reconstruction
                 "M_bl", "M_j1l",
                 "MT_lnu"#, "MT_jjlnu"
                 ]
 
-    #betterVars = [  "Nbjets30","Njets20",
-                    #"jet1Pt","jet2Pt",
-                    #"bjet1Pt","bjet2Pt",
-                    #"Pt_bb",
-                    #"leptonPt","MET",
-                    #"DeltaR_j1l","DeltaR_j2l",
-                    #"DeltaR_b1l","DeltaR_b2l",
-                    #"DeltaR_bb1", #"DeltaPhi_lMET"
-                    #"DeltaR_jjl","DeltaR_jjb",
-                    #"DeltaPhi_j1lbb",
-                    #"M_bb_closest", "M_jjl",
-                    #"M_jjb", "M_bl", #"M_blnu",
-                    #"M_j1l", "MT_lnu" ]
+    allVars5 = [ "jet1Pt", "jet2Pt",
+                "bjet1Pt", "bjet2Pt",
+                "Pt_bb", "Pt_bl", "Pt_j1l",
+                "leptonPt", "MET",
+                "DeltaR_j1l", "DeltaR_j2l",
+                "DeltaR_b1l", "DeltaR_b2l",
+                "DeltaR_bb1", "DeltaR_jj",
+                "DeltaR_jjl", "DeltaR_jjb",
+                "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
+                "M_bb_closest", "M_jjl",   # Higgs reconstruction
+                "M_jjb", "M_blnu",         # top reconstruction
+                "M_bl", "M_j1l",
+                "MT_lnu"#, "MT_jjlnu"
+                ]
+
+    betterVars = [  "Nbjets30","Njets20",
+                    "jet1Pt","jet2Pt",
+                    "bjet1Pt","bjet2Pt",
+                    "Pt_bb",
+                    "leptonPt","MET",
+                    "DeltaR_j1l","DeltaR_j2l",
+                    "DeltaR_b1l","DeltaR_b2l",
+                    "DeltaR_bb1", #"DeltaPhi_lMET"
+                    "DeltaR_jjl","DeltaR_jjb",
+                    "DeltaPhi_j1lbb",
+                    "M_bb_closest", "M_jjl",
+                    "M_jjb", "M_bl", #"M_blnu",
+                    "M_j1l", "MT_lnu" ]
+
 
     #bestVars = [    "bjet1Pt","jet1Pt",
                     #"leptonPt", "MET",
@@ -688,7 +704,8 @@ def main():
                     configuration("everything2CleanUp", allVars2, 2),
                     configuration("everything3CleanUp", allVars3, 2),
                     configuration("everything4CleanUp", allVars4, 2),
-                    #configuration("betterCleanUp", betterVars, 2),
+                    configuration("everything5CleanUp", allVars5, 2),
+                    configuration("betterCleanUp", betterVars, 2),
                     #configuration("bestCleanUp", bestVars, 2),
                   ]
 
