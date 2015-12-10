@@ -704,8 +704,8 @@ def main():
                     configuration("everything2CleanUp", allVars2, 2),
                     configuration("everything3CleanUp", allVars3, 2),
                     configuration("everything4CleanUp", allVars4, 2),
-                    configuration("everything5CleanUp", allVars5, 2),
-                    configuration("betterCleanUp", betterVars, 2),
+                    #configuration("everything5CleanUp", allVars5, 2),
+                    #configuration("betterCleanUp", betterVars, 2),
                     #configuration("bestCleanUp", bestVars, 2),
                   ]
 
