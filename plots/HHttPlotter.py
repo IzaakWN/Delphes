@@ -147,13 +147,13 @@ def plotBasic(stage):
                                            "DeltaPhi_q2l", "DeltaPhi_b1l", "DeltaPhi_b2l", "DeltaPhi_jjb"]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTop",transparent=True)
             legend.Draw()
-        elif name[name.index("/")+1:] in [ "DeltaR_jj","DeltaR_jj_all", "DeltaR_jjl", "DeltaPhi_jj", "DeltaPhi_jjl" ]:
+        elif name[name.index("/")+1:] in [ "DeltaR_jj","DeltaR_jj_all", "DeltaR_jjl" ]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTopTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_bb", "DeltaR_j2l", "DeltaPhi_bb" ]: #"DeltaR_bb1",
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightRightTopTop",transparent=True)
             legend.Draw()
-        elif name[name.index("/")+1:] in [ "DeltaPhi_jj", "DeltaPhi_jj_all", "DeltaPhi_jj", "DeltaPhi_jjl_all" ]: #"DeltaR_bb1",
+        elif name[name.index("/")+1:] in [ "DeltaPhi_jj", "DeltaPhi_jj_all", "DeltaPhi_jjl", "DeltaPhi_jjl_all" ]: #"DeltaR_bb1",
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="CenterBottom",transparent=True)
             legend.Draw()
 #        elif "_jj" in name:
