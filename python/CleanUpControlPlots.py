@@ -341,7 +341,7 @@ class CleanUpControlPlots(BaseControlPlots):
             result["DeltaEtaDeltaPhi_jj"] = [[ abs(jets[0].Eta - jets[1].Eta),
                                                        result["DeltaPhi_jj"] ]]
             if lepton:
-                p_jjl = p_jj + lepton.TL
+                p_jjl = p_jj + lepton.TLV
                 result["M_jjl"] = p_jjl.M()
                 result["Pt_jjl"] = p_jjl.Pt()
                 result["M_jjlnu"] = (p_jj + lepton.TLV + p_neutrino).M()
