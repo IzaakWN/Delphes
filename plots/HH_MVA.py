@@ -60,6 +60,7 @@ Methods = [ ("BDT","BDT"),
             ("BDT","BDTBoost"),
             ("BDT","BDTBoost1"),
             ("BDT","BDTBoost2"),
+            ("BDT","BDTBoost3"),
 #            ("BDT","BDTNodeSize"),
 #            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
@@ -249,6 +250,18 @@ def train(config):
                                  ]) )
     # BDTBoost2
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.14", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=70"
+                                 ]) )
+    # BDTBoost3
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
                        ":".join([ "!H","!V",
                                   "NTrees=1500",
 #                                  "MinNodeSize=2.%",
@@ -704,8 +717,8 @@ def main():
                     configuration("everything2CleanUp", allVars2, 2),
                     configuration("everything3CleanUp", allVars3, 2),
                     configuration("everything4CleanUp", allVars4, 2),
-                    #configuration("everything5CleanUp", allVars5, 2),
-                    #configuration("betterCleanUp", betterVars, 2),
+                    configuration("everything5CleanUp", allVars5, 2),
+                    configuration("betterCleanUp", betterVars, 2),
                     #configuration("bestCleanUp", bestVars, 2),
                   ]
 
