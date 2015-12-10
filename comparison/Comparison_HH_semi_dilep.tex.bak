@@ -373,11 +373,11 @@ Here $j_1$ denotes the light jet closest to the lepton, and $j_2$ the second clo
 To exploit the top mass, two invariant masses reconstruct a leptonic and hadronic top as follows: the two leading jets and closest b-jet second closest to the lepton form $M_{jj,\text{b}}$ and the lepton, reconstructed neutrino and b-jet closest to the lepton make $M_{\text{b,\lnu}}$. The neutrino here is reconstructed assuming its transverse momentum $p^\nu_T$ is given by the missing transverse energy and its longitudinal component $p^\nu_z$ is (the real part of) the solution of $M_\text{W}^2 = (p_\ell + p_\nu)^2$.
 The transverse mass $M_T^{\ell\nu}$ is defined as
 \begin{equation} \label{MT}
-	M_T^{\ell\nu} = \sqrt{ 2 p_T^\ell \text{\MET} ( 1 - \cos 2 } {\Delta\phi_{\ell,\text{\MET}}} ).
+	M_T^{\ell\nu} = \sqrt{ 2 p_T^\ell \text{\MET} ( 1 - \cos \Delta \phi_{\ell,\text{\MET}} )}.
 \end{equation}
 All variables are shown Figs. \ref{vars1}-\ref{vars5}.
 
-The final BDT output and background rejection versus signal efficiency of the test sample is shown in Fig. \ref{BDT}. A cut is made at 0.25, yielding a significance of $P=0.38$ (see Eq. \eqref{P}) and 100 signal events and 5000 background events at an integrated lumininosity $L = 3000 \text{ fb}^{-1}$.
+The final BDT output and background rejection versus signal efficiency of the test sample is shown in Fig. \ref{BDT}. A cut is made at 0.44, yielding a significance of $P=0.36$ (see Eq. \eqref{P}), 26 signal events and 5153 background events at an integrated lumininosity $L = 3000 \text{ fb}^{-1}$.
 
 
 %tree_vars = [ "Njets20","Nbjets30",
