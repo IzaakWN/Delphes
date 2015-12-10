@@ -511,7 +511,7 @@ def makeAxes(*hists, **kwargs):
             elif "hadronic top" in name:
                 xlabel += "_{jjb}"
             elif "leptonic top" in name:
-                xlabel += "_{b,l#nu}"
+                xlabel += "_{bl#nu}"
             if "-lepton-MET" in name:
                 xlabel += "l#nu}"
             elif "-lepton" in name:
