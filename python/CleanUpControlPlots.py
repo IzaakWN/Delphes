@@ -13,6 +13,7 @@ tree_vars = [ "Njets20","Nbjets30",
               "jet1Pt","jet2Pt",
               "bjet1Pt","bjet2Pt",
               "Pt_bb","Pt_bl","Pt_j1l",
+              "Pt_jjl", "Pt_jjb",
               "leptonPt","MET",
               "DeltaR_j1l","DeltaR_j2l",
               "DeltaR_b1l","DeltaR_b2l",
@@ -54,6 +55,8 @@ class CleanUpControlPlots(BaseControlPlots):
         self.add("Pt_bb","bjets Pt",100,0,500)
         self.add("Pt_bl","closest bjet-lepton Pt",100,0,500)
         self.add("Pt_j1l","closest jet-lepton Pt",100,0,500)
+        self.add("Pt_jjl","leading jets-lepton Pt",100,0,500)
+        self.add("Pt_jjb","leading jets-bjet Pt",100,0,500)
         self.add("leptonPt","lepton Pt",100,0,250)
         self.add("MET","MET",100,0,300)
 
@@ -338,13 +341,14 @@ class CleanUpControlPlots(BaseControlPlots):
             result["DeltaEtaDeltaPhi_jj"] = [[ abs(jets[0].Eta - jets[1].Eta),
                                                        result["DeltaPhi_jj"] ]]
             if lepton:
-                result["M_jjl"] = (p_jj + lepton.TLV).M()
+                p_jjl = p_jj + lepton.TL
+                result["M_jjl"] = p_jjl.M()
+                result["Pt_jjl"] = p_jjl.Pt()
                 result["M_jjlnu"] = (p_jj + lepton.TLV + p_neutrino).M()
                 result["DeltaR_jjl"] = TLV.DeltaR(p_jj,lepton.TLV)
                 result["DeltaPhi_jjl"] = fold(abs(p_jj.Phi()-lepton.Phi))
                 result["DeltaEtaDeltaPhi_jjl"] = [[ abs(p_jj.Eta() - lepton.Eta),
                                                             result["DeltaPhi_jjl"] ]]
-                p_jjl = p_jj + lepton.TLV
                 result["DeltaPhi_jjlnu"] = fold(abs(p_jjl.Phi()-MET.Phi))
                 result["MT_jjlnu"] = sqrt(2 * MET.MET * p_jjl.Pt() * (1-cos( p_jjl.Phi() - MET.Phi)) )
                 if len(bl): # take bjet closest to lepton
@@ -356,6 +360,7 @@ class CleanUpControlPlots(BaseControlPlots):
                         p_jj = jets_tt[0].TLV + jets_tt[1].TLV
                         p_jjb = p_jj + bl[-2].TLV
                         result["M_jjb"] = p_jjb.M()
+                        result["Pt_jjb"] = p_jjb.Pt()
                         result["DeltaR_jjb"] = TLV.DeltaR(p_jj,bl[-2].TLV)
                         result["DeltaPhi_jjb"] = fold(abs(p_jj.Phi()-bl[-2].Phi))
                         result["DeltaEtaDeltaPhi_jjb"] = [[ abs(p_jj.Eta() - bl[-2].Eta),
