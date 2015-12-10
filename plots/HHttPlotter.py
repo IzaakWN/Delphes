@@ -142,9 +142,11 @@ def plotBasic(stage):
         if name[name.index("/")+1] == "N" or name[-2:] == "Pt":
             legend = makeLegend(hist_S,hist_tt,tt=True)
             legend.Draw()
-        elif name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaR_b1l", "DeltaR_jjb",
-                                           "DeltaPhi_j1lbb", "DeltaPhi_jjlbb", "DeltaPhi_jjbbl",
-                                           "DeltaPhi_q2l", "DeltaPhi_b1l", "DeltaPhi_jjb"]:
+        elif name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaPhi_q2l", "DeltaR_b1l", "DeltaPhi_b1l",
+                                           "DeltaR_jjb", "DeltaPhi_jjb",
+                                           "DeltaR_j1lbb", "DeltaPhi_j1lbb",
+                                           "DeltaPhi_jjlbb", "DeltaR_jjbbl", "DeltaPhi_jjbbl"
+                                         ]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_b2l", "DeltaPhi_b2l",
@@ -155,7 +157,7 @@ def plotBasic(stage):
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightRightTopTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaPhi_jj", "DeltaPhi_jj_all", "DeltaPhi_jjl", "DeltaPhi_jjl_all",
-                                           "DeltaPhi_j2l"]: #"DeltaR_bb1",
+                                           "DeltaPhi_j2l", "DeltaPhi_jjlnu"]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="CenterBottom",transparent=True)
             legend.Draw()
 #        elif "_jj" in name:
