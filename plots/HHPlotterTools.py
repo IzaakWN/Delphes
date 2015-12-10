@@ -278,8 +278,8 @@ def makeLegend(*hists, **kwargs):
                     legend.AddEntry(hist0,"neutrino gen signal")
                 else:
                     legend.AddEntry(hist0,"gen signal")
-            legend.AddEntry(hists[-2],"signal")
-            legend.AddEntry(hists[-1],"t#bar{t} BG")
+            legend.AddEntry(hists[-2],"signal","l")
+            legend.AddEntry(hists[-1],"t#bar{t} BG","l")
         elif entries is None:
             for hist in hists:
                 legend.AddEntry(hist,makeEntryName2(hist))
