@@ -137,8 +137,8 @@ def plotBasic(stage):
 #        if "a1" in name:
 #            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
 #            legend.Draw()
-        if "jet" in name:
-            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop",transparent=True)
+        if name[name.index("/")+1] == "N" or name[-1] == "Pt":
+            legend = makeLegend(hist_S,hist_tt,tt=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaR_b1l", "DeltaR_b2l",
                                          "DeltaPhi_b1l", "DeltaPhi_j1lbb", "DeltaR_jjb" ]:
