@@ -153,7 +153,7 @@ def plotBasic(stage):
         elif name[name.index("/")+1:] in [ "DeltaR_bb", "DeltaR_j2l", "DeltaPhi_bb" ]: #"DeltaR_bb1",
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightRightTopTop",transparent=True)
             legend.Draw()
-        elif name[name.index("/")+1:] in [ "DeltaR_jj" ]: #"DeltaR_bb1",
+        elif name[name.index("/")+1:] in [ "DeltaPhi_jj", "DeltaPhi_jj_all", "DeltaPhi_jj", "DeltaPhi_jjl_all" ]: #"DeltaR_bb1",
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="CenterBottom",transparent=True)
             legend.Draw()
 #        elif "_jj" in name:
