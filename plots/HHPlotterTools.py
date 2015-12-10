@@ -57,6 +57,10 @@ def makeTitle(hist):
     # replace stuff
     if " Pt" in title:
         title = title.replace(" Pt","") # take away variable
+        if "jet 1" in title:
+            title = "leading " + title.replace("jet 1","jet")
+        elif "jet 2" in title:
+            title = "second leading " + title.replace("jet 2","jet")
     elif " Eta" in title and "Eta<" not in title:
         title = title.replace(" Eta","")
     elif " Mass" in title:
@@ -436,6 +440,10 @@ def makeAxes(*hists, **kwargs):
                 hist0.GetXaxis().SetTitle("p_{T}^{bl} [GeV]")
             elif "jet-lepton" in name:
                 hist0.GetXaxis().SetTitle("p_{T}^{jl} [GeV]")
+            elif "bjet" in name:
+                hist0.GetXaxis().SetTitle("p_{T}^{b} [GeV]")
+            elif "jet" in name:
+                hist0.GetXaxis().SetTitle("p_{T}^{j} [GeV]")
             else:
                 #hist0.GetXaxis().SetTitle("transverse momentum p_{T} [GeV]")
                 hist0.GetXaxis().SetTitle("p_{T} [GeV]")
