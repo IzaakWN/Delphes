@@ -139,13 +139,13 @@ def plotBasic(stage):
 #            legend.Draw()
         if name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaR_b1l", "DeltaR_b2l",
                                          "DeltaPhi_b1l", "DeltaPhi_j1lbb", "DeltaR_jjb" ]:
-            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop",transparent=True)
+            legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_jj", "DeltaR_jjl" ]:
-            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTopTop",transparent=True)
+            legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTopTop",transparent=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_bb", "DeltaR_j2l" ]: #"DeltaR_bb1",
-            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightRightTopTop",transparent=True)
+            legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightRightTopTop",transparent=True)
             legend.Draw()
 #        elif "_jj" in name:
 #            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop")
@@ -154,7 +154,7 @@ def plotBasic(stage):
 #            legend = makeLegend(hist_S,hist_tt,tt=True,position="Center")
 #            legend.Draw()
         else:
-            legend = makeLegend(hist_S,hist_tt,tt=True)
+            legend = makeLegend(hist_S,hist_tt,title=" ",tt=True)
             legend.Draw()
 
         CMS_lumi.CMS_lumi(c,14,33)
