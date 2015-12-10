@@ -622,8 +622,8 @@ def main():
                 "DeltaR_bb1", "DeltaR_jj",
                 "DeltaR_jjl", "DeltaR_jjb",
                 "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
-                "M_bb_closest", "M_jjl",   # Higgs reconstruction
-                "M_jjb", "M_blnu",         # top reconstruction
+                "M_bb_closest",   # Higgs reconstruction
+                "M_jjb", "M_blnu", "M_jjl",         # top reconstruction
                 "M_bl", "M_j1l",
                 "MT_lnu"#, "MT_jjlnu"
                 ]
