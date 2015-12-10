@@ -22,7 +22,8 @@ tree_vars = [ "Njets20","Nbjets30",
               "DeltaPhi_lMET","DeltaPhi_jjlnu",
               "M_bb_closest", "M_jjlnu",
               "M_jjb", "M_blnu",
-              "M_bl", "M_jjl", "M_j1l",
+              "M_bl", "M_jjl",
+              "M_jj", "M_j1l",
               "MT_lnu","MT_jjlnu" ]
 
 # Requirements:
