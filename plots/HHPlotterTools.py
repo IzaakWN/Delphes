@@ -285,7 +285,7 @@ def makeLegend(*hists, **kwargs):
                 legend.AddEntry(hist,makeEntryName2(hist))
         else:
             for i in range(len(hists)):
-                legend.AddEntry(hists[i],entries[i])
+                legend.AddEntry(hists[i],entries[i],"l")
 
     return legend
 
