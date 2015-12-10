@@ -184,7 +184,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.05", # 0.1 -> 0.05
                                   "SeparationType=GiniIndex",
-                                  "nCuts=50" # 20 -> 70 -> 100
+                                  "nCuts=70" # 20 -> 70 -> 100
                                  ]) )
 #    # BDTPreselection
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
@@ -197,7 +197,7 @@ def train(config):
 #                                  "BoostType=AdaBoost",
 #                                  "AdaBoostBeta=0.05", # 0.1 -> 0.05
 #                                  "SeparationType=GiniIndex",
-#                                  "nCuts=50" # 20 -> 70 -> 100
+#                                  "nCuts=70" # 20 -> 70 -> 100
 #                                 ]) )
 #    # BDTNTrees
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNTrees",
@@ -209,7 +209,7 @@ def train(config):
 #                                  "BoostType=AdaBoost",
 #                                  "AdaBoostBeta=0.05",
 #                                  "SeparationType=GiniIndex",
-#                                  "nCuts=50"
+#                                  "nCuts=70"
 #                                 ]) )
 #    # BDTMaxDepth
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTMaxDepth",
@@ -221,7 +221,7 @@ def train(config):
 #                                  "BoostType=AdaBoost",
 #                                  "AdaBoostBeta=0.05",
 #                                  "SeparationType=GiniIndex",
-#                                  "nCuts=50"
+#                                  "nCuts=70"
 #                                 ]) )
     # BDTBoost
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
@@ -233,7 +233,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.1", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=50"
+                                  "nCuts=70"
                                  ]) )
     # BDTBoost1
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost1",
@@ -245,7 +245,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.12", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=50"
+                                  "nCuts=70"
                                  ]) )
     # BDTBoost2
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
@@ -257,7 +257,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.08", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=50"
+                                  "nCuts=70"
                                  ]) )
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
@@ -431,11 +431,11 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 150, -0.4, 1.4)
-            histB = TH1F("histB", "", 150, -0.4, 1.4)
+            histS = TH1F("histS", "", 100, -0.4, 1.4)
+            histB = TH1F("histB", "", 100, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 150, -1.4, 1.4)
-            histB = TH1F("histB", "", 150, -1.4, 1.4)
+            histS = TH1F("histS", "", 100, -1.4, 1.4)
+            histB = TH1F("histB", "", 100, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
