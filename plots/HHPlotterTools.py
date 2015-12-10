@@ -427,7 +427,7 @@ def makeAxes(*hists, **kwargs):
     else:
         name = hist0.GetTitle()
         ylabel = "Events / %s " % hist0.GetXaxis().GetBinWidth(0)
-        if name in ["N", "multiplicity"]:
+        if "multiplicity" in name: #or "N" in name
             hist0.GetXaxis().SetTitle("multiplicity")
         elif " Pt" in name:
             if "bjets" in name:
