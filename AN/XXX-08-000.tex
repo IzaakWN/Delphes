@@ -1,0 +1,269 @@
+% CVS info. These are modified by cvs at checkout time.
+% The last version of these macros found before the maketitle will be the one on the front page,
+% so only the main file is tracked.
+% Edit by hand with care!
+\RCS$Revision: 1.7 $
+\RCS$Date: 2009/05/12 19:20:52 $
+\RCS$Name:  $
+%%%%%%%%%%%%% ptdr definitions %%%%%%%%%%%%%%%%%%%%%
+\input{ptdr-definitions}
+%%%%%%%%%%%%%%%  Title page %%%%%%%%%%%%%%%%%%%%%%%%
+% [Not required for PAS notes -- derived from directory name.] Please replace 2006/000 with your note number in the following line:
+\cmsNoteHeader{XXX-08-000}
+\title{Test PAS Paper}% Force line breaks with \\
+
+%\address[cern]{CERN}
+%\address[neu]{Northeastern University}
+%\author[neu]{George Alverson}
+%\author[neu]{Lucas Taylor}
+%\author[cern]{A. Cern Person}
+\author{The CMS Collaboration}
+
+% please supply the date in yyyy/mm/dd format. Today has been
+% redefined to do so, but it should be fixed as of the final release date.
+\date{\today}
+
+% note that you cannot use \verb in the abstract text
+\abstract{
+   This is an example of a \textit{CMS Note} written in \LaTeX
+    using the \emph{cms-tdr} document class and processed using the
+    same \texttt{tdr} perl script used in generating the CMS Physics TDRs.\\
+
+    Instructions for producing CMS Notes and Internal Notes are given.
+
+   This is an example of a \textit{CMS Note} written in \LaTeX
+    using the \emph{cms-tdr} document class and processed using the
+    same \texttt{tdr} perl script used in generating the CMS Physics TDRs.\\
+
+}
+
+% these need to be filled in by hand and should (MUST) match the info
+% in the TeX equivalents less the TeX markup
+\hypersetup{%
+pdfauthor={CMS Collaboration},%
+pdftitle={Test PAS Paper},%
+pdfsubject={CMS},%
+pdfkeywords={CMS, physics, software, computing}}
+\maketitle %maketitle comes after all the front information has been supplied
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Begin text %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{CMS papers}
+There are currently four kinds of CMS papers supported by this system: ``CMS Note,''
+``CMS Internal Note,''    ``CMS Physics Analysis Summary," and ``CMS Conference Report.''
+The processing for these differs only in the header of the first page,
+which includes a different PDF figure  for each kind. The
+appropriate header is chosen by the switch used in the
+\texttt{tdr}
+command.
+
+This document only deals with papers set with Pdf\LaTeX. We found Pdf\LaTeX\ plus \texttt{cvs} to be a reliable system for the production of
+large documents such as the Physics TDRs and felt it would be useful to extend it to the production of shorter documents such as CMS Notes.
+
+\subsection{The mechanics of generating and typesetting papers}
+
+To start
+you will need to request a note directory in the \texttt{cvs} repository from the TDR librarian (currently
+Lucas Taylor). It is best to supply a list of the co-authors who are to have write access to the repository at the time of the request.
+
+To generate output, check out your note
+directory from \texttt{cvs} following the example below. \texttt{contactAuthor} should be the CERN ``phone'' CMS username used when requesting the creation of the note directory and \texttt{noteNo} is
+the serial number for the note generated at the time of the request. Following the sequence below will populate your local copy of the repository  with only your note and not include the other notes.
+
+\begin{verbatim}
+> project tdr
+> cvs co -l notes
+> eval `notes/tdr runtime -csh` # for tcsh. use -sh for bash.
+> cd notes
+> cvs update -d notes/contactAuthor_noteNo
+> cd notes/contactAuthor_noteNo
+# (create and edit your note, say mynote.tex)
+> tdr  --style=note b mynote
+# or, to create the final version of a PAS document
+> tdr --style=pas --nodraft b mynote
+\end{verbatim}
+
+The \texttt{nodraft} switch is required to turn off the "Draft" overlay text.
+
+If you wish to export your paper (for local work or for security), you can produce a tarball with all the necessary files with
+\begin{verbatim}
+> tdr --style=note --export b mynote.
+\end{verbatim}
+This will function on  Unix or Windows systems which have recent copies of \LaTeX\ (including \AmS-\LaTeX) and \texttt{perl} installed. We currently use the \texttt{sectsty, subfigure, floatflt,
+fancyhdr, mathpazo, rotating, fancybox, lineno,} and \texttt{natbib} styles, which may not be included in the default distribution.
+
+
+\section{Document layout}
+
+\subsection{Standard macros}
+\textit{Notes} should include
+\texttt{ptdr-definitions.tex}, which provides definitions
+for many physics and CMS-related entities, \eg, \GeVcc. A complete list is
+given in Appendix~\ref{app:symdef}.
+
+All style-related parameters are set in the
+class file included by the script and generally follow the article style. The chapter command is not implemented.
+
+\subsection{Title block}
+Please see the \LaTeX\ \href{http://isscvs.cern.ch/cgi-bin/viewcvs-all.cgi/TDR/notes/example/example.tex?root=tdr&view=markup}{source} for this file to see how the title
+page is generated. In general it follows the normal \LaTeX\ practice for title pages.
+
+The type of note (CN, AN, Note, etc.) is set
+through the \texttt{--style} switch in the \texttt{tdr} script. When in draft mode, the string ``Draft" is displayed on the page and the title block contains (in addition to the date), information about the cvs status of the document.
+
+\subsection{Page size, margins and fonts}
+
+The standard European  paper size is A4 (210 mm x 297 mm (8.3" x
+11.7")) while American paper is US Letter (216 mm x 279 mm (8.5" x
+11.0")), somewhat wider and shorter. In the era of straight
+PostScript this led to difficulties, but PDF print drivers now
+generally supply a  ``shrink and center" option. In this template
+we have set the \LaTeX\ page style parameters to match the standard A4 size
+(see Table~\ref{tab:page_layout}) and rely upon that option to
+produce an acceptable result on US Letter paper.
+
+Do not override the default fonts. They are currently set to be
+Palatino and Helvetica. The math fonts have also been changed to
+Palatino so that they do not clash with the body text,
+particularly in regards to numbers and units. This means the
+authors should use \verb|\text| commands to put text in subscripts
+and superscripts, and most importantly \emph{do not use}
+\verb|\rm| in formulas, otherwise you will end up with formulae looking like the second one below.
+
+\begin{gather}
+\phi = \text{a Greek letter}\\
+{\rm \phi} = \text{a mistake}\\
+\end{gather}
+
+Also note that the math fonts include a full set of Greek symbols in Math Italic Bold (produced with \verb|\mathbold|),
+but only uppercase in Math Bold (\verb|\mathbf|). Use \verb|\boldmath| outside the math delimeters (\$) to get bold symbols: \verb|\boldmath{$\alpha \otimes \beta$}| produces \boldmath{$\alpha \otimes \beta$} $\boldsymbol{\alpha}$.
+
+When Greek or symbol characters are used in the title, author,
+keywords or section heads, please use the \verb|\texorpdfstring|
+command to provide alternate versions. Acrobat cannot deal with
+\TeX\ characters and will ignore many of them for your PDF bookmark. See the following two subsections and check the corresponding bookmarks. (You may notice that this will produce four instances of ``Package hyperref Warning: Token not allowed in a PDFDocEncoded string" in the output log.)
+
+% note that the use of \text{2} sets the 2 in the same font _and_ weight as the rest of the title (here Helvetica bold)
+\subsection{\texorpdfstring{H$_\text{2}$O-$\alpha$}{Water-alpha} Demo}
+The title for this subsection was set with \\
+\verb|\subsection{\texorpdfstring{H$_\text{2}$O-$\alpha$}{Water-alpha}}|
+
+\subsection{H$_\text{2}$O-$\alpha$ Demo}
+The title for this subsection was set with\\
+\verb|\subsection{H$_\text{2}$O-$\alpha$}|
+
+
+
+\subsection{Tables, figures}
+
+Place the captions above the object for tables, below for figures
+
+\begin{table}[htbH]
+\begin{center}
+\caption{An example table: Current page and paragraph layout
+parameters. ( 72.27\,pt = 1\,in )\label{tab:page_layout}}
+\begin{tabular}{|l|c||l|c|}
+\hline \verb|\hoffset| & \the\hoffset &
+\verb|\voffset| & \the\voffset \\
+\verb|\textheight| & \the\textheight &
+\verb|\textwidth| & \the\textwidth \\
+\verb|\baselineskip| & \the\baselineskip &
+\verb|\marginparsep| & \the\marginparsep \\
+\verb|\topmargin| & \the\topmargin &&\\
+\verb|\headheight| & \the\headheight &
+\verb|\footskip| & \the\footskip \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Figures can include PDF files using the
+\emph{includegraphics} package, which is automatically installed
+by our class file. Specifying both width and height forces both
+dimensions to be changed and causes a distortion of the figure, so
+only use one of the two. If neither width nor height is given, the size is
+taken from the Crop Box size embedded in the file, which is similar to the
+BoundingBox in PostScript. If there is too much white space around your figure, it may be that
+the Crop Box has been mis-set during a conversion from PostScript to PDF. Recommended
+translators on lxplus are \texttt{epstopdf} and \texttt{ps2pdf -dEPSCrop}. Native PostScript can not be included.
+
+\begin{figure}[hbtp]
+  \begin{center}
+    \includegraphics[width=0.2\textwidth]{CMS-bw-logo}\hspace{1cm}\includegraphics[width=0.2\textwidth]{CMScol}
+    \hspace{1cm}
+    \caption{Figures inserted using includegraphics.}
+    \label{fig:ex1}
+  \end{center}
+\end{figure}
+
+When including root-generated figures, please make sure to use the standard macro to set the figure parameters,
+and to first generate the output in eps format which is then converted to PDF.
+
+%------------------------------------------------------------------------------
+\section{Standards}
+Please check the
+\textit{\href{http://cms.cern.ch/cmspb/mainColumnParagraphs/00/document/CMSGuidelines.pdf}{CMS
+Guidelines for Authors}} and the
+\textit{\href{http://cmsdoc.cern.ch/cms/cpt/tdr/notes_for_authors_temp.pdf}{Notes
+for TDR authors}} for authoritative information on CMS standards
+for publications and for tips on writing in \LaTeX. (If you find any discrepancies between those
+documents and the practices in this example, please contact
+\href{mailto:George.Alverson@cern.ch}{us}.)
+
+\subsection{Standard macros}
+\textit{Notes} include the \AmS-\LaTeX\ class file which defines
+many additional math symbols, including \verb|\gtrsim|
+($\gtrsim$). It also allows for better control in setting
+equations. Please see the \AmS-\LaTeX\
+\href{ftp://ftp.ams.org/pub/tex/doc/amsmath/amsldoc.pdf}{user
+guide} for complete details.
+
+As previously mentioned, uniformity of symbol use should be enforced through the inclusion and use of the definitions  in \texttt{ptdr-definitions.tex}.
+
+
+\section{Submitting a note}
+
+Please follow the rules and procedures defined on the
+\href{http://cms.cern.ch/iCMS/jsp/iCMS.jsp?mode=single&part=publications}{CMSDOC
+server}, or request them by e-mail to:
+\href{mailto:cmsnotes@cmsdoc.cern.ch}{cmsnotes@cmsdoc.cern.ch}.
+
+\section{References example}
+
+References (\cite{CMS_AN_2006-027,CMS_NOTE_2006-106,Brandt:1997gi}) should use standard
+BibTeX citations and be placed in a separate bib file. This is included with the \verb+\bibliograph{auto_generated}+ command placed at the end of the note.
+We recommend the use of SLAC Spires
+identifiers as reference keys, where possible. This allows the reference to be easily found on Spires using the \textit{find texkey}
+command. It also ensures uniqueness if the references are to be combined into a larger bib file later. See the bib file for this note for examples, including the correct use of hyperlinks.
+
+
+\bibliography{auto_generated}   % will be created by the tdr script.
+\clearpage
+\appendix
+\section{PTDR Symbol Definitions\label{app:symdef}}
+If absolutely necessary, symbol definitions may
+be over-ridden using the \verb|\renewcommand| command.
+%\renewcommand{\GeVcc}{\ensuremath{{\,\text{Ge\hspace{-.08em}V\hspace{-0.16em}/\hspace{-0.08em}}c^\text{2}}}\xspace}
+
+%
+% below is a multi-column format to display the standard PTDR symbols
+\providecommand{\symexamp}[2]
+{\makebox[0.160\textwidth][l]{#1:}
+                          \makebox[0.025\textwidth][l]{~}
+                          \parbox[t]{0.32\textwidth}{#2\vspace*{-2.5mm}\\}}
+\setlength{\columnseprule}{0.2mm}
+\setlength{\multicolsep}{7mm}
+%
+\vspace*{-5mm}
+\begin{multicols}{2}
+%
+\small%
+\raggedcolumns%
+\noindent%
+
+%we used to generate these dynamically in case the ptdr-definitions.tex file changed, but we changed our minds.
+%%the -shell-escape flag must be set in the the PdfLaTeX command line to enable \write18 usage
+%%\immediate\write18{perl ../general/get-ptdr-defs.pl > pdefs.tex}
+%now we just input a local formatted copy:
+\input{pdefs}\\
+\end{multicols}
