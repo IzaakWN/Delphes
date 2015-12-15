@@ -257,7 +257,7 @@ def train(config):
 #                                  "nEventsMin=200",
                                   "MaxDepth=3",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.12", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
                                   "nCuts=80"
                                  ]) )
@@ -269,7 +269,7 @@ def train(config):
 #                                  "nEventsMin=200",
                                   "MaxDepth=3",
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.14", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
                                   "nCuts=80"
                                  ]) )
@@ -552,7 +552,7 @@ def eff(config,method):
     hist.Draw()
     hist_train.Draw("same")
     makeAxes(hist,hist_train,xlabel="signal efficiency",tt=True,ylabel="background rejection")
-    legend = makeLegend(*hist_effs,title=" ",
+    legend = makeLegend(hist,hist_train,title=" ",
                                    entries=["test sample","training sample"], position="RightTop")
     legend.Draw()
     CMS_lumi.CMS_lumi(c,14,33)
@@ -594,11 +594,12 @@ def correlation(config):
 
 
 def main():
-    
+
     allVars = [ "Njets20", "Nbjets30",
                 "jet1Pt", "jet2Pt",
                 "bjet1Pt", "bjet2Pt",
                 "Pt_bb", "Pt_bl", "Pt_j1l",
+                "Pt_jjl", "Pt_jjb",
                 "leptonPt", "MET",
                 "DeltaR_j1l", "DeltaR_j2l",
                 "DeltaR_b1l", "DeltaR_b2l",
@@ -607,7 +608,27 @@ def main():
                 "DeltaPhi_lMET", "DeltaPhi_j1lbb",
                 "M_bb_closest", "M_jjlnu", # Higgs reconstruction
                 "M_jjb", "M_blnu",         # top reconstruction
-                "M_bl", "M_j1l", "M_jjl",
+                "M_bl", "M_j1l",
+                "M_jj", "M_jjl",
+                "MT_lnu","MT_jjlnu", ]
+                # Mbl better discrinant than Mblnu
+                # MT_lnu better than MT_jjlnu
+                # DeltaPhi_lMET is bad?
+
+    allVarsN = [ "jet1Pt", "jet2Pt",
+                "bjet1Pt", "bjet2Pt",
+                "Pt_bb", "Pt_bl", "Pt_j1l",
+                "Pt_jjl", "Pt_jjb",
+                "leptonPt", "MET",
+                "DeltaR_j1l", "DeltaR_j2l",
+                "DeltaR_b1l", "DeltaR_b2l",
+                "DeltaR_bb1", "DeltaR_jj",
+                "DeltaR_jjl", "DeltaR_jjb",
+                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
+                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
+                "M_jjb", "M_blnu",         # top reconstruction
+                "M_bl", "M_j1l",
+                "M_jj", "M_jjl",
                 "MT_lnu","MT_jjlnu", ]
                 # Mbl better discrinant than Mblnu
                 # MT_lnu better than MT_jjlnu
@@ -732,11 +753,12 @@ def main():
 #                    configuration("everything20", allVars, 1),
 #                    configuration("better20",     betterVars, 1),
                     configuration("everythingCleanUp", allVars, 2),
-                    configuration("everything2CleanUp", allVars2, 2),
-                    configuration("everything3CleanUp", allVars3, 2),
-                    configuration("everything4CleanUp", allVars4, 2),
-                    configuration("everything5CleanUp", allVars5, 2),
-                    configuration("betterCleanUp", betterVars, 2),
+                    configuration("everythingNCleanUp", allVarsN, 2),
+                    #configuration("everything2CleanUp", allVars2, 2),
+                    #configuration("everything3CleanUp", allVars3, 2),
+                    #configuration("everything4CleanUp", allVars4, 2),
+                    #configuration("everything5CleanUp", allVars5, 2),
+                    #configuration("betterCleanUp", betterVars, 2),
                     #configuration("bestCleanUp", bestVars, 2),
                   ]
 
