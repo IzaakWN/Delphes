@@ -22,6 +22,11 @@ class GenControlPlots(BaseControlPlots):
         self.add("NWqq","W->qq multiplicity gen",5,0,5)
         self.add("WMotherPID","PID of W's mother gen",100,0,100)
         
+        self.add("HPt","H Pt gen",100,0,500)
+        self.add("HPz","H Pz gen",100,0,500)
+        self.add("tPt","top Pt gen",100,0,500)
+        self.add("tPz","top Pz gen",100,0,500)
+
         self.add("NHqq","H->qq multiplicity gen",5,0,5)
         self.add("NHbb","H->bb multiplicity gen",5,0,5)
         self.add("NHll","H->ll multiplicity gen",5,0,5)
@@ -40,6 +45,10 @@ class GenControlPlots(BaseControlPlots):
         
         result = { }
         
+        result["HPt"] = [ ]
+        result["HPz"] = [ ]
+        result["tPt"] = [ ]
+        result["tPz"] = [ ]
         result["WMotherPID"] = [ ]
         
         if event.particles.GetEntries() > 0:
@@ -76,6 +85,8 @@ class GenControlPlots(BaseControlPlots):
                 PID_D1 = abs( event.particles[D1].PID )
                 if PID_D1 == 24:
                     NtauW += 1
+                result["tPt"].append(particle.PT)
+                result["tPz"].append(abs(particle.Pz))
 
             # __W__
             elif PID == 24 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # W
@@ -90,6 +101,8 @@ class GenControlPlots(BaseControlPlots):
             elif PID == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # Higgs
                 result["WMotherPID"].append(abs(event.particles[particle.M1].PID))
                 PID_D1 = abs( event.particles[D1].PID )
+                result["HPt"].append(particle.PT)
+                result["HPz"].append(abs(particle.Pz))
                 if PID_D1 in [1,2,3,4,5]: # d, u, s, c, b
                     NHqq += 1
                 if PID_D1 == 5: # b
