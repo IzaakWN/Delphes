@@ -94,7 +94,7 @@ Further clean-up cuts, $60 \text{ GeV} < M_{\b\b} < 160 \text{ GeV}$ and $\Delta
       \includegraphics[width=\ww]{figs/DeltaR_bb1_stage1.png}
     \end{minipage}
   \vspace{\dd}
-  \caption{Multiplicities of $p_T>20$ GeV jets and $p_T>30$ GeV.} \label{multi}
+  \caption{$M_\text{bb}$ and $\Delta R_\text{bb}$ before clean-up.} \label{multi}
 \end{figure*}
 
 
