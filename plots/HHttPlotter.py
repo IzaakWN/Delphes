@@ -161,6 +161,9 @@ def plotBasic(stage):
                                            "DeltaPhi_j2l", "DeltaPhi_jjlnu"]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="CenterBottom",transparent=True)
             legend.Draw()
+        elif "1" in stage and name[name.index("/")+1:] == "DeltaR_bb1":
+            legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="CenterTop",transparent=True)
+            legend.Draw()
 #        elif "_jj" in name:
 #            legend = makeLegend(hist_S,hist_tt,tt=True,position="RightTop")
 #            legend.Draw()
