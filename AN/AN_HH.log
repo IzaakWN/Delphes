@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2013.11.21)  16 DEC 2015 11:27
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2013.11.21)  17 DEC 2015 21:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -125,6 +125,14 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 \mathdisplay@stack=\toks20
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
+)
+(/usr/share/texmf/tex/latex/tools/bm.sty
+Package: bm 2004/02/26 v1.1c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup4
+\symboldletters=\mathgroup5
+\symboldsymbols=\mathgroup6
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 138.
+LaTeX Info: Redefining \bm on input line 204.
 )
 (/usr/share/texmf/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
@@ -285,6 +293,26 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip48
 )
+(/usr/share/texmf/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen133
+\lightrulewidth=\dimen134
+\cmidrulewidth=\dimen135
+\belowrulesep=\dimen136
+\belowbottomsep=\dimen137
+\aboverulesep=\dimen138
+\abovetopsep=\dimen139
+\cmidrulesep=\dimen140
+\cmidrulekern=\dimen141
+\defaultaddspace=\dimen142
+\@cmidla=\count122
+\@cmidlb=\count123
+\@aboverulesep=\dimen143
+\@belowrulesep=\dimen144
+\@thisruleclass=\count124
+\@lastruleclass=\count125
+\@thisrulewidth=\dimen145
+)
 (/usr/share/texmf/tex/latex/cancel/cancel.sty
 Package: cancel 2000/03/12 v2.1 Cancel math terms
 ) (./AN_HH.aux
@@ -345,16 +373,16 @@ LaTeX Font Info:    ... okay on input line 51.
 
 (/usr/share/texmf/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count122
-\scratchdimen=\dimen133
+\scratchcounter=\count126
+\scratchdimen=\dimen146
 \scratchbox=\box28
-\nofMPsegments=\count123
-\nofMParguments=\count124
+\nofMPsegments=\count127
+\nofMParguments=\count128
 \everyMPshowfont=\toks21
-\MPscratchCnt=\count125
-\MPscratchDim=\dimen134
-\MPnumerator=\count126
-\makeMPintoPDFobject=\count127
+\MPscratchCnt=\count129
+\MPscratchDim=\dimen147
+\MPnumerator=\count130
+\makeMPintoPDFobject=\count131
 \everyMPtoPDFconversion=\toks22
 ) (/usr/share/texmf/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -383,7 +411,7 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texmf/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count128
+\c@section@level=\count132
 )
 LaTeX Info: Redefining \ref on input line 51.
 LaTeX Info: Redefining \pageref on input line 51.
@@ -410,305 +438,311 @@ Package pdftex.def Info: figs/DeltaR_bb1_stage1.png used on input line 94.
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./figs/M_bb_closest_stage1
 .png> <./figs/DeltaR_bb1_stage1.png>]
-<sketch/sketch_HH.png, id=46, 777.6252pt x 406.1574pt>
+<sketch/sketch_HH.png, id=54, 777.6252pt x 406.1574pt>
 File: sketch/sketch_HH.png Graphic file (type png)
 
 <use sketch/sketch_HH.png>
-Package pdftex.def Info: sketch/sketch_HH.png used on input line 263.
+Package pdftex.def Info: sketch/sketch_HH.png used on input line 291.
 (pdftex.def)             Requested size: 199.16928pt x 104.02428pt.
 
-<sketch/sketch_tt.png, id=48, 729.927pt x 398.9304pt>
+<sketch/sketch_tt.png, id=56, 729.927pt x 398.9304pt>
 File: sketch/sketch_tt.png Graphic file (type png)
 
 <use sketch/sketch_tt.png>
-Package pdftex.def Info: sketch/sketch_tt.png used on input line 269.
+Package pdftex.def Info: sketch/sketch_tt.png used on input line 297.
 (pdftex.def)             Requested size: 199.16928pt x 108.85095pt.
- <figs/Njets20.png, id=49, 798.985pt x 574.145pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figs/Njets20.png, id=57, 798.985pt x 574.145pt>
 File: figs/Njets20.png Graphic file (type png)
-
-<use figs/Njets20.png>
-Package pdftex.def Info: figs/Njets20.png used on input line 284.
+ <use figs/Njets20.png>
+Package pdftex.def Info: figs/Njets20.png used on input line 309.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
- <figs/Nbjets30.png, id=50, 798.985pt x 574.145pt>
+
+<figs/Nbjets30.png, id=58, 798.985pt x 574.145pt>
 File: figs/Nbjets30.png Graphic file (type png)
-
-<use figs/Nbjets30.png>
-Package pdftex.def Info: figs/Nbjets30.png used on input line 290.
-(pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
- <figs/leptonPt.png, id=51, 798.985pt x 574.145pt>
-File: figs/leptonPt.png Graphic file (type png)
-
-<use figs/leptonPt.png>
-Package pdftex.def Info: figs/leptonPt.png used on input line 302.
-(pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
- <figs/MET.png, id=52, 798.985pt x 574.145pt>
-File: figs/MET.png Graphic file (type png)
-
-<use figs/MET.png>
-Package pdftex.def Info: figs/MET.png used on input line 308.
+ <use figs/Nbjets30.png>
+Package pdftex.def Info: figs/Nbjets30.png used on input line 315.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/jet1Pt.png, id=53, 798.985pt x 574.145pt>
+<figs/leptonPt.png, id=59, 798.985pt x 574.145pt>
+File: figs/leptonPt.png Graphic file (type png)
+ <use figs/leptonPt.png>
+Package pdftex.def Info: figs/leptonPt.png used on input line 327.
+(pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
+
+<figs/MET.png, id=60, 798.985pt x 574.145pt>
+File: figs/MET.png Graphic file (type png)
+ <use figs/MET.png>
+Package pdftex.def Info: figs/MET.png used on input line 333.
+(pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figs/jet1Pt.png, id=61, 798.985pt x 574.145pt>
 File: figs/jet1Pt.png Graphic file (type png)
  <use figs/jet1Pt.png>
-Package pdftex.def Info: figs/jet1Pt.png used on input line 362.
+Package pdftex.def Info: figs/jet1Pt.png used on input line 387.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/jet2Pt.png, id=54, 798.985pt x 574.145pt>
+<figs/jet2Pt.png, id=62, 798.985pt x 574.145pt>
 File: figs/jet2Pt.png Graphic file (type png)
  <use figs/jet2Pt.png>
-Package pdftex.def Info: figs/jet2Pt.png used on input line 368.
+Package pdftex.def Info: figs/jet2Pt.png used on input line 393.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 358--371
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 383--396
 [][] 
  []
 
-<figs/bjet1Pt.png, id=55, 798.985pt x 574.145pt>
+<figs/bjet1Pt.png, id=63, 798.985pt x 574.145pt>
 File: figs/bjet1Pt.png Graphic file (type png)
  <use figs/bjet1Pt.png>
-Package pdftex.def Info: figs/bjet1Pt.png used on input line 377.
+Package pdftex.def Info: figs/bjet1Pt.png used on input line 402.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/bjet2Pt.png, id=56, 798.985pt x 574.145pt>
+<figs/bjet2Pt.png, id=64, 798.985pt x 574.145pt>
 File: figs/bjet2Pt.png Graphic file (type png)
  <use figs/bjet2Pt.png>
-Package pdftex.def Info: figs/bjet2Pt.png used on input line 383.
+Package pdftex.def Info: figs/bjet2Pt.png used on input line 408.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 373--387
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 398--412
 [][]
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/Pt_bb.png, id=57, 798.985pt x 574.145pt>
+<figs/Pt_bb.png, id=65, 798.985pt x 574.145pt>
 File: figs/Pt_bb.png Graphic file (type png)
  <use figs/Pt_bb.png>
-Package pdftex.def Info: figs/Pt_bb.png used on input line 401.
+Package pdftex.def Info: figs/Pt_bb.png used on input line 426.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/Pt_bl.png, id=58, 798.985pt x 574.145pt>
+<figs/Pt_bl.png, id=66, 798.985pt x 574.145pt>
 File: figs/Pt_bl.png Graphic file (type png)
  <use figs/Pt_bl.png>
-Package pdftex.def Info: figs/Pt_bl.png used on input line 407.
+Package pdftex.def Info: figs/Pt_bl.png used on input line 432.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 397--410
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 422--435
 [][] 
  []
 
-<figs/Pt_j1l.png, id=59, 798.985pt x 574.145pt>
+<figs/Pt_j1l.png, id=67, 798.985pt x 574.145pt>
 File: figs/Pt_j1l.png Graphic file (type png)
  <use figs/Pt_j1l.png>
-Package pdftex.def Info: figs/Pt_j1l.png used on input line 416.
+Package pdftex.def Info: figs/Pt_j1l.png used on input line 441.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/DeltaPhi_j1lbb.png, id=60, 798.985pt x 574.145pt>
+<figs/DeltaPhi_j1lbb.png, id=68, 798.985pt x 574.145pt>
 File: figs/DeltaPhi_j1lbb.png Graphic file (type png)
 
 <use figs/DeltaPhi_j1lbb.png>
-Package pdftex.def Info: figs/DeltaPhi_j1lbb.png used on input line 422.
+Package pdftex.def Info: figs/DeltaPhi_j1lbb.png used on input line 447.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 412--427
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 437--452
 [][]
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/DeltaR_j1l.png, id=61, 798.985pt x 574.145pt>
+<figs/DeltaR_j1l.png, id=69, 798.985pt x 574.145pt>
 File: figs/DeltaR_j1l.png Graphic file (type png)
  <use figs/DeltaR_j1l.png>
-Package pdftex.def Info: figs/DeltaR_j1l.png used on input line 441.
+Package pdftex.def Info: figs/DeltaR_j1l.png used on input line 466.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/DeltaR_j2l.png, id=62, 798.985pt x 574.145pt>
+<figs/DeltaR_j2l.png, id=70, 798.985pt x 574.145pt>
 File: figs/DeltaR_j2l.png Graphic file (type png)
  <use figs/DeltaR_j2l.png>
-Package pdftex.def Info: figs/DeltaR_j2l.png used on input line 447.
+Package pdftex.def Info: figs/DeltaR_j2l.png used on input line 472.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 437--450
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 462--475
 [][] 
  []
 
-<figs/DeltaR_b1l.png, id=63, 798.985pt x 574.145pt>
+<figs/DeltaR_b1l.png, id=71, 798.985pt x 574.145pt>
 File: figs/DeltaR_b1l.png Graphic file (type png)
  <use figs/DeltaR_b1l.png>
-Package pdftex.def Info: figs/DeltaR_b1l.png used on input line 456.
+Package pdftex.def Info: figs/DeltaR_b1l.png used on input line 481.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/DeltaR_b2l.png, id=64, 798.985pt x 574.145pt>
+<figs/DeltaR_b2l.png, id=72, 798.985pt x 574.145pt>
 File: figs/DeltaR_b2l.png Graphic file (type png)
  <use figs/DeltaR_b2l.png>
-Package pdftex.def Info: figs/DeltaR_b2l.png used on input line 462.
+Package pdftex.def Info: figs/DeltaR_b2l.png used on input line 487.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 452--467
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 477--492
 [][]
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/DeltaR_bb1.png, id=65, 798.985pt x 574.145pt>
+<figs/DeltaR_bb1.png, id=73, 798.985pt x 574.145pt>
 File: figs/DeltaR_bb1.png Graphic file (type png)
  <use figs/DeltaR_bb1.png>
-Package pdftex.def Info: figs/DeltaR_bb1.png used on input line 481.
+Package pdftex.def Info: figs/DeltaR_bb1.png used on input line 506.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/DeltaR_jj.png, id=66, 798.985pt x 574.145pt>
+<figs/DeltaR_jj.png, id=74, 798.985pt x 574.145pt>
 File: figs/DeltaR_jj.png Graphic file (type png)
  <use figs/DeltaR_jj.png>
-Package pdftex.def Info: figs/DeltaR_jj.png used on input line 487.
+Package pdftex.def Info: figs/DeltaR_jj.png used on input line 512.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 477--490
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 502--515
 [][] 
  []
 
-<figs/DeltaR_jjb.png, id=67, 798.985pt x 574.145pt>
+<figs/DeltaR_jjb.png, id=75, 798.985pt x 574.145pt>
 File: figs/DeltaR_jjb.png Graphic file (type png)
  <use figs/DeltaR_jjb.png>
-Package pdftex.def Info: figs/DeltaR_jjb.png used on input line 496.
+Package pdftex.def Info: figs/DeltaR_jjb.png used on input line 521.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/DeltaR_jjl.png, id=68, 798.985pt x 574.145pt>
+<figs/DeltaR_jjl.png, id=76, 798.985pt x 574.145pt>
 File: figs/DeltaR_jjl.png Graphic file (type png)
  <use figs/DeltaR_jjl.png>
-Package pdftex.def Info: figs/DeltaR_jjl.png used on input line 502.
+Package pdftex.def Info: figs/DeltaR_jjl.png used on input line 527.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 492--506
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 517--531
 [][]
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/M_bb_closest.png, id=69, 798.985pt x 574.145pt>
+<figs/M_bb_closest.png, id=77, 798.985pt x 574.145pt>
 File: figs/M_bb_closest.png Graphic file (type png)
 
 <use figs/M_bb_closest.png>
-Package pdftex.def Info: figs/M_bb_closest.png used on input line 520.
+Package pdftex.def Info: figs/M_bb_closest.png used on input line 545.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
- <figs/M_jjlnu.png, id=70, 798.985pt x 574.145pt>
+ <figs/M_jjlnu.png, id=78, 798.985pt x 574.145pt>
 File: figs/M_jjlnu.png Graphic file (type png)
 
 <use figs/M_jjlnu.png>
-Package pdftex.def Info: figs/M_jjlnu.png used on input line 526.
+Package pdftex.def Info: figs/M_jjlnu.png used on input line 551.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 516--529
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 541--554
 [][] 
  []
 
-<figs/M_blnu.png, id=71, 798.985pt x 574.145pt>
+<figs/M_blnu.png, id=79, 798.985pt x 574.145pt>
 File: figs/M_blnu.png Graphic file (type png)
  <use figs/M_blnu.png>
-Package pdftex.def Info: figs/M_blnu.png used on input line 535.
+Package pdftex.def Info: figs/M_blnu.png used on input line 560.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/M_jjb.png, id=72, 798.985pt x 574.145pt>
+<figs/M_jjb.png, id=80, 798.985pt x 574.145pt>
 File: figs/M_jjb.png Graphic file (type png)
  <use figs/M_jjb.png>
-Package pdftex.def Info: figs/M_jjb.png used on input line 541.
+Package pdftex.def Info: figs/M_jjb.png used on input line 566.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 531--546
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 556--571
 [][]
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/M_bl.png, id=73, 798.985pt x 574.145pt>
+<figs/M_bl.png, id=81, 798.985pt x 574.145pt>
 File: figs/M_bl.png Graphic file (type png)
  <use figs/M_bl.png>
-Package pdftex.def Info: figs/M_bl.png used on input line 561.
+Package pdftex.def Info: figs/M_bl.png used on input line 586.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/M_j1l.png, id=74, 798.985pt x 574.145pt>
+<figs/M_j1l.png, id=82, 798.985pt x 574.145pt>
 File: figs/M_j1l.png Graphic file (type png)
  <use figs/M_j1l.png>
-Package pdftex.def Info: figs/M_j1l.png used on input line 567.
+Package pdftex.def Info: figs/M_j1l.png used on input line 592.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 557--570
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 582--595
 [][] 
  []
 
-<figs/MT_lnu.png, id=75, 798.985pt x 574.145pt>
+<figs/MT_lnu.png, id=83, 798.985pt x 574.145pt>
 File: figs/MT_lnu.png Graphic file (type png)
  <use figs/MT_lnu.png>
-Package pdftex.def Info: figs/MT_lnu.png used on input line 582.
+Package pdftex.def Info: figs/MT_lnu.png used on input line 607.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-Overfull \hbox (22.76184pt too wide) in paragraph at lines 572--587
+Overfull \hbox (22.76184pt too wide) in paragraph at lines 597--612
 [][]
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figs/BDTBoost1_everything4CleanUp.png, id=77, 798.985pt x 574.145pt>
+<figs/BDTBoost1_everything4CleanUp.png, id=85, 798.985pt x 574.145pt>
 File: figs/BDTBoost1_everything4CleanUp.png Graphic file (type png)
 
 <use figs/BDTBoost1_everything4CleanUp.png>
 Package pdftex.def Info: figs/BDTBoost1_everything4CleanUp.png used on input li
-ne 599.
+ne 624.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
-<figs/BrejvsSeffs_everything4CleanUp_BDTBoost1.png, id=78, 798.985pt x 574.145p
+<figs/BrejvsSeffs_everything4CleanUp_BDTBoost1.png, id=86, 798.985pt x 574.145p
 t>
 File: figs/BrejvsSeffs_everything4CleanUp_BDTBoost1.png Graphic file (type png)
 
  <use figs/BrejvsSeffs_everything4CleanUp_BDTBoost1.png>
 Package pdftex.def Info: figs/BrejvsSeffs_everything4CleanUp_BDTBoost1.png used
- on input line 605.
+ on input line 630.
 (pdftex.def)             Requested size: 219.08612pt x 157.43042pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[2 <./sketch/sketch_HH.png> <./sketch/sketch_tt.png> <./figs/Njets20.png> <./fi
-gs/Nbjets30.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 761.
- [3 <./figs/leptonPt.png> <./figs/MET.png>] [4 <./figs/jet1Pt.png> <./figs/jet2
-Pt.png> <./figs/bjet1Pt.png> <./figs/bjet2Pt.png> <./figs/Pt_bb.png> <./figs/Pt
-_bl.png> <./figs/Pt_j1l.png> <./figs/DeltaPhi_j1lbb.png>]
-[5 <./figs/DeltaR_j1l.png> <./figs/DeltaR_j2l.png> <./figs/DeltaR_b1l.png> <./f
-igs/DeltaR_b2l.png> <./figs/DeltaR_bb1.png> <./figs/DeltaR_jj.png> <./figs/Delt
-aR_jjb.png> <./figs/DeltaR_jjl.png>] [6 <./figs/M_bb_closest.png> <./figs/M_jjl
-nu.png> <./figs/M_blnu.png> <./figs/M_jjb.png>] [7 <./figs/M_bl.png> <./figs/M_
-j1l.png> <./figs/MT_lnu.png> <./figs/BDTBoost1_everything4CleanUp.png> <./figs/
-BrejvsSeffs_everything4CleanUp_BDTBoost1.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 761.
+[2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 786.
+ [3 <./sketch/sketch_HH.png> <./sketch/sketch_tt.png> <./figs/Njets20.png> <./f
+igs/Nbjets30.png>] [4 <./figs/leptonPt.png> <./figs/MET.png> <./figs/jet1Pt.png
+> <./figs/jet2Pt.png> <./figs/bjet1Pt.png> <./figs/bjet2Pt.png>] [5 <./figs/Pt_
+bb.png> <./figs/Pt_bl.png> <./figs/Pt_j1l.png> <./figs/DeltaPhi_j1lbb.png> <./f
+igs/DeltaR_j1l.png> <./figs/DeltaR_j2l.png> <./figs/DeltaR_b1l.png> <./figs/Del
+taR_b2l.png>] [6 <./figs/DeltaR_bb1.png> <./figs/DeltaR_jj.png> <./figs/DeltaR_
+jjb.png> <./figs/DeltaR_jjl.png> <./figs/M_bb_closest.png> <./figs/M_jjlnu.png>
+ <./figs/M_blnu.png> <./figs/M_jjb.png>] [7 <./figs/M_bl.png> <./figs/M_j1l.png
+> <./figs/MT_lnu.png> <./figs/BDTBoost1_everything4CleanUp.png> <./figs/BrejvsS
+effs_everything4CleanUp_BDTBoost1.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 786.
  (./AN_HH.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 761.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 761.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 786.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 786.
 Package rerunfilecheck Info: File `AN_HH.out' has not changed.
 (rerunfilecheck)             Checksum: 4D1F112065399E011073C782F257C194;165.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 761.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 786.
  ) 
 Here is how much of TeX's memory you used:
- 7578 strings out of 493315
- 113326 string characters out of 6145892
- 221249 words of memory out of 5000000
- 10899 multiletter control sequences out of 15000+600000
- 12071 words of font info for 43 fonts, out of 8000000 for 9000
+ 7738 strings out of 493315
+ 115158 string characters out of 6145892
+ 228530 words of memory out of 5000000
+ 11036 multiletter control sequences out of 15000+600000
+ 17898 words of font info for 62 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 36i,17n,38p,605b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,17n,41p,605b,453s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf
 /fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf/fonts/type1/public
 /amsfonts/cm/cmbx9.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmcsc10
@@ -724,15 +758,16 @@ public/amsfonts/cm/cmr5.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cm
 r6.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/te
 xmf/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf/fonts/type1/publi
 c/amsfonts/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy6
-.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/tex
-mf/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf/fonts/type1/publ
-ic/amsfonts/cm/cmti7.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmti9
-.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/tex
-mf/fonts/type1/public/amsfonts/latxfont/line10.pfb>
-Output written on AN_HH.pdf (7 pages, 802874 bytes).
+.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/tex
+mf/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf/fonts/type1/publi
+c/amsfonts/cm/cmti10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmti7
+.pfb></usr/share/texmf/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/tex
+mf/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texmf/fonts/type1/publi
+c/amsfonts/latxfont/line10.pfb>
+Output written on AN_HH.pdf (7 pages, 818891 bytes).
 PDF statistics:
- 234 PDF objects out of 1000 (max. 8388607)
- 162 compressed objects within 2 object streams
- 31 named destinations out of 1000 (max. 500000)
+ 248 PDF objects out of 1000 (max. 8388607)
+ 175 compressed objects within 2 object streams
+ 33 named destinations out of 1000 (max. 500000)
  190 words of extra memory for PDF output out of 10000 (max. 10000000)
 
