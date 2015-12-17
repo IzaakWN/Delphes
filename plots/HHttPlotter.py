@@ -73,15 +73,16 @@ def plotBasic(stage):
     if "0" in stage or "1" in stage:
         names.append("selection/category")
 
-    for comb in [ "jj","jj_cut",
-                  "jj_all","jj_all_cut",
-                  "bb_cut",
+    for comb in [ "jj", "jj_all",
                   "bb_leading",
-                  "bb_closest","bb_closest_cut",
+                  "bb_closest",
                   "bb_farthest",
                   "bl","j1l",
                   "jjl_all","jjl","jjlnu",
-                  "jjb","bl","blnu" ]:
+                  "jjb1","jjb2",
+                  "jjb_sum","jjb_diff",
+                  "bl","b1lnu","b2lnu",
+                  "blnu_sum","blnu_diff" ]:
         names.append("cleanup/M_"+comb)
     names.append("cleanup/MT_lnu")
     names.append("cleanup/MT_jjlnu")
@@ -97,6 +98,7 @@ def plotBasic(stage):
     names.append("cleanup/DeltaPhi_lMET")
     names.append("cleanup/DeltaPhi_jjlnu")
 
+    names.append("cleanup/CosTheta0_bb")
     names.append("cleanup/DeltaPhi_lMET")
     names.append("cleanup/jet1Pt")
     names.append("cleanup/jet2Pt")
@@ -109,15 +111,18 @@ def plotBasic(stage):
     names.append("cleanup/Njets30")
     names.append("cleanup/Nbjets30")
 
-    names.append("cleanup/Pt_bb")
-    names.append("cleanup/Pt_bl")
-    names.append("cleanup/Pt_j1l")
-    names.append("cleanup/Pt_jjl")
-    names.append("cleanup/Pt_jjb")
+    for comb in [ "bb", "bl", "j1l", "jjl",
+                  "b1lnu", "b1lnu",
+                  "jjb1", "jjb2"]:
+        names.append("cleanup/Pt_"+comb)
 
-#    for comb in [ "qq","q1l","q2l",
-#                  "bb","b1l","b2l", ]:
-#        names.append("gen/DeltaR_"+comb)
+    for comb in [ "qq","q1l","q2l",
+                 "bb","b1l","b2l",
+                 "bl_lep","bl_had"]:
+       names.append("gen/DeltaR_"+comb)
+    names.append("gen/MET_res")
+    names.append("gen/MET_res_ang")
+
 
     for name in names:
 
@@ -136,9 +141,6 @@ def plotBasic(stage):
             hist_S.Scale(1./hist_S.GetBinContent(1))
             hist_tt.Scale(1./hist_tt.GetBinContent(1))
 
-#        if "a1" in name:
-#            legend = makeLegend(hist_S,hist_tt,tt=True,title="#splitline{H#rightarrowbb}{(angular alg.)}")
-#            legend.Draw()
         if name[name.index("/")+1] == "N" or name[-2:] == "Pt":
             legend = makeLegend(hist_S,hist_tt,tt=True)
             legend.Draw()
