@@ -8,7 +8,7 @@ from fold import fold
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Selection20", "CleanUp", "Exactly4Jets", "Selection30", "Max5Jets" ]
+categoryNames = [ "GenLevel", "Selection20", "CleanUp"]#, "Exactly4Jets", "Selection30", "Max5Jets" ]
 
 
 
@@ -102,33 +102,33 @@ def eventCategory(event):
     categoryData.append( 60 < M_bb < 160 and \
                          DeltaR_bb < 3 )
 
-    # 9: clean-up cuts 2
-    DeltaR_b1l = 0
-    DeltaR_b2l = 0
-    DeltaPhi_j1lbb = 0
-    M_j1l = 101
-    if leps and len(event.bjets30)>1:
-        # farthest bjet-lepton pair
-        [DeltaR_b1l,DeltaR_b2l] = sorted([TLV.DeltaR(bj.TLV,leps[0].TLV) for bj in event.bjets30],reverse=True)[:2]
-        if p_bb and len(event.cleanedJets20)>3:
-            # closest jet-lepton pair
-            jet = min([j for j in event.cleanedJets20 if j not in bjet_closest],
-                                                      key=lambda j: TLV.DeltaR(j.TLV,leps[0].TLV))
-            p_j1l = jet.TLV+leps[0].TLV
-            DeltaPhi_j1lbb = fold(abs( p_j1l.Phi() - p_bb.Phi() ))
-            M_j1l = p_j1l.M()
-#            DeltaR_j1lbb = TLV.DeltaR(jet.TLV+lepton.TLV, p_bb.Phi())
-    categoryData.append( categoryData[-1] and \
-                         DeltaR_b1l > 1.5 and \
-                         DeltaR_b2l > 1.2 and \
-                         DeltaPhi_j1lbb > 1.5 and \
-                         M_j1l < 100 )
+    ## 9: clean-up cuts 2
+    #DeltaR_b1l = 0
+    #DeltaR_b2l = 0
+    #DeltaPhi_j1lbb = 0
+    #M_j1l = 101
+    #if leps and len(event.bjets30)>1:
+        ## farthest bjet-lepton pair
+        #[DeltaR_b1l,DeltaR_b2l] = sorted([TLV.DeltaR(bj.TLV,leps[0].TLV) for bj in event.bjets30],reverse=True)[:2]
+        #if p_bb and len(event.cleanedJets20)>3:
+            ## closest jet-lepton pair
+            #jet = min([j for j in event.cleanedJets20 if j not in bjet_closest],
+                                                      #key=lambda j: TLV.DeltaR(j.TLV,leps[0].TLV))
+            #p_j1l = jet.TLV+leps[0].TLV
+            #DeltaPhi_j1lbb = fold(abs( p_j1l.Phi() - p_bb.Phi() ))
+            #M_j1l = p_j1l.M()
+##            DeltaR_j1lbb = TLV.DeltaR(jet.TLV+lepton.TLV, p_bb.Phi())
+    #categoryData.append( categoryData[-1] and \
+                         #DeltaR_b1l > 1.5 and \
+                         #DeltaR_b2l > 1.2 and \
+                         #DeltaPhi_j1lbb > 1.5 and \
+                         #M_j1l < 100 )
     
-    # 10: 4 jets with Pt > 20 GeV
-    categoryData.append( len(event.cleanedJets20)==4 )
+    ## 10: 4 jets with Pt > 20 GeV
+    #categoryData.append( len(event.cleanedJets20)==4 )
     
-    # 11: at most 5 jets with Pt > 30 GeV
-    categoryData.append( len(event.cleanedJets30)<6 )
+    ## 11: at most 5 jets with Pt > 30 GeV
+    #categoryData.append( len(event.cleanedJets30)<6 )
 
     return categoryData
 
@@ -138,7 +138,7 @@ def isInCategory(category, categoryData):
     """Check if the event enters category X, given the tuple computed by eventCategory."""
     
     if category == 0:
-        return categoryData[0] and categoryData[2] and categoryData[3] and categoryData[6] and categoryData[7]
+        return categoryData[0] #and categoryData[2] and categoryData[3] and categoryData[6] and categoryData[7]
         #      > signal
     
     if category == 1:
@@ -149,17 +149,17 @@ def isInCategory(category, categoryData):
         return categoryData[0] and categoryData[2] and categoryData[3] and categoryData[6] and categoryData[7] and categoryData[8]
         #      > signal            > exact 1 lepton    > 4 jets20          > 2 b-jets         > MET                > cleanup
 
-    if category == 3:
-        return categoryData[0] and categoryData[2] and categoryData[10] and categoryData[6] and categoryData[7] and categoryData[8]
-        #      > signal            > exact 1 lepton    = 4 jets20          > 2 b-jets          > MET               > cleanup
+    #if category == 3:
+        #return categoryData[0] and categoryData[2] and categoryData[10] and categoryData[6] and categoryData[7] and categoryData[8]
+        ##      > signal            > exact 1 lepton    = 4 jets20          > 2 b-jets          > MET               > cleanup
 
-    if category == 4:
-        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[8]
-        #      > signal            > exact 1 lepton    > 4 jets30          > 2 b-jets          > MET               > cleanup
+    #if category == 4:
+        #return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[8]
+        ##      > signal            > exact 1 lepton    > 4 jets30          > 2 b-jets          > MET               > cleanup
 
-    if category == 5:
-        return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[8] and categoryData[10]
-        #      > signal            > exact 1 lepton    > 4 jets30          > 2 b-jets          > MET               > cleanup           > max 5 jets
+    #if category == 5:
+        #return categoryData[0] and categoryData[2] and categoryData[4] and categoryData[6] and categoryData[7] and categoryData[8] and categoryData[10]
+        ##      > signal            > exact 1 lepton    > 4 jets30          > 2 b-jets          > MET               > cleanup           > max 5 jets
         
     else:
         return False
