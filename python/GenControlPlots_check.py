@@ -20,6 +20,7 @@ class GenControlPlots(BaseControlPlots):
         self.add("NW","W multiplicity gen",20,0,20)
         self.add("NWlnu","W->lnu multiplicity gen",5,0,5)
         self.add("NWqq","W->qq multiplicity gen",5,0,5)
+        self.add("NWWW","W->qq multiplicity gen",100,0,100)
         self.add("WMotherPID","PID of W's mother gen",100,0,100)
         
         self.add("HPt","H Pt gen",100,0,500)
@@ -64,6 +65,7 @@ class GenControlPlots(BaseControlPlots):
         NW = 0
         NWlnu = 0
         NWqq = 0
+        NWWW = 0
         
         NHqq = 0
         NHbb = 0
@@ -96,6 +98,8 @@ class GenControlPlots(BaseControlPlots):
                     NWlnu += 1
                 elif PID_D1 in [1,2,3,4,5]: # d, u, s, c, b
                     NWqq += 1
+                elif PID_D1 == 24: # d, u, s, c, b
+                    NWWW += 1
         
             # __Higgs__
             elif PID == 25 and D1>=0 and D1<len(event.particles) and event.particles[D1] and D1!=D2: # Higgs
@@ -128,6 +132,7 @@ class GenControlPlots(BaseControlPlots):
         result["NW"] = NW
         result["NWlnu"] = NWlnu
         result["NWqq"] = NWqq
+        result["NWWW"] = NWWW
         
         result["NHqq"] = NHqq
         result["NHbb"] = NHbb
