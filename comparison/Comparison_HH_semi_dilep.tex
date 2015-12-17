@@ -21,7 +21,7 @@
 %\newcommand{\hh}{1mm} % height between figures above each other
 \newcommand{\dd}{-2mm} % distance reduction between one-lined caption and their figure below
 
-\renewcommand{\tt}{$\text{t}\bar{\text{t}}$}
+\renewcommand{\tt}{\ensuremath{\text{t}\bar{\text{t}}}}
 \newcommand{\bbWW}{$\rightarrow$ bbWW}
 \newcommand{\di}{$\rightarrow$ bbWW $\rightarrow$ bb$\ell\nu \ell\nu$}
 \newcommand{\semi}{$\rightarrow$ bbWW $\rightarrow$ bb$qq\ell\nu$}
@@ -178,7 +178,7 @@ with numbers from \cite{BR_HH}, \cite{BR_tt} and \cite{BR_W}:
 	\textbf{HH}  & \textbf{40}      &           & \\ %\textbf{979 907} \\
 	HH \semi     &        2.88      &   0.072   &  166 483  \\
 	HH \di       &        0.44      &   0.011   &   22 812  \\
-	\bm{\tt}     & \textbf{984 500} &           & \\ %\textbf{499 600} \\
+	\textbf{\tt} & \textbf{984 500} &           & \\ %\textbf{499 600} \\
 	\tt \semi    &     282 552      &   0.287   &  164 661  \\
 	\tt \di      &      44 303      &   0.045   &   22 546  \\
 	\bottomrule
@@ -258,7 +258,7 @@ Results are summarized in Table \ref{comparison}. To compare the dileptonic to t
 \begin{table}[t]
 	%\small
 	\centering
-	\caption{Comparison of the significance $P$ and yields $S:=N$(HH) and $B:=N$(\tt) between the semileptonic and dileptonic final state for our results using the cross sections at NNLO from Table \ref{sigma} and the results by C. Deleare \etal\ at $\sqrt{s}=14$ TeV and with integrated luminosity $L = 3000 \text{ fb}^{-1}$. The factor $k_{\BR}=\sqrt{\BR(\text{WW}\rightarrow\text{\lnu\lnu})/\BR(\text{WW}\rightarrow\text{qq\lnu})} \simeq 0.397$ allows for comparison.} \vspace{5pt}  %, cross sections \sAN\ from Table \ref{sigma_AN}
+	\caption{Comparison of the significance $P=S/(1+\sqrt{B})$ and yields $S:=N$(HH) and $B:=N$(\tt) between the semileptonic and dileptonic final state for our results using the cross sections at NNLO from Table \ref{sigma} and the results by C. Deleare \etal\ at $\sqrt{s}=14$ TeV and with integrated luminosity $L = 3000 \text{ fb}^{-1}$. The factor $k_{\BR}=\sqrt{\BR(\text{WW}\rightarrow\text{\lnu\lnu})/\BR(\text{WW}\rightarrow\text{qq\lnu})} \simeq 0.397$ allows for comparison.} \vspace{5pt}  %, cross sections \sAN\ from Table \ref{sigma_AN}
 	\label{comparison}
 	\begin{tabular}{@{\quad}llrrllrrr@{}}
 	

@@ -3,20 +3,20 @@
 \usepackage{authblk} % affiliation
 \usepackage[margin=2.4cm]{geometry} % margins
 \usepackage{amsmath}
-%\usepackage{bm} % for bold math
+\usepackage{bm} % for bold math
 \usepackage{graphicx}
 \usepackage[labelfont=bf,nooneline]{caption} % for subfigs % font=small
 \usepackage{subcaption} % for subfigs
 \usepackage{hyperref} % hyperlinks [colorlinks=true]
-%\usepackage{booktabs} % spaces between columns
+\usepackage{booktabs} % spaces between columns
 \usepackage{cancel} % MET: $\cancel{\it{E}}_{T}$
-%\setlength{\tabcolsep}{7pt}
+\setlength{\tabcolsep}{7pt}
 
-%\newcommand{\cc}[1]{\multicolumn{1}{c}{#1}} % centered cell
+\newcommand{\cc}[1]{\multicolumn{1}{c}{#1}} % centered cell
 %\newcommand{\levels}[1]{ \multicolumn{2}{l}{\hspace{-1em}\textbf{#1}}}
-%\newcommand{\level}[1]{ \multicolumn{5}{l}{\hspace{-1em}\textbf{#1}}}
-%\newcommand{\T}{\rule{0pt}{2.9ex}}       % Top strut
-%\newcommand{\B}{\rule[-1.3ex]{0pt}{0pt}} % Bottom strut
+\newcommand{\level}[1]{ \multicolumn{5}{l}{\hspace{-1em}\textbf{#1}}}
+\newcommand{\T}{\rule{0pt}{2.9ex}}       % Top strut
+\newcommand{\B}{\rule[-1.3ex]{0pt}{0pt}} % Bottom strut
 \newcommand{\ww}{7.7cm} % width for two figures next to each other
 \newcommand{\hh}{1mm} % height between figures above each other
 \newcommand{\dd}{-2mm} % distance reduction between one-lined caption and their figure below
@@ -25,7 +25,7 @@
 \newcommand{\W}{\text{W}}
 \renewcommand{\b}{\text{b}}
 %\newcommand{\bb}{\text{bb}}
-\renewcommand{\tt}{$\text{t}\bar{\text{t}}$}
+\renewcommand{\tt}{\ensuremath{\text{t}\bar{\text{t}}}}
 \newcommand{\di}{$\rightarrow$ bbWW $\rightarrow$ bb$\ell\nu \ell\nu$}
 \newcommand{\semi}{$\rightarrow$ bbWW $\rightarrow$ bb$qq\ell\nu$}
 \newcommand{\channels}{bbWW $\rightarrow$ bb$\ell\nu\ell\nu$, bb$qq\ell\nu$} % or bbWW $\rightarrow$ bb$qq\ell\nu$ }
@@ -67,7 +67,7 @@
 \section{Samples}
 
 The signal and background processes are simulated with Monte Carlo samples. These only contain \mbox{$\b\b\W\W \rightarrow \b\b qq\ell\nu$} at generator level, where taus coming from a W-boson are excluded. Both generation and parton shower and hadronization are done in \textsc{Pythia6}. The samples were finally reconstructed with Delphes for the CMS Phase II technical proposal. % reference to technical proposal
-
+Since the jets list in Delphes contains 
 
 
 
@@ -96,6 +96,97 @@ Further clean-up cuts, $60 \text{ GeV} < M_{\b\b} < 160 \text{ GeV}$ and $\Delta
   \vspace{\dd}
   \caption{$M_\text{bb}$ and $\Delta R_\text{bb}$ before clean-up.} \label{multi}
 \end{figure*}
+
+
+
+The branching ratios are found using
+\begin{align*}
+    \mathcal{B}(\text{HH $\rightarrow$ bbWW})
+        &= 2\mathcal{B}(\text{H $\rightarrow$ bb})
+            \mathcal{B}(\text{H $\rightarrow$ WW})
+        \simeq 0.248 \\
+    \mathcal{B}(\text{\tt\ $\rightarrow$ bWbW})
+        &= \mathcal{B}(\text{t $\rightarrow$ bW})^2
+        \simeq 0.997 \\
+%              0,9966 CDF 2014
+%              0,8281 PDG 2014
+%    \mathcal{B}(\text{WW $\rightarrow$ \lnu\lnu})
+%        &= \mathcal{B}(\text{W $\rightarrow$ \lnu})^2
+%        \simeq 0.046 \\
+    \mathcal{B}(\text{WW $\rightarrow qq$\lnu})
+        &= 2\mathcal{B}(\text{W $\rightarrow$ $qq$})
+            \mathcal{B}(\text{W $\rightarrow$ \lnu})
+        \simeq 0.288
+\end{align*}
+with numbers from \cite{BR_HH}, \cite{BR_tt} and \cite{BR_W}:
+\begin{align*}
+%    \mathcal{B}(\text{HH $\rightarrow$ bbWW $\rightarrow$ bb\lnu\lnu})
+%         &\simeq 0.011\\
+%        &= 2\mathcal{B}(\text{H $\rightarrow$ bb})
+%            \mathcal{B}(\text{H $\rightarrow$ WW})
+%            \mathcal{B}(\text{W $\rightarrow \ell\nu$})^2 \\
+    \mathcal{B}(\text{HH $\rightarrow$ bbWW $\rightarrow$ bb$qq$\lnu})
+         &\simeq 0.072\\
+%        &= 2\mathcal{B}(\text{H $\rightarrow$ bb})
+%            \mathcal{B}(\text{H $\rightarrow$ WW})
+%            *2\mathcal{B}(\text{W $\rightarrow$ qq})
+%            \mathcal{B}(\text{W $\rightarrow \ell\nu$}) \\
+%    \mathcal{B}(\text{\tt\ $\rightarrow$ bbWW $\rightarrow$ bb$qq$\lnu\lnu})
+%         &\simeq 0.045\\
+%        &=  \mathcal{B}(\text{t $\rightarrow$ bW})^2
+%            \mathcal{B}(\text{W $\rightarrow \ell\nu$})^2 \\
+    \mathcal{B}(\text{\tt\ $\rightarrow$ bbWW $\rightarrow$ bb$qq$\lnu})
+         &\simeq 0.287
+%        &=  \mathcal{B}(\text{t $\rightarrow$ bW})^2
+%            *2\mathcal{B}(\text{W $\rightarrow$ qq})
+%            \mathcal{B}(\text{W $\rightarrow \ell\nu$}) \\
+\end{align*}
+
+
+
+\begin{table}[h]
+	\centering
+	\caption{Cross sections at NNLO and $\sqrt{s}=14$ TeV \cite{sigma_HH}\cite{sigma_tt}, branching ratios $\BR$ (excluding W $\rightarrow \tau\bar{\tau}$) \cite{BR_HH}\cite{BR_tt}\cite{BR_W} and number of Monte Carlo events per process in the samples.} %\vspace{2mm}
+	\label{sigma}
+	\begin{tabular}{@{\;}lccc@{\;}}
+	\toprule
+	process      & $\sigma\BR$ [fb] & branching ratio $\BR$ & number of MC events \\
+	\midrule
+	\textbf{HH}  & \textbf{40}      &           & \\ %\textbf{979 907} \\
+	HH \semi     &        2.88      &   0.072   &  166 483  \\
+	HH \di       &        0.44      &   0.011   &   22 812  \\
+	\textbf{\tt} & \textbf{984 500} &           & \\ %\textbf{499 600} \\
+	\tt \semi    &     282 552      &   0.287   &  164 661  \\
+	\tt \di      &      44 303      &   0.045   &   22 546  \\
+	\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+	%\small
+	\centering
+	\caption{Significance $P=S/(1+\sqrt{B})$ and yields $S:=N(\H\H)$ and $B:=N(\tt)$ with NNLO cross sections at $\sqrt{s}=14$ TeV and with integrated luminosity $L = 3000 \text{ fb}^{-1}$.} %\vspace{5pt}  %, cross sections \sAN\ from Table \ref{sigma_AN}
+%	\label{comparison}
+	\begin{tabular}{@{\;}lrrr@{\;}}
+	
+	\toprule
+	Selection level & \cc{$P$} & \cc{$S$} & \cc{$B$} \\
+	\midrule
+	Initial $\text{bbWW} \rightarrow \text{bb}qq\ell\nu$ sample
+		& 0.297 &   8640  & 847 654 500  \\
+	Selection
+ 		& 0.109 &   1496  & 189 235 942  \\
+	Clean-up
+ 		& 0.130 &   1153  &  78 762 511  \\
+	\bottomrule
+	
+	\end{tabular}
+\end{table}
+
+
+
 
 
 
@@ -147,70 +238,7 @@ The final BDT output and background rejection versus signal efficiency of the te
 , 27 signal events and 5153 background events at an integrated lumininosity $L = 3000 \text{ fb}^{-1}$.
 
 
-%The branching ratios are found using
-%\begin{align*}
-%    \mathcal{B}(\text{HH $\rightarrow$ bbWW})
-%        &= 2\mathcal{B}(\text{H $\rightarrow$ bb})
-%            \mathcal{B}(\text{H $\rightarrow$ WW})
-%        \simeq 0.248 \\
-%    \mathcal{B}(\text{\tt\ $\rightarrow$ bWbW})
-%        &= \mathcal{B}(\text{t $\rightarrow$ bW})^2
-%        \simeq 0.997 \\
-%%              0,9966 CDF 2014
-%%              0,8281 PDG 2014
-%    \mathcal{B}(\text{WW $\rightarrow$ \lnu\lnu})
-%        &= \mathcal{B}(\text{W $\rightarrow$ \lnu})^2
-%        \simeq 0.046 \\
-%    \mathcal{B}(\text{WW $\rightarrow qq$\lnu})
-%        &= 2\mathcal{B}(\text{W $\rightarrow$ $qq$})
-%            \mathcal{B}(\text{W $\rightarrow$ \lnu})
-%        \simeq 0.288
-%\end{align*}
-%with numbers from \cite{BR_HH}, \cite{BR_tt} and \cite{BR_W}:
-%\begin{align*}
-%    \mathcal{B}(\text{HH $\rightarrow$ bbWW $\rightarrow$ bb\lnu\lnu})
-%         &\simeq 0.011\\
-%%        &= 2\mathcal{B}(\text{H $\rightarrow$ bb})
-%%            \mathcal{B}(\text{H $\rightarrow$ WW})
-%%            \mathcal{B}(\text{W $\rightarrow \ell\nu$})^2 \\
-%    \mathcal{B}(\text{HH $\rightarrow$ bbWW $\rightarrow$ bb$qq$\lnu})
-%         &\simeq 0.072\\
-%%        &= 2\mathcal{B}(\text{H $\rightarrow$ bb})
-%%            \mathcal{B}(\text{H $\rightarrow$ WW})
-%%            *2\mathcal{B}(\text{W $\rightarrow$ qq})
-%%            \mathcal{B}(\text{W $\rightarrow \ell\nu$}) \\
-%    \mathcal{B}(\text{\tt\ $\rightarrow$ bbWW $\rightarrow$ bb$qq$\lnu\lnu})
-%         &\simeq 0.045\\
-%%        &=  \mathcal{B}(\text{t $\rightarrow$ bW})^2
-%%            \mathcal{B}(\text{W $\rightarrow \ell\nu$})^2 \\
-%    \mathcal{B}(\text{\tt\ $\rightarrow$ bbWW $\rightarrow$ bb$qq$\lnu})
-%         &\simeq 0.287
-%%        &=  \mathcal{B}(\text{t $\rightarrow$ bW})^2
-%%            *2\mathcal{B}(\text{W $\rightarrow$ qq})
-%%            \mathcal{B}(\text{W $\rightarrow \ell\nu$}) \\
-%\end{align*}
-%
-%
-%
-%\begin{table}[p]
-%	\centering
-%	\caption{Cross sections at NNLO and $\sqrt{s}=14$ TeV \cite{sigma_HH}\cite{sigma_tt}, branching ratios $\BR$ (excluding W $\rightarrow \tau\bar{\tau}$) \cite{BR_HH}\cite{BR_tt}\cite{BR_W} and number of Monte Carlo events per process in our analysis sample.} \vspace{5pt}
-%	\label{sigma}
-%	\begin{tabular}{@{}lccc@{}}
-%	\toprule
-%	process      & $\sigma\BR$ [fb] & branching ratio $\BR$ & number of MC events \\
-%	\midrule
-%	\textbf{HH}  & \textbf{40}      &           & \\ %\textbf{979 907} \\
-%	HH \semi     &        2.88      &   0.072   &  166 483  \\
-%	HH \di       &        0.44      &   0.011   &   22 812  \\
-%	\bm{\tt}     & \textbf{984 500} &           & \\ %\textbf{499 600} \\
-%	\tt \semi    &     282 552      &   0.287   &  164 661  \\
-%	\tt \di      &      44 303      &   0.045   &   22 546  \\
-%	\bottomrule
-%	\end{tabular}
-%\end{table}
-%
-%
+
 %\begin{table}[p]
 %	\centering
 %	\caption{Cross sections for their Monte Carlo samples listed in the analysis note by C. Deleare \etal\ \cite{AN}.} \vspace{5pt} %and \sAN\ from Eq. \eqref{sf} with a filter efficiency $e=1$ for HH and $e=0.37$ for \tt\ to account for cuts at generator level.
@@ -271,9 +299,6 @@ The final BDT output and background rejection versus signal efficiency of the te
 %  \vspace{-6mm}
   \caption{Sketch of a boosted Higgs boson pair and a boosted \tt\ pair.} \label{sketch}
 \end{figure*}
-
-
-
 
 
 % FIGURE: multicplicities
