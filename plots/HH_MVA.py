@@ -57,9 +57,9 @@ Methods = [ ("BDT","BDT"),
 #            ("BDT","BDTNTrees"),
 #            ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
-            ("BDT","BDTBoost"),
+#            ("BDT","BDTBoost"),
             ("BDT","BDTBoost1"),
-            ("BDT","BDTBoost2"),
+            #("BDT","BDTBoost2"),
             ("BDT","BDTBoost3"),
 #            ("BDT","BDTNodeSize"),
 #            ("MLP","MLPTanh"),
@@ -67,7 +67,7 @@ Methods = [ ("BDT","BDT"),
 #            ("MLP","MLPNodes"),
 #            ("MLP","MLPNodes1"),
 #            ("MLP","MLPNodes2"),
-#            ("MLP","MLPSigmoid")
+            ("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
 
@@ -80,6 +80,8 @@ treeS2 = file_HH.Get("stage_2/cleanup/cleanup")
 treeB2 = file_tt.Get("stage_2/cleanup/cleanup")
 treeS3 = file_HH.Get("stage_3/cleanup/cleanup")
 treeB3 = file_tt.Get("stage_3/cleanup/cleanup")
+treeS2_gen = file_HH.Get("stage_2/gen/gen")
+treeB2_gen = file_tt.Get("stage_2/gen/gen")
 
 h0_S = file_HH.Get("stage_0/selection/category") # ~ 166483
 h0_B = file_tt.Get("stage_0/selection/category") # ~ 164661
@@ -111,7 +113,7 @@ print "P2 = %.4f, S = %.1f, B = %.1f" % (N_S*S2/S_tot/sqrt(1+N_B*B2/B_tot),N_S*S
 
 class configuration(object):
 
-    def __init__(self, name, varNames, stage):
+    def __init__(self, name, varNames, stage, gen=False):
         self.name = name
         self.varNames = varNames
         self.treeS = None
@@ -124,8 +126,12 @@ class configuration(object):
             self.treeS = treeS1
             self.treeB = treeB1
         elif stage==2:
-            self.treeS = treeS2
-            self.treeB = treeB2
+            if gen:
+                self.treeS = treeS2_gen
+                self.treeB = treeB2_gen
+            else:
+                self.treeS = treeS2
+                self.treeB = treeB2
         elif stage==3:
             self.treeS = treeS3
             self.treeB = treeB3
@@ -179,14 +185,14 @@ def train(config):
     # BDTTuned
     factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                        ":".join([ "!H","!V",
-                                  "NTrees=1800",
+                                  "NTrees=1500",
 #                                  "MinNodeSize=2.%", # 2.%
 #                                  "nEventsMin=200",
                                   "MaxDepth=3", # 3 -> 5 -> 3
                                   "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.05", # 0.1 -> 0.05
+                                  "AdaBoostBeta=0.08", # 0.1 -> 0.05
                                   "SeparationType=GiniIndex",
-                                  "nCuts=80" # 20 -> 70 -> 100
+                                  "nCuts=70" # 20 -> 70 -> 100
                                  ]) )
 #    # BDTPreselection
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
@@ -225,53 +231,42 @@ def train(config):
 #                                  "SeparationType=GiniIndex",
 #                                  "nCuts=80"
 #                                 ]) )
-    # BDTBoost
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1800",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.08", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=80"
-                                 ]) )
+
     # BDTBoost1
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost1",
                        ":".join([ "!H","!V",
-                                  "NTrees=1800",
+                                  "NTrees=1500",
 #                                  "MinNodeSize=2.%",
 #                                  "nEventsMin=200",
                                   "MaxDepth=3",
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.10", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=80"
+                                  "nCuts=70"
                                  ]) )
-    # BDTBoost2
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1800",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=80"
-                                 ]) )
+    ## BDTBoost2
+    #factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
+                       #":".join([ "!H","!V",
+                                  #"NTrees=1500",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+                                  #"MaxDepth=3",
+                                  #"BoostType=AdaBoost",
+                                  #"AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  #"SeparationType=GiniIndex",
+                                  #"nCuts=70"
+                                 #]) )
     # BDTBoost3
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
                        ":".join([ "!H","!V",
-                                  "NTrees=1800",
+                                  "NTrees=1500",
 #                                  "MinNodeSize=2.%",
 #                                  "nEventsMin=200",
                                   "MaxDepth=3",
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=80"
+                                  "nCuts=70"
                                  ]) )
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
@@ -338,16 +333,16 @@ def train(config):
 #                                   "HiddenLayers=N,N+4",
 #                                   "UseRegulator"
 #                                  ]) )
-#    # MLPSigmoid
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=sigmoid",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N,N",
-#                                   "UseRegulator"
-#                                  ]) )
+    # MLPSigmoid
+    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
+                        ":".join([ "!H","!V",
+                                  "LearningRate=0.01",
+      #                                   "NCycles=200",
+                                  "NeuronType=sigmoid",
+                                  "VarTransform=N",
+                                  "HiddenLayers=N,N",
+                                  "UseRegulator"
+                                  ]) )
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -385,17 +380,22 @@ def significance(histS,histB):
     # scan cut over all bins, find cut with highest significance
     N = histS.GetNbinsX()
     for i in range(1,N):
-        S = N_S * histS.Integral(i,N) / S_tot # yield
-        B = N_B * histB.Integral(i,N) / B_tot
-        P = S / (1+sqrt(B))
-        if Pmax<P and S > 10 and B > 10:
-            Pmax = P
-            Smax = S
-            Bmax = B
-            imax = i
+        Si = histS.Integral(i,N)
+        Bi = histB.Integral(i,N)
+        if Si and Bi:
+          S = N_S * Si / S_tot # yield
+          B = N_B * Bi / B_tot
+          P = S / (1+sqrt(B))
+          if Pmax<P and S > 10 and B > 10:
+              Pmax = P
+              Smax = S
+              Bmax = B
+              Simax = Si
+              Bimax = Bi
+              imax = i
 
                             # cut
-    return [Pmax,Smax,Bmax,histS.GetXaxis().GetBinCenter(imax)]
+    return [Pmax,Smax,Bmax,Simax,Bimax,histS.GetXaxis().GetBinCenter(imax)]
 
 
 
@@ -446,22 +446,22 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 150, -0.4, 1.4)
-            histB = TH1F("histB", "", 150, -0.4, 1.4)
+            histS = TH1F("histS", "", 120, -0.4, 1.4)
+            histB = TH1F("histB", "", 120, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 150, -1.4, 1.4)
-            histB = TH1F("histB", "", 150, -1.4, 1.4)
+            histS = TH1F("histS", "", 120, -1.4, 1.4)
+            histB = TH1F("histB", "", 120, -1.4, 1.4)
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         config.hist_effs_train.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_trainingRejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        [Pmax,Smax,Bmax,cut] = significance(histS,histB)
+        [Pmax,Smax,Bmax,Simax,Bimax,cut] = significance(histS,histB)
         Pbins = significanceBins(histS, histB)
         significances.append( ">>> "+config.name+" - "+method + \
-                              ":\n>>>\t\t%.4f significance, yields S = %.1f, B = %.1f with a cut at %.4f" % \
-                              (Pmax,Smax,Bmax,cut) + \
-                              "\n>>>\t\t%.4f significance with bins" % Pbins  )
+                              ":\n>>>\t\t%.4f significance (%.4f with bins)" % (Pmax,Pbins) + \
+                              "\n>>>\t\twith yields S = %.1f, B = %.1f and a cut at %.4f. (Si=%.1f and Bi=%.1f)" % \
+                              (Smax,Bmax,cut,Simax,Bimax) )
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
@@ -595,119 +595,82 @@ def correlation(config):
 
 def main():
 
-    allVars = [ "Njets20", "Nbjets30",
-                "jet1Pt", "jet2Pt",
-                "bjet1Pt", "bjet2Pt",
-                "Pt_bb", "Pt_bl", "Pt_j1l",
-                "Pt_jjl", "Pt_jjb",
-                "leptonPt", "MET",
-                "DeltaR_j1l", "DeltaR_j2l",
-                "DeltaR_b1l", "DeltaR_b2l",
-                "DeltaR_bb1", "DeltaR_jj",
-                "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
-                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_blnu",         # top reconstruction
-                "M_bl", "M_j1l",
-                "M_jj", "M_jjl",
-                "MT_lnu","MT_jjlnu", ]
+    allVars = [ "Njets20","Nbjets30",
+                "jet1Pt","jet2Pt",
+                "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "Pt_b1lnu", "Pt_b2lnu",
+                "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_j2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_jjl","DeltaR_jjb",
+                "DeltaPhi_j1lbb",
+                "DeltaPhi_lMET","DeltaPhi_jjlnu",
+                "M_bb_closest", "M_jjlnu",
+                "M_jjb1", "M_jjb1",
+                "M_b1lnu", "M_b2lnu",
+                "M_bl", "M_jjl",
+                "M_jj", "M_j1l",
+                "MT_lnu","MT_jjlnu" ]
                 # Mbl better discrinant than Mblnu
                 # MT_lnu better than MT_jjlnu
                 # DeltaPhi_lMET is bad?
 
-    allVarsN = [ "jet1Pt", "jet2Pt",
-                "bjet1Pt", "bjet2Pt",
-                "Pt_bb", "Pt_bl", "Pt_j1l",
-                "Pt_jjl", "Pt_jjb",
-                "leptonPt", "MET",
-                "DeltaR_j1l", "DeltaR_j2l",
-                "DeltaR_b1l", "DeltaR_b2l",
-                "DeltaR_bb1", "DeltaR_jj",
-                "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_lMET", "DeltaPhi_j1lbb",
-                "M_bb_closest", "M_jjlnu", # Higgs reconstruction
-                "M_jjb", "M_blnu",         # top reconstruction
-                "M_bl", "M_j1l",
-                "M_jj", "M_jjl",
-                "MT_lnu","MT_jjlnu", ]
-                # Mbl better discrinant than Mblnu
-                # MT_lnu better than MT_jjlnu
-                # DeltaPhi_lMET is bad?
+    allVars1 = [ "jet1Pt","jet2Pt",
+                "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "Pt_b1lnu", "Pt_b2lnu",
+                "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_j2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_jjl","DeltaR_jjb",
+                "DeltaPhi_j1lbb",
+                "DeltaPhi_lMET","DeltaPhi_jjlnu",
+                "M_bb_closest", "M_jjlnu",
+                "M_jjb1", "M_jjb1",
+                "M_b1lnu", "M_b2lnu",
+                "M_bl", "M_jjl",
+                "M_jj", "M_j1l",
+                "MT_lnu","MT_jjlnu" ]
 
-    allVars2 = [ "Njets20", "Nbjets30",
-                "jet1Pt", "jet2Pt",
-                "bjet1Pt", "bjet2Pt",
-                "Pt_bb", "Pt_bl", "Pt_j1l",
-                "leptonPt", "MET",
-                "DeltaR_j1l", "DeltaR_j2l",
-                "DeltaR_b1l", "DeltaR_b2l",
-                "DeltaR_bb1", "DeltaR_jj",
-                "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
-                "M_bb_closest", "M_jjlnu",     # Higgs reconstruction
-                "M_jjb", "M_blnu", #"M_jjl",   # top reconstruction
-                "M_bl", "M_j1l",
-                "MT_lnu", "MT_jjlnu" ]
+    allVars2 = [ "jet1Pt","jet2Pt",
+                "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "Pt_b1lnu", "Pt_b2lnu",
+                "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_j2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_jjl","DeltaR_jjb",
+                "DeltaPhi_j1lbb",
+                "DeltaPhi_jjlnu",
+                "M_bb_closest", "M_jjlnu",
+                "M_jjb1", "M_jjb1",
+                "M_b1lnu", "M_b2lnu",
+                "M_bl", "M_jjl",
+                "M_jj", "M_j1l",
+                "MT_lnu","MT_jjlnu" ]
 
-    allVars3 = [ "Njets20", "Nbjets30",
-                "jet1Pt", "jet2Pt",
-                "bjet1Pt", "bjet2Pt",
-                "Pt_bb", "Pt_bl", "Pt_j1l",
-                "leptonPt", "MET",
-                "DeltaR_j1l", "DeltaR_j2l",
-                "DeltaR_b1l", "DeltaR_b2l",
-                "DeltaR_bb1", "DeltaR_jj",
-                "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
-                "M_bb_closest", #"M_jjlnu",   # Higgs reconstruction
-                "M_jjb", "M_blnu", "M_jjl",   # top reconstruction
-                "M_bl", "M_j1l",
-                "MT_lnu", "MT_jjlnu" ]
-
-    allVars4 = [ "Njets20", "Nbjets30",
-                "jet1Pt", "jet2Pt",
-                "bjet1Pt", "bjet2Pt",
-                "Pt_bb", "Pt_bl", "Pt_j1l",
-                "leptonPt", "MET",
-                "DeltaR_j1l", "DeltaR_j2l",
-                "DeltaR_b1l", "DeltaR_b2l",
-                "DeltaR_bb1", "DeltaR_jj",
-                "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
-                "M_bb_closest",   # Higgs reconstruction
-                "M_jjb", "M_blnu", "M_jjl",         # top reconstruction
-                "M_bl", "M_j1l",
-                "MT_lnu"#, "MT_jjlnu"
-                ]
-
-    allVars5 = [ "jet1Pt", "jet2Pt",
-                "bjet1Pt", "bjet2Pt",
-                "Pt_bb", "Pt_bl", "Pt_j1l",
-                "leptonPt", "MET",
-                "DeltaR_j1l", "DeltaR_j2l",
-                "DeltaR_b1l", "DeltaR_b2l",
-                "DeltaR_bb1", "DeltaR_jj",
-                "DeltaR_jjl", "DeltaR_jjb",
-                "DeltaPhi_j1lbb", #"DeltaPhi_lMET",
-                "M_bb_closest", "M_jjl",   # Higgs reconstruction
-                "M_jjb", "M_blnu",         # top reconstruction
-                "M_bl", "M_j1l",
-                "MT_lnu"#, "MT_jjlnu"
-                ]
-
-    betterVars = [  "Nbjets30","Njets20",
-                    "jet1Pt","jet2Pt",
+    betterVars = [  "jet1Pt","jet2Pt",
                     "bjet1Pt","bjet2Pt",
-                    "Pt_bb",
+                    "Pt_bb","Pt_j1l",
+                    "Pt_b1lnu", "Pt_b2lnu",
+                    "Pt_jjb1", "Pt_jjb2",
                     "leptonPt","MET",
                     "DeltaR_j1l","DeltaR_j2l",
                     "DeltaR_b1l","DeltaR_b2l",
-                    "DeltaR_bb1", #"DeltaPhi_lMET"
+                    "DeltaR_bb1",
                     "DeltaR_jjl","DeltaR_jjb",
-                    "DeltaPhi_j1lbb",
-                    "M_bb_closest", "M_jjl",
-                    "M_jjb", "M_bl", #"M_blnu",
-                    "M_j1l", "MT_lnu" ]
+                    "DeltaPhi_j1lbb","DeltaPhi_jjlnu",
+                    "M_bb_closest", "M_jjlnu",
+                    "M_jjb1", "M_jjb1",
+                    "M_b1lnu", "M_b2lnu",
+                    "MT_lnu" ]
 
 
     #bestVars = [    "bjet1Pt","jet1Pt",
@@ -720,15 +683,6 @@ def main():
                     #"M_bb_closest", "M_jjlnu",
                     #"M_jjb", "M_bl", "M_j1l",
                     #"MT_lnu" ]
-
-#    MLPTopVars = [  "Njets20",
-#                    "jet1Pt","jet2Pt",
-#                    "bjet1Pt","bjet2Pt",
-#                    "Pt_bb","Pt_bl","Pt_j1l",
-#                    "leptonPt","MET",
-#                    "DeltaR_j1l",
-#                    "M_jjlnu", "M_jjb",
-#                    "M_bl", "M_j1l" ]
 
 #    ANVars = [  "Njets20",
 #                "Pt_bb","Pt_bl","Pt_j1l",
@@ -745,6 +699,22 @@ def main():
 #                "M_bb_closest", "M_jjlnu",
 #                "M_jjb", "M_bl", "M_j1l" ]
 
+    genVars = [ "Pt_q1","Pt_q2",
+                "Pt_b1","Pt_b2",
+                #"Pt_bb","Pt_bl","Pt_q1l",
+                "Pt_l","Pt_nu",
+                "DeltaR_q1l","DeltaR_q2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb","DeltaR_qq",
+                "DeltaR_qql","DeltaR_qqb",
+                #"M_bb", "M_qqlnu",
+                #"M_qql",
+                #"M_qqb1", "M_qqb2", "M_b1lnu","M_b2lnu",
+                #"M_bl", "M_qq", "M_q1l",
+              ]
+
+
+
     if opts.test:
         print ">>> test mode"
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
@@ -753,8 +723,10 @@ def main():
 #                    configuration("everything20", allVars, 1),
 #                    configuration("better20",     betterVars, 1),
                     configuration("everythingCleanUp", allVars, 2),
-                    configuration("everythingNCleanUp", allVarsN, 2),
-                    #configuration("everything2CleanUp", allVars2, 2),
+                    configuration("everything1CleanUp", allVars1, 2),
+                    configuration("everything2CleanUp", allVars2, 2),
+                    configuration("everythingCleanUp", betterVars, 2),
+                    configuration("generatorCleanUp", genVars, 2, gen=True),
                     #configuration("everything3CleanUp", allVars3, 2),
                     #configuration("everything4CleanUp", allVars4, 2),
                     #configuration("everything5CleanUp", allVars5, 2),
@@ -778,7 +750,7 @@ def main():
     compare([c for c in configs if c.stage==2],stage="stage_2")
     compare([c for c in configs if c.stage==3],stage="stage_3")
     eff(configs[0],"BDTTuned")
-    eff(configs[3],"BDTBoost1")
+    #eff(configs[3],"BDTBoost1")
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 

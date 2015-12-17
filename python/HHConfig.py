@@ -22,14 +22,15 @@ class configuration:
 
   # control plot classes
   controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
-#                   controlPlot("gen","GenControlPlots_topo","GenControlPlots", { }),
-                   controlPlot("cleanup","CleanUpControlPlots","CleanUpControlPlots", { }), ]
+                   controlPlot("gen","GenControlPlots_topo","GenControlPlots", { }),
+                   controlPlot("cleanup","CleanUpControlPlots","CleanUpControlPlots", { }),
                    #controlPlot("jets","JetControlPlots","JetControlPlots", { }),
                    #controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
                    #controlPlot("reco","RecoControlPlots","RecoControlPlots", { }),
                    #controlPlot("reco2","RecoControlPlots2","RecoControlPlots2", { }),
                    #controlPlot("match","MatchControlPlots","MatchControlPlots", { }),
-                   #controlPlot("res","ResControlPlots","ResControlPlots", { }) ]
+                   #controlPlot("res","ResControlPlots","ResControlPlots", { }),
+                 ]
 
   # event content: lists of eventCollection, eventProducer, and eventWeight objects respectively.
   eventCollections = [ eventCollection("muons","Muon"), 
