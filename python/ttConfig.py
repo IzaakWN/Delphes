@@ -23,6 +23,7 @@ class configuration:
   controlPlots = [ controlPlot("selection","EventSelectionControlPlots","EventSelectionControlPlots", { }),
                    controlPlot("gen","GenControlPlots_topo","GenControlPlots", { }),
                    controlPlot("cleanup","CleanUpControlPlots","CleanUpControlPlots", { }),
+                   controlPlot("jets","JetControlPlots_check","JetControlPlots", { }),
                    #controlPlot("jets","JetControlPlots","JetControlPlots", { }),
                    #controlPlot("leptons","LeptonControlPlots","LeptonControlPlots", { }),
                    #controlPlot("reco","RecoControlPlots","RecoControlPlots", { }),

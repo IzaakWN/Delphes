@@ -11,8 +11,8 @@ CMS_lumi.cmsTextSize = 0.65
 CMS_lumi.outOfFrame = True
 tdrstyle.setTDRStyle()
 
-file = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
-file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
+file = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all2.root")
+file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all2.root")
 
 
 
@@ -120,6 +120,9 @@ def plotBasic(stage):
                  "bb","b1l","b2l",
                  "bl_lep","bl_had"]:
        names.append("gen/DeltaR_"+comb)
+    for comb in [ "H1Pt","H1Pz",
+                  "H2Pt","H2Pz",]:
+       names.append("gen/"+comb)
     names.append("gen/MET_res")
     names.append("gen/MET_res_ang")
 
@@ -141,7 +144,7 @@ def plotBasic(stage):
             hist_S.Scale(1./hist_S.GetBinContent(1))
             hist_tt.Scale(1./hist_tt.GetBinContent(1))
 
-        if name[name.index("/")+1] == "N" or name[-2:] == "Pt":
+        if name[name.index("/")+1] == "N" or name[-2:] == "Pt" or name[-2:] == "Pz":
             legend = makeLegend(hist_S,hist_tt,tt=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaPhi_q2l", "DeltaR_b1l", "DeltaPhi_b1l",
@@ -184,7 +187,8 @@ def plotBasic(stage):
         else:
             name = name.replace("selection/","basic/"+stage)
             name = name.replace("cleanup/","cleanup/"+stage)
-            name = name.replace("gen/","basic/"+stage)
+            #name = name.replace("gen/","basic/"+stage)
+            name = name.replace("gen/","cleanup/"+stage)
             name = name.replace("leptons/","basic/"+stage)
             name = name.replace("jets/","basic/"+stage)
             name = name.replace("match/","basic/"+stage)
@@ -192,6 +196,46 @@ def plotBasic(stage):
             name = name.replace("reco2/","reco/"+stage)
         c.SaveAs(name+".png")
         c.Close()
+
+
+
+
+    #############################
+    # overlay2 "reco" and "gen" #
+    #############################
+
+def plotOverlay2(stage):
+    print "\n  %s: Overlay plots: reco and gen" % stage[:-1]
+    
+    names = [ ]
+
+    names.extend([ ("gen/DeltaR_q1l", "cleanup/DeltaR_j1l") ])
+
+    for gen, reco in names:
+
+        c = makeCanvas()
+        histS = file.Get(stage+reco)
+        histB = file_tt.Get(stage+reco)
+        histS_gen = file.Get(stage+gen)
+        histB_gen = file_tt.Get(stage+gen)
+
+        histS.Draw()
+        histS_gen.Draw("same")
+        histB.Draw("same")
+        histB_gen.Draw("same")
+        makeAxes(histS,histB,histS_gen,histB_gen)
+
+        legend = makeLegend(histS,histS_gen,histB,histB_gen,
+                            entries=["HH","HH gen level","t#bar{t}","t#bar{t} gen level"])
+        legend.Draw()
+        
+        CMS_lumi.CMS_lumi(c,14,33)
+        setLineStyle(histS,histS_gen,histB,histB_gen,gen=True)
+        
+        reco = reco.replace("cleanup/","cleanup/"+stage)
+        c.SaveAs(reco+"_gen.png")
+        c.Close()
+
 
 
 
@@ -238,7 +282,7 @@ def plotOverlay(stage):
 
         hist_reco.Draw("histsame")
         hist_reco_tt.Draw("histsame")
-        hist_gen.Draw("P0same")
+        hist_gen.Draw("histsame")
         makeAxes(hist_reco,hist_reco_tt,hist_gen)
         
         if "MET" in reco:
@@ -543,9 +587,10 @@ def main():
 
     for stage in ["stage_0/","stage_1/","stage_2/",]: #"stage_3/"]:#,"stage_4/","stage_5/","stage_6/"]:
 #        plotOverlay(stage)
+        plotOverlay2(stage)
 #        plotExtra(stage)
         plotBasic(stage)
-        plot2D(stage)
+        #plot2D(stage)
 #        plotPie(stage)
 
     print "\nDone with this, son.\n"

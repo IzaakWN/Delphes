@@ -115,7 +115,7 @@ def makeTitle(hist):
     if "H" in title:
         if "bbWW" in title:
             title = title.replace("HH","HH #rightarrow ")
-        else:
+        elif "Higgs" not in title:
             title = title.replace("H","H #rightarrow ")
     elif "W" in title:
         if title.index("W")+1-len(title): # not W at the end!
@@ -182,6 +182,9 @@ def makeEntryName2(hist,tt=False):
     
     title = hist.GetTitle()
     
+    if "gen" in title:
+        title = title.replace("gen","")
+        
     # replace stuff
     if "neutrino" in title:
         title = "neutrino generator"
@@ -196,6 +199,8 @@ def makeEntryName2(hist,tt=False):
         title = title[title.index("Mass")+5:]
     elif " multiplicity" in title:
         title = title[title.index("multiplicity")+13:]
+    elif " Pz" in title:
+        title = title[title.index("Pz")+3:]
 
     if "Pt" in title:
         title = title.replace("Pt","p_{T}")
@@ -286,8 +291,8 @@ def makeLegend(*hists, **kwargs):
                     legend.AddEntry(hist0,"neutrino gen signal")
                 else:
                     legend.AddEntry(hist0,"gen signal")
-            legend.AddEntry(hists[-2],"signal","l")
-            legend.AddEntry(hists[-1],"t#bar{t} BG","l")
+            legend.AddEntry(hists[-2],"HH","l")
+            legend.AddEntry(hists[-1],"t#bar{t}","l")
         elif entries is None:
             for hist in hists:
                 legend.AddEntry(hist,makeEntryName2(hist))
@@ -309,6 +314,7 @@ def makeLabels2D(hist, xaxis=False, yaxis=False):
             if "_" in label:
                 label = label[:label.index("_")+1]+"{"+label[label.index("_")+1:]+"}"
             label = label.replace("Pt"," p_{T}")
+            label = label.replace("Pt"," p_{z}")
             label = label.replace("Delta","#Delta")
             label = label.replace("Phi","#phi")
             label = label.replace("Eta","#eta")
@@ -554,6 +560,9 @@ def makeAxes(*hists, **kwargs):
         elif " Mt" in name:
             hist0.GetXaxis().SetTitle("transverse mass M_{T} [GeV]")
             ylabel += "GeV"
+        elif " Pz" in name:
+            hist0.GetXaxis().SetTitle("p_{z} [GeV]")
+            ylabel += "GeV"
         else: print "Warning: no x-axis label!"
 
     # make correct y-axis labels
@@ -592,14 +601,26 @@ def setFillStyle(hist):
 
 
 
-def setLineStyle(*hists):
+def setLineStyle(*hists, **kwargs):
 
 #    linewidth = kwargs.get('linewidth', 2)
     #line = [1,2,3,4]
-    for i in range(len(hists)):
-        hists[i].SetLineColor(colors[i%len(colors)])
-        hists[i].SetLineStyle(i%4+1)
-        hists[i].SetLineWidth(3)
+    gen = kwargs.get('gen', False)
+
+    if gen:
+        print "here"
+        colors2 = [kRed+3, kRed-7, kAzure+4, kAzure-4, kMagenta+3, kGreen+3, kOrange+6, kMagenta-3]
+        line = [1,3,2,3]
+        #line_width = [3,2,3,2]
+        for i in range(len(hists)):
+            hists[i].SetLineColor(colors2[i])
+            hists[i].SetLineStyle(line[i%4])
+            hists[i].SetLineWidth(3)#line_width[i%4])
+    else:
+        for i in range(len(hists)):
+            hists[i].SetLineColor(colors[i%len(colors)])
+            hists[i].SetLineStyle(i%4+1)
+            hists[i].SetLineWidth(3)
 
 
 

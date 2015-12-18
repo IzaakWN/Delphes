@@ -46,10 +46,10 @@ class GenControlPlots(BaseControlPlots):
         for var in tree_vars:
             self.addBranch("gen",var)
 
-        self.add("HPt","H Pt gen",100,0,500)
-        self.add("HPz","H Pz gen",100,0,500)
-        self.add("tPt","top Pt gen",100,0,500)
-        self.add("tPz","top Pz gen",100,0,500)
+        self.add("H1Pt","leading Higgs or top Pt gen",100,0,800)
+        self.add("H1Pz","leading Higgs or top Pz gen",100,0,800)
+        self.add("H2Pt","second leading Higgs or top Pt gen",100,0,800)
+        self.add("H2Pz","second leading Higgs or top Pz gen",100,0,800)
 
         self.add("Pt_q1","leading quark Pt gen",100,0,300)
         self.add("Pt_q2","second leading quark Pt gen",100,0,300)
@@ -63,7 +63,7 @@ class GenControlPlots(BaseControlPlots):
         self.add("Pt_l","lepton Pt gen",100,0,300)
         self.add("Pt_nu","neutrino Pt gen",100,0,300)
 
-        self.add("MET_res","MET resolution gen",100,0,50)
+        self.add("MET_res","MET resolution gen",100,0,15)
         self.add("MET_res_ang","MET angular resolution gen",100,0,4)
         
         self.add("M_qq","quarks Mass gen",100,0,300)
@@ -105,11 +105,12 @@ class GenControlPlots(BaseControlPlots):
     def process(self, event):
         
         result = { }
-        result["HPt"] = [ ]
-        result["HPz"] = [ ]
-        result["tPt"] = [ ]
-        result["tPz"] = [ ]
+        result["H1Pt"] = [ ]
+        result["H1Pz"] = [ ]
+        result["H2Pt"] = [ ]
+        result["H2Pz"] = [ ]
         
+        higgs = [ ]
         leptons = [ ]
         neutrinos = [ ]
         quarks = [ ]
@@ -125,8 +126,7 @@ class GenControlPlots(BaseControlPlots):
                 
             # __top__
             if PID == 6 and 0 <= D1 < len(event.particles) and event.particles[D1] and D1!=D2:
-                result["tPt"].append(particle.PT)
-                result["tPz"].append(abs(particle.Pz))
+                higgs.append(particle)
                 if abs(event.particles[D2].PID) == 5: # b
                     bquarks.append(event.particles[D2])
                 elif abs(event.particles[D1].PID) == 5: # b
@@ -157,8 +157,7 @@ class GenControlPlots(BaseControlPlots):
             # __Higgs__
             elif PID == 25 and 0 <= D1 < len(event.particles) and event.particles[D1] and D1!=D2: # Higgs
                 PID_D1 = abs( event.particles[D1].PID )
-                result["HPt"].append(particle.PT)
-                result["HPz"].append(abs(particle.Pz))
+                higgs.append(particle)
                 if PID_D1 == 5: # b
                     bquarks.extend([ event.particles[D1], event.particles[D2] ])
 
@@ -188,6 +187,9 @@ class GenControlPlots(BaseControlPlots):
             result["MET_res"] = abs(event.met[0].MET-neutrino.PT)/neutrino.PT
             result["MET_res_ang"] = fold(abs( event.met[0].Phi-neutrino.Phi ))
             
+            if len(higgs)==2: # higgs or top
+                [result["H1Pt"],result["H2Pt"]] = sorted([higgs[0].PT,higgs[1].PT],reverse=True)
+                [result["H1Pz"],result["H2Pz"]] = sorted([abs(higgs[0].Pz),abs(higgs[1].Pz)],reverse=True)
             
             if p_q and p_b:
 
