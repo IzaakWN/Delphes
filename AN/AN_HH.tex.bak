@@ -54,15 +54,19 @@
 
 
 %% Introduction
-%\section{Introduction}
+\section{Introduction}
 
-%[under construction]
-%
-%The announcement of the discovery of the Higgs boson on the 4th of July in 2012 marked the single most important milestone of particle physics in the last ten years. It completes the cornerstones of the Standard Model.
-%
-%This study takes a look at a new channel of Higgs pair production.
-%The measurement of the Higgs boson self-coupling $\lambda$ can give more information of new physics
-%The Higgs boson in particular was hard to find even with the most powerful particle collider to date.
+[under construction]
+
+The announcement of the discovery of the Higgs boson on the 4th of July in 2012 marks the most important milestone of particle physics in the last ten years. Almost fifty years after its first proposal \cite{EB,PH}, the discovery of the Higgs boson confirms the symmetry breaking of the $\mathrm{SU}_L(2)\times\mathrm{U}(1)_Y$ in the Standard Model by which vector bosons gain mass without spoiling gauge invariance. %completes the cornerstones of the Standard Model
+
+
+This study takes a look at a new channel of Higgs pair production, which provides the most direct measurement of the Higgs boson self-coupling $\lambda$. This self-coupling might give valueable information of physics beyond the Standard Model.
+
+Due to large backgrounds, the Higgs boson in particular was hard to find, even with the most powerful particle collider to date. Finding two Higgs boson from Higgs pair production H $\rightarrow$ HH will also prove challenging.
+% tt-background is 980,000/40 ~ 25000x larger
+% even more challenging?
+%http://profmattstrassler.com/articles-and-posts/the-higgs-particle/why-is-it-hard-to-find-the-higgs-particle/a-lightweight-standard-model-higgs-particle/
 
 
 
@@ -70,7 +74,7 @@
 % Samples
 \section{Samples}
 
-The signal and background processes are simulated with Monte Carlo samples. These only contain \mbox{$\b\b\W\W \rightarrow \b\b qq\ell\nu$} at generator level, where events with a W-boson decaying into a tau lepton are excluded. Both generation and parton shower and hadronization are done in \textsc{Pythia6}. The samples were finally reconstructed with Delphes for the CMS Phase II technical proposal. % reference to technical proposal
+The signal and background processes are simulated with Monte Carlo samples. These only contain \mbox{$\b\b\W\W \rightarrow \b\b qq\ell\nu$} at generator level, where events with a W-boson decaying into a tau lepton are excluded. Both generation, parton shower and hadronization are done in \textsc{Pythia6}. The samples were finally reconstructed with Delphes for the CMS Phase II technical proposal. % reference to technical proposal
 Since the jets list in Delphes contains the leptons, jets within a cone of $\Delta R=0.2$ from a lepton and an energy difference $|p^j_T-p^\ell_T|/p^\ell_T=0.4$ are removed from the list. %$|\MET-p^\nu_T|/p^\nu_T=0.5$
 
 %The branching ratios are found using
@@ -120,7 +124,7 @@ Since the jets list in Delphes contains the leptons, jets within a cone of $\Del
 
 \begin{table}[h]
 	\centering
-	\caption{Cross sections at NNLO and $\sqrt{s}=14$ TeV \cite{sigma_HH}\cite{sigma_tt}, branching ratios $\BR$ (excluding W $\rightarrow \tau\bar{\tau}$) \cite{BR_HH}\cite{BR_tt}\cite{BR_W} and number of Monte Carlo events per process in the samples.} %\vspace{2mm}
+	\caption{Cross sections at NNLO and $\sqrt{s}=14$ TeV \cite{sigma_HH}\cite{sigma_tt}, branching ratios $\BR$ (excluding events with a W $\rightarrow \tau\nu$) \cite{BR_HH}\cite{BR_tt}\cite{BR_W} and number of Monte Carlo events per process in the samples.} %\vspace{2mm}
 	\label{sigma}
 	\begin{tabular}{@{\;}lccc@{\;}}
 	\toprule
@@ -640,21 +644,35 @@ The final BDT output and background rejection versus signal efficiency of the te
 % References
 \begin{thebibliography}{1}
 
+\bibitem{EB} F. Englert \& R. Brout, \emph{Broken Symmetry and the Mass of Gauge Vector Mesons}. Phys. Rev. Lett. \textbf{13}, 321 (August, 1964)
+\href{http://dx.doi.org/10.1103/PhysRevLett.13.321}{\texttt{doi:10.1103/PhysRevLett.13.321}}
+
+\bibitem{PH} P. Higgs, \emph{Broken Symmetries and the Masses of Gauge Bosons}. Phys. Rev. Lett. \textbf{13}, 508 (October, 1964)
+\href{http://dx.doi.org/10.1103/PhysRevLett.13.508}{\texttt{doi:10.1103/PhysRevLett.13.321}}
+
 \bibitem{AN} C. Delaere \etal, \emph{Study of HH production with H $\rightarrow$ bb, H $\rightarrow$ WW $\rightarrow \ell\nu\ell\nu$ for an upgraded CMS detector at the HL-LHC}, CMS draft analysis note 2014/141.
 
-\bibitem{sigma_HH} D. de Florian \& J. Mazzitelli, \emph{Higgs Boson Pair Production at Next-to-Next-to-Leading Order in QCD}. Phys. Rev. Lett. \textbf{111} (Nov, 2013) 201801, \href{http://journals.aps.org/prl/abstract/10.1103/PhysRevLett.111.201801}{\texttt{doi:10.1103/PhysRevLett.111.201801}}, \href{http://arxiv.org/abs/1309.6594}{\texttt{arXiv:1309.6594}}.
+\bibitem{sigma_HH} D. de Florian \& J. Mazzitelli, \emph{Higgs Boson Pair Production at Next-to-Next-to-Leading Order in QCD}. Phys. Rev. Lett. \textbf{111} (Nov, 2013) 201801,
+\href{http://journals.aps.org/prl/abstract/10.1103/PhysRevLett.111.201801}{\texttt{doi:10.1103/PhysRevLett.111.201801}},
+\href{http://arxiv.org/abs/1309.6594}{\texttt{arXiv:1309.6594}}.
 
 \bibitem{sigma_tt} \emph{NNLO+NNLL top-quark-pair cross sections - ATLAS-CMS recommended predictions for top-quark-pair cross sections using the Top++v2.0 program (M. Czakon, A. Mitov, 2013)}, \url{https://twiki.cern.ch/twiki/bin/view/LHCPhysics/TtbarNNLO#Top_quark_pair_cross_sections_at}.
 
-\bibitem{sigma_HH_NLO} R. Frederix \etal, \emph{Higgs pair production at the LHC with NLO and parton-shower effects}, Phys. Rev. Lett. \textbf{B723} (May, 2014) 142, \href{http://dx.doi.org/10.1016/j.physletb.2014.03.026}{\texttt{doi:10.1016/j.physletb.2014.03.026}}, \href{http://link.aps.org/doi/10.1103/PhysRevLett.112.221801}{\texttt{arXiv:1401.7340}}.
+\bibitem{sigma_HH_NLO} R. Frederix \etal, \emph{Higgs pair production at the LHC with NLO and parton-shower effects}, Phys. Rev. Lett. \textbf{B723} 142 (May, 2014),
+\href{http://dx.doi.org/10.1016/j.physletb.2014.03.026}{\texttt{doi:10.1016/j.physletb.2014.03.026}}, 
+\href{http://link.aps.org/doi/10.1103/PhysRevLett.112.221801}{\texttt{arXiv:1401.7340}}.
 
-\bibitem{BR_HH} \emph{Higgs cross sections for European Strategy studies in 2012}, \url{https://twiki.cern.ch/twiki/bin/view/LHCPhysics/HiggsEuropeanStrategy2012#SM_Higgs_decay_branching_ratio_M}.
+\bibitem{BR_HH} \emph{Higgs cross sections for European Strategy studies in 2012}, 
+\url{https://twiki.cern.ch/twiki/bin/view/LHCPhysics/HiggsEuropeanStrategy2012#SM_Higgs_decay_branching_ratio_M}.
 
 %\bibitem{BR_tt} K.A. Olive \etal (Particle Data Group), Chin. Phys. \textbf{C38}, 090001 (014) (\url{http://pdg.lbl.gov/2014/tables/rpp2014-sum-quarks.pdf}.
 
-\bibitem{BR_tt} T. Aaltonen \etal\ (CDF Collaboration), \emph{Measurement of $\mathcal{B}(\text{t $\rightarrow$ Wb}) / \mathcal{B}(\text{t $\rightarrow$ W$q$})$ in Top-Quark-Pair Decays Using Dilepton Events and the Full CDF Run II Data Set}, Phys. Rev. Lett. \textbf{112}, 221801 (June, 2014), \href{http://journals.aps.org/prl/abstract/10.1103/PhysRevLett.112.221801}{\texttt{doi:10.1103/PhysRevLett.112.221801}}, \href{http://arxiv.org/abs/1404.3392}{\texttt{arXiv:1404.3392}}.
+\bibitem{BR_tt} T. Aaltonen \etal\ (CDF Collaboration), \emph{Measurement of $\mathcal{B}(\text{t $\rightarrow$ Wb}) / \mathcal{B}(\text{t $\rightarrow$ W$q$})$ in Top-Quark-Pair Decays Using Dilepton Events and the Full CDF Run II Data Set}, Phys. Rev. Lett. \textbf{112}, 221801 (June, 2014), 
+\href{http://journals.aps.org/prl/abstract/10.1103/PhysRevLett.112.221801}{\texttt{doi:10.1103/PhysRevLett.112.221801}},
+\href{http://arxiv.org/abs/1404.3392}{\texttt{arXiv:1404.3392}}.
 
-\bibitem{BR_W} J. Beringer \etal\ (Particle Data Group), PR \textbf{D86}, 010001 (2012) and 2013 partial update for the 2014 edition (\url{http://pdg.lbl.gov/2013/listings/rpp2013-list-w-boson.pdf}).
+\bibitem{BR_W} J. Beringer \etal\ (Particle Data Group), PR \textbf{D86}, 010001 (2012) and 2013 partial update for the 2014 edition
+(\url{http://pdg.lbl.gov/2013/listings/rpp2013-list-w-boson.pdf}).
 
 %\bibitem{code_HH} I. Neutelings (Oct, 2015), \url{https://github.com/IzaakWN/Delphes/blob/IzaakFall2015/python/HHEventSelection_dilep.py}
 %
