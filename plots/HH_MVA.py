@@ -61,13 +61,14 @@ Methods = [ ("BDT","BDT"),
             ("BDT","BDTBoost1"),
             #("BDT","BDTBoost2"),
             ("BDT","BDTBoost3"),
+            ("BDT","BDTBoost4"),
 #            ("BDT","BDTNodeSize"),
 #            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
 #            ("MLP","MLPNodes1"),
 #            ("MLP","MLPNodes2"),
-            ("MLP","MLPSigmoid")
+            #("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
 
@@ -268,6 +269,18 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=70"
                                  ]) )
+    # BDTBoost4
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=70"
+                                 ]) )
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
 #                       ":".join([ "!H","!V",
@@ -333,16 +346,16 @@ def train(config):
 #                                   "HiddenLayers=N,N+4",
 #                                   "UseRegulator"
 #                                  ]) )
-    # MLPSigmoid
-    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
-                        ":".join([ "!H","!V",
-                                  "LearningRate=0.01",
-      #                                   "NCycles=200",
-                                  "NeuronType=sigmoid",
-                                  "VarTransform=N",
-                                  "HiddenLayers=N,N",
-                                  "UseRegulator"
-                                  ]) )
+    ## MLPSigmoid
+    #factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
+                        #":".join([ "!H","!V",
+                                  #"LearningRate=0.01",
+      ##                                   "NCycles=200",
+                                  #"NeuronType=sigmoid",
+                                  #"VarTransform=N",
+                                  #"HiddenLayers=N,N",
+                                  #"UseRegulator"
+                                  #]) )
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -375,6 +388,8 @@ def significance(histS,histB):
     Pmax = 0
     Smax = 0
     Bmax = 0
+    Simax = 0
+    Bimax = 0
     imax = 0
 
     # scan cut over all bins, find cut with highest significance
@@ -394,7 +409,7 @@ def significance(histS,histB):
               Bimax = Bi
               imax = i
 
-                            # cut
+                                       # cut
     return [Pmax,Smax,Bmax,Simax,Bimax,histS.GetXaxis().GetBinCenter(imax)]
 
 
@@ -462,6 +477,7 @@ def plot(config):
                               ":\n>>>\t\t%.4f significance (%.4f with bins)" % (Pmax,Pbins) + \
                               "\n>>>\t\twith yields S = %.1f, B = %.1f and a cut at %.4f. (Si=%.1f and Bi=%.1f)" % \
                               (Smax,Bmax,cut,Simax,Bimax) )
+        #significances.append("lol")
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
@@ -552,7 +568,7 @@ def eff(config,method):
     hist.Draw()
     hist_train.Draw("same")
     makeAxes(hist,hist_train,xlabel="signal efficiency",tt=True,ylabel="background rejection")
-    legend = makeLegend(hist,hist_train,title=" ",
+    legend = makeLegend(hist,hist_train,title=" ", transparent=True,
                                    entries=["test sample","training sample"], position="RightTop")
     legend.Draw()
     CMS_lumi.CMS_lumi(c,14,33)
@@ -609,7 +625,7 @@ def main():
                 "DeltaPhi_j1lbb",
                 "DeltaPhi_lMET","DeltaPhi_jjlnu",
                 "M_bb_closest", "M_jjlnu",
-                "M_jjb1", "M_jjb1",
+                "M_jjb1", "M_jjb2",
                 "M_b1lnu", "M_b2lnu",
                 "M_bl", "M_jjl",
                 "M_jj", "M_j1l",
@@ -618,7 +634,8 @@ def main():
                 # MT_lnu better than MT_jjlnu
                 # DeltaPhi_lMET is bad?
 
-    allVars1 = [ "jet1Pt","jet2Pt",
+    allVars12 = [ "Njets20","Nbjets30",
+                "jet1Pt","jet2Pt",
                 "bjet1Pt","bjet2Pt",
                 "Pt_bb","Pt_bl","Pt_j1l",
                 "Pt_b1lnu", "Pt_b2lnu",
@@ -631,7 +648,47 @@ def main():
                 "DeltaPhi_j1lbb",
                 "DeltaPhi_lMET","DeltaPhi_jjlnu",
                 "M_bb_closest", "M_jjlnu",
-                "M_jjb1", "M_jjb1",
+                "M_jjb1", #"M_jjb2",
+                "M_b2lnu", #"M_b1lnu",
+                "M_bl", "M_jjl",
+                "M_jj", "M_j1l",
+                "MT_lnu","MT_jjlnu" ]
+
+    allVarsN = [ #"Njets20","Nbjets30",
+                "jet1Pt","jet2Pt",
+                "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "Pt_b1lnu", "Pt_b2lnu",
+                "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_j2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_jjl","DeltaR_jjb",
+                "DeltaPhi_j1lbb",
+                "DeltaPhi_lMET","DeltaPhi_jjlnu",
+                "M_bb_closest", "M_jjlnu",
+                "M_jjb1", "M_jjb2",
+                "M_b1lnu", "M_b2lnu",
+                "M_bl", "M_jjl",
+                "M_jj", "M_j1l",
+                "MT_lnu","MT_jjlnu" ]
+
+    allVars1 = [ #"Njets20","Nbjets30",
+                "jet1Pt","jet2Pt",
+                "bjet1Pt","bjet2Pt",
+                "Pt_bb","Pt_bl","Pt_j1l",
+                "Pt_b1lnu", "Pt_b2lnu",
+                "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
+                "leptonPt","MET",
+                "DeltaR_j1l","DeltaR_j2l",
+                "DeltaR_b1l","DeltaR_b2l",
+                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_jjl","DeltaR_jjb",
+                "DeltaPhi_j1lbb",
+                "DeltaPhi_lMET","DeltaPhi_jjlnu",
+                "M_bb_closest", "M_jjlnu",
+                "M_jjb1", "M_jjb2",
                 "M_b1lnu", "M_b2lnu",
                 "M_bl", "M_jjl",
                 "M_jj", "M_j1l",
@@ -648,9 +705,9 @@ def main():
                 "DeltaR_bb1","DeltaR_jj",
                 "DeltaR_jjl","DeltaR_jjb",
                 "DeltaPhi_j1lbb",
-                "DeltaPhi_jjlnu",
+                "DeltaPhi_jjlnu", #"DeltaPhi_lMET"
                 "M_bb_closest", "M_jjlnu",
-                "M_jjb1", "M_jjb1",
+                "M_jjb1", "M_jjb2",
                 "M_b1lnu", "M_b2lnu",
                 "M_bl", "M_jjl",
                 "M_jj", "M_j1l",
@@ -668,7 +725,7 @@ def main():
                     "DeltaR_jjl","DeltaR_jjb",
                     "DeltaPhi_j1lbb","DeltaPhi_jjlnu",
                     "M_bb_closest", "M_jjlnu",
-                    "M_jjb1", "M_jjb1",
+                    "M_jjb1", "M_jjb2",
                     "M_b1lnu", "M_b2lnu",
                     "MT_lnu" ]
 
@@ -720,17 +777,15 @@ def main():
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
-#                    configuration("everything20", allVars, 1),
+                    configuration("everything", allVars, 1),
 #                    configuration("better20",     betterVars, 1),
                     configuration("everythingCleanUp", allVars, 2),
+                    configuration("everythingNCleanUp", allVarsN, 2),
                     configuration("everything1CleanUp", allVars1, 2),
                     configuration("everything2CleanUp", allVars2, 2),
+                    configuration("everything12CleanUp", allVars12, 2),
                     configuration("everythingCleanUp", betterVars, 2),
-                    configuration("generatorCleanUp", genVars, 2, gen=True),
-                    #configuration("everything3CleanUp", allVars3, 2),
-                    #configuration("everything4CleanUp", allVars4, 2),
-                    #configuration("everything5CleanUp", allVars5, 2),
-                    #configuration("betterCleanUp", betterVars, 2),
+                    #configuration("generatorCleanUp", genVars, 2, gen=True),
                     #configuration("bestCleanUp", bestVars, 2),
                   ]
 
@@ -750,7 +805,7 @@ def main():
     compare([c for c in configs if c.stage==2],stage="stage_2")
     compare([c for c in configs if c.stage==3],stage="stage_3")
     eff(configs[0],"BDTTuned")
-    #eff(configs[3],"BDTBoost1")
+    eff(configs[2],"BDTBoost3")
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
