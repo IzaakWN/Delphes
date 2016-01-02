@@ -120,9 +120,12 @@ def plotBasic(stage):
                  "bb","b1l","b2l",
                  "bl_lep","bl_had"]:
        names.append("gen/DeltaR_"+comb)
+<<<<<<< HEAD
     for comb in [ "H1Pt","H1Pz",
                   "H2Pt","H2Pz",]:
        names.append("gen/"+comb)
+=======
+>>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
     names.append("gen/MET_res")
     names.append("gen/MET_res_ang")
 
@@ -144,7 +147,11 @@ def plotBasic(stage):
             hist_S.Scale(1./hist_S.GetBinContent(1))
             hist_tt.Scale(1./hist_tt.GetBinContent(1))
 
+<<<<<<< HEAD
         if name[name.index("/")+1] == "N" or name[-2:] == "Pt" or name[-2:] == "Pz":
+=======
+        if name[name.index("/")+1] == "N" or name[-2:] == "Pt":
+>>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
             legend = makeLegend(hist_S,hist_tt,tt=True)
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_q2l", "DeltaPhi_q2l", "DeltaR_b1l", "DeltaPhi_b1l",
@@ -154,6 +161,7 @@ def plotBasic(stage):
                                            "DeltaR_jjbbl", "DeltaPhi_jjbbl"
                                          ]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTop",transparent=True)
+<<<<<<< HEAD
             legend.Draw()
         elif name[name.index("/")+1:] in [ "DeltaR_b2l", "DeltaPhi_b2l",
                                            "DeltaR_jj", "DeltaR_jj_all", "DeltaR_jjl" ]:
@@ -166,6 +174,20 @@ def plotBasic(stage):
                                            "DeltaPhi_j2l", "DeltaPhi_jjlnu"]:
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="CenterBottom",transparent=True)
             legend.Draw()
+=======
+            legend.Draw()
+        elif name[name.index("/")+1:] in [ "DeltaR_b2l", "DeltaPhi_b2l",
+                                           "DeltaR_jj", "DeltaR_jj_all", "DeltaR_jjl" ]:
+            legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightTopTop",transparent=True)
+            legend.Draw()
+        elif name[name.index("/")+1:] in [ "DeltaR_bb", "DeltaR_j2l", "DeltaPhi_bb" ]: #"DeltaR_bb1",
+            legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="RightRightTopTop",transparent=True)
+            legend.Draw()
+        elif name[name.index("/")+1:] in [ "DeltaPhi_jj", "DeltaPhi_jj_all", "DeltaPhi_jjl", "DeltaPhi_jjl_all",
+                                           "DeltaPhi_j2l", "DeltaPhi_jjlnu"]:
+            legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="CenterBottom",transparent=True)
+            legend.Draw()
+>>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
         elif "1" in stage and name[name.index("/")+1:] == "DeltaR_bb1":
             legend = makeLegend(hist_S,hist_tt,title=" ",tt=True,position="CenterTop",transparent=True)
             legend.Draw()
