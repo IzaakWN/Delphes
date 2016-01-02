@@ -19,8 +19,13 @@ def eventCategory(event):
     
     categoryData = [ ]
     event.cleanedJets = [ jet for jet in event.jets ][:15]
+<<<<<<< HEAD
     muons20 = [ m for m in event.muons if m.PT>20 and abs(m.Eta)<2.5 ]
     electrons25 = [ e for e in event.electrons if e.PT>25 and abs(e.Eta)<2.5 ]
+=======
+    muons20 = [ m for m in event.muons if m.PT>20 and m.Eta<2.5 ]
+    electrons25 = [ e for e in event.electrons if e.PT>25 and e.Eta<2.5 ]
+>>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
     leps = sorted(muons20+electrons25, key=lambda x: x.PT, reverse=True)
     event.leadingLeptons = leps[:5]
     
@@ -43,6 +48,7 @@ def eventCategory(event):
 #            event.DeltaPt_jl.append(abs(lepton.TLV.Pt()-jet.TLV.Pt())/lepton.TLV.Pt())
 #            event.DeltaR_jl.append(TLV.DeltaR(l,jet.TLV))
 #            if event.DeltaR_jl[-1] < 0.5 and event.DeltaPt_jl[-1] < 0.2:
+<<<<<<< HEAD
             if abs(lepton.TLV.Pt()-jet.TLV.Pt())/lepton.TLV.Pt() < 0.4 and \
                TLV.DeltaR(lepton.TLV,jet.TLV) < 0.2:
                 event.cleanedJets.remove(jet)
@@ -51,6 +57,16 @@ def eventCategory(event):
     event.cleanedJets20 = [ jet for jet in event.cleanedJets15 if jet.PT > 20 ]
     event.cleanedJets30 = [ jet for jet in event.cleanedJets20 if jet.PT > 30 ]
     event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag ]
+=======
+            if abs(lepton.TLV.Pt()-jet.TLV.Pt())/lepton.TLV.Pt() < 0.5 and \
+               TLV.DeltaR(lepton.TLV,jet.TLV) < 0.4:
+                event.cleanedJets.remove(jet)
+
+    event.cleanedJets15 = [ jet for jet in event.cleanedJets if jet.PT > 15 and abs(jet.Eta) < 2.5 ]
+    event.cleanedJets20 = [ jet for jet in event.cleanedJets15 if jet.PT > 20 and abs(jet.Eta) < 2.5 ]
+    event.cleanedJets30 = [ jet for jet in event.cleanedJets20 if jet.PT > 30 and abs(jet.Eta) < 2.5 ]
+    event.bjets30 = [ jet for jet in event.cleanedJets30 if jet.BTag and abs(jet.Eta) < 2.5 ]
+>>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 
     # 0: generator level: single Wlnu and Hbb
     nLeptons = 0

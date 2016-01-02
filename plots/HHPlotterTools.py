@@ -291,8 +291,13 @@ def makeLegend(*hists, **kwargs):
                     legend.AddEntry(hist0,"neutrino gen signal")
                 else:
                     legend.AddEntry(hist0,"gen signal")
+<<<<<<< HEAD
             legend.AddEntry(hists[-2],"HH","l")
             legend.AddEntry(hists[-1],"t#bar{t}","l")
+=======
+            legend.AddEntry(hists[-2],"signal","l")
+            legend.AddEntry(hists[-1],"t#bar{t} BG","l")
+>>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
         elif entries is None:
             for hist in hists:
                 legend.AddEntry(hist,makeEntryName2(hist))
@@ -605,6 +610,7 @@ def setLineStyle(*hists, **kwargs):
 
 #    linewidth = kwargs.get('linewidth', 2)
     #line = [1,2,3,4]
+<<<<<<< HEAD
     gen = kwargs.get('gen', False)
 
     if gen:
@@ -621,6 +627,12 @@ def setLineStyle(*hists, **kwargs):
             hists[i].SetLineColor(colors[i%len(colors)])
             hists[i].SetLineStyle(i%4+1)
             hists[i].SetLineWidth(3)
+=======
+    for i in range(len(hists)):
+        hists[i].SetLineColor(colors[i%len(colors)])
+        hists[i].SetLineStyle(i%4+1)
+        hists[i].SetLineWidth(3)
+>>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 
 
 
