@@ -61,23 +61,14 @@ Methods = [ ("BDT","BDT"),
             ("BDT","BDTBoost1"),
             #("BDT","BDTBoost2"),
             ("BDT","BDTBoost3"),
-<<<<<<< HEAD
             ("BDT","BDTBoost4"),
 #            ("BDT","BDTNodeSize"),
             ("MLP","MLPTanh"),
-=======
-#            ("BDT","BDTNodeSize"),
-#            ("MLP","MLPTanh"),
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
 #            ("MLP","MLPNodes1"),
 #            ("MLP","MLPNodes2"),
-<<<<<<< HEAD
             #("MLP","MLPSigmoid")
-=======
-            ("MLP","MLPSigmoid")
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
           ]
 methods = [ method[1] for method in Methods ]
 
@@ -97,13 +88,8 @@ h0_S = file_HH.Get("stage_0/selection/category") # ~ 166483
 h0_B = file_tt.Get("stage_0/selection/category") # ~ 164661
 print h0_S.GetBinContent(1)
 print h0_B.GetBinContent(1)
-<<<<<<< HEAD
 S_tot = 166483.0 #h0_S.GetBinContent(1)
 B_tot = 164661.0 #h0_B.GetBinContent(1)
-=======
-S_tot = 166483 #h0_S.GetBinContent(1)
-B_tot = 164661 #h0_B.GetBinContent(1)
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 S1 = h0_S.GetBinContent(2)
 B1 = h0_B.GetBinContent(2)
 S2 = h0_S.GetBinContent(3)
@@ -283,7 +269,6 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=70"
                                  ]) )
-<<<<<<< HEAD
     # BDTBoost4
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
                        ":".join([ "!H","!V",
@@ -296,8 +281,6 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=70"
                                  ]) )
-=======
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
 #                       ":".join([ "!H","!V",
@@ -310,7 +293,7 @@ def train(config):
 #                                  "SeparationType=GiniIndex",
 #                                  "nCuts=50"
 #                                 ]) )
-<<<<<<< HEAD
+
     # MLPTanh
     factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
                         ":".join([ "!H","!V",
@@ -374,71 +357,6 @@ def train(config):
                                   #"HiddenLayers=N,N",
                                   #"UseRegulator"
                                   #]) )
-=======
-#    # MLPTanh
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=tanh",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N,N",
-#                                   "UseRegulator"
-#                                  ]) )
-#    # MLPLearningRate
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.1", # 0.8 -> 0.1 -> 0.01 -> 0.1
-##                                   "NCycles=200",
-#                                   "NeuronType=sigmoid",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N,N",
-#                                   "UseRegulator"
-#                                  ]) )
-#    # MLPNodes
-#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=tanh",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N+4,N",
-#                                   "UseRegulator"
-#                                  ]) )
-#    # MLPNodes1
-#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes1",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=tanh",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N",
-#                                   "UseRegulator"
-#                                  ]) )
-#    # MLPNodes2
-#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes2",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=sigmoid",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N,N+4",
-#                                   "UseRegulator"
-#                                  ]) )
-    # MLPSigmoid
-    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
-                        ":".join([ "!H","!V",
-                                  "LearningRate=0.01",
-      #                                   "NCycles=200",
-                                  "NeuronType=sigmoid",
-                                  "VarTransform=N",
-                                  "HiddenLayers=N,N",
-                                  "UseRegulator"
-                                  ]) )
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -471,11 +389,8 @@ def significance(histS,histB):
     Pmax = 0
     Smax = 0
     Bmax = 0
-<<<<<<< HEAD
     Simax = 0
     Bimax = 0
-=======
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
     imax = 0
 
     # scan cut over all bins, find cut with highest significance
@@ -494,7 +409,6 @@ def significance(histS,histB):
               Simax = Si
               Bimax = Bi
               imax = i
-<<<<<<< HEAD
 
                                        # cut
     return [Pmax,Smax,Bmax,Simax,Bimax,Simax/S_tot,Bimax/B_tot,histS.GetXaxis().GetBinCenter(imax)]
@@ -525,38 +439,6 @@ def significanceBins(histS,histB):
             Si += S # save S for next bins until both nonzero
             Bi += B # save B for next bins until both nonzero
 
-=======
-
-                            # cut
-    return [Pmax,Smax,Bmax,Simax,Bimax,histS.GetXaxis().GetBinCenter(imax)]
-
-
-
-# SIGNIFICANCE
-def significanceBins(histS,histB):
-    
-    P2 = 0
-
-    # calculate significance per bin and add using variance addition law:
-    #                      sigma^2 = sum(sigma_i^2)
-    # if S or B bin is empty, merge with next bins until both are nonzero
-    N = histS.GetNbinsX()
-    Si = 0
-    Bi = 0
-    for i in reversed(range(1,N)):
-        # merge with previous bins B or S were 0 there
-        S = Si + N_S * histS.GetBinContent(i) / S_tot # yield for bin i
-        B = Bi + N_B * histB.GetBinContent(i) / B_tot
-        
-        if S and B : # both nonzero
-            Si = 0 # reset
-            Bi = 0 # reset
-            P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
-        else: # at least on zero
-            Si += S # save S for next bins until both nonzero
-            Bi += B # save B for next bins until both nonzero
-
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
     return sqrt(P2)
 
 
@@ -580,25 +462,18 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-<<<<<<< HEAD
+
             histS = TH1F("histS", "", 150, -0.4, 1.4)
             histB = TH1F("histB", "", 150, -0.4, 1.4)
         else:
             histS = TH1F("histS", "", 150, -1.4, 1.4)
             histB = TH1F("histB", "", 150, -1.4, 1.4)
-=======
-            histS = TH1F("histS", "", 120, -0.4, 1.4)
-            histB = TH1F("histB", "", 120, -0.4, 1.4)
-        else:
-            histS = TH1F("histS", "", 120, -1.4, 1.4)
-            histB = TH1F("histB", "", 120, -1.4, 1.4)
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
+
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         config.hist_effs_train.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_trainingRejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-<<<<<<< HEAD
         [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(histS,histB)
         Pbins = significanceBins(histS, histB)
         significances.append( ">>> "+config.name+" - "+method + \
@@ -606,14 +481,6 @@ def plot(config):
                               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
                               " (Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
         #significances.append("lol")
-=======
-        [Pmax,Smax,Bmax,Simax,Bimax,cut] = significance(histS,histB)
-        Pbins = significanceBins(histS, histB)
-        significances.append( ">>> "+config.name+" - "+method + \
-                              ":\n>>>\t\t%.4f significance (%.4f with bins)" % (Pmax,Pbins) + \
-                              "\n>>>\t\twith yields S = %.1f, B = %.1f and a cut at %.4f. (Si=%.1f and Bi=%.1f)" % \
-                              (Smax,Bmax,cut,Simax,Bimax) )
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
@@ -704,11 +571,7 @@ def eff(config,method):
     hist.Draw()
     hist_train.Draw("same")
     makeAxes(hist,hist_train,xlabel="signal efficiency",tt=True,ylabel="background rejection")
-<<<<<<< HEAD
     legend = makeLegend(hist,hist_train,title=" ", transparent=True,
-=======
-    legend = makeLegend(hist,hist_train,title=" ",
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
                                    entries=["test sample","training sample"], position="RightTop")
     legend.Draw()
     CMS_lumi.CMS_lumi(c,14,33)
@@ -765,11 +628,8 @@ def main():
                 "DeltaPhi_j1lbb",
                 "DeltaPhi_lMET","DeltaPhi_jjlnu",
                 "M_bb_closest", "M_jjlnu",
-<<<<<<< HEAD
                 "M_jjb1", "M_jjb2",
-=======
-                "M_jjb1", "M_jjb1",
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
+
                 "M_b1lnu", "M_b2lnu",
                 "M_bl", "M_jjl",
                 "M_jj", "M_j1l",
@@ -778,7 +638,6 @@ def main():
                 # MT_lnu better than MT_jjlnu
                 # DeltaPhi_lMET is bad?
 
-<<<<<<< HEAD
     allVars12 = [ "Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
                 "bjet1Pt","bjet2Pt",
@@ -842,9 +701,6 @@ def main():
 
     allVars1 = [ #"Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
-=======
-    allVars1 = [ "jet1Pt","jet2Pt",
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
                 "bjet1Pt","bjet2Pt",
                 "Pt_bb","Pt_bl","Pt_j1l",
                 "Pt_b1lnu", "Pt_b2lnu",
@@ -857,11 +713,7 @@ def main():
                 "DeltaPhi_j1lbb",
                 "DeltaPhi_lMET","DeltaPhi_jjlnu",
                 "M_bb_closest", "M_jjlnu",
-<<<<<<< HEAD
                 "M_jjb1", "M_jjb2",
-=======
-                "M_jjb1", "M_jjb1",
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
                 "M_b1lnu", "M_b2lnu",
                 "M_bl", "M_jjl",
                 "M_jj", "M_j1l",
@@ -878,15 +730,9 @@ def main():
                 "DeltaR_bb1","DeltaR_jj",
                 "DeltaR_jjl","DeltaR_jjb",
                 "DeltaPhi_j1lbb",
-<<<<<<< HEAD
                 "DeltaPhi_jjlnu", #"DeltaPhi_lMET"
                 "M_bb_closest", "M_jjlnu",
                 "M_jjb1", "M_jjb2",
-=======
-                "DeltaPhi_jjlnu",
-                "M_bb_closest", "M_jjlnu",
-                "M_jjb1", "M_jjb1",
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
                 "M_b1lnu", "M_b2lnu",
                 "M_bl", "M_jjl",
                 "M_jj", "M_j1l",
@@ -904,11 +750,7 @@ def main():
                     "DeltaR_jjl","DeltaR_jjb",
                     "DeltaPhi_j1lbb","DeltaPhi_jjlnu",
                     "M_bb_closest", "M_jjlnu",
-<<<<<<< HEAD
                     "M_jjb1", "M_jjb2",
-=======
-                    "M_jjb1", "M_jjb1",
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
                     "M_b1lnu", "M_b2lnu",
                     "MT_lnu" ]
 
@@ -960,7 +802,6 @@ def main():
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
-<<<<<<< HEAD
                     configuration("everything", allVars, 1),
                     configuration("everythingN", allVarsN, 1),
                     configuration("everything1", allVars1, 1),
@@ -976,19 +817,6 @@ def main():
 #                    configuration("everything12CleanUp", allVars12, 2),
 #                    configuration("betterCleanUp", betterVars, 2),
                     #configuration("generatorCleanUp", genVars, 2, gen=True),
-=======
-#                    configuration("everything20", allVars, 1),
-#                    configuration("better20",     betterVars, 1),
-                    configuration("everythingCleanUp", allVars, 2),
-                    configuration("everything1CleanUp", allVars1, 2),
-                    configuration("everything2CleanUp", allVars2, 2),
-                    configuration("everythingCleanUp", betterVars, 2),
-                    configuration("generatorCleanUp", genVars, 2, gen=True),
-                    #configuration("everything3CleanUp", allVars3, 2),
-                    #configuration("everything4CleanUp", allVars4, 2),
-                    #configuration("everything5CleanUp", allVars5, 2),
-                    #configuration("betterCleanUp", betterVars, 2),
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
                     #configuration("bestCleanUp", bestVars, 2),
                   ]
 
@@ -997,10 +825,6 @@ def main():
     else:
         for config in configs: #reversed(configs):
             train(config)
-<<<<<<< HEAD
-
-=======
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
     significances = [ ]
     for config in configs:
         significances.extend(plot(config))
@@ -1012,12 +836,8 @@ def main():
     compare([c for c in configs if c.stage==2],stage="stage_2")
     compare([c for c in configs if c.stage==3],stage="stage_3")
     eff(configs[0],"BDTTuned")
-<<<<<<< HEAD
     eff(configs[4],"BDTBoost3")
     eff(configs[2],"BDTBoost3")
-=======
-    #eff(configs[3],"BDTBoost1")
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
@@ -1311,15 +1131,6 @@ if __name__ == '__main__':
 #--- MLPSigmoid               :   29 : DeltaR_b1l     : 1.633e+00
 #--- MLPSigmoid               : ---------------------------------------
 #--- Factory                  :
-<<<<<<< HEAD
-
-
-
-=======
-
-
-
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 #--- BDT                      : Ranking result (top variable is best ranked)
 #--- BDT                      : ------------------------------------------------
 #--- BDT                      : Rank : Variable       : Variable Importance
@@ -1487,8 +1298,4 @@ if __name__ == '__main__':
 #--- MLPSigmoid               :   21 : DeltaR_b2l     : 2.768e+00
 #--- MLPSigmoid               :   22 : DeltaR_jjb     : 1.624e+00
 #--- MLPSigmoid               :   23 : DeltaR_b1l     : 1.194e+00
-<<<<<<< HEAD
 #--- MLPSigmoid               : ---------------------------------------
-=======
-#--- MLPSigmoid               : ---------------------------------------
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
