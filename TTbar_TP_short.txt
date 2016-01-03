@@ -6,27 +6,20 @@ TTbar_38_TP/TTbar_38_TP.root
 TTbar_41_TP/TTbar_41_TP.root
 TTbar_56_TP/TTbar_56_TP.root
 TTbar_65_TP/TTbar_65_TP.root
-<<<<<<< HEAD
 TTbar_71_TP/TTbar_71_TP.root
 TTbar_73_TP/TTbar_73_TP.root
-=======
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 TTbar_80_TP/TTbar_80_TP.root
 TTbar_93_TP/TTbar_93_TP.root
 TTbar_109_TP/TTbar_109_TP.root
 TTbar_118_TP/TTbar_118_TP.root
 TTbar_123_TP/TTbar_123_TP.root
-<<<<<<< HEAD
 TTbar_130_TP/TTbar_130_TP.root
-=======
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 TTbar_138_TP/TTbar_138_TP.root
 TTbar_141_TP/TTbar_141_TP.root
 TTbar_170_TP/TTbar_170_TP.root
 TTbar_173_TP/TTbar_173_TP.root
 TTbar_178_TP/TTbar_178_TP.root
 TTbar_192_TP/TTbar_192_TP.root
-<<<<<<< HEAD
 TTbar_199_TP/TTbar_199_TP.root
 TTbar_202_TP/TTbar_202_TP.root
 TTbar_217_TP/TTbar_217_TP.root
@@ -35,12 +28,6 @@ TTbar_223_TP/TTbar_223_TP.root
 TTbar_235_TP/TTbar_235_TP.root
 TTbar_238_TP/TTbar_238_TP.root
 TTbar_244_TP/TTbar_244_TP.root
-=======
-TTbar_202_TP/TTbar_202_TP.root
-TTbar_220_TP/TTbar_220_TP.root
-TTbar_235_TP/TTbar_235_TP.root
-TTbar_238_TP/TTbar_238_TP.root
->>>>>>> 92a5b2407e73f5fbbed9c7af887987f88c5e80e3
 TTbar_249_TP/TTbar_249_TP.root
 TTbar_253_TP/TTbar_253_TP.root
 TTbar_269_TP/TTbar_269_TP.root
