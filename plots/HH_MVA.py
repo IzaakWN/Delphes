@@ -63,7 +63,7 @@ Methods = [ ("BDT","BDT"),
             ("BDT","BDTBoost3"),
             ("BDT","BDTBoost4"),
 #            ("BDT","BDTNodeSize"),
-            ("MLP","MLPTanh"),
+#            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
 #            ("MLP","MLPNodes1"),
@@ -245,18 +245,18 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=70"
                                  ]) )
-    ## BDTBoost2
-    #factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
-                       #":".join([ "!H","!V",
-                                  #"NTrees=1500",
+#    # BDTBoost2
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
 ##                                  "MinNodeSize=2.%",
 ##                                  "nEventsMin=200",
-                                  #"MaxDepth=3",
-                                  #"BoostType=AdaBoost",
-                                  #"AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  #"SeparationType=GiniIndex",
-                                  #"nCuts=70"
-                                 #]) )
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=70"
+#                                 ]) )
     # BDTBoost3
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
                        ":".join([ "!H","!V",
@@ -293,17 +293,17 @@ def train(config):
 #                                  "SeparationType=GiniIndex",
 #                                  "nCuts=50"
 #                                 ]) )
-
-    # MLPTanh
-    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
-                        ":".join([ "!H","!V",
-                                   "LearningRate=0.01",
-#                                   "NCycles=200",
-                                   "NeuronType=tanh",
-                                   "VarTransform=N",
-                                   "HiddenLayers=N,N",
-                                   "UseRegulator"
-                                  ]) )
+#
+#    # MLPTanh
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPTanh",
+#                        ":".join([ "!H","!V",
+#                                   "LearningRate=0.01",
+##                                   "NCycles=200",
+#                                   "NeuronType=tanh",
+#                                   "VarTransform=N",
+#                                   "HiddenLayers=N,N",
+#                                   "UseRegulator"
+#                                  ]) )
 #    # MLPLearningRate
 #    factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
 #                        ":".join([ "!H","!V",
@@ -347,16 +347,16 @@ def train(config):
 #                                   "HiddenLayers=N,N+4",
 #                                   "UseRegulator"
 #                                  ]) )
-    ## MLPSigmoid
-    #factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
-                        #":".join([ "!H","!V",
-                                  #"LearningRate=0.01",
-      ##                                   "NCycles=200",
-                                  #"NeuronType=sigmoid",
-                                  #"VarTransform=N",
-                                  #"HiddenLayers=N,N",
-                                  #"UseRegulator"
-                                  #]) )
+#    # MLPSigmoid
+#    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
+#                        ":".join([ "!H","!V",
+#                                  "LearningRate=0.01",
+##                                  "NCycles=200",
+#                                  "NeuronType=sigmoid",
+#                                  "VarTransform=N",
+#                                  "HiddenLayers=N,N",
+#                                  "UseRegulator"
+#                                  ]) )
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -410,8 +410,8 @@ def significance(histS,histB):
               Bimax = Bi
               imax = i
 
-                                       # cut
-    return [Pmax,Smax,Bmax,Simax,Bimax,Simax/S_tot,Bimax/B_tot,histS.GetXaxis().GetBinCenter(imax)]
+    cut = histS.GetXaxis().GetBinCenter(imax)
+    return [Pmax,Smax,Bmax,Simax,Bimax,Simax/S_tot,Bimax/B_tot,cut]
 
 
 
@@ -781,19 +781,19 @@ def main():
 #                "M_bb_closest", "M_jjlnu",
 #                "M_jjb", "M_bl", "M_j1l" ]
 
-    genVars = [ "Pt_q1","Pt_q2",
-                "Pt_b1","Pt_b2",
-                #"Pt_bb","Pt_bl","Pt_q1l",
-                "Pt_l","Pt_nu",
-                "DeltaR_q1l","DeltaR_q2l",
-                "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb","DeltaR_qq",
-                "DeltaR_qql","DeltaR_qqb",
-                #"M_bb", "M_qqlnu",
-                #"M_qql",
-                #"M_qqb1", "M_qqb2", "M_b1lnu","M_b2lnu",
-                #"M_bl", "M_qq", "M_q1l",
-              ]
+#    genVars = [ "Pt_q1","Pt_q2",
+#                "Pt_b1","Pt_b2",
+#                #"Pt_bb","Pt_bl","Pt_q1l",
+#                "Pt_l","Pt_nu",
+#                "DeltaR_q1l","DeltaR_q2l",
+#                "DeltaR_b1l","DeltaR_b2l",
+#                "DeltaR_bb","DeltaR_qq",
+#                "DeltaR_qql","DeltaR_qqb",
+#                #"M_bb", "M_qqlnu",
+#                #"M_qql",
+#                #"M_qqb1", "M_qqb2", "M_b1lnu","M_b2lnu",
+#                #"M_bl", "M_qq", "M_q1l",
+#              ]
 
 
 
@@ -810,14 +810,14 @@ def main():
                     configuration("everything12M", allVars12M, 1),
                     configuration("better", betterVars, 1),
 #                    configuration("better20",     betterVars, 1),
-                    #configuration("everythingCleanUp", allVars, 2),
+#                    configuration("everythingCleanUp", allVars, 2),
 #                    configuration("everythingNCleanUp", allVarsN, 2),
 #                    configuration("everything1CleanUp", allVars1, 2),
 #                    configuration("everything2CleanUp", allVars2, 2),
 #                    configuration("everything12CleanUp", allVars12, 2),
 #                    configuration("betterCleanUp", betterVars, 2),
-                    #configuration("generatorCleanUp", genVars, 2, gen=True),
-                    #configuration("bestCleanUp", bestVars, 2),
+#                    configuration("generatorCleanUp", genVars, 2, gen=True),
+#                    configuration("bestCleanUp", bestVars, 2),
                   ]
 
     if opts.onlyPlot:
