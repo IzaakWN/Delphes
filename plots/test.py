@@ -4,8 +4,11 @@ import ROOT
 from ROOT import TFile, gDirectory, TChain, TMVA, TCut, TCanvas, THStack, TH1F
 
 # file with trees
-file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
-file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
+#file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
+#file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
+file_HH = TFile("../controlPlots_HH_all.root")
+file_tt = TFile("../controlPlots_tt_all.root")
+
 treeS1 = file_HH.Get("stage_1/cleanup/cleanup")
 treeB1 = file_tt.Get("stage_1/cleanup/cleanup")
 
