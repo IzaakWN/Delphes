@@ -413,6 +413,8 @@ def significance(config,histS,histB,test=False):
     if test:
         eS = eS * config.S / histS.Integral(1,N)
         eB = eB * config.B / histB.Integral(1,N)
+        print ">>> signal test sample = %.f %% of total sample" % ( histS.Integral(1,N)/config.S)
+        print ">>> background test sample = %.f %% of total sample" % ( histB.Integral(1,N)/config.B)
 
     # scan cut over all bins, find cut with highest significance
     for i in range(1,N):
@@ -502,7 +504,7 @@ def plotTest(config):
         significances.append( ">>> "+config.name+" - "+method + \
                               ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
                               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
-                              " (Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+                              "\n\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
         #significances.append("lol")
 
         histB.Draw() # draw first: mostly bigger
@@ -570,7 +572,7 @@ def plotApplication(config):
         significances.append( ">>> "+config.name+" - "+method + \
                               ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
                               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
-                              " (Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+                              "\n\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
 
         histB.Draw()
         histS.Draw("same")
@@ -925,7 +927,7 @@ def main():
     for s in significances_test:
         print s
     print "\n>>> compare all significances of total sample"
-    for s in significances_Appli:
+    for s in significances_Appl:
         print s
 #    compare([c for c in configs if c.stage==1],stage="stage_1")
 #    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
