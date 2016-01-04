@@ -463,7 +463,7 @@ def significanceBins(histS,histB):
 
 # HISTOGRAMS: TMVA output
 def plotTest(config):
-    print "\n>>> examine training with configuration "+config.name
+    print "\n>>> examine training with test sample for configuration "+config.name
 
     reader = TMVA.Reader()
     f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
@@ -505,7 +505,7 @@ def plotTest(config):
         legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
         #legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
-        histB.SetStats(0)
+#        histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(histS,histB)
         c.SaveAs("MVA/"+method+"_"+config.name+".png")
@@ -522,67 +522,64 @@ def plotTest(config):
 
 # HISTOGRAMS: TMVA output
 def plotApplication(config):
-    print "\n>>> examine training with configuration "+config.name
+    print "\n>>> examine training with application to all data for configuration "+config.name
 
     treeS = config.treeS
     treeB = config.treeB
     reader = TMVA.Reader()
     f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
-
+    
     vars = [ ]
-    treeS.ResetBranchAddresses()
     for name in config.varNames:
         vars.append(array('f',[0]))
-        reader.AddVariable(name,vars[-1])
-        treeS.SetBranchAddress(name,vars[-1])
 
     significances = [ ]
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
-
-        c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 150, -0.4, 1.4)
-#            histB = TH1F("histB", "", 150, -0.4, 1.4)
+            histS.append(TH1F("hist", "", 150, -0.4, 1.4))
         else:
-            histS = TH1F("histS", "", 150, -1.4, 1.4)
-#            histB = TH1F("histB", "", 150, -1.4, 1.4)
-
-        # loop over
+            histB.append(TH1F("hist", "", 150, -1.4, 1.4))
+        
+        # fill histograms
+        treeS.ResetBranchAddresses()
+        for i in range(config.varNames):
+            treeS.SetBranchAddress(config.varNames[i],vars[i])
         for evt in range(0,treeS.GetEntries()):
             treeS.GetEntry(evt)
             histS.Fill( reader.EvaluateMVA(method) )
-#        for evt in range(0,GetEntries()):
-#            treeB.GetEntry(evt)
-#            histB.Fill( reader.EvaluateMVA(method) )
+        treeB.ResetBranchAddresses()
+        for i in range(config.varNames):
+            treeB.SetBranchAddress(config.varNames[i],vars[i])
+        for evt in range(0,treeB.GetEntries()):
+            treeB.GetEntry(evt)
+            histB.Fill( reader.EvaluateMVA(method) )
 
-#        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(histS,histB)
-#        Pbins = significanceBins(histS, histB)
-#        significances.append( ">>> "+config.name+" - "+method + \
-#                              ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-#                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
-#                              " (Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
-        #significances.append("lol")
+        c = makeCanvas()
+        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(config,histS,histB)
+        Pbins = significanceBins(histS, histB)
+        significances.append( ">>> "+config.name+" - "+method + \
+                              ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
+                              " (Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
 
-#        histB.Draw() # draw first: mostly bigger
+        histB.Draw()
         histS.Draw("same")
-#        makeAxes(histS,xlabel=(Method+" response"),ylabel="")
-#        makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
-#        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
-##        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
-#        legend.Draw()
+        makeAxes(histS,xlabel=(Method+" response"),ylabel="")
+        makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
+        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
+#        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
+        legend.Draw()
 #        histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
-#        setLineStyle(histS,histB)
+        setLineStyle(histS,histB)
         c.SaveAs("MVA/"+method+"_"+config.name+"_Appl.png")
         c.Close()
-        gDirectory.Delete("histS")
-#        gDirectory.Delete("histB")
 
 #    for s in significances:
 #        print s
 
-#    return significances
+    return significances
 
 
 
