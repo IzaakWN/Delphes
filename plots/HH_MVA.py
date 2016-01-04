@@ -543,7 +543,7 @@ def plot2(config):
 #            histB = TH1F("histB", "", 150, -1.4, 1.4)
 
         # loop over
-        for evt in range(0,GetEntries()):
+        for evt in range(0,treeS.GetEntries()):
             treeS.GetEntry(evt)
             histS.Fill( reader.EvaluateMVA(method) )
 #        for evt in range(0,GetEntries()):
