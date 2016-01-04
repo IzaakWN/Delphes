@@ -96,8 +96,8 @@ S1 = treeS1.GetEntries() #h0_S.GetBinContent(2)
 B1 = treeB1.GetEntries() #h0_B.GetBinContent(2)
 S2 = treeS2.GetEntries() #h0_S.GetBinContent(3)
 B2 = treeB2.GetEntries() #h0_B.GetBinContent(3)
-S3 = treeS3.GetEntries() #h0_S.GetBinContent(4)
-B3 = treeB3.GetEntries() #h0_B.GetBinContent(4)
+S3 = h0_S.GetBinContent(4) # treeS3.GetEntries()
+B3 = h0_B.GetBinContent(4) # treeB3.GetEntries()
 print "S_tot = %i, S1 = %i, S2 = %i, S3 = %i" % (S_tot,S1,S2,S3)
 print "B_tot = %i, B1 = %i, B2 = %i, B3 = %i" % (B_tot,B1,B2,B3)
 
@@ -550,33 +550,33 @@ def plot2(config):
 #            treeB.GetEntry(evt)
 #            histB.Fill( reader.EvaluateMVA(method) )
 
-
-        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(histS,histB)
-        Pbins = significanceBins(histS, histB)
-        significances.append( ">>> "+config.name+" - "+method + \
-                              ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
-                              " (Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+#        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(histS,histB)
+#        Pbins = significanceBins(histS, histB)
+#        significances.append( ">>> "+config.name+" - "+method + \
+#                              ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+#                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
+#                              " (Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
         #significances.append("lol")
 
-        histB.Draw() # draw first: mostly bigger
+#        histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
-        makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
-        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
-        #legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
-        legend.Draw()
-        histB.SetStats(0)
+        makeAxes(histS,xlabel=(Method+" response"),ylabel="")
+#        makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
+#        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
+##        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
+#        legend.Draw()
+#        histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
-        setLineStyle(histS,histB)
+#        setLineStyle(histS,histB)
         c.SaveAs("MVA/"+method+"_"+config.name+".png")
         c.Close()
         gDirectory.Delete("histS")
-        gDirectory.Delete("histB")
+#        gDirectory.Delete("histB")
 
-    for s in significances:
-        print s
-    
-    return significances
+#    for s in significances:
+#        print s
+
+#    return significances
 
 
 
