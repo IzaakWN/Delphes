@@ -415,6 +415,7 @@ def significance(config,histS,histB,test=False):
         eB = eB * config.B / histB.Integral(1,N)
         print ">>> signal test sample = %.1f %% of total sample" % ( 100*histS.Integral(1,N)/config.S)
         print ">>> background test sample = %.1f %% of total sample" % ( 100*histB.Integral(1,N)/config.B)
+        # always ~50% of total sample?
 
     # scan cut over all bins, find cut with highest significance
     for i in range(1,N):
@@ -929,19 +930,23 @@ def main():
     print "\n>>> compare all significances of total sample"
     for s in significances_Appl:
         print s
-#    compare([c for c in configs if c.stage==1],stage="stage_1")
-#    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
-#    compare([c for c in configs if c.stage==2],stage="stage_2")
-#    compare([c for c in configs if c.stage==3],stage="stage_3")
-#    eff(configs[0],"BDTTuned")
-#    eff(configs[4],"BDTBoost3")
-#    eff(configs[2],"BDTBoost3")
-#    compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
-#    compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
+    compare([c for c in configs if c.stage==1],stage="stage_1")
+    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
+    compare([c for c in configs if c.stage==2],stage="stage_2")
+    compare([c for c in configs if c.stage==3],stage="stage_3")
+    eff(configs[0],"BDTTuned")
+    eff(configs[4],"BDTBoost1")
+    eff(configs[4],"BDTBoost2")
+    eff(configs[4],"BDTBoost3")
+    eff(configs[5],"BDTBoost1")
+    eff(configs[5],"BDTBoost2")
+    eff(configs[5],"BDTBoost3")
+    compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
+    compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
-#    for config in configs:
-#        if "everything" in config.name:
-#            correlation(config)
+    for config in configs:
+        if "everything" in config.name:
+            correlation(config)
 
 
 
