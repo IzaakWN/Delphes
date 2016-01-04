@@ -413,8 +413,8 @@ def significance(config,histS,histB,test=False):
     if test:
         eS = eS * config.S / histS.Integral(1,N)
         eB = eB * config.B / histB.Integral(1,N)
-        print ">>> signal test sample = %.f %% of total sample" % ( histS.Integral(1,N)/config.S)
-        print ">>> background test sample = %.f %% of total sample" % ( histB.Integral(1,N)/config.B)
+        print ">>> signal test sample = %.1f %% of total sample" % ( 100*histS.Integral(1,N)/config.S)
+        print ">>> background test sample = %.1f %% of total sample" % ( 100*histB.Integral(1,N)/config.B)
 
     # scan cut over all bins, find cut with highest significance
     for i in range(1,N):
