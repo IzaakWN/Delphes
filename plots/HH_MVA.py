@@ -716,45 +716,45 @@ def main():
                 # DeltaPhi_lMET is bad?
 
     allVars12 = [ "Njets20","Nbjets30",
-                "jet1Pt","jet2Pt",
-                "bjet1Pt","bjet2Pt",
-                "Pt_bb","Pt_bl","Pt_j1l",
-                "Pt_b1lnu", "Pt_b2lnu",
-                "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
-                "leptonPt","MET",
-                "DeltaR_j1l","DeltaR_j2l",
-                "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb1","DeltaR_jj",
-                "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_j1lbb",
-                "DeltaPhi_lMET","DeltaPhi_jjlnu",
-                "M_bb_closest", "M_jjlnu",
-                "M_jjb1", #"M_jjb2",
-                "M_b2lnu", #"M_b1lnu",
-                "M_bl", "M_jjl",
-                "M_jj", "M_j1l",
-                "MT_lnu","MT_jjlnu" ]
+                    "jet1Pt","jet2Pt",
+                    "bjet1Pt","bjet2Pt",
+                    "Pt_bb","Pt_bl","Pt_j1l",
+                    "Pt_b1lnu", "Pt_b2lnu",
+                    "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
+                    "leptonPt","MET",
+                    "DeltaR_j1l","DeltaR_j2l",
+                    "DeltaR_b1l","DeltaR_b2l",
+                    "DeltaR_bb1","DeltaR_jj",
+                    "DeltaR_jjl","DeltaR_jjb",
+                    "DeltaPhi_j1lbb",
+                    "DeltaPhi_lMET","DeltaPhi_jjlnu",
+                    "M_bb_closest", "M_jjlnu",
+                    "M_jjb1", #"M_jjb2",
+                    "M_b2lnu", #"M_b1lnu",
+                    "M_bl", "M_jjl",
+                    "M_jj", "M_j1l",
+                    "MT_lnu","MT_jjlnu" ]
 
 
     allVars12M = [ "Njets20","Nbjets30",
-                "jet1Pt","jet2Pt",
-                "bjet1Pt","bjet2Pt",
-                "Pt_bb","Pt_bl","Pt_j1l",
-                "Pt_b1lnu", "Pt_b2lnu",
-                "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
-                "leptonPt","MET",
-                "DeltaR_j1l","DeltaR_j2l",
-                "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb1","DeltaR_jj",
-                "DeltaR_jjl","DeltaR_jjb",
-                "DeltaPhi_j1lbb",
-                "DeltaPhi_jjlnu",#"DeltaPhi_lMET",
-                "M_bb_closest", "M_jjlnu",
-                "M_jjb1", #"M_jjb2",
-                "M_b2lnu", #"M_b1lnu",
-                "M_bl", "M_jjl",
-                "M_jj", "M_j1l",
-                "MT_lnu","MT_jjlnu" ]
+                    "jet1Pt","jet2Pt",
+                    "bjet1Pt","bjet2Pt",
+                    "Pt_bb","Pt_bl","Pt_j1l",
+                    "Pt_b1lnu", "Pt_b2lnu",
+                    "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
+                    "leptonPt","MET",
+                    "DeltaR_j1l","DeltaR_j2l",
+                    "DeltaR_b1l","DeltaR_b2l",
+                    "DeltaR_bb1","DeltaR_jj",
+                    "DeltaR_jjl","DeltaR_jjb",
+                    "DeltaPhi_j1lbb",
+                    "DeltaPhi_jjlnu",#"DeltaPhi_lMET",
+                    "M_bb_closest", "M_jjlnu",
+                    "M_jjb1", #"M_jjb2",
+                    "M_b2lnu", #"M_b1lnu",
+                    "M_bl", "M_jjl",
+                    "M_jj", "M_j1l",
+                    "MT_lnu","MT_jjlnu" ]
 
     allVarsN = [ #"Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
@@ -904,23 +904,25 @@ def main():
             train(config)
     significances = [ ]
     for config in configs:
-        significances.extend(plot(config))
-    print "\n>>> compare all significances"
-    for s in significances:
-        print s
-    compare([c for c in configs if c.stage==1],stage="stage_1")
-    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
-    compare([c for c in configs if c.stage==2],stage="stage_2")
-    compare([c for c in configs if c.stage==3],stage="stage_3")
-    eff(configs[0],"BDTTuned")
-    eff(configs[4],"BDTBoost3")
-    eff(configs[2],"BDTBoost3")
-    compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
-    compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
+#        significances.extend(plot(config))
+        plot2(config)
 
-    for config in configs:
-        if "everything" in config.name:
-            correlation(config)
+#    print "\n>>> compare all significances"
+#    for s in significances:
+#        print s
+#    compare([c for c in configs if c.stage==1],stage="stage_1")
+#    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
+#    compare([c for c in configs if c.stage==2],stage="stage_2")
+#    compare([c for c in configs if c.stage==3],stage="stage_3")
+#    eff(configs[0],"BDTTuned")
+#    eff(configs[4],"BDTBoost3")
+#    eff(configs[2],"BDTBoost3")
+#    compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
+#    compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
+
+#    for config in configs:
+#        if "everything" in config.name:
+#            correlation(config)
 
 
 
