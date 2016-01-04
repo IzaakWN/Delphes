@@ -404,7 +404,8 @@ def significance(config,histS,histB,test=False):
     Simax = 0
     Bimax = 0
     imax = 0
-
+    
+    N = histS.GetNbinsX()
     eS = N_S / S_tot
     eB = N_B / B_tot
     if test:
@@ -412,7 +413,6 @@ def significance(config,histS,histB,test=False):
         eB = eB * config.B / histS.Integral(1,N)
 
     # scan cut over all bins, find cut with highest significance
-    N = histS.GetNbinsX()
     for i in range(1,N):
         Si = histS.Integral(i,N)
         Bi = histB.Integral(i,N)
