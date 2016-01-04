@@ -538,9 +538,11 @@ def plotApplication(config):
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
         if Method == "MLP":
-            histS.append(TH1F("hist", "", 150, -0.4, 1.4))
+            histS = TH1F("histS", "", 150, -0.4, 1.4)
+            histB = TH1F("histB", "", 150, -0.4, 1.4)
         else:
-            histB.append(TH1F("hist", "", 150, -1.4, 1.4))
+            histS = TH1F("histS", "", 150, -1.4, 1.4)
+            histB = TH1F("histB", "", 150, -1.4, 1.4)
         
         # fill histograms
         treeS.ResetBranchAddresses()
