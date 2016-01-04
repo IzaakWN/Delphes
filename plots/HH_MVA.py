@@ -578,9 +578,11 @@ def plotApplication(config):
         setLineStyle(histS,histB)
         c.SaveAs("MVA/"+method+"_"+config.name+"_Appl.png")
         c.Close()
+        gDirectory.Delete("histS")
+        gDirectory.Delete("histB")
 
-#    for s in significances:
-#        print s
+    for s in significances:
+        print s
 
     return significances
 
@@ -908,14 +910,17 @@ def main():
     else:
         for config in configs: #reversed(configs):
             train(config)
-    significances = [ ]
+    significances_test = [ ]
+    significances_Appl = [ ]
     for config in configs:
-#        significances.extend(plotTest(config))
-        plotApplication(config)
-
-#    print "\n>>> compare all significances"
-#    for s in significances:
-#        print s
+        significances_test.extend(plotTest(config))
+        significances_Appl.extend(plotApplication(config))
+    print "\n>>> compare all significances of test samples"
+    for s in significances_test:
+        print s
+    print "\n>>> compare all significances of total sample"
+    for s in significances_Appli:
+        print s
 #    compare([c for c in configs if c.stage==1],stage="stage_1")
 #    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
 #    compare([c for c in configs if c.stage==2],stage="stage_2")
