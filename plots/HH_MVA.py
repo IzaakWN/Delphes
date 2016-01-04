@@ -532,6 +532,7 @@ def plotApplication(config):
     vars = [ ]
     for name in config.varNames:
         vars.append(array('f',[0]))
+        reader.AddVariable(name,vars[-1])
 
     significances = [ ]
     for Method, method in Methods:
