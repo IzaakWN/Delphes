@@ -18,7 +18,9 @@ tdrstyle.setTDRStyle()
 
 # Manual: http://tmva.sourceforge.net/docu/TMVAUsersGuide.pdf
 # Method options: http://tmva.sourceforge.net/optionRef.html
-# Example in python: https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
+# Examples in python:
+#   https://aholzner.wordpress.com/2011/08/27/a-tmva-example-in-pyroot/
+#   https://dbaumgartel.wordpress.com/2014/03/14/machine-learning-examples-scikit-learn-versus-tmva-cern-root/
 # Tutorial: https://indico.cern.ch/event/395374/other-view?view=standard#20151109.detailed
 # Warning: use ROOT 34.0.0 or newer for larger buffer for the xml reader!
 #
@@ -90,12 +92,12 @@ print h0_S.GetBinContent(1)
 print h0_B.GetBinContent(1)
 S_tot = 166483.0 #h0_S.GetBinContent(1)
 B_tot = 164661.0 #h0_B.GetBinContent(1)
-S1 = h0_S.GetBinContent(2)
-B1 = h0_B.GetBinContent(2)
-S2 = h0_S.GetBinContent(3)
-B2 = h0_B.GetBinContent(3)
-S3 = h0_S.GetBinContent(4)
-B3 = h0_B.GetBinContent(4)
+S1 = treeS1.GetEntries() #h0_S.GetBinContent(2)
+B1 = treeB1.GetEntries() #h0_B.GetBinContent(2)
+S2 = treeS2.GetEntries() #h0_S.GetBinContent(3)
+B2 = treeB2.GetEntries() #h0_B.GetBinContent(3)
+S3 = treeS3.GetEntries() #h0_S.GetBinContent(4)
+B3 = treeB3.GetEntries() #h0_B.GetBinContent(4)
 print "S_tot = %i, S1 = %i, S2 = %i, S3 = %i" % (S_tot,S1,S2,S3)
 print "B_tot = %i, B1 = %i, B2 = %i, B3 = %i" % (B_tot,B1,B2,B3)
 
@@ -119,6 +121,8 @@ class configuration(object):
         self.varNames = varNames
         self.treeS = None
         self.treeB = None
+        self.S = 0
+        self.B = 0
         self.hist_effs = [ ]
         self.hist_effs_train = [ ]
         self.stage = stage
@@ -126,16 +130,24 @@ class configuration(object):
         if stage==1:
             self.treeS = treeS1
             self.treeB = treeB1
+            self.S = treeS1.GetEntries()
+            self.B = treeB1.GetEntries()
         elif stage==2:
             if gen:
                 self.treeS = treeS2_gen
                 self.treeB = treeB2_gen
+                self.S = treeS2.GetEntries()
+                self.B = treeB2.GetEntries()
             else:
                 self.treeS = treeS2
                 self.treeB = treeB2
+                self.S = treeS2.GetEntries()
+                self.B = treeB2.GetEntries()
         elif stage==3:
             self.treeS = treeS3
             self.treeB = treeB3
+            self.S = treeS3.GetEntries()
+            self.B = treeB3.GetEntries()
         # check existence of variables
         if self.treeS and self.treeB:
             listS = self.treeS.GetListOfBranches()
@@ -462,7 +474,6 @@ def plot(config):
 
         c = makeCanvas()
         if Method == "MLP":
-
             histS = TH1F("histS", "", 150, -0.4, 1.4)
             histB = TH1F("histB", "", 150, -0.4, 1.4)
         else:
@@ -473,6 +484,72 @@ def plot(config):
         config.hist_effs_train.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_trainingRejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
+
+        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(histS,histB)
+        Pbins = significanceBins(histS, histB)
+        significances.append( ">>> "+config.name+" - "+method + \
+                              ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
+                              " (Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+        #significances.append("lol")
+
+        histB.Draw() # draw first: mostly bigger
+        histS.Draw("same")
+        makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
+        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
+        #legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
+        legend.Draw()
+        histB.SetStats(0)
+        CMS_lumi.CMS_lumi(c,14,33)
+        setLineStyle(histS,histB)
+        c.SaveAs("MVA/"+method+"_"+config.name+".png")
+        c.Close()
+        gDirectory.Delete("histS")
+        gDirectory.Delete("histB")
+
+    for s in significances:
+        print s
+    
+    return significances
+
+
+
+# HISTOGRAMS: TMVA output
+def plot2(config):
+    print "\n>>> examine training with configuration "+config.name
+
+    treeS = config.treeS
+    treeB = config.treeB
+    reader = TMVA.Reader()
+    f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
+
+    vars = [ ]
+    for name in config.varNames:
+        vars.append(array('f',[0]))
+        reader.AddVariable(name,vars[-1])
+        treeS.SetBranchAddress(name,vars[-1])
+#       treeS.ResetBranchAddress()
+
+    significances = [ ]
+    for Method, method in Methods:
+        reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
+
+        c = makeCanvas()
+        if Method == "MLP":
+            histS = TH1F("histS", "", 150, -0.4, 1.4)
+#            histB = TH1F("histB", "", 150, -0.4, 1.4)
+        else:
+            histS = TH1F("histS", "", 150, -1.4, 1.4)
+#            histB = TH1F("histB", "", 150, -1.4, 1.4)
+
+        # loop over
+        for evt in range(0,GetEntries()):
+            treeS.GetEntry(evt)
+            histS.Fill( reader.EvaluateMVA(method) )
+#        for evt in range(0,GetEntries()):
+#            treeB.GetEntry(evt)
+#            histB.Fill( reader.EvaluateMVA(method) )
+
 
         [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(histS,histB)
         Pbins = significanceBins(histS, histB)
