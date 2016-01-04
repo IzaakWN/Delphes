@@ -530,11 +530,11 @@ def plotApplication(config):
     f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
 
     vars = [ ]
+    treeS.ResetBranchAddress()
     for name in config.varNames:
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
         treeS.SetBranchAddress(name,vars[-1])
-#       treeS.ResetBranchAddress()
 
     significances = [ ]
     for Method, method in Methods:
