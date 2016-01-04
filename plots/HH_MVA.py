@@ -546,13 +546,13 @@ def plotApplication(config):
         
         # fill histograms
         treeS.ResetBranchAddresses()
-        for i in range(config.varNames):
+        for i in range(len(config.varNames)):
             treeS.SetBranchAddress(config.varNames[i],vars[i])
         for evt in range(0,treeS.GetEntries()):
             treeS.GetEntry(evt)
             histS.Fill( reader.EvaluateMVA(method) )
         treeB.ResetBranchAddresses()
-        for i in range(config.varNames):
+        for i in range(len(config.varNames)):
             treeB.SetBranchAddress(config.varNames[i],vars[i])
         for evt in range(0,treeB.GetEntries()):
             treeB.GetEntry(evt)
