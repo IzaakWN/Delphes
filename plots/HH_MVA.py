@@ -396,7 +396,7 @@ def train(config):
 
 
 # SIGNIFICANCE
-def significance(histS,histB):
+def significance(config,histS,histB,test=False):
     
     Pmax = 0
     Smax = 0
@@ -405,14 +405,20 @@ def significance(histS,histB):
     Bimax = 0
     imax = 0
 
+    eS = N_S / S_tot
+    eB = N_B / B_tot
+    if test:
+        eS = eS * config.S / histS.Integral(1,N)
+        eB = eB * config.B / histS.Integral(1,N)
+
     # scan cut over all bins, find cut with highest significance
     N = histS.GetNbinsX()
     for i in range(1,N):
         Si = histS.Integral(i,N)
         Bi = histB.Integral(i,N)
         if Si and Bi:
-          S = N_S * Si / S_tot # yield
-          B = N_B * Bi / B_tot
+          S = eS * Si # yield
+          B = eB * Bi
           P = S / (1+sqrt(B))
           if Pmax<P and S > 10 and B > 10:
               Pmax = P
@@ -456,7 +462,7 @@ def significanceBins(histS,histB):
 
 
 # HISTOGRAMS: TMVA output
-def plot(config):
+def plotTest(config):
     print "\n>>> examine training with configuration "+config.name
 
     reader = TMVA.Reader()
@@ -485,7 +491,7 @@ def plot(config):
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(histS,histB)
+        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(config,histS,histB,test=True)
         Pbins = significanceBins(histS, histB)
         significances.append( ">>> "+config.name+" - "+method + \
                               ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
@@ -515,7 +521,7 @@ def plot(config):
 
 
 # HISTOGRAMS: TMVA output
-def plot2(config):
+def plotApplication(config):
     print "\n>>> examine training with configuration "+config.name
 
     treeS = config.treeS
@@ -560,7 +566,7 @@ def plot2(config):
 
 #        histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
-        makeAxes(histS,xlabel=(Method+" response"),ylabel="")
+#        makeAxes(histS,xlabel=(Method+" response"),ylabel="")
 #        makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
 #        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
 ##        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
@@ -568,7 +574,7 @@ def plot2(config):
 #        histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
 #        setLineStyle(histS,histB)
-        c.SaveAs("MVA/"+method+"_"+config.name+".png")
+        c.SaveAs("MVA/"+method+"_"+config.name+"_Appl.png")
         c.Close()
         gDirectory.Delete("histS")
 #        gDirectory.Delete("histB")
@@ -904,8 +910,8 @@ def main():
             train(config)
     significances = [ ]
     for config in configs:
-#        significances.extend(plot(config))
-        plot2(config)
+#        significances.extend(plotTest(config))
+        plotApplication(config)
 
 #    print "\n>>> compare all significances"
 #    for s in significances:
