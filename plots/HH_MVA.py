@@ -408,9 +408,11 @@ def significance(config,histS,histB,test=False):
     N = histS.GetNbinsX()
     eS = N_S / S_tot
     eB = N_B / B_tot
+    
+    # take smaller sample size into account for evalutation with test sample
     if test:
         eS = eS * config.S / histS.Integral(1,N)
-        eB = eB * config.B / histS.Integral(1,N)
+        eB = eB * config.B / histB.Integral(1,N)
 
     # scan cut over all bins, find cut with highest significance
     for i in range(1,N):
@@ -428,8 +430,12 @@ def significance(config,histS,histB,test=False):
               Bimax = Bi
               imax = i
 
-    cut = histS.GetXaxis().GetBinCenter(imax)
-    return [Pmax,Smax,Bmax,Simax,Bimax,Simax/S_tot,Bimax/B_tot,cut]
+    return [ Pmax,
+             Smax,Bmax,
+             Simax,Bimax,
+             Simax/histS.Integral(1,N),Bimax/histB.Integral(1,N), # efficiencies of cut
+             histS.GetXaxis().GetBinCenter(imax) # cut
+            ]
 
 
 
@@ -461,7 +467,7 @@ def significanceBins(histS,histB):
 
 
 
-# HISTOGRAMS: TMVA output
+# HISTOGRAMS: TMVA output for test samples
 def plotTest(config):
     print "\n>>> examine training with test sample for configuration "+config.name
 
@@ -520,9 +526,9 @@ def plotTest(config):
 
 
 
-# HISTOGRAMS: TMVA output
+# HISTOGRAMS: TMVA output for total sample
 def plotApplication(config):
-    print "\n>>> examine training with application to all data for configuration "+config.name
+    print "\n>>> examine training with application to total sample for configuration "+config.name
 
     treeS = config.treeS
     treeB = config.treeB
