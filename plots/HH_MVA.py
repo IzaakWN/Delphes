@@ -61,7 +61,7 @@ Methods = [ ("BDT","BDT"),
 #            ("BDT","BDTCuts"),
 #            ("BDT","BDTBoost"),
             ("BDT","BDTBoost1"),
-            #("BDT","BDTBoost2"),
+            ("BDT","BDTBoost2"),
             ("BDT","BDTBoost3"),
             ("BDT","BDTBoost4"),
 #            ("BDT","BDTNodeSize"),
@@ -257,18 +257,18 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=70"
                                  ]) )
-#    # BDTBoost2
-#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
-#                       ":".join([ "!H","!V",
-#                                  "NTrees=1500",
-##                                  "MinNodeSize=2.%",
-##                                  "nEventsMin=200",
-#                                  "MaxDepth=3",
-#                                  "BoostType=AdaBoost",
-#                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
-#                                  "SeparationType=GiniIndex",
-#                                  "nCuts=70"
-#                                 ]) )
+    # BDTBoost2
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=70"
+                                 ]) )
     # BDTBoost3
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
                        ":".join([ "!H","!V",
@@ -415,7 +415,12 @@ def significance(config,histS,histB,test=False):
         eB = eB * config.B / histB.Integral(1,N)
         print ">>> signal test sample = %.1f %% of total sample" % ( 100*histS.Integral(1,N)/config.S)
         print ">>> background test sample = %.1f %% of total sample" % ( 100*histB.Integral(1,N)/config.B)
-        # always ~50% of total sample?
+        # always ~50% of total sample
+    else:
+        if config.S != histS.Integral(1,N):
+            print ">>> ERROR: config.S == histS.Integral(1,N)"
+        if config.B != histB.Integral(1,N):
+            print ">>> ERROR: config.B == histB.Integral(1,N)"
 
     # scan cut over all bins, find cut with highest significance
     for i in range(1,N):
@@ -489,11 +494,11 @@ def plotTest(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 150, -0.4, 1.4)
-            histB = TH1F("histB", "", 150, -0.4, 1.4)
+            histS = TH1F("histS", "", 120, -0.4, 1.4)
+            histB = TH1F("histB", "", 120, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 150, -1.4, 1.4)
-            histB = TH1F("histB", "", 150, -1.4, 1.4)
+            histS = TH1F("histS", "", 120, -1.4, 1.4)
+            histB = TH1F("histB", "", 120, -1.4, 1.4)
 
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         config.hist_effs_train.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_trainingRejBvsS")) )
@@ -505,7 +510,7 @@ def plotTest(config):
         significances.append( ">>> "+config.name+" - "+method + \
                               ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
                               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
-                              "\n\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+                              "\n>>>\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
         #significances.append("lol")
 
         histB.Draw() # draw first: mostly bigger
@@ -547,13 +552,14 @@ def plotApplication(config):
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
         if Method == "MLP":
-            histS = TH1F("histS", "", 150, -0.4, 1.4)
-            histB = TH1F("histB", "", 150, -0.4, 1.4)
+            histS = TH1F("histS", "", 120, -0.4, 1.4)
+            histB = TH1F("histB", "", 120, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 150, -1.4, 1.4)
-            histB = TH1F("histB", "", 150, -1.4, 1.4)
+            histS = TH1F("histS", "", 120, -1.4, 1.4)
+            histB = TH1F("histB", "", 120, -1.4, 1.4)
         
         # fill histograms
+        print ">>> looping over trees for " + method
         treeS.ResetBranchAddresses()
         for i in range(len(config.varNames)):
             treeS.SetBranchAddress(config.varNames[i],vars[i])
@@ -573,7 +579,7 @@ def plotApplication(config):
         significances.append( ">>> "+config.name+" - "+method + \
                               ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
                               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
-                              "\n\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+                              "\n>>>\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
 
         histB.Draw()
         histS.Draw("same")
@@ -728,7 +734,7 @@ def main():
                 "M_bl", "M_jjl",
                 "M_jj", "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
-                # Mbl better discrinant than Mblnu
+                # Mbl better discrimant than Mblnu
                 # MT_lnu better than MT_jjlnu
                 # DeltaPhi_lMET is bad?
 
@@ -752,8 +758,27 @@ def main():
                     "M_jj", "M_j1l",
                     "MT_lnu","MT_jjlnu" ]
 
-
     allVars12M = [ "Njets20","Nbjets30",
+                    "jet1Pt","jet2Pt",
+                    "bjet1Pt","bjet2Pt",
+                    "Pt_bb","Pt_bl","Pt_j1l",
+                    "Pt_b1lnu", "Pt_b2lnu",
+                    "Pt_jjl", "Pt_jjb1", "Pt_jjb2",
+                    "leptonPt","MET",
+                    "DeltaR_j1l","DeltaR_j2l",
+                    "DeltaR_b1l","DeltaR_b2l",
+                    "DeltaR_bb1","DeltaR_jj",
+                    "DeltaR_jjl","DeltaR_jjb",
+                    "DeltaPhi_j1lbb",
+                    "DeltaPhi_jjlnu",#"DeltaPhi_lMET",
+                    "M_bb_closest", "M_jjlnu",
+                    "M_jjb1", #"M_jjb2",
+                    "M_b2lnu", #"M_b1lnu",
+                    "M_bl", "M_jjl",
+                    "M_jj", "M_j1l",
+                    "MT_lnu","MT_jjlnu" ]
+
+    allVars12MN = [ #"Njets20","Nbjets30",
                     "jet1Pt","jet2Pt",
                     "bjet1Pt","bjet2Pt",
                     "Pt_bb","Pt_bl","Pt_j1l",
@@ -793,7 +818,7 @@ def main():
                 "M_jj", "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
 
-    allVars1 = [ #"Njets20","Nbjets30",
+    allVars1 = [ "Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
                 "bjet1Pt","bjet2Pt",
                 "Pt_bb","Pt_bl","Pt_j1l",
@@ -805,7 +830,7 @@ def main():
                 "DeltaR_bb1","DeltaR_jj",
                 "DeltaR_jjl","DeltaR_jjb",
                 "DeltaPhi_j1lbb",
-                "DeltaPhi_lMET","DeltaPhi_jjlnu",
+                "DeltaPhi_jjlnu", #"DeltaPhi_lMET"
                 "M_bb_closest", "M_jjlnu",
                 "M_jjb1", "M_jjb2",
                 "M_b1lnu", "M_b2lnu",
@@ -813,7 +838,8 @@ def main():
                 "M_jj", "M_j1l",
                 "MT_lnu","MT_jjlnu" ]
 
-    allVars2 = [ "jet1Pt","jet2Pt",
+    allVars2 = [ #"Njets20","Nbjets30",
+                "jet1Pt","jet2Pt",
                 "bjet1Pt","bjet2Pt",
                 "Pt_bb","Pt_bl","Pt_j1l",
                 "Pt_b1lnu", "Pt_b2lnu",
@@ -902,23 +928,39 @@ def main():
                     configuration("everything2", allVars2, 1),
                     configuration("everything12", allVars12, 1),
                     configuration("everything12M", allVars12M, 1),
-                    configuration("better", betterVars, 1),
+                    configuration("everything12MN", allVars12MN, 1),
+#                    configuration("better", betterVars, 1),
 #                    configuration("better20",     betterVars, 1),
-#                    configuration("everythingCleanUp", allVars, 2),
-#                    configuration("everythingNCleanUp", allVarsN, 2),
-#                    configuration("everything1CleanUp", allVars1, 2),
-#                    configuration("everything2CleanUp", allVars2, 2),
-#                    configuration("everything12CleanUp", allVars12, 2),
+                    configuration("everythingCleanUp", allVars, 2),
+                    configuration("everythingNCleanUp", allVarsN, 2),
+                    configuration("everything1CleanUp", allVars1, 2),
+                    configuration("everything2CleanUp", allVars2, 2),
+                    configuration("everything12CleanUp", allVars12, 2),
+                    configuration("everything12MCleanUp", allVars12M, 2),
+                    configuration("everything12MNCleanUp", allVars12MN, 2),
 #                    configuration("betterCleanUp", betterVars, 2),
 #                    configuration("generatorCleanUp", genVars, 2, gen=True),
 #                    configuration("bestCleanUp", bestVars, 2),
                   ]
+
+
+
+    ############
+    # TRAINING #
+    ############
 
     if opts.onlyPlot:
         print ">>> plots only"
     else:
         for config in configs: #reversed(configs):
             train(config)
+
+
+
+    ##############
+    # EVALUATION #
+    ##############
+
     significances_test = [ ]
     significances_Appl = [ ]
     for config in configs:
@@ -931,6 +973,7 @@ def main():
     for s in significances_Appl:
         print s
     compare([c for c in configs if c.stage==1],stage="stage_1")
+    compare([c for c in configs if c.stage==1],stage="stage_1",methods0=["BDTBoost1","BDTBoost2","BDTBoost3"])
     compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
     compare([c for c in configs if c.stage==2],stage="stage_2")
     compare([c for c in configs if c.stage==3],stage="stage_3")
@@ -941,6 +984,9 @@ def main():
     eff(configs[5],"BDTBoost1")
     eff(configs[5],"BDTBoost2")
     eff(configs[5],"BDTBoost3")
+    eff(configs[6],"BDTBoost1")
+    eff(configs[6],"BDTBoost2")
+    eff(configs[6],"BDTBoost3")
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
