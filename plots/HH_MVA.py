@@ -418,9 +418,14 @@ def significance(config,histS,histB,test=False):
         # always ~50% of total sample
     else:
         if config.S != histS.Integral(1,N):
-            print ">>> ERROR: config.S == histS.Integral(1,N)"
+            print ">>> ERROR: config.S != histS.Integral(1,N):"
+            print ">>>        config.S = %.1f" % config.S
+            print ">>>        histS.Integral(1,N) = %.1f" % histS.Integral(1,N)
+        
         if config.B != histB.Integral(1,N):
-            print ">>> ERROR: config.B == histB.Integral(1,N)"
+            print ">>> ERROR: config.B != histB.Integral(1,N):"
+            print ">>>        config.B = %.1f" % config.B
+            print ">>>        histB.Integral(1,N) = %.1f" % histB.Integral(1,N)
 
     # scan cut over all bins, find cut with highest significance
     for i in range(1,N):
@@ -430,7 +435,7 @@ def significance(config,histS,histB,test=False):
           S = eS * Si # yield
           B = eB * Bi
           P = S / (1+sqrt(B))
-          if Pmax<P and S > 10 and B > 10:
+          if Pmax < P and S > 10 and B > 10:
               Pmax = P
               Smax = S
               Bmax = B
@@ -439,11 +444,11 @@ def significance(config,histS,histB,test=False):
               imax = i
 
     return [ Pmax,
-             Smax,Bmax,
-             Simax,Bimax,
-             Simax/histS.Integral(1,N),Bimax/histB.Integral(1,N), # efficiencies of cut
+             Smax, Bmax,
+             Simax, Bimax,
+             Simax/histS.Integral(1,N), Bimax/histB.Integral(1,N), # efficiencies of cut
              histS.GetXaxis().GetBinCenter(imax) # cut
-            ]
+           ]
 
 
 
