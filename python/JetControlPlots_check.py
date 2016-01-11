@@ -73,7 +73,7 @@ class JetControlPlots(BaseControlPlots):
             if 30 < jet_max.PT:
                 result["EtaMostForwardJet30"] = abs(jet_max.Eta)
                 if 50 < jet_max.PT:
-                    result["EtaMostForwardJet30"] = abs(jet_max.Eta)
+                    result["EtaMostForwardJet50"] = abs(jet_max.Eta)
 
 
 
