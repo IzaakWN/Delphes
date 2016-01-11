@@ -29,10 +29,10 @@ class JetControlPlots(BaseControlPlots):
         self.add("DeltaR_j1l","closest jet-lepton DeltaR",100,0,4)
         self.add("DeltaR_j1l_uncleaned","closest jet-lepton uncleaned jet list",100,0,4)
         
-        self.add("EtaMostForwardJet","Eta of most forward jet",5,0,5)
-        self.add("EtaMostForwardJet20","Eta of most forward jet with PT<20",5,0,5)
-        self.add("EtaMostForwardJet30","Eta of most forward jet with PT<30",5,0,5)
-        self.add("EtaMostForwardJet50","Eta of most forward jet with PT<50",5,0,5)
+        self.add("EtaMostForwardJet","Eta of most forward jet",10,0,5)
+        self.add("EtaMostForwardJet20","Eta of most forward jet with PT<20",10,0,5)
+        self.add("EtaMostForwardJet30","Eta of most forward jet with PT<30",10,0,5)
+        self.add("EtaMostForwardJet50","Eta of most forward jet with PT<50",10,0,5)
         
         self.add("PTMostForwardJet","PT of most forward jet",100,0,250)
  
@@ -41,8 +41,6 @@ class JetControlPlots(BaseControlPlots):
     def process(self, event):
         
         result = { }
-
-
 
         #lepton = None
         #p_neutrino = None
@@ -68,6 +66,7 @@ class JetControlPlots(BaseControlPlots):
         EtaRegion = 0
         
         result["EtaMostForwardJet"] = abs(jet_max.Eta)
+        result["PTMostForwardJet"] = jet_max.PT
         
         if 20 < jet_max.PT:
             result["EtaMostForwardJet20"] = abs(jet_max.Eta)
@@ -75,8 +74,6 @@ class JetControlPlots(BaseControlPlots):
                 result["EtaMostForwardJet30"] = abs(jet_max.Eta)
                 if 50 < jet_max.PT:
                     result["EtaMostForwardJet30"] = abs(jet_max.Eta)
-
-
 
 
 
