@@ -30,9 +30,9 @@ class JetControlPlots(BaseControlPlots):
         self.add("DeltaR_j1l_uncleaned","closest jet-lepton uncleaned jet list",100,0,4)
         
         self.add("EtaMostForwardJet","Eta of most forward jet",10,0,5)
-        self.add("EtaMostForwardJet20","Eta of most forward jet with PT<20",10,0,5)
-        self.add("EtaMostForwardJet30","Eta of most forward jet with PT<30",10,0,5)
-        self.add("EtaMostForwardJet50","Eta of most forward jet with PT<50",10,0,5)
+        self.add("EtaMostForwardJet20","Eta of most forward jet with PT<20",20,0,10)
+        self.add("EtaMostForwardJet30","Eta of most forward jet with PT<30",20,0,10)
+        self.add("EtaMostForwardJet50","Eta of most forward jet with PT<50",20,0,10)
         
         self.add("PTMostForwardJet","PT of most forward jet",100,0,250)
  
