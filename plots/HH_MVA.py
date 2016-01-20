@@ -75,6 +75,7 @@ Methods = [ ("BDT","BDT"),
             #("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
+nBinsEfficiency = 120
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -207,7 +208,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.08", # 0.1 -> 0.05
                                   "SeparationType=GiniIndex",
-                                  "nCuts=70" # 20 -> 70 -> 100
+                                  "nCuts=60" # 20 -> 70 -> 100
                                  ]) )
 #    # BDTPreselection
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
@@ -257,7 +258,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.10", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=70"
+                                  "nCuts=60"
                                  ]) )
     # BDTBoost2
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
@@ -269,7 +270,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=70"
+                                  "nCuts=60"
                                  ]) )
     # BDTBoost25
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
@@ -281,7 +282,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=70"
+                                  "nCuts=60"
                                  ]) )
     # BDTBoost3
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
@@ -293,7 +294,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=70"
+                                  "nCuts=60"
                                  ]) )
     # BDTBoost4
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
@@ -305,7 +306,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=70"
+                                  "nCuts=60"
                                  ]) )
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
@@ -515,11 +516,11 @@ def plotTest(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", 120, -0.4, 1.4)
-            histB = TH1F("histB", "", 120, -0.4, 1.4)
+            histS = TH1F("histS", "", nBinsEfficiency, -0.4, 1.4)
+            histB = TH1F("histB", "", nBinsEfficiency, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 120, -1.4, 1.4)
-            histB = TH1F("histB", "", 120, -1.4, 1.4)
+            histS = TH1F("histS", "", nBinsEfficiency, -1.4, 1.4)
+            histB = TH1F("histB", "", nBinsEfficiency, -1.4, 1.4)
 
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         config.hist_effs_train.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_trainingRejBvsS")) )
@@ -573,11 +574,11 @@ def plotApplication(config):
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
         if Method == "MLP":
-            histS = TH1F("histS", "", 120, -0.4, 1.4)
-            histB = TH1F("histB", "", 120, -0.4, 1.4)
+            histS = TH1F("histS", "", nBinsEfficiency, -0.4, 1.4)
+            histB = TH1F("histB", "", nBinsEfficiency, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", 120, -1.4, 1.4)
-            histB = TH1F("histB", "", 120, -1.4, 1.4)
+            histS = TH1F("histS", "", nBinsEfficiency, -1.4, 1.4)
+            histB = TH1F("histB", "", nBinsEfficiency, -1.4, 1.4)
         
         # fill histograms
         print ">>> looping over trees for " + method
