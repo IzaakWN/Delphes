@@ -29,12 +29,16 @@ class JetControlPlots(BaseControlPlots):
         self.add("DeltaR_j1l","closest jet-lepton DeltaR",100,0,4)
         self.add("DeltaR_j1l_uncleaned","closest jet-lepton uncleaned jet list",100,0,4)
         
-        self.add("EtaMostForwardJet","Eta of most forward jet",10,0,5)
-        self.add("EtaMostForwardJet20","Eta of most forward jet with PT<20",20,0,10)
-        self.add("EtaMostForwardJet30","Eta of most forward jet with PT<30",20,0,10)
-        self.add("EtaMostForwardJet50","Eta of most forward jet with PT<50",20,0,10)
+        self.add("NForwardJets20","Forward jet multiplicity PT<20",10,0,10)
+        self.add("NForwardJets30","Forward jet multiplicity PT<30",10,0,10)
+        self.add("NForwardJets50","Forward jet multiplicity PT<50",10,0,10)
         
-        self.add("PTMostForwardJet","PT of most forward jet",100,0,250)
+        self.add("EtaMostForwardJet","Eta of most forward jet",100,0,10)
+        self.add("EtaMostForwardJet20","Eta of most forward jet with PT<20",100,0,10)
+        self.add("EtaMostForwardJet30","Eta of most forward jet with PT<30",100,0,10)
+        self.add("EtaMostForwardJet50","Eta of most forward jet with PT<50",100,0,10)
+        
+        self.add("PTMostForwardJet","PT of most forward jet",100,0,150)
  
 
 
@@ -61,6 +65,11 @@ class JetControlPlots(BaseControlPlots):
             result["DeltaR_j1l_uncleaned"] = min([TLV.DeltaR(j.TLV,lepton.TLV) for j in jets_uncleaned])
 
 
+        forwardJets20 = [ j for j in event.cleanedJets if abs(j.Eta)>2.5 and j.PT>20 ]
+        result["NForwardJets20"] = len(forwardJets20)
+        result["NForwardJets30"] = len([ j for j in forwardJets20 if j.PT>30 ])
+        result["NForwardJets50"] = len([ j for j in forwardJets20 if j.PT>50 ])
+
 
         jet_max = max(event.cleanedJets, key=lambda j: abs(j.Eta))
         EtaRegion = 0
@@ -74,7 +83,6 @@ class JetControlPlots(BaseControlPlots):
                 result["EtaMostForwardJet30"] = abs(jet_max.Eta)
                 if 50 < jet_max.PT:
                     result["EtaMostForwardJet50"] = abs(jet_max.Eta)
-
 
 
         return result
