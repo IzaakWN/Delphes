@@ -208,7 +208,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.08", # 0.1 -> 0.05
                                   "SeparationType=GiniIndex",
-                                  "nCuts=60" # 20 -> 70 -> 100
+                                  "nCuts=50" # 20 -> 70 -> 100
                                  ]) )
 #    # BDTPreselection
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTPreselection",
@@ -258,7 +258,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.10", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=60"
+                                  "nCuts=50"
                                  ]) )
     # BDTBoost2
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
@@ -270,7 +270,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=60"
+                                  "nCuts=50"
                                  ]) )
     # BDTBoost25
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
@@ -282,7 +282,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=60"
+                                  "nCuts=50"
                                  ]) )
     # BDTBoost3
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
@@ -294,7 +294,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=60"
+                                  "nCuts=50"
                                  ]) )
     # BDTBoost4
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
@@ -306,7 +306,7 @@ def train(config):
                                   "BoostType=AdaBoost",
                                   "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
                                   "SeparationType=GiniIndex",
-                                  "nCuts=60"
+                                  "nCuts=50"
                                  ]) )
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
@@ -529,8 +529,8 @@ def plotTest(config):
 
         [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(config,histS,histB,test=True)
         Pbins = significanceBins(histS, histB)
-        significances.append( ">>> "+config.name+" - "+method + \
-                              ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+        significances.append( ">>> "+config.name+" - "+method + " (test sample):" \
+                              "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
                               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
                               "\n>>>\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
         #significances.append("lol")
@@ -598,8 +598,8 @@ def plotApplication(config):
         c = makeCanvas()
         [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(config,histS,histB)
         Pbins = significanceBins(histS, histB)
-        significances.append( ">>> "+config.name+" - "+method + \
-                              ":\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+        significances.append( ">>> "+config.name+" - "+method + " (total sample):" \
+                              "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
                               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
                               "\n>>>\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
 
@@ -888,8 +888,8 @@ def main():
                     configuration("everything12W", allVars12W, 1),
 #                    configuration("better", betterVars, 1),
 #                    configuration("better20",     betterVars, 1),
-                    configuration("everythingCleanUp", allVars, 2),
-                    configuration("everything12CleanUp", allVars12, 2),
+#                    configuration("everythingCleanUp", allVars, 2),
+#                    configuration("everything12CleanUp", allVars12, 2),
 #                    configuration("betterCleanUp", betterVars, 2),
 #                    configuration("generatorCleanUp", genVars, 2, gen=True),
 #                    configuration("bestCleanUp", bestVars, 2),
