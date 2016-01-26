@@ -931,10 +931,10 @@ def main():
 #    for s in significances_Appl:
 #        print s
     compare([c for c in configs if c.stage==1],stage="stage_1")
-    compare([c for c in configs if c.stage==1],stage="stage_1",methods0=["BDTBoost1","BDTBoost2","BDTBoost3"])
-    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
-    compare([c for c in configs if c.stage==2],stage="stage_2")
-    compare([c for c in configs if c.stage==3],stage="stage_3")
+    compare([c for c in configs if c.stage==1],stage="stage_1",methods0=["BDTBoost2"])
+#    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
+#    compare([c for c in configs if c.stage==2],stage="stage_2")
+#    compare([c for c in configs if c.stage==3],stage="stage_3")
     eff(configs[0],"BDTTuned")
 #    eff(configs[1],"BDTBoost1")
 #    eff(configs[1],"BDTBoost2")
