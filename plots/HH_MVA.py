@@ -918,27 +918,25 @@ def main():
     for config in configs:
         significances_test.extend(plotTest(config))
         significances_Appl.extend(plotApplication(config))
-    print "\n>>> compare all significances of test samples"
-    for s in significances_test:
+        eff(config,"BDTBoost1")
+        eff(config,"BDTBoost2")
+        eff(config,"BDTBoost3")
+    print "\n>>> compare all significances between test samples and total sample"
+    for s, t in zip(significances_test,significances_Appl):
         print s
-    print "\n>>> compare all significances of total sample"
-    for s in significances_Appl:
-        print s
+        print t
+#    print "\n>>> compare all significances of total sample"
+#    for s in significances_Appl:
+#        print s
     compare([c for c in configs if c.stage==1],stage="stage_1")
     compare([c for c in configs if c.stage==1],stage="stage_1",methods0=["BDTBoost1","BDTBoost2","BDTBoost3"])
     compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
     compare([c for c in configs if c.stage==2],stage="stage_2")
     compare([c for c in configs if c.stage==3],stage="stage_3")
     eff(configs[0],"BDTTuned")
-    eff(configs[4],"BDTBoost1")
-    eff(configs[4],"BDTBoost2")
-    eff(configs[4],"BDTBoost3")
-    eff(configs[5],"BDTBoost1")
-    eff(configs[5],"BDTBoost2")
-    eff(configs[5],"BDTBoost3")
-    eff(configs[6],"BDTBoost1")
-    eff(configs[6],"BDTBoost2")
-    eff(configs[6],"BDTBoost3")
+#    eff(configs[1],"BDTBoost1")
+#    eff(configs[1],"BDTBoost2")
+#    eff(configs[1],"BDTBoost3")
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
