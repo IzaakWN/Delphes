@@ -559,6 +559,8 @@ def plotTest(config):
 # HISTOGRAMS: TMVA output for total sample
 def plotApplication(config):
     print "\n>>> examine training with application to total sample for configuration "+config.name
+    # TODO: make seperate method to save make a tree with histograms for total sample
+    #       https://root.cern.ch/root/html/tutorials/tree/htest.C.html
 
     treeS = config.treeS
     treeB = config.treeB
