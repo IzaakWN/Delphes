@@ -75,7 +75,7 @@ Methods = [ ("BDT","BDT"),
             #("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
-nBinsEfficiency = 120
+nBinsEfficiency = 90
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
