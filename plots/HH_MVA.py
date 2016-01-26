@@ -161,6 +161,37 @@ class configuration(object):
 
 
 
+class result(object):
+
+    def __init__(Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut,Pbins=0,test=False):
+        self.Pmax = Pmax
+        self.Smax = Smax
+        self.Bmax = Bmax
+        self.Simax = Simax
+        self.Bimax = Bimax
+        self.effS = effS
+        self.effB = effB
+        self.cut = cut
+        self.Pbins = Pbins
+        if test:
+            self.sample = "test"
+        else:
+            self.sample = "total"
+
+    def string(self):
+        return ">>> "+config.name+" - "+method + " (test sample):" \
+               "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
+               "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB)
+
+    def row(self,method):
+        #       METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
+        return method + " | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f | %2.2f%% | %.4f%% | %.3f | %.4f |"  % \
+               (self.sample, self.Pmax, self.Smax, self.Bmax, self.Simax, self.Bimax, self.effS, self.effB, self.cut, self.Pbins )
+
+
+
+
 def train(config):
     print "\n>>> train with configuration "+config.name
 
@@ -531,8 +562,8 @@ def plotTest(config):
         Pbins = significanceBins(histS, histB)
         significances.append( ">>> "+config.name+" - "+method + " (test sample):" \
                               "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
-                              "\n>>>\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
+                              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
         #significances.append("lol")
 
         histB.Draw() # draw first: mostly bigger
@@ -602,8 +633,8 @@ def plotApplication(config):
         Pbins = significanceBins(histS, histB)
         significances.append( ">>> "+config.name+" - "+method + " (total sample):" \
                               "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.4f." % (Smax,Bmax,cut) + \
-                              "\n>>>\t\t(Si=%.1f (%.2f%%) and Bi=%.1f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
+                              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
 
         histB.Draw()
         histS.Draw("same")
