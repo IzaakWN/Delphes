@@ -648,7 +648,7 @@ def plotApplication(config):
             histB.Fill( reader.EvaluateMVA(method) )
 
         c = makeCanvas()
-        significances.append(significance(config,histS,histB))
+        significances.append(significance(config,histS,histB,method))
 
         histB.Draw()
         histS.Draw("same")
@@ -964,7 +964,8 @@ def main():
     significances_Appl = [ ]
     for config in configs:
         significances_test.extend(plotTest(config))
-        significances_Appl.extend(plotApplication(config))
+        significances_Appl=significances_test
+#        significances_Appl.extend(plotApplication(config))
         eff(config,"BDTBoost1")
         eff(config,"BDTBoost2")
         eff(config,"BDTBoost3")
