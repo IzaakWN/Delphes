@@ -163,7 +163,7 @@ class configuration(object):
 
 class result(object):
 
-    def __init__(prompt,row):
+    def __init__(self,prompt,row):
         self.prompt = prompt
         self.row = row
 
