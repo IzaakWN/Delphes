@@ -76,7 +76,7 @@ Methods = [ ("BDT","BDT"),
           ]
 methods = [ method[1] for method in Methods ]
 nBins = 90
-header="       method | sample |   P   |   S   |    B    |  Si  |  Bi |  eS   |   eB    |  cut  | Pbins  |"
+header="       method | sample |   P   |   S   |    B    |  Si  |  Bi | eff S |  eff B  |  cut  | Pbins  |"
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -167,30 +167,6 @@ class result(object):
     def __init__(self,prompt,row):
         self.prompt = prompt
         self.row = row
-
-#    def __init__(Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut,Pbins=0,test=False):
-#        self.Pmax = Pmax
-#        self.Smax = Smax
-#        self.Bmax = Bmax
-#        self.Simax = Simax
-#        self.Bimax = Bimax
-#        self.effS = effS
-#        self.effB = effB
-#        self.cut = cut
-#        self.Pbins = Pbins
-#        if test:
-#            self.sample = "test"
-#        else:
-#            self.sample = "total"
-#        self.prompt = ">>> "+config.name+" - "+method + " (test sample):" \
-#                      "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-#                      "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
-#                      "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB)
-#
-#        #           METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
-#        self.row = method + " | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f | %2.2f%% | %.4f%% | %.3f | %.4f |"  % \
-#                            ( sample, Pmax,  Smax,   Bmax,   Simax, Bimax,   effS,    effB,   cut,   Pbins )
-
 
 
 
@@ -532,13 +508,13 @@ def significance(config,histS,histB,method,test=False):
     else:
         sample = "total"
 
-    prompt = ">>> "+config.name+" - "+method+" (test sample):" + \
+    prompt = ">>> "+config.name+" - "+method+":" + \
              "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
     #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
-    row = "  %11s | %5s  | %.3f | %5.1f | %5.1f | %4.f | %3.f |"  % \
+    row = "  %11s | %5s  | %.3f | %5.1f | %7.1f | %4.f | %3.f |"  % \
           ( method, sample, Pmax, Smax, Bmax,  Simax, Bimax)
     row += " %2.2f%% | %.4f%% | %.3f | %.4f |" % \
              ( effS,    effB,   cut,   Pbins )
@@ -567,7 +543,7 @@ def plotTest(config):
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-    significances = [ ]
+    significances = [ "\n>>> "+config.name ]
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
 
