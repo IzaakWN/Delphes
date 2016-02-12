@@ -529,7 +529,7 @@ def significance(config,histS,histB,test=False):
 
     prompt = ">>> "+config.name+" - "+method + " (test sample):" + \
              ("\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins)) + \
-             ("\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut)) + \
+             ("\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f" % (Smax,Bmax,cut)) + \
              ("\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB))
 
     if test:
