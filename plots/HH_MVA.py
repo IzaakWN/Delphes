@@ -475,7 +475,7 @@ def significanceBins(config,histS,histB):
 
 
 # SIGNIFICANCE
-def significance(config,histS,histB,test=False):
+def significance(config,histS,histB,method,test=False):
     
     Pmax = 0
     Smax = 0
@@ -531,10 +531,10 @@ def significance(config,histS,histB,test=False):
     else:
         sample = "total"
 
-    prompt = ">>> "+config.name+" - "+method+" (test sample):"
-    prompt += "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins)
-    prompt += "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut)
-    prompt += "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
+    prompt = ">>> "+config.name+" - "+method+" (test sample):" + \
+             "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+             "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
+             "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
     #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
     row = "%11s | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f |"  % \
@@ -583,7 +583,7 @@ def plotTest(config):
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        significances.append(significance(config,histS,histB,test=True))
+        significances.append(significance(config,histS,histB,method,test=True))
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
