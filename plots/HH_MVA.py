@@ -531,15 +531,16 @@ def significance(config,histS,histB,test=False):
     else:
         sample = "total"
 
-    prompt = []
-    prompt.append(">>> "+config.name+" - "+method+" (test sample):" + \
-              "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
-              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
+    prompt = ">>> "+config.name+" - "+method+" (test sample):"
+    prompt += "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins)
+    prompt += "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut)
+    prompt += "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
     #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
-    row =  "%11s | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f | %2.2f%% | %.4f%% | %.3f | %.4f |"  % \
-          ( method, sample, Pmax, Smax, Bmax,   Simax, Bimax,   effS,    effB,   cut,   Pbins )
+    row = "%11s | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f |"  % \
+          ( method, sample, Pmax, Smax, Bmax,   Simax, Bimax)
+    row += " %2.2f%% | %.4f%% | %.3f | %.4f |" % \
+               ( effS,    effB,   cut,   Pbins )
 
     return result(prompt,row)
 
