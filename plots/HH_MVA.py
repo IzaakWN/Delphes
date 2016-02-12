@@ -971,7 +971,8 @@ def main():
         eff(config,"BDTBoost3")
     print "\n>>> compare all significances between test samples and total sample"
     print "     method | sample |   P  |   S   |    B    |  Si  |  Bi |  eS   |   eB    |  cut  | Pbins  |"
-    for s, t in zip(significances_test,significances_Appl):        print s.row
+    for s, t in zip(significances_test,significances_Appl):
+        print s.row
         print t.row
 #    print "\n>>> compare all significances of total sample"
 #    for s in significances_Appl:
