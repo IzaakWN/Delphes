@@ -543,7 +543,7 @@ def plotTest(config):
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-    significances = [ result("NaN","\n>>> "+config.name) ]
+    significances = [ result("NaN","") ]
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
 
@@ -600,7 +600,7 @@ def plotApplication(config):
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-    significances = [ ]
+    significances = [ result("NaN",">>> "+config.name) ]
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
         if Method == "MLP":
