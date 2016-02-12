@@ -531,7 +531,9 @@ def significance(config,histS,histB,test=False):
     else:
         sample = "total"
 
+    print "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins)
     print "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut)
+    print "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
     prompt =  ">>> "+config.name+" - "+method+" (test sample):" + \
               "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
