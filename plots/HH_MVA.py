@@ -527,7 +527,7 @@ def significance(config,histS,histB,method,test=False):
     cut = histS.GetXaxis().GetBinCenter(imax)
     Pbins = significanceBins(config,histS,histB)
     if test:
-        sample = " test"
+        sample = "test"
     else:
         sample = "total"
 
@@ -537,7 +537,7 @@ def significance(config,histS,histB,method,test=False):
              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
     #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
-    row = "%11s | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f |"  % \
+    row = "%11s | %5s  |  %.4f  | %4.1f | %5.1f | %4.f | %3.f |"  % \
           ( method, sample, Pmax, Smax, Bmax,   Simax, Bimax)
     row += " %2.2f%% | %.4f%% | %.3f | %.4f |" % \
              ( effS,    effB,   cut,   Pbins )
@@ -970,9 +970,8 @@ def main():
         eff(config,"BDTBoost2")
         eff(config,"BDTBoost3")
     print "\n>>> compare all significances between test samples and total sample"
-    for s, t in zip(significances_test,significances_Appl):
-        print "  METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |  eS  |  eB  |  cut | Pbins |"
-        print s.row
+    print "     method | sample |   P  |   S   |    B    |  Si  |  Bi |  eS   |   eB    |  cut  | Pbins  |"
+    for s, t in zip(significances_test,significances_Appl):        print s.row
         print t.row
 #    print "\n>>> compare all significances of total sample"
 #    for s in significances_Appl:
