@@ -543,7 +543,7 @@ def plotTest(config):
         vars.append(array('f',[0]))
         reader.AddVariable(name,vars[-1])
 
-    significances = [ "\n>>> "+config.name ]
+    significances = [ result("NaN","\n>>> "+config.name) ]
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
 
