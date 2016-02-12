@@ -75,7 +75,7 @@ Methods = [ ("BDT","BDT"),
             #("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
-nBinsEfficiency = 90
+nBins = 90
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -161,7 +161,7 @@ class configuration(object):
 
 
 
-#class result(object):
+class result(object):
 
     def __init__(prompt,row):
         self.prompt = prompt
@@ -568,11 +568,11 @@ def plotTest(config):
 
         c = makeCanvas()
         if Method == "MLP":
-            histS = TH1F("histS", "", nBinsEfficiency, -0.4, 1.4)
-            histB = TH1F("histB", "", nBinsEfficiency, -0.4, 1.4)
+            histS = TH1F("histS", "", nBins, -0.4, 1.4)
+            histB = TH1F("histB", "", nBins, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", nBinsEfficiency, -1.0, 1.0)
-            histB = TH1F("histB", "", nBinsEfficiency, -1.0, 1.0)
+            histS = TH1F("histS", "", nBins, -1.0, 1.0)
+            histB = TH1F("histB", "", nBins, -1.0, 1.0)
 
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         config.hist_effs_train.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_trainingRejBvsS")) )
@@ -622,11 +622,11 @@ def plotApplication(config):
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
         if Method == "MLP":
-            histS = TH1F("histS", "", nBinsEfficiency, -0.4, 1.4)
-            histB = TH1F("histB", "", nBinsEfficiency, -0.4, 1.4)
+            histS = TH1F("histS", "", nBins, -0.4, 1.4)
+            histB = TH1F("histB", "", nBins, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", nBinsEfficiency, -1.0, 1.0)
-            histB = TH1F("histB", "", nBinsEfficiency, -1.0, 1.0)
+            histS = TH1F("histS", "", nBins, -1.0, 1.0)
+            histB = TH1F("histB", "", nBins, -1.0, 1.0)
         
         # fill histograms
         print ">>> looping over trees for " + method
