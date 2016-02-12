@@ -522,12 +522,15 @@ def significance(config,histS,histB,test=False):
               Bimax = Bi
               imax = i
 
+    effS = 100*Simax/histS.Integral(1,N)
+    effB = 100*Bimax/histB.Integral(1,N)
+    cut = histS.GetXaxis().GetBinCenter(imax)
     Pbins = significanceBins(config,histS,histB)
 
     prompt = ">>> "+config.name+" - "+method + " (test sample):" \
              "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
-             "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB)
+             "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
     if test:
         sample = " test"
@@ -535,8 +538,8 @@ def significance(config,histS,histB,test=False):
         sample = "total"
 
     #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
-    row = method + " | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f | %2.2f%% | %.4f%% | %.3f | %.4f |"  % \
-                   ( sample, Pmax,  Smax,   Bmax,   Simax, Bimax,   effS,    effB,   cut,   Pbins )
+    row =  "%11s | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f | %2.2f%% | %.4f%% | %.3f | %.4f |"  % \
+          ( method, sample, Pmax, Smax, Bmax,   Simax, Bimax,   effS,    effB,   cut,   Pbins )
 
     return result(prompt,row)
 
