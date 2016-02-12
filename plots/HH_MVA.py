@@ -540,7 +540,7 @@ def significance(config,histS,histB,test=False):
     row = "%11s | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f |"  % \
           ( method, sample, Pmax, Smax, Bmax,   Simax, Bimax)
     row += " %2.2f%% | %.4f%% | %.3f | %.4f |" % \
-               ( effS,    effB,   cut,   Pbins )
+             ( effS,    effB,   cut,   Pbins )
 
     return result(prompt,row)
 
