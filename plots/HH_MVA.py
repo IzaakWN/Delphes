@@ -161,33 +161,34 @@ class configuration(object):
 
 
 
-class result(object):
+#class result(object):
 
-    def __init__(Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut,Pbins=0,test=False):
-        self.Pmax = Pmax
-        self.Smax = Smax
-        self.Bmax = Bmax
-        self.Simax = Simax
-        self.Bimax = Bimax
-        self.effS = effS
-        self.effB = effB
-        self.cut = cut
-        self.Pbins = Pbins
-        if test:
-            self.sample = "test"
-        else:
-            self.sample = "total"
+    def __init__(prompt,row):
+        self.prompt = prompt
+        self.row = row
 
-    def string(self):
-        return ">>> "+config.name+" - "+method + " (test sample):" \
-               "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-               "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
-               "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB)
-
-    def row(self,method):
-        #       METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
-        return method + " | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f | %2.2f%% | %.4f%% | %.3f | %.4f |"  % \
-               (self.sample, self.Pmax, self.Smax, self.Bmax, self.Simax, self.Bimax, self.effS, self.effB, self.cut, self.Pbins )
+#    def __init__(Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut,Pbins=0,test=False):
+#        self.Pmax = Pmax
+#        self.Smax = Smax
+#        self.Bmax = Bmax
+#        self.Simax = Simax
+#        self.Bimax = Bimax
+#        self.effS = effS
+#        self.effB = effB
+#        self.cut = cut
+#        self.Pbins = Pbins
+#        if test:
+#            self.sample = "test"
+#        else:
+#            self.sample = "total"
+#        self.prompt = ">>> "+config.name+" - "+method + " (test sample):" \
+#                      "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+#                      "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
+#                      "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB)
+#
+#        #           METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
+#        self.row = method + " | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f | %2.2f%% | %.4f%% | %.3f | %.4f |"  % \
+#                            ( sample, Pmax,  Smax,   Bmax,   Simax, Bimax,   effS,    effB,   cut,   Pbins )
 
 
 
@@ -442,6 +443,38 @@ def train(config):
 
 
 # SIGNIFICANCE
+def significanceBins(config,histS,histB):
+    
+    P2 = 0
+
+    # calculate significance per bin and add using variance addition law:
+    #                      sigma^2 = sum(sigma_i^2)
+    # if S or B bin is empty, merge with next bins until both are nonzero
+    N = histS.GetNbinsX()
+    Si = 0
+    Bi = 0
+    eS = N_S * config.S / histS.Integral(1,N) / S_tot
+    eB = N_B * config.B / histB.Integral(1,N) / B_tot
+    for i in reversed(range(1,N)):
+        # merge with previous bins B or S were 0 there
+        S = Si + eS * histS.GetBinContent(i) # yield for bin i
+        B = Bi + eB * histB.GetBinContent(i)
+        
+        if S and B : # both nonzero
+            Si = 0 # reset
+            Bi = 0 # reset
+            P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
+#        elif i == 1: # if i == 1: add anyway!
+#            P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
+        else: # at least one zero
+            Si += S # save S to merge with next bins until both nonzero
+            Bi += B # save B to merge with next bins until both nonzero
+
+    return sqrt(P2)
+
+
+
+# SIGNIFICANCE
 def significance(config,histS,histB,test=False):
     
     Pmax = 0
@@ -489,42 +522,30 @@ def significance(config,histS,histB,test=False):
               Bimax = Bi
               imax = i
 
-    return [ Pmax,
-             Smax, Bmax,
-             Simax, Bimax,
-             Simax/histS.Integral(1,N), Bimax/histB.Integral(1,N), # efficiencies of cut
-             histS.GetXaxis().GetBinCenter(imax) # cut
-           ]
+    Pbins = significanceBins(config,histS,histB)
 
+    prompt = ">>> "+config.name+" - "+method + " (test sample):" \
+             "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
+             "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
+             "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB)
 
+    if test:
+        sample = " test"
+    else:
+        sample = "total"
 
-# SIGNIFICANCE
-def significanceBins(histS,histB):
-    
-    P2 = 0
+    #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
+    row = method + " | %5s | %.4f | %3.1f | %5.1f | %4.f | %2.f | %2.2f%% | %.4f%% | %.3f | %.4f |"  % \
+                   ( sample, Pmax,  Smax,   Bmax,   Simax, Bimax,   effS,    effB,   cut,   Pbins )
 
-    # calculate significance per bin and add using variance addition law:
-    #                      sigma^2 = sum(sigma_i^2)
-    # if S or B bin is empty, merge with next bins until both are nonzero
-    N = histS.GetNbinsX()
-    Si = 0
-    Bi = 0
-    for i in reversed(range(1,N)):
-        # merge with previous bins B or S were 0 there
-        S = Si + N_S * histS.GetBinContent(i) / S_tot # yield for bin i
-        B = Bi + N_B * histB.GetBinContent(i) / B_tot
-        
-        if S and B : # both nonzero
-            Si = 0 # reset
-            Bi = 0 # reset
-            P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
-        elif i == 1: # if i == 1: add anyway!
-            P2 += S*S/(B+2*sqrt(B)+1) # P^2 += P_i^2
-        else: # at least on zero
-            Si += S # save S for next bins until both nonzero
-            Bi += B # save B for next bins until both nonzero
+    return result(prompt,row)
 
-    return sqrt(P2)
+#    return [ Pmax,
+#             Smax, Bmax,
+#             Simax, Bimax,
+#             Simax/histS.Integral(1,N), Bimax/histB.Integral(1,N), # efficiencies of cut
+#             histS.GetXaxis().GetBinCenter(imax) # cut
+#           ]
 
 
 
@@ -550,21 +571,15 @@ def plotTest(config):
             histS = TH1F("histS", "", nBinsEfficiency, -0.4, 1.4)
             histB = TH1F("histB", "", nBinsEfficiency, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", nBinsEfficiency, -1.4, 1.4)
-            histB = TH1F("histB", "", nBinsEfficiency, -1.4, 1.4)
+            histS = TH1F("histS", "", nBinsEfficiency, -1.0, 1.0)
+            histB = TH1F("histB", "", nBinsEfficiency, -1.0, 1.0)
 
         config.hist_effs.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_rejBvsS")) )
         config.hist_effs_train.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_trainingRejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
 
-        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(config,histS,histB,test=True)
-        Pbins = significanceBins(histS, histB)
-        significances.append( ">>> "+config.name+" - "+method + " (test sample):" \
-                              "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
-                              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
-        #significances.append("lol")
+        significances.append(significance(config,histS,histB,test=True))
 
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
@@ -581,7 +596,7 @@ def plotTest(config):
         gDirectory.Delete("histB")
 
     for s in significances:
-        print s
+        print s.prompt
     
     return significances
 
@@ -610,8 +625,8 @@ def plotApplication(config):
             histS = TH1F("histS", "", nBinsEfficiency, -0.4, 1.4)
             histB = TH1F("histB", "", nBinsEfficiency, -0.4, 1.4)
         else:
-            histS = TH1F("histS", "", nBinsEfficiency, -1.4, 1.4)
-            histB = TH1F("histB", "", nBinsEfficiency, -1.4, 1.4)
+            histS = TH1F("histS", "", nBinsEfficiency, -1.0, 1.0)
+            histB = TH1F("histB", "", nBinsEfficiency, -1.0, 1.0)
         
         # fill histograms
         print ">>> looping over trees for " + method
@@ -629,12 +644,7 @@ def plotApplication(config):
             histB.Fill( reader.EvaluateMVA(method) )
 
         c = makeCanvas()
-        [Pmax,Smax,Bmax,Simax,Bimax,effS,effB,cut] = significance(config,histS,histB)
-        Pbins = significanceBins(histS, histB)
-        significances.append( ">>> "+config.name+" - "+method + " (total sample):" \
-                              "\n>>>\t\t%.4f significance (%.4f with bins) with yields" % (Pmax,Pbins) + \
-                              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
-                              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,100*effS,Bimax,100*effB) )
+        significances.append(significance(config,histS,histB))
 
         histB.Draw()
         histS.Draw("same")
@@ -652,7 +662,7 @@ def plotApplication(config):
         gDirectory.Delete("histB")
 
     for s in significances:
-        print s
+        print s.prompt
 
     return significances
 
@@ -956,8 +966,9 @@ def main():
         eff(config,"BDTBoost3")
     print "\n>>> compare all significances between test samples and total sample"
     for s, t in zip(significances_test,significances_Appl):
-        print s
-        print t
+        print "  METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |  eS  |  eB  |  cut | Pbins |"
+        print s.row
+        print t.row
 #    print "\n>>> compare all significances of total sample"
 #    for s in significances_Appl:
 #        print s
