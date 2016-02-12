@@ -76,6 +76,7 @@ Methods = [ ("BDT","BDT"),
           ]
 methods = [ method[1] for method in Methods ]
 nBins = 90
+header="       method | sample |   P   |   S   |    B    |  Si  |  Bi |  eS   |   eB    |  cut  | Pbins  |"
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -537,8 +538,8 @@ def significance(config,histS,histB,method,test=False):
              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
     #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
-    row = "%11s | %5s  |  %.4f  | %4.1f | %5.1f | %4.f | %3.f |"  % \
-          ( method, sample, Pmax, Smax, Bmax,   Simax, Bimax)
+    row = "  %11s | %5s  | %.3f | %5.1f | %5.1f | %4.f | %3.f |"  % \
+          ( method, sample, Pmax, Smax, Bmax,  Simax, Bimax)
     row += " %2.2f%% | %.4f%% | %.3f | %.4f |" % \
              ( effS,    effB,   cut,   Pbins )
 
@@ -599,8 +600,9 @@ def plotTest(config):
         gDirectory.Delete("histS")
         gDirectory.Delete("histB")
 
+    print header
     for s in significances:
-        print s.prompt
+        print s.row
     
     return significances
 
@@ -665,8 +667,9 @@ def plotApplication(config):
         gDirectory.Delete("histS")
         gDirectory.Delete("histB")
 
+    print header
     for s in significances:
-        print s.prompt
+        print s.row
 
     return significances
 
@@ -964,13 +967,13 @@ def main():
     significances_Appl = [ ]
     for config in configs:
         significances_test.extend(plotTest(config))
-        significances_Appl=significances_test
-#        significances_Appl.extend(plotApplication(config))
+#        significances_Appl=significances_test
+        significances_Appl.extend(plotApplication(config))
         eff(config,"BDTBoost1")
         eff(config,"BDTBoost2")
         eff(config,"BDTBoost3")
     print "\n>>> compare all significances between test samples and total sample"
-    print "     method | sample |   P  |   S   |    B    |  Si  |  Bi |  eS   |   eB    |  cut  | Pbins  |"
+    print header
     for s, t in zip(significances_test,significances_Appl):
         print s.row
         print t.row
