@@ -516,7 +516,7 @@ def significance(config,histS,histB,method,test=False):
     #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
     row = "  %11s | %5s  | %.3f | %5.1f | %7.1f | %4.f | %3.f |"  % \
           ( method, sample, Pmax, Smax, Bmax,  Simax, Bimax)
-    row += " %2.2f%% | %.4f%% | %.3f | %.4f |" % \
+    row += " %2.2f%% | %.4f%% | %.3f | %.2f |" % \
              ( effS,    effB,   cut,   Pbins )
 
     return result(prompt,row)
