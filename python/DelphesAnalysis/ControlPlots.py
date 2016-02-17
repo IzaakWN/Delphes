@@ -177,8 +177,9 @@ def runAnalysis(path, txt, levels, outputname="controlPlots.root", Njobs=1, jobN
     if i%1000==0 :
       if i%10000==0 :
         if len(DeltaTb)>0:
-          ETA = " ETA: %s" % time.strftime("%M min. %S s.", time.gmtime( sum(DeltaTb[1:])/len(DeltaTb)*(n-i)/1000 ))
-        print "\n    Running for %s" % time.strftime("%M min. %S s.", time.gmtime(time.time()-t0)) + ETA
+          ETA = " ETA: %s" % time.strftime("%H h. %M min. %S s.", time.gmtime( sum(DeltaTb[1:])/len(DeltaTb)*(n-i)/1000 ))
+          runtime = "\n    Running for %s" % time.strftime("%H h. %M min. %S s.", time.gmtime(time.time()-t0))
+        print runtime.replace("0 h.","") + ETA.replace("0 h.","")
       DeltaTb.append(time.time()-tb)
       print "%d%%: Processing... event %d. Last batch in %f s." % (i*100/n,i,(time.time()-tb))
       tb = time.time()

@@ -61,18 +61,16 @@ Methods = [ ("BDT","BDT"),
 #            ("BDT","BDTMaxDepth"),
 #            ("BDT","BDTCuts"),
 #            ("BDT","BDTBoost"),
-            ("BDT","BDTBoost1"),
-            ("BDT","BDTBoost2"),
-            ("BDT","BDTBoost25"),
-            ("BDT","BDTBoost3"),
-            ("BDT","BDTBoost4"),
+#            ("BDT","BDTBoost1"),
+#            ("BDT","BDTBoost2"),
+#            ("BDT","BDTBoost25"),
+#            ("BDT","BDTBoost3"),
+#            ("BDT","BDTBoost4"),
 #            ("BDT","BDTNodeSize"),
 #            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
 #            ("MLP","MLPNodes"),
-#            ("MLP","MLPNodes1"),
-#            ("MLP","MLPNodes2"),
-            #("MLP","MLPSigmoid")
+#            ("MLP","MLPSigmoid")
           ]
 methods = [ method[1] for method in Methods ]
 nBins = 90
@@ -169,7 +167,7 @@ class result(object):
         self.row = row
 
 
-
+# TRAIN
 def train(config):
     print "\n>>> train with configuration "+config.name
 
@@ -257,66 +255,67 @@ def train(config):
 #                                  "nCuts=80"
 #                                 ]) )
 
-    # BDTBoost1
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost1",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.10", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50"
-                                 ]) )
-    # BDTBoost2
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50"
-                                 ]) )
-    # BDTBoost25
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50"
-                                 ]) )
-    # BDTBoost3
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50"
-                                 ]) )
-    # BDTBoost4
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50"
-                                 ]) )
+#    # BDTBoost1
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost1",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.10", # 0.1 -> 0.05 -> 0.01 -> 0.1
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50"
+#                                 ]) )
+#    # BDTBoost2
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50"
+#                                 ]) )
+#    # BDTBoost25
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50"
+#                                 ]) )
+#    # BDTBoost3
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50"
+#                                 ]) )
+#    # BDTBoost4
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50"
+#                                 ]) )
+
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
 #                       ":".join([ "!H","!V",
@@ -361,28 +360,6 @@ def train(config):
 #                                   "HiddenLayers=N+4,N",
 #                                   "UseRegulator"
 #                                  ]) )
-#    # MLPNodes1
-#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes1",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=tanh",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N",
-#                                   "UseRegulator"
-#                                  ]) )
-#    # MLPNodes2
-#    # Warning: use ROOT 34 or newer for larger buffer for the xml reader
-#    factory.BookMethod( TMVA.Types.kMLP, "MLPNodes2",
-#                        ":".join([ "!H","!V",
-#                                   "LearningRate=0.01",
-##                                   "NCycles=200",
-#                                   "NeuronType=sigmoid",
-#                                   "VarTransform=N",
-#                                   "HiddenLayers=N,N+4",
-#                                   "UseRegulator"
-#                                  ]) )
 #    # MLPSigmoid
 #    factory.BookMethod( TMVA.Types.kMLP, "MLPSigmoid",
 #                        ":".join([ "!H","!V",
@@ -416,6 +393,54 @@ def train(config):
                   weightsdir+"/TMVAClassification_"+method+".class.C")
     os.rename("MVA/HH_MVA_"+config.name+".root",
               "MVA/trees/HH_MVA_"+config.name+".root")
+
+
+
+# APPLY
+def apply(config):
+    print "\n>>> apply with configuration "+config.name+" and add MVA response histograms to MVA root file"
+    # https://root.cern.ch/root/html/tutorials/tree/htest.C.html
+
+    treeS = config.treeS
+    treeB = config.treeB
+    reader = TMVA.Reader()
+    f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
+    dir = f.mkdir("TotalSample")
+    dir.cd()
+    
+    vars = [ ]
+    for name in config.varNames:
+        vars.append(array('f',[0]))
+        reader.AddVariable(name,vars[-1])
+
+    for Method, method in Methods:
+        reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
+        if Method == "MLP":
+            histS = TH1F("histS_"+method, "", nBins, -0.4, 1.4)
+            histB = TH1F("histB_"+method, "", nBins, -0.4, 1.4)
+        else:
+            histS = TH1F("histS_"+method, "", nBins, -1.0, 1.0)
+            histB = TH1F("histB_"+method, "", nBins, -1.0, 1.0)
+        
+        # fill histograms
+        print ">>> looping over trees for " + method
+        treeS.ResetBranchAddresses()
+        for i in range(len(config.varNames)):
+            treeS.SetBranchAddress(config.varNames[i],vars[i])
+        for evt in range(treeS.GetEntries()):
+            treeS.GetEntry(evt)
+            histS.Fill( reader.EvaluateMVA(method) )
+        treeB.ResetBranchAddresses()
+        for i in range(len(config.varNames)):
+            treeB.SetBranchAddress(config.varNames[i],vars[i])
+        for evt in range(treeB.GetEntries()):
+            treeB.GetEntry(evt)
+            histB.Fill( reader.EvaluateMVA(method) )
+        gDirectory.Delete("histS_"+method)
+        gDirectory.Delete("histB_"+method)
+        f.Write("",TObject.kOverwrite)
+        
+    f.Close()
 
 
 
@@ -566,9 +591,7 @@ def plotTest(config):
         histS.Draw("same")
         makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
         legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
-        #legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
-#        histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(histS,histB)
         c.SaveAs("MVA/"+method+"_"+config.name+".png")
@@ -587,43 +610,13 @@ def plotTest(config):
 # HISTOGRAMS: TMVA output for total sample
 def plotApplication(config):
     print "\n>>> examine training with application to total sample for configuration "+config.name
-    # TODO: make seperate method to save make a tree with histograms for total sample
-    #       https://root.cern.ch/root/html/tutorials/tree/htest.C.html
 
-    treeS = config.treeS
-    treeB = config.treeB
-    reader = TMVA.Reader()
     f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
-    
-    vars = [ ]
-    for name in config.varNames:
-        vars.append(array('f',[0]))
-        reader.AddVariable(name,vars[-1])
 
     significances = [ result("NaN",">>> "+config.name) ]
     for Method, method in Methods:
-        reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
-        if Method == "MLP":
-            histS = TH1F("histS", "", nBins, -0.4, 1.4)
-            histB = TH1F("histB", "", nBins, -0.4, 1.4)
-        else:
-            histS = TH1F("histS", "", nBins, -1.0, 1.0)
-            histB = TH1F("histB", "", nBins, -1.0, 1.0)
-        
-        # fill histograms
-        print ">>> looping over trees for " + method
-        treeS.ResetBranchAddresses()
-        for i in range(len(config.varNames)):
-            treeS.SetBranchAddress(config.varNames[i],vars[i])
-        for evt in range(0,treeS.GetEntries()):
-            treeS.GetEntry(evt)
-            histS.Fill( reader.EvaluateMVA(method) )
-        treeB.ResetBranchAddresses()
-        for i in range(len(config.varNames)):
-            treeB.SetBranchAddress(config.varNames[i],vars[i])
-        for evt in range(0,treeB.GetEntries()):
-            treeB.GetEntry(evt)
-            histB.Fill( reader.EvaluateMVA(method) )
+        histS = f.Get("TotalSample/histS_"+method)
+        histB = f.Get("TotalSample/histB_"+method)
 
         c = makeCanvas()
         significances.append(significance(config,histS,histB,method))
@@ -635,19 +628,83 @@ def plotApplication(config):
         legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
 #        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
-#        histB.SetStats(0)
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(histS,histB)
         c.SaveAs("MVA/"+method+"_"+config.name+"_Appl.png")
         c.Close()
-        gDirectory.Delete("histS")
-        gDirectory.Delete("histB")
+#        gDirectory.Delete("histS")
+#        gDirectory.Delete("histB")
 
     print header
     for s in significances:
         print s.row
 
     return significances
+
+
+
+## HISTOGRAMS: TMVA output for total sample
+#def plotApplication(config):
+#    print "\n>>> examine training with application to total sample for configuration "+config.name
+#
+#    treeS = config.treeS
+#    treeB = config.treeB
+#    reader = TMVA.Reader()
+#    f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
+#    
+#    vars = [ ]
+#    for name in config.varNames:
+#        vars.append(array('f',[0]))
+#        reader.AddVariable(name,vars[-1])
+#
+#    significances = [ result("NaN",">>> "+config.name) ]
+#    for Method, method in Methods:
+#        reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
+#        if Method == "MLP":
+#            histS = TH1F("histS", "", nBins, -0.4, 1.4)
+#            histB = TH1F("histB", "", nBins, -0.4, 1.4)
+#        else:
+#            histS = TH1F("histS", "", nBins, -1.0, 1.0)
+#            histB = TH1F("histB", "", nBins, -1.0, 1.0)
+#        
+#        # fill histograms
+#        print ">>> looping over trees for " + method
+#        treeS.ResetBranchAddresses()
+#        for i in range(len(config.varNames)):
+#            treeS.SetBranchAddress(config.varNames[i],vars[i])
+#        for evt in range(0,treeS.GetEntries()):
+#            treeS.GetEntry(evt)
+#            histS.Fill( reader.EvaluateMVA(method) )
+#        treeB.ResetBranchAddresses()
+#        for i in range(len(config.varNames)):
+#            treeB.SetBranchAddress(config.varNames[i],vars[i])
+#        for evt in range(0,treeB.GetEntries()):
+#            treeB.GetEntry(evt)
+#            histB.Fill( reader.EvaluateMVA(method) )
+#
+#        c = makeCanvas()
+#        significances.append(significance(config,histS,histB,method))
+#
+#        histB.Draw()
+#        histS.Draw("same")
+#        makeAxes(histS,xlabel=(Method+" response"),ylabel="")
+#        makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
+#        legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
+##        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
+#        legend.Draw()
+##        histB.SetStats(0)
+#        CMS_lumi.CMS_lumi(c,14,33)
+#        setLineStyle(histS,histB)
+#        c.SaveAs("MVA/"+method+"_"+config.name+"_Appl.png")
+#        c.Close()
+#        gDirectory.Delete("histS")
+#        gDirectory.Delete("histB")
+#
+#    print header
+#    for s in significances:
+#        print s.row
+#
+#    return significances
 
 
 
@@ -683,9 +740,6 @@ def compare(configs,stage="",methods0=methods):
     legend.Draw()
     CMS_lumi.CMS_lumi(c,14,33)
     setLineColor(*hist_effs)
-    #for hist in hist_effs:
-        #hist.SetLineStyle(1)
-        #hist.SetLineWidth(2)
     c.SaveAs("MVA/BrejvsSeffs_"+stage+".png")
     c.Close()
 
@@ -932,6 +986,7 @@ def main():
     else:
         for config in configs: #reversed(configs):
             train(config)
+            apply(config)
 
 
 
@@ -953,18 +1008,9 @@ def main():
     for s, t in zip(significances_test,significances_Appl):
         print s.row
         print t.row
-#    print "\n>>> compare all significances of total sample"
-#    for s in significances_Appl:
-#        print s
     compare([c for c in configs if c.stage==1],stage="stage_1")
     compare([c for c in configs if c.stage==1],stage="stage_1",methods0=["BDTBoost2"])
-#    compare([c for c in configs if c.stage==2],stage="stage_2",methods0=["BDTTuned"])
-#    compare([c for c in configs if c.stage==2],stage="stage_2")
-#    compare([c for c in configs if c.stage==3],stage="stage_3")
     eff(configs[0],"BDTTuned")
-#    eff(configs[1],"BDTBoost1")
-#    eff(configs[1],"BDTBoost2")
-#    eff(configs[1],"BDTBoost3")
     compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
     compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
