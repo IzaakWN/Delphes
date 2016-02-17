@@ -3,7 +3,7 @@ import sys
 import os
 import ConfigParser
 import ROOT
-from ROOT import TFile, gDirectory, TChain, TMVA, TCut, TCanvas, THStack, TH1F
+from ROOT import TFile, gDirectory, TChain, TObject, TMVA, TCut, TCanvas, THStack, TH1F
 from array import array
 from copy import deepcopy
 from math import sqrt
