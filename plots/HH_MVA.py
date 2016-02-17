@@ -78,7 +78,7 @@ header="       method | sample |   P   |   S   |    B    |  Si  |  Bi | eff S | 
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
-file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all.root")
+file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all_new.root")
 treeS1 = file_HH.Get("stage_1/cleanup/cleanup")
 treeB1 = file_tt.Get("stage_1/cleanup/cleanup")
 treeS2 = file_HH.Get("stage_2/cleanup/cleanup")
@@ -255,66 +255,66 @@ def train(config):
 #                                  "nCuts=80"
 #                                 ]) )
 
-#    # BDTBoost1
-#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost1",
-#                       ":".join([ "!H","!V",
-#                                  "NTrees=1500",
-##                                  "MinNodeSize=2.%",
-##                                  "nEventsMin=200",
-#                                  "MaxDepth=3",
-#                                  "BoostType=AdaBoost",
-#                                  "AdaBoostBeta=0.10", # 0.1 -> 0.05 -> 0.01 -> 0.1
-#                                  "SeparationType=GiniIndex",
-#                                  "nCuts=50"
-#                                 ]) )
-#    # BDTBoost2
-#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
-#                       ":".join([ "!H","!V",
-#                                  "NTrees=1500",
-##                                  "MinNodeSize=2.%",
-##                                  "nEventsMin=200",
-#                                  "MaxDepth=3",
-#                                  "BoostType=AdaBoost",
-#                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
-#                                  "SeparationType=GiniIndex",
-#                                  "nCuts=50"
-#                                 ]) )
-#    # BDTBoost25
-#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
-#                       ":".join([ "!H","!V",
-#                                  "NTrees=1500",
-##                                  "MinNodeSize=2.%",
-##                                  "nEventsMin=200",
-#                                  "MaxDepth=3",
-#                                  "BoostType=AdaBoost",
-#                                  "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
-#                                  "SeparationType=GiniIndex",
-#                                  "nCuts=50"
-#                                 ]) )
-#    # BDTBoost3
-#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
-#                       ":".join([ "!H","!V",
-#                                  "NTrees=1500",
-##                                  "MinNodeSize=2.%",
-##                                  "nEventsMin=200",
-#                                  "MaxDepth=3",
-#                                  "BoostType=AdaBoost",
-#                                  "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
-#                                  "SeparationType=GiniIndex",
-#                                  "nCuts=50"
-#                                 ]) )
-#    # BDTBoost4
-#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
-#                       ":".join([ "!H","!V",
-#                                  "NTrees=1500",
-##                                  "MinNodeSize=2.%",
-##                                  "nEventsMin=200",
-#                                  "MaxDepth=3",
-#                                  "BoostType=AdaBoost",
-#                                  "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
-#                                  "SeparationType=GiniIndex",
-#                                  "nCuts=50"
-#                                 ]) )
+    # BDTBoost1
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost1",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.10", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
+    # BDTBoost2
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
+    # BDTBoost25
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
+    # BDTBoost3
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
+    # BDTBoost4
+    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
+                       ":".join([ "!H","!V",
+                                  "NTrees=1500",
+#                                  "MinNodeSize=2.%",
+#                                  "nEventsMin=200",
+                                  "MaxDepth=3",
+                                  "BoostType=AdaBoost",
+                                  "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                  "SeparationType=GiniIndex",
+                                  "nCuts=50"
+                                 ]) )
 
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
