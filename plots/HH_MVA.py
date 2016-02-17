@@ -404,7 +404,7 @@ def apply(config):
     treeS = config.treeS
     treeB = config.treeB
     reader = TMVA.Reader()
-    f = TFile("MVA/trees/HH_MVA_"+config.name+".root")
+    f = TFile("MVA/trees/HH_MVA_"+config.name+".root",'UPDATE')
     dir = f.mkdir("TotalSample")
     dir.cd()
     
