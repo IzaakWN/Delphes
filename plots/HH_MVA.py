@@ -423,7 +423,7 @@ def apply(config):
             histB = TH1F("histB_"+method, "", nBins, -1.0, 1.0)
         
         # fill histograms
-        print ">>> looping over trees for " + method
+        print ">>> looping over trees with weights for " + method
         treeS.ResetBranchAddresses()
         for i in range(len(config.varNames)):
             treeS.SetBranchAddress(config.varNames[i],vars[i])
@@ -436,9 +436,9 @@ def apply(config):
         for evt in range(treeB.GetEntries()):
             treeB.GetEntry(evt)
             histB.Fill( reader.EvaluateMVA(method) )
+        f.Write("",TObject.kOverwrite)
         gDirectory.Delete("histS_"+method)
         gDirectory.Delete("histB_"+method)
-        f.Write("",TObject.kOverwrite)
         
     f.Close()
 
