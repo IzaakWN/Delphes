@@ -63,9 +63,9 @@ Methods = [ ("BDT","BDT"),
 #            ("BDT","BDTBoost"),
             ("BDT","BDTBoost1"),
             ("BDT","BDTBoost2"),
-            ("BDT","BDTBoost25"),
+#            ("BDT","BDTBoost25"),
             ("BDT","BDTBoost3"),
-            ("BDT","BDTBoost4"),
+#            ("BDT","BDTBoost4"),
 #            ("BDT","BDTNodeSize"),
 #            ("MLP","MLPTanh"),
 #            ("MLP","MLPLearningRate"),
@@ -81,27 +81,28 @@ file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH
 file_tt = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_tt_all_new.root")
 treeS1 = file_HH.Get("stage_1/cleanup/cleanup")
 treeB1 = file_tt.Get("stage_1/cleanup/cleanup")
-treeS2 = file_HH.Get("stage_2/cleanup/cleanup")
-treeB2 = file_tt.Get("stage_2/cleanup/cleanup")
-treeS3 = file_HH.Get("stage_3/cleanup/cleanup")
-treeB3 = file_tt.Get("stage_3/cleanup/cleanup")
-treeS2_gen = file_HH.Get("stage_2/gen/gen")
-treeB2_gen = file_tt.Get("stage_2/gen/gen")
+#treeS2 = file_HH.Get("stage_2/cleanup/cleanup")
+#treeB2 = file_tt.Get("stage_2/cleanup/cleanup")
+#treeS3 = file_HH.Get("stage_3/cleanup/cleanup")
+#treeB3 = file_tt.Get("stage_3/cleanup/cleanup")
+#treeS2_gen = file_HH.Get("stage_2/gen/gen")
+#treeB2_gen = file_tt.Get("stage_2/gen/gen")
 
 h0_S = file_HH.Get("stage_0/selection/category") # ~ 166483
 h0_B = file_tt.Get("stage_0/selection/category") # ~ 164661
 print h0_S.GetBinContent(1)
 print h0_B.GetBinContent(1)
 S_tot = 166483.0 #h0_S.GetBinContent(1)
-B_tot = 164661.0 #h0_B.GetBinContent(1)
+B_tot = 164662.0 #h0_B.GetBinContent(1)
+B_tot = 3258617.0 #h0_B.GetBinContent(1)
 S1 = treeS1.GetEntries() #h0_S.GetBinContent(2)
 B1 = treeB1.GetEntries() #h0_B.GetBinContent(2)
-S2 = treeS2.GetEntries() #h0_S.GetBinContent(3)
-B2 = treeB2.GetEntries() #h0_B.GetBinContent(3)
-S3 = h0_S.GetBinContent(4) # treeS3.GetEntries()
-B3 = h0_B.GetBinContent(4) # treeB3.GetEntries()
+#S2 = treeS2.GetEntries() #h0_S.GetBinContent(3)
+#B2 = treeB2.GetEntries() #h0_B.GetBinContent(3)
+#S3 = h0_S.GetBinContent(4) # treeS3.GetEntries()
+#B3 = h0_B.GetBinContent(4) # treeB3.GetEntries()
 print "S_tot = %i, S1 = %i, S2 = %i, S3 = %i" % (S_tot,S1,S2,S3)
-print "B_tot = %i, B1 = %i, B2 = %i, B3 = %i" % (B_tot,B1,B2,B3)
+#print "B_tot = %i, B1 = %i, B2 = %i, B3 = %i" % (B_tot,B1,B2,B3)
 
 # yields to calculate significance
 L = 3000 # / fb
@@ -111,7 +112,7 @@ N_S = sigma_S * L * 0.0715 # expected number of events
 N_B = sigma_B * L * 0.2873
 print "P_initial = %.4f, S = %.1f, B = %.1f" % (N_S/sqrt(1+N_B),N_S,N_B)
 print "P1 = %.4f, S = %.1f, B = %.1f" % (N_S*S1/S_tot/sqrt(1+N_B*B1/B_tot),N_S*S1/S_tot,N_B*B1/B_tot)
-print "P2 = %.4f, S = %.1f, B = %.1f" % (N_S*S2/S_tot/sqrt(1+N_B*B2/B_tot),N_S*S2/S_tot,N_B*B2/B_tot)
+#print "P2 = %.4f, S = %.1f, B = %.1f" % (N_S*S2/S_tot/sqrt(1+N_B*B2/B_tot),N_S*S2/S_tot,N_B*B2/B_tot)
 
 
 
@@ -165,6 +166,7 @@ class result(object):
     def __init__(self,prompt,row):
         self.prompt = prompt
         self.row = row
+
 
 
 # TRAIN
@@ -279,18 +281,18 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=50"
                                  ]) )
-    # BDTBoost25
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50"
-                                 ]) )
+#    # BDTBoost25
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50"
+#                                 ]) )
     # BDTBoost3
     factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
                        ":".join([ "!H","!V",
@@ -303,18 +305,18 @@ def train(config):
                                   "SeparationType=GiniIndex",
                                   "nCuts=50"
                                  ]) )
-    # BDTBoost4
-    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
-                       ":".join([ "!H","!V",
-                                  "NTrees=1500",
-#                                  "MinNodeSize=2.%",
-#                                  "nEventsMin=200",
-                                  "MaxDepth=3",
-                                  "BoostType=AdaBoost",
-                                  "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
-                                  "SeparationType=GiniIndex",
-                                  "nCuts=50"
-                                 ]) )
+#    # BDTBoost4
+#    factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
+#                       ":".join([ "!H","!V",
+#                                  "NTrees=1500",
+##                                  "MinNodeSize=2.%",
+##                                  "nEventsMin=200",
+#                                  "MaxDepth=3",
+#                                  "BoostType=AdaBoost",
+#                                  "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
+#                                  "SeparationType=GiniIndex",
+#                                  "nCuts=50"
+#                                 ]) )
 
 #    # BDTNodeSize
 #    factory.BookMethod(TMVA.Types.kBDT, "BDTNodeSize",
@@ -783,7 +785,6 @@ def eff(config,method):
 
 
 
-
 # 2D COLOR HISTOGRAM: Correlation matrices
 def correlation(config):
     print "\n>>> make correlation matrix plots"
@@ -960,8 +961,8 @@ def main():
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
-                    configuration("everything", allVars, 1),
-                    configuration("everythingN", allVarsN, 1),
+#                    configuration("everything", allVars, 1),
+#                    configuration("everythingN", allVarsN, 1),
                     configuration("everything12", allVars12, 1),
                     configuration("everything12M", allVars12M, 1),
                     configuration("everything12MT", allVars12MT, 1),
