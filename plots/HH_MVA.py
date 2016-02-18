@@ -42,7 +42,6 @@ tdrstyle.setTDRStyle()
 #         N+2,N = two hidden layers with the N+2 nodes in the first hidden layer
 #   - LearningRate=0.02
 #
-#
 
 # extra options
 argv = sys.argv
@@ -998,7 +997,6 @@ def main():
     significances_Appl = [ ]
     for config in configs:
         significances_test.extend(plotTest(config))
-#        significances_Appl=significances_test
         significances_Appl.extend(plotApplication(config))
         eff(config,"BDTBoost1")
         eff(config,"BDTBoost2")
