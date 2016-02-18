@@ -377,17 +377,13 @@ def train(config):
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
+    print ">>> factory.EvaluateAllMethods()"
     factory.EvaluateAllMethods()
+    print ">>> f_out.Close()"
     f_out.Close()
 
     # move files from weights/ to MVA/weights/configname
     weightsdir = "MVA/weights/"+config.name
-#    if not os.path.exists("MVA"):
-#        os.makedirs("MVA")
-#    if not os.path.exists("MVA/trees"):
-#        os.makedirs("MVA/trees")
-#    if not os.path.exists("MVA/weights"):
-#        os.makedirs("MVA/weights")
     if not os.path.exists(weightsdir):
         os.makedirs(weightsdir)
     for method in methods:
@@ -966,7 +962,7 @@ def main():
         configs = [
 #                    configuration("everything", allVars, 1),
 #                    configuration("everythingN", allVarsN, 1),
-                    configuration("everything12", allVars12, 1),
+#                    configuration("everything12", allVars12, 1),
                     configuration("everything12M", allVars12M, 1),
                     configuration("everything12MT", allVars12MT, 1),
                     configuration("everything12W", allVars12W, 1),
