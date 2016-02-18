@@ -93,7 +93,7 @@ h0_B = file_tt.Get("stage_0/selection/category") # ~ 164661
 print h0_S.GetBinContent(1)
 print h0_B.GetBinContent(1)
 S_tot = 166483.0 #h0_S.GetBinContent(1)
-B_tot = 164662.0 #h0_B.GetBinContent(1)
+#B_tot = 164662.0 #h0_B.GetBinContent(1)
 B_tot = 3258617.0 #h0_B.GetBinContent(1)
 S1 = treeS1.GetEntries() #h0_S.GetBinContent(2)
 B1 = treeB1.GetEntries() #h0_B.GetBinContent(2)
@@ -101,7 +101,9 @@ B1 = treeB1.GetEntries() #h0_B.GetBinContent(2)
 #B2 = treeB2.GetEntries() #h0_B.GetBinContent(3)
 #S3 = h0_S.GetBinContent(4) # treeS3.GetEntries()
 #B3 = h0_B.GetBinContent(4) # treeB3.GetEntries()
-print "S_tot = %i, S1 = %i, S2 = %i, S3 = %i" % (S_tot,S1,S2,S3)
+print "S_tot = %i, S1 = %i" % (S_tot,S1)
+print "B_tot = %i, B1 = %i" % (B_tot,B1)
+#print "S_tot = %i, S1 = %i, S2 = %i, S3 = %i" % (S_tot,S1,S2,S3)
 #print "B_tot = %i, B1 = %i, B2 = %i, B3 = %i" % (B_tot,B1,B2,B3)
 
 # yields to calculate significance
@@ -540,11 +542,12 @@ def significance(config,histS,histB,method,test=False):
              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
-    #      METHOD | SAMPLE |   P  |   S   |   B   |  Si  |  Bi  |    eS   |    eB  |  cut | Pbins |
-    row = "  %11s | %5s  | %.3f | %5.1f | %7.1f | %4.f | %3.f |"  % \
-          ( method, sample, Pmax, Smax, Bmax,  Simax, Bimax)
+    #       METHOD |SAMPLE|   P  |   S   |   B   |  Si  |  Bi  |
+    row =  "  %11s | %5s  | %.3f | %5.1f | %8.1f | %4.f | %4.f |"  % \
+          ( method, sample, Pmax,  Smax,   Bmax,   Simax, Bimax )
+    #           eS   |    eB  |  cut | Pbins |
     row += " %2.2f%% | %.4f%% | %.3f | %.2f |" % \
-             ( effS,    effB,   cut,   Pbins )
+          (   effS,     effB,   cut,   Pbins   )
 
     return result(prompt,row)
 
@@ -602,7 +605,7 @@ def plotTest(config):
         gDirectory.Delete("histB")
 
     print header
-    for s in significances:
+    for s in significances[1:]:
         print s.row
     
     return significances
@@ -638,7 +641,7 @@ def plotApplication(config):
 #        gDirectory.Delete("histB")
 
     print header
-    for s in significances:
+    for s in significances[1:]:
         print s.row
 
     return significances
