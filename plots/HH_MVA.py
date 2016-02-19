@@ -405,7 +405,7 @@ def apply(config):
     treeB = config.treeB
     reader = TMVA.Reader()
     f = TFile("MVA/trees/HH_MVA_"+config.name+".root",'UPDATE')
-    dir = f.GetDirectory("dir1")
+    dir = f.GetDirectory("TotalSample")
     if not dir:
         dir = f.mkdir("TotalSample")
     dir.cd()
