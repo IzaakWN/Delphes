@@ -963,9 +963,9 @@ def main():
 #                    configuration("everything", allVars, 1),
 #                    configuration("everythingN", allVarsN, 1),
 #                    configuration("everything12", allVars12, 1),
-                    configuration("everything12M", allVars12M, 1),
+#                    configuration("everything12M", allVars12M, 1),
                     configuration("everything12MT", allVars12MT, 1),
-                    configuration("everything12W", allVars12W, 1),
+#                    configuration("everything12W", allVars12W, 1),
 #                    configuration("better", betterVars, 1),
 #                    configuration("better20",     betterVars, 1),
 #                    configuration("everythingCleanUp", allVars, 2),
@@ -987,6 +987,7 @@ def main():
         for config in configs: #reversed(configs):
             train(config)
             apply(config)
+    apply(configuration("everything12M", allVars12M, 1))
 
 
 
