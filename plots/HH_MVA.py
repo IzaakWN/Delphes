@@ -575,7 +575,6 @@ def plotTest(config):
     for Method, method in Methods:
         reader.BookMVA(method,"MVA/weights/"+config.name+"/TMVAClassification_"+method+".weights.xml")
 
-        c = makeCanvas()
         if Method == "MLP":
             histS = TH1F("histS", "", nBins, -0.4, 1.4)
             histB = TH1F("histB", "", nBins, -0.4, 1.4)
@@ -587,9 +586,10 @@ def plotTest(config):
         config.hist_effs_train.append(deepcopy(gDirectory.Get("Method_"+Method+"/"+method+"/MVA_"+method+"_trainingRejBvsS")) )
         TestTree.Draw(method+">>histS","classID == 0","goff")
         TestTree.Draw(method+">>histB","classID == 1", "goff")
-
         significances.append(significance(config,histS,histB,method,test=True))
 
+        c = makeCanvas()
+        norm(histS,histB)
         histB.Draw() # draw first: mostly bigger
         histS.Draw("same")
         makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
@@ -606,6 +606,7 @@ def plotTest(config):
     for s in significances[1:]:
         print s.row
     
+    f.Close()
     return significances
 
 
@@ -618,30 +619,29 @@ def plotApplication(config):
 
     significances = [ result("NaN",">>> "+config.name) ]
     for Method, method in Methods:
+        
         histS = f.Get("TotalSample/histS_"+method)
         histB = f.Get("TotalSample/histB_"+method)
-
-        c = makeCanvas()
         significances.append(significance(config,histS,histB,method))
-
+        
+        c = makeCanvas()
+        norm(histS,histB)
         histB.Draw()
         histS.Draw("same")
         makeAxes(histS,xlabel=(Method+" response"),ylabel="")
         makeAxes(histB,histS,xlabel=(Method+" response"),ylabel="")
         legend = makeLegend(histS,histB,title=" ",entries=["signal","background"],position='RightTopTop',transparent=True)
-#        legend = makeLegend(histS,histB,title=" ",tt=True,position='RightTopTop',transparent=True)
         legend.Draw()
         CMS_lumi.CMS_lumi(c,14,33)
         setLineStyle(histS,histB)
         c.SaveAs("MVA/"+method+"_"+config.name+"_Appl.png")
         c.Close()
-#        gDirectory.Delete("histS")
-#        gDirectory.Delete("histB")
 
     print header
     for s in significances[1:]:
         print s.row
 
+    f.Close()
     return significances
 
 
@@ -813,6 +813,8 @@ def correlation(config):
     histB.SetLabelSize(0.040,"y")
     c.SaveAs("MVA/CorrelationMatrixB_"+config.name+".png")
     c.Close()
+    
+    f.Close()
 
 
 
