@@ -74,7 +74,7 @@ Methods = [ ("BDT","BDT"),
           ]
 methods = [ method[1] for method in Methods ]
 nBins = 90
-header="       method | sample |   P   |   S   |    B    |  Si  |  Bi | eff S |  eff B  |  cut  | Pbins  |"
+header="       method | sample |   P   |   S   |     B    |  Si  |  Bi  |  eff S |  eff B  |  cut  | Pbins |"
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -544,7 +544,7 @@ def significance(config,histS,histB,method,test=False):
     row =  "  %11s | %5s  | %.3f | %5.1f | %8.1f | %4.f | %4.f |"  % \
           ( method, sample, Pmax,  Smax,   Bmax,   Simax, Bimax )
     #           eS   |    eB  |  cut | Pbins |
-    row += " %2.2f%% | %.4f%% | %.3f | %.2f |" % \
+    row += " %5.2f%% | %.4f%% | %.3f | %.3f |" % \
           (   effS,     effB,   cut,   Pbins   )
 
     return result(prompt,row)
@@ -989,7 +989,6 @@ def main():
         for config in configs: #reversed(configs):
             train(config)
             apply(config)
-    apply(configuration("everything12M", allVars12M, 1))
 
 
 
