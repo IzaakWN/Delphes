@@ -405,7 +405,9 @@ def apply(config):
     treeB = config.treeB
     reader = TMVA.Reader()
     f = TFile("MVA/trees/HH_MVA_"+config.name+".root",'UPDATE')
-    dir = f.mkdir("TotalSample")
+    dir = f.GetDirectory("dir1")
+    if not dir:
+        dir = f.mkdir("TotalSample")
     dir.cd()
     
     vars = [ ]
@@ -960,10 +962,10 @@ def main():
         configs = [configuration("test", ["M_bb_closest", "DeltaR_bb1"], 1)]
     else:
         configs = [
-#                    configuration("everything", allVars, 1),
+                    configuration("everything", allVars, 1),
 #                    configuration("everythingN", allVarsN, 1),
-#                    configuration("everything12", allVars12, 1),
-#                    configuration("everything12M", allVars12M, 1),
+                    configuration("everything12", allVars12, 1),
+                    configuration("everything12M", allVars12M, 1),
                     configuration("everything12MT", allVars12MT, 1),
 #                    configuration("everything12W", allVars12W, 1),
 #                    configuration("better", betterVars, 1),
