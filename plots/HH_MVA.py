@@ -53,7 +53,7 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 (opts, args) = parser.parse_args(argv)
 
 nBins = 100
-header="       method | sample |   P   |   S   |     B    |  Si  |  Bi  |  eff S |  eff B  |  cut  | Pbins |"
+header="       method  sample    P      S        B      Si    Bi    eff S   eff B    cut   Pbins "
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -474,11 +474,11 @@ def significance(config,histS,histB,method,test=False):
              "\n>>>\t\tS = %.1f, B = %.1f and a cut at %.3f." % (Smax,Bmax,cut) + \
              "\n>>>\t\t(Si=%.f (%.2f%%) and Bi=%.f (%.4f%%))" % (Simax,effS,Bimax,effB)
 
-    #       METHOD |SAMPLE|   P  |   S   |   B   |  Si  |  Bi  |
-    row =  "  %11s | %5s  | %.3f | %5.1f | %8.1f | %4.f | %4.f |"  % \
+    #       METHOD SAMPLE   P     S      B     Si    Bi
+    row =  "  %11s  %5s   %.3f  %5.1f  %8.1f  %4.f  %4.f"  % \
           ( method, sample, Pmax,  Smax,   Bmax,   Simax, Bimax )
-    #           eS   |    eB  |  cut | Pbins |
-    row += " %5.2f%% | %.4f%% | %.3f | %.3f |" % \
+    #           eS       eB    cut  Pbins
+    row += " %5.2f%%  %.4f%%  %.3f  %.3f" % \
           (   effS,     effB,   cut,   Pbins   )
 
     return result(prompt,row)
