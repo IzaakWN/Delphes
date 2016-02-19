@@ -52,6 +52,8 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
                   help="Only plot, don't go through training.")
 (opts, args) = parser.parse_args(argv)
 
+Methods = [ ]
+methods = [ ]
 nBins = 100
 header="       method  sample    P      S        B      Si    Bi    eff S   eff B    cut   Pbins "
 
