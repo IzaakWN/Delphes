@@ -42,7 +42,7 @@ tdrstyle.setTDRStyle()
 #         N+2,N = two hidden layers with the N+2 nodes in the first hidden layer
 #   - LearningRate=0.02
 #
-# Test Lala.
+#
 #
 
 # extra options
