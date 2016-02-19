@@ -167,7 +167,7 @@ def runAnalysis(path, txt, levels, outputname="controlPlots.root", Njobs=1, jobN
 
   # process events
   i = 0
-  DeltaTb = [ ]
+  DeltaTb = 0
   tb = time.time()
   n = events.GetEntries()
   ETA = " "
@@ -176,13 +176,14 @@ def runAnalysis(path, txt, levels, outputname="controlPlots.root", Njobs=1, jobN
     # printout
     if i%1000==0 :
       if i%10000==0 :
-        if len(DeltaTb)>0:
-          ETA = " ETA: %s" % time.strftime("%H h. %M min. %S s.", time.gmtime( sum(DeltaTb[1:])/len(DeltaTb)*(n-i)/1000 ))
+        if DeltaTb>0:
+          ETA = " ETA: %s" % time.strftime("%H h. %M min. %S s.", time.gmtime( DeltaTb/i*(n-i) ))
           runtime = "\n    Running for %s" % time.strftime("%H h. %M min. %S s.", time.gmtime(time.time()-t0))
-        print runtime.replace("0 h.","") + ETA.replace("0 h.","")
-      DeltaTb.append(time.time()-tb)
+          print runtime.replace("0 h.","") + ETA.replace("0 h.","")
+      DeltaTb += time.time()-tb
       print "%d%%: Processing... event %d. Last batch in %f s." % (i*100/n,i,(time.time()-tb))
       tb = time.time()
+    i += 1
     if configuration.runningMode=="plots":
       # loop on channels
       plots = filter(lambda x: EventSelection.isInCategory(x,event.category) ,levels)
@@ -204,7 +205,6 @@ def runAnalysis(path, txt, levels, outputname="controlPlots.root", Njobs=1, jobN
         cp.processEvent(event)
       # add to the dataset
       rds.add(getArgSet(controlPlots))
-    i += 1
   
   # save all
   if configuration.runningMode=="plots":
