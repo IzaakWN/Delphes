@@ -327,6 +327,7 @@ def train(config):
                   weightsdir+"/TMVAClassification_"+method+".weights.xml")
         os.rename("weights/TMVAClassification_"+method+".class.C",
                   weightsdir+"/TMVAClassification_"+method+".class.C")
+    # move files from tree/ to MVA/trees/
     os.rename("MVA/HH_MVA_"+config.name+".root",
               "MVA/trees/HH_MVA_"+config.name+".root")
 
@@ -837,7 +838,7 @@ def main():
         Methods = [ ("BDT","BDTTuned") ]
     else:
         configs = [
-                    configuration("everything", allVars, 1),
+#                    configuration("everything", allVars, 1),
 #                    configuration("everythingN", allVarsN, 1),
                     configuration("everything12", allVars12, 1),
 #                    configuration("everything12M", allVars12M, 1),
