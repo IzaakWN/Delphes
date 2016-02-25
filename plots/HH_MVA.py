@@ -201,7 +201,7 @@ def train(config):
 #                                      "nEventsMin=200",
                                       "MaxDepth=%s" % MaxDepth,
                                       "BoostType=AdaBoost",
-                                      "AdaBoostBeta=%" % AdaBoostBeta,
+                                      "AdaBoostBeta=%s" % AdaBoostBeta,
                                       "SeparationType=GiniIndex",
                                       "nCuts=%s" % nCuts
                                      ]) )
