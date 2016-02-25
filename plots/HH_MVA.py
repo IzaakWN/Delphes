@@ -199,11 +199,11 @@ def train(config):
                                       "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=%" % MaxDepth,
+                                      "MaxDepth=%s" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=%" % AdaBoostBeta,
                                       "SeparationType=GiniIndex",
-                                      "nCuts=%" % nCuts
+                                      "nCuts=%s" % nCuts
                                      ]) )
 
     if "BDTBoost10" in methods:
@@ -212,11 +212,11 @@ def train(config):
                                       "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=%" % MaxDepth,
+                                      "MaxDepth=%s" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.10",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=%" % nCuts
+                                      "nCuts=%s" % nCuts
                                      ]) )
 
     if "BDTBoost15" in methods:
@@ -225,11 +225,11 @@ def train(config):
                                       "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=%" % MaxDepth,
+                                      "MaxDepth=%s" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.15",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=%" % nCuts
+                                      "nCuts=%s" % nCuts
                                      ]) )
 
     if "BDTBoost18" in methods:
@@ -238,11 +238,11 @@ def train(config):
                                       "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=%" % MaxDepth,
+                                      "MaxDepth=%s" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.18",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=%" % nCuts
+                                      "nCuts=%s" % nCuts
                                      ]) )
 
     if "BDTBoost20" in methods:
@@ -251,11 +251,11 @@ def train(config):
                                       "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=%" % MaxDepth,
+                                      "MaxDepth=%s" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.20",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=%" % nCuts
+                                      "nCuts=%s" % nCuts
                                      ]) )
 
     if "BDTBoost30" in methods:
@@ -264,11 +264,11 @@ def train(config):
                                       "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=%" % MaxDepth,
+                                      "MaxDepth=%s" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.30",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=%" % nCuts
+                                      "nCuts=%s" % nCuts
                                      ]) )
 
     if "MLPTanh" in methods:
