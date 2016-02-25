@@ -610,7 +610,7 @@ def compare(configs,stage="",methods0=methods):
     labels = [ ]
     for config in configs:
         labels.extend([config.name+", "+method for method in methods0])
-    print ">>> len(labels)" % len(labels)
+    print ">>> len(labels) = %s" % len(labels)
     legend = makeLegend(*hist_effs,title="#splitline{background rejection}{vs. signal efficiency}",
                                    entries=labels, position="RightTop")
     legend.Draw()
@@ -839,7 +839,7 @@ def main():
         Methods = [ ("BDT","BDTTuned") ]
     else:
         configs = [
-#                    configuration("everything", allVars, 1),
+                    configuration("everything", allVars, 1),
 #                    configuration("everythingN", allVarsN, 1),
                     configuration("everything12", allVars12, 1),
 #                    configuration("everything12M", allVars12M, 1),
