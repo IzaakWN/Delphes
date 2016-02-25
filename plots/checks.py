@@ -64,7 +64,7 @@ def forwardJet(stage):
     cuts = [ "", "20", "30", "50" ]
     etaRegions = [ [0,2.5], [2.5,3.0], [3.0,3.5], [3.5,4.0], [4.5,5.0], [5.0,100.0] ]
 
-    header = "  cut  |     0     1     2     3     4     5"
+    header = "  cut  |    0     1     2     3     4     5"
     tableS = header
 #    tableB = header
 
@@ -89,7 +89,7 @@ def forwardJet(stage):
             S = hist_S.Integral(hist_S.GetXaxis().FindBin(min),hist_S.GetXaxis().FindBin(max))
 #            B = hist_B.Integral(hist_B.GetXaxis().FindBin(min),hist_B.GetXaxis().FindBin(max))
 
-            tableS += "   %5.1f  " % (S/S_tot*100.0)
+            tableS += "  %5.1f " % (S/S_tot*100.0)
 #            tableB += "     %2.1f    " % (B/B_tot*100)
 
     print "\n\nSignal: number of jet with |eta|>2.5\n" + tableS
