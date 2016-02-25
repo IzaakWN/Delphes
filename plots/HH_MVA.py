@@ -55,7 +55,7 @@ parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="st
 Methods = [ ]
 methods = [ ]
 nBins = 100
-header="       method  sample    P      S        B      Si    Bi    eff S   eff B    cut   Pbins "
+header = "       method  sample    P      S       B       Si    Bi   eff S   eff B    cut   Pbins "
 
 # file with trees
 file_HH = TFile("/shome/ineuteli/phase2/CMSSW_5_3_24/src/Delphes/controlPlots_HH_all.root")
@@ -188,82 +188,86 @@ def train(config):
     if "BDT" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
 
+    NTrees = 3000
+    AdaBoostBeta = 0.15
+    nCuts = 100
+
     if "BDTTuned" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                            ":".join([ "!H","!V",
-                                      "NTrees=2000",
-#                                      "MinNodeSize=2.%", # 2.%
+                                      "NTrees=%" % NTrees,
+#                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=4",
                                       "BoostType=AdaBoost",
-                                      "AdaBoostBeta=0.15", # 0.1 -> 0.05
+                                      "AdaBoostBeta=%" % AdaBoostBeta,
                                       "SeparationType=GiniIndex",
-                                      "nCuts=80" # 20 -> 70 -> 100
+                                      "nCuts=%" % nCuts
                                      ]) )
 
-    if "BDTBoost1" in methods:
-        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost1",
+    if "BDTBoost10" in methods:
+        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost10",
                            ":".join([ "!H","!V",
-                                      "NTrees=1500",
+                                      "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=3",
                                       "BoostType=AdaBoost",
-                                      "AdaBoostBeta=0.10", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                      "AdaBoostBeta=0.10",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=50"
+                                      "nCuts=%" % nCuts
                                      ]) )
 
-    if "BDTBoost2" in methods:
-        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost2",
+    if "BDTBoost15" in methods:
+        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost15",
                            ":".join([ "!H","!V",
-                                      "NTrees=1500",
+                                      "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=3",
                                       "BoostType=AdaBoost",
-                                      "AdaBoostBeta=0.15", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                      "AdaBoostBeta=0.15",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=50"
+                                      "nCuts=%" % nCuts
                                      ]) )
 
-    if "BDTBoost25" in methods:
-        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost25",
+    if "BDTBoost18" in methods:
+        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost18",
                            ":".join([ "!H","!V",
-                                      "NTrees=1500",
+                                      "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=3",
                                       "BoostType=AdaBoost",
-                                      "AdaBoostBeta=0.18", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                      "AdaBoostBeta=0.18",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=50"
+                                      "nCuts=%" % nCuts
                                      ]) )
 
-    if "BDTBoost3" in methods:
-        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost3",
+    if "BDTBoost20" in methods:
+        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost20",
                            ":".join([ "!H","!V",
-                                      "NTrees=1500",
+                                      "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=3",
                                       "BoostType=AdaBoost",
-                                      "AdaBoostBeta=0.20", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                      "AdaBoostBeta=0.20",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=50"
+                                      "nCuts=%" % nCuts
                                      ]) )
 
-    if "BDTBoost4" in methods:
-        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost4",
+    if "BDTBoost30" in methods:
+        factory.BookMethod(TMVA.Types.kBDT, "BDTBoost30",
                            ":".join([ "!H","!V",
-                                      "NTrees=1500",
+                                      "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=3",
                                       "BoostType=AdaBoost",
-                                      "AdaBoostBeta=0.30", # 0.1 -> 0.05 -> 0.01 -> 0.1
+                                      "AdaBoostBeta=0.30",
                                       "SeparationType=GiniIndex",
-                                      "nCuts=50"
+                                      "nCuts=%" % nCuts
                                      ]) )
 
     if "MLPTanh" in methods:
@@ -280,7 +284,7 @@ def train(config):
     if "MLPLearningrate" in methods:
         factory.BookMethod( TMVA.Types.kMLP, "MLPLearningRate",
                             ":".join([ "!H","!V",
-                                       "LearningRate=0.1", # 0.8 -> 0.1 -> 0.01 -> 0.1
+                                       "LearningRate=0.1",
 #                                       "NCycles=200",
                                        "NeuronType=sigmoid",
                                        "VarTransform=N",
@@ -309,7 +313,7 @@ def train(config):
                                       "VarTransform=N",
                                       "HiddenLayers=N,N",
                                       "UseRegulator"
-                                      ]) )
+                                     ]) )
 
     factory.TrainAllMethods()
     factory.TestAllMethods()
@@ -861,20 +865,20 @@ def main():
 #                    ("BDT","BDTMaxDepth"),
 #                    ("BDT","BDTCuts"),
 #                    ("BDT","BDTBoost"),
-#                    ("BDT","BDTBoost1"),
-#                    ("BDT","BDTBoost2"),
-#                    ("BDT","BDTBoost25"),
-#                    ("BDT","BDTBoost3"),
-#                    ("BDT","BDTBoost4"),
+#                    ("BDT","BDTBoost10"),
+#                    ("BDT","BDTBoost15"),
+#                    ("BDT","BDTBoost18"),
+#                    ("BDT","BDTBoost20"),
+#                    ("BDT","BDTBoost30"),
 #                    ("BDT","BDTNodeSize"),
 #                    ("MLP","MLPTanh"),
 #                    ("MLP","MLPLearningRate"),
 #                    ("MLP","MLPNodes"),
-                    ("MLP","MLPSigmoid")
+#                    ("MLP","MLPSigmoid")
                   ]
 
     methods = [ method[1] for method in Methods ]
-
+    nBins = 120
 
 
     ############
