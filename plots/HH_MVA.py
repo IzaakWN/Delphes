@@ -843,7 +843,7 @@ def main():
         Methods = [ ("BDT","BDTTuned") ]
     else:
         configs = [
-                    configuration("everything", allVars, 1),
+#                    configuration("everything", allVars, 1),
 #                    configuration("everythingN", allVarsN, 1),
                     configuration("everything12", allVars12, 1),
 #                    configuration("everything12M", allVars12M, 1),
