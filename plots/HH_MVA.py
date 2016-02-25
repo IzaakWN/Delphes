@@ -1376,3 +1376,55 @@ if __name__ == '__main__':
 #--- MLPSigmoid               :   22 : DeltaR_jjb     : 1.624e+00
 #--- MLPSigmoid               :   23 : DeltaR_b1l     : 1.194e+00
 #--- MLPSigmoid               : ---------------------------------------
+
+
+
+#--- BDTTuned         : Ranking input variables (method unspecific)...
+#--- BDTTuned         : Ranking result (top variable is best ranked)
+#--- BDTTuned         : ---------------------------------------
+#--- BDTTuned         : Rank : Variable       : Separation
+#--- BDTTuned         : ---------------------------------------
+#--- BDTTuned         :    1 : DeltaR_bb1     : 1.722e-01
+#--- BDTTuned         :    2 : Pt_bb          : 1.549e-01
+#--- BDTTuned         :    3 : M_bb_closest   : 1.523e-01
+#--- BDTTuned         :    4 : DeltaR_b2l     : 1.403e-01
+#--- BDTTuned         :    5 : DeltaR_j1l     : 1.319e-01
+#--- BDTTuned         :    6 : DeltaPhi_j1lbb : 1.097e-01
+#--- BDTTuned         :    7 : DeltaR_jjl     : 9.677e-02
+#--- BDTTuned         :    8 : M_bl           : 9.506e-02
+#--- BDTTuned         :    7 : DeltaR_jjl     : 9.677e-02
+#--- BDTTuned         :    8 : M_bl           : 9.506e-02
+#--- BDTTuned         :    9 : DeltaR_j2l     : 7.028e-02
+#--- BDTTuned         :   10 : M_j1l          : 6.816e-02
+#--- BDTTuned         :   11 : DeltaR_b1l     : 5.874e-02
+#--- BDTTuned         :   12 : Pt_bl          : 4.674e-02
+#--- BDTTuned         :   13 : Pt_jjl         : 4.465e-02
+#--- BDTTuned         :   14 : DeltaR_jjb     : 4.187e-02
+#--- BDTTuned         :   15 : bjet1Pt        : 4.080e-02
+#--- BDTTuned         :   16 : Pt_j1l         : 3.429e-02
+#--- BDTTuned         :   17 : M_b2lnu        : 2.986e-02
+#--- BDTTuned         :   18 : M_jjl          : 2.860e-02
+#--- BDTTuned         :   19 : DeltaPhi_jjlnu : 2.856e-02
+#--- BDTTuned         :   20 : M_jjb1         : 2.731e-02
+#--- BDTTuned         :   21 : Pt_b2lnu       : 2.301e-02
+#--- BDTTuned         :   22 : M_b1lnu        : 2.210e-02
+#--- BDTTuned         :   23 : M_jjlnu        : 2.160e-02
+#--- BDTTuned         :   24 : MT_lnu         : 1.259e-02
+#--- BDTTuned         :   25 : Pt_jjb1        : 1.151e-02
+#--- BDTTuned         :   26 : DeltaPhi_lMET  : 1.118e-02
+#--- BDTTuned         :   27 : Pt_b1lnu       : 6.116e-03
+#--- BDTTuned         :   28 : MT_jjlnu       : 5.996e-03
+#--- BDTTuned         :   29 : jet1Pt         : 5.776e-03
+#--- BDTTuned         :   30 : jet2Pt         : 4.731e-03
+#--- BDTTuned         :   31 : Pt_jjb2        : 4.652e-03
+#--- BDTTuned         :   32 : M_jj           : 3.502e-03
+#--- BDTTuned         :   33 : bjet2Pt        : 3.146e-03
+#--- BDTTuned         :   34 : Njets20        : 2.789e-03
+#--- BDTTuned         :   35 : leptonPt       : 2.517e-03
+#--- BDTTuned         :   36 : M_jjb2         : 2.206e-03
+#--- BDTTuned         :   37 : MET            : 2.089e-03
+#--- BDTTuned         :   38 : DeltaR_jj      : 1.726e-03
+#--- BDTTuned         :   39 : Nbjets30       : 1.798e-04
+#--- BDTTuned         : ---------------------------------------
+
+
