@@ -278,6 +278,8 @@ def makeLegend(*hists, **kwargs):
     if len(hists) == 1:
         if entries is None:
             legend.AddEntry(hist0,makeEntryName1(hist0))
+        elif isinstance(entry,list):
+            legend.AddEntry(hist0,entries[0])
         else:
             legend.AddEntry(hist0,entries)
     else:
