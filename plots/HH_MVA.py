@@ -189,6 +189,7 @@ def train(config):
         factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
 
     NTrees = 3000
+    MaxDepth = 4
     AdaBoostBeta = 0.15
     nCuts = 100
 
@@ -198,7 +199,7 @@ def train(config):
                                       "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=4",
+                                      "MaxDepth=%" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=%" % AdaBoostBeta,
                                       "SeparationType=GiniIndex",
@@ -211,7 +212,7 @@ def train(config):
                                       "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=3",
+                                      "MaxDepth=%" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.10",
                                       "SeparationType=GiniIndex",
@@ -224,7 +225,7 @@ def train(config):
                                       "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=3",
+                                      "MaxDepth=%" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.15",
                                       "SeparationType=GiniIndex",
@@ -237,7 +238,7 @@ def train(config):
                                       "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=3",
+                                      "MaxDepth=%" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.18",
                                       "SeparationType=GiniIndex",
@@ -250,7 +251,7 @@ def train(config):
                                       "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=3",
+                                      "MaxDepth=%" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.20",
                                       "SeparationType=GiniIndex",
@@ -263,7 +264,7 @@ def train(config):
                                       "NTrees=%" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
-                                      "MaxDepth=3",
+                                      "MaxDepth=%" % MaxDepth,
                                       "BoostType=AdaBoost",
                                       "AdaBoostBeta=0.30",
                                       "SeparationType=GiniIndex",
@@ -868,7 +869,7 @@ def main():
 #                    ("BDT","BDTBoost10"),
 #                    ("BDT","BDTBoost15"),
 #                    ("BDT","BDTBoost18"),
-#                    ("BDT","BDTBoost20"),
+                    ("BDT","BDTBoost20"),
 #                    ("BDT","BDTBoost30"),
 #                    ("BDT","BDTNodeSize"),
 #                    ("MLP","MLPTanh"),
