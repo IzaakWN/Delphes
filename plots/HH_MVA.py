@@ -196,7 +196,7 @@ def train(config):
     if "BDTTuned" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDTTuned",
                            ":".join([ "!H","!V",
-                                      "NTrees=%" % NTrees,
+                                      "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=%" % MaxDepth,
@@ -209,7 +209,7 @@ def train(config):
     if "BDTBoost10" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDTBoost10",
                            ":".join([ "!H","!V",
-                                      "NTrees=%" % NTrees,
+                                      "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=%" % MaxDepth,
@@ -222,7 +222,7 @@ def train(config):
     if "BDTBoost15" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDTBoost15",
                            ":".join([ "!H","!V",
-                                      "NTrees=%" % NTrees,
+                                      "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=%" % MaxDepth,
@@ -235,7 +235,7 @@ def train(config):
     if "BDTBoost18" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDTBoost18",
                            ":".join([ "!H","!V",
-                                      "NTrees=%" % NTrees,
+                                      "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=%" % MaxDepth,
@@ -248,7 +248,7 @@ def train(config):
     if "BDTBoost20" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDTBoost20",
                            ":".join([ "!H","!V",
-                                      "NTrees=%" % NTrees,
+                                      "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=%" % MaxDepth,
@@ -261,7 +261,7 @@ def train(config):
     if "BDTBoost30" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDTBoost30",
                            ":".join([ "!H","!V",
-                                      "NTrees=%" % NTrees,
+                                      "NTrees=%s" % NTrees,
 #                                      "MinNodeSize=2.%",
 #                                      "nEventsMin=200",
                                       "MaxDepth=%" % MaxDepth,
