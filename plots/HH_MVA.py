@@ -835,7 +835,7 @@ def main():
 #              ]
 
 
-    global Methods, methods
+    global Methods, methods, nBins
 
     if opts.test:
         print ">>> test mode"
