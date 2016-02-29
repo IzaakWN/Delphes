@@ -85,8 +85,8 @@ B1 = treeB1.GetEntries() #h0_B.GetBinContent(2)
 #B2 = treeB2.GetEntries() #h0_B.GetBinContent(3)
 #S3 = h0_S.GetBinContent(4) # treeS3.GetEntries()
 #B3 = h0_B.GetBinContent(4) # treeB3.GetEntries()
-print "S_tot = %i, S1 = %i" % (S_tot,S1)
-print "B_tot = %i, B1 = %i" % (B_tot,B1)
+print ">>> S_tot = %i, S1 = %i" % (S_tot,S1)
+print ">>> B_tot = %i, B1 = %i" % (B_tot,B1)
 #print "S_tot = %i, S1 = %i, S2 = %i, S3 = %i" % (S_tot,S1,S2,S3)
 #print "B_tot = %i, B1 = %i, B2 = %i, B3 = %i" % (B_tot,B1,B2,B3)
 
@@ -96,8 +96,8 @@ sigma_S = 40 # fb
 sigma_B = 984500 # fb
 N_S = sigma_S * L * 0.0715 # expected number of events
 N_B = sigma_B * L * 0.2873
-print "P_initial = %.4f, S = %.1f, B = %.1f" % (N_S/sqrt(1+N_B),N_S,N_B)
-print "P1 = %.4f, S = %.1f, B = %.1f" % (N_S*S1/S_tot/sqrt(1+N_B*B1/B_tot),N_S*S1/S_tot,N_B*B1/B_tot)
+print ">>> P_initial = %.4f, S = %.1f, B = %.1f" % (N_S/sqrt(1+N_B),N_S,N_B)
+print ">>> P1 = %.4f, S = %.1f, B = %.1f" % (N_S*S1/S_tot/sqrt(1+N_B*B1/B_tot),N_S*S1/S_tot,N_B*B1/B_tot)
 #print "P2 = %.4f, S = %.1f, B = %.1f" % (N_S*S2/S_tot/sqrt(1+N_B*B2/B_tot),N_S*S2/S_tot,N_B*B2/B_tot)
 
 
@@ -899,7 +899,7 @@ def main():
             plots = False
     
     if opts.listConfigs:
-        print ">>> list configs:"
+        print "\n>>> list configs:"
         for config in configs:
             print ">>>     %s" % config.name
         plots = False
