@@ -1,6 +1,5 @@
 from optparse import OptionParser
-import sys
-import os
+import sys, os
 import ConfigParser
 import ROOT
 from ROOT import TFile, gDirectory, TChain, TObject, TMVA, TCut, TCanvas, THStack, TH1F
@@ -50,6 +49,10 @@ parser.add_option("-t", "--test", dest="test", default=False, action="store_true
                   help="Only train one configuration as test.")
 parser.add_option("-p", "--onlyPlot", dest="onlyPlot", default=False, action="store_true",
                   help="Only plot, don't go through training.")
+parser.add_option("-l", "--listConfigs", dest="listConfigs", default=False, action="store_true",
+                  help="list available configs.")
+parser.add_option("-c", "--config", dest="onlyConfig", default=None, action='store',
+                  metavar="CONFIG",help="set a config for MVA.")
 (opts, args) = parser.parse_args(argv)
 
 Methods = [ ]
@@ -188,7 +191,7 @@ def train(config):
     if "BDT" in methods:
         factory.BookMethod(TMVA.Types.kBDT, "BDT", "!H:!V" )
 
-    NTrees = 3000
+    NTrees = 4000
     MaxDepth = 4
     AdaBoostBeta = 0.15
     nCuts = 100
@@ -800,7 +803,7 @@ def main():
                     "M_jj", "M_j1l",
                     "MT_lnu","MT_jjlnu" ]
 
-    allVarsNW = [ #"Njets20","Nbjets30",
+    betterVars = [ #"Njets20","Nbjets30",
                 "jet1Pt","jet2Pt",
                 "bjet1Pt","bjet2Pt",
                 "Pt_bb","Pt_bl","Pt_j1l",
@@ -809,7 +812,7 @@ def main():
                 "leptonPt","MET",
                 "DeltaR_j1l","DeltaR_j2l",
                 "DeltaR_b1l","DeltaR_b2l",
-                "DeltaR_bb1","DeltaR_jj",
+                "DeltaR_bb1",#"DeltaR_jj",
                 "DeltaR_jjl","DeltaR_jjb",
                 "DeltaPhi_j1lbb",
                 "DeltaPhi_lMET","DeltaPhi_jjlnu",
@@ -817,7 +820,7 @@ def main():
                 "M_jjb1", "M_jjb2",
                 "M_b1lnu", "M_b2lnu",
                 "M_bl", "M_jjl",
-                "M_jj", "M_j1l",
+                "M_j1l", #"M_jj",
                 "MT_lnu","MT_jjlnu" ]
 
 #    genVars = [ "Pt_q1","Pt_q2",
@@ -849,7 +852,7 @@ def main():
 #                    configuration("everything12M", allVars12M, 1),
 #                    configuration("everything12MT", allVars12MT, 1),
 #                    configuration("everything12W", allVars12W, 1),
-#                    configuration("better", betterVars, 1),
+                    configuration("better", betterVars, 1),
 #                    configuration("better20",     betterVars, 1),
 #                    configuration("everythingCleanUp", allVars, 2),
 #                    configuration("everything12CleanUp", allVars12, 2),
@@ -886,7 +889,21 @@ def main():
     # TRAINING #
     ############
 
-    if opts.onlyPlot:
+    plots = True
+    if opts.onlyConfig:
+        configs = [ c for c in configs if c.name == opts.onlyConfig ]
+        if configs:
+            print ">>> only run over configuration %s" % opts.onlyConfig
+        else:
+            print ">>> ERROR: configuration %s not found!" % opts.onlyConfig
+            plots = False
+    
+    if opts.listConfigs:
+        print ">>> list configs:"
+        for config in configs:
+            print ">>> %s" % config.name
+        plots = False
+    elif opts.onlyPlot:
         print ">>> plots only"
     else:
         for config in configs: #reversed(configs):
@@ -899,28 +916,29 @@ def main():
     # EVALUATION #
     ##############
 
-    significances_test = [ ]
-    significances_Appl = [ ]
-    for config in configs:
-        significances_test.extend(plotTest(config))
-        significances_Appl.extend(plotApplication(config))
-        eff(config,"BDTBoost1")
-        eff(config,"BDTBoost2")
-        eff(config,"BDTBoost3")
-    print "\n>>> compare all significances between test samples and total sample"
-    print header
-    for s, t in zip(significances_test,significances_Appl):
-        print s.row
-        print t.row
-    compare([c for c in configs if c.stage==1],stage="stage_1")
-    compare([c for c in configs if c.stage==1],stage="stage_1",methods0=["BDTBoost2"])
-    eff(configs[0],"BDTTuned")
-    compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
-    compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
+    if plots:
+        significances_test = [ ]
+        significances_Appl = [ ]
+        for config in configs:
+            significances_test.extend(plotTest(config))
+            significances_Appl.extend(plotApplication(config))
+            eff(config,"BDTBoost1")
+            eff(config,"BDTBoost2")
+            eff(config,"BDTBoost3")
+        print "\n>>> compare all significances between test samples and total sample"
+        print header
+        for s, t in zip(significances_test,significances_Appl):
+            print s.row
+            print t.row
+        compare([c for c in configs if c.stage==1],stage="stage_1")
+        compare([c for c in configs if c.stage==1],stage="stage_1",methods0=["BDTBoost2"])
+        eff(configs[0],"BDTTuned")
+        compare(configs,stage="DBT",methods0=[m for m in methods if "BDT" in m])
+        compare(configs,stage="MLP",methods0=[m for m in methods if "MLP" in m])
 
-    for config in configs:
-        if "everything" in config.name:
-            correlation(config)
+        for config in configs:
+            if "everything" in config.name:
+                correlation(config)
 
 
 

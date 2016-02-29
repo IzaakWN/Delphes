@@ -8,7 +8,7 @@ from fold import fold
 #   event.jets
 
 # the list of category names
-categoryNames = [ "GenLevel", "Selection20", "CleanUp"]#, "Exactly4Jets", "Selection30", "Max5Jets" ]
+categoryNames = [ "GenLevel", "Selection20", "CleanUp" ]#, "Exactly4Jets", "Selection30", "Max5Jets" ]
 
 
 
