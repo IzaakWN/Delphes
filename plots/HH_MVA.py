@@ -901,7 +901,7 @@ def main():
     if opts.listConfigs:
         print ">>> list configs:"
         for config in configs:
-            print ">>> %s" % config.name
+            print ">>>     %s" % config.name
         plots = False
     elif opts.onlyPlot:
         print ">>> plots only"
